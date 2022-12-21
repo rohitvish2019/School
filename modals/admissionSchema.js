@@ -1,0 +1,23 @@
+const mongoose = require('mongoose');
+const db = require('../config/dbConnection');
+const Students = new mongoose.Schema({
+    AdmissionNo:String,
+    FirstName:String,
+    LastName: String,
+    FathersName:String,
+    MothersName: String,
+    Class:String,
+    AadharNumber:String,
+    SSSM:String,
+    Mob: String,
+    DOB:String,
+    Caste:String,
+    FullAddress:String,
+    BankName:String,
+    Branch:String,
+    AccountNo:String,
+    IFSC:String
+});
+
+const Student = mongoose.model('Student', Students);
+module.exports = Student;

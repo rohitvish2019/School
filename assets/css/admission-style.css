@@ -1,0 +1,30 @@
+.input{
+    display: inline-block;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+}
+
+.head1{
+    font-size: 25px;
+}
+
+.form-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.input input{
+    display: inline-block;
+    width: 60%;
+    margin-bottom: 4%;
+
+}
+
+.input label{
+    display: inline-block;
+    width: 30%;
+    height: 10px;
+}

@@ -57,7 +57,7 @@ function showOnDOM(student){
     <div class='d-flex justify-content-around my-3'>
         <div>
             <a  class='btn btn-primary' id='full-${student._id}'>Full Details</a>
-            <a href='/fee/${student._id}' class='btn btn-primary' id='fee-${student.AdmissionNo}'>Fee info</a>
+            <a href='/fee/getFee/${student._id}' class='btn btn-primary' id='fee-${student.AdmissionNo}'>Fee info</a>
         </div>
     </div>   
     `

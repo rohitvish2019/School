@@ -1,12 +1,24 @@
 const Student = require('../modals/admissionSchema');
-
-module.exports.addmission = function(request, response){ 
+const AdmissionNo = require('../modals/admission_no');
+const FeeStructure = require('../modals/feeStructure');
+const FeeSchema = require('../modals/FeeSchema');
+module.exports.addmission =async function(request, response){
     return response.render('./addmission');
-    
 }
 
-module.exports.addStudent = function(request, response){
-    Student.create(request.body);
-    console.log(request.body);
-    return response.end('Added to DB Successfully');
+module.exports.addStudent = async function(request, response){
+    let student = await Student.create(request.body);
+    let lastAdmissionNumber = await AdmissionNo.findOne({});
+    let ADN = lastAdmissionNumber.LastAdmission;
+
+    let fee =await FeeStructure.findOne({Class:request.body.Class});
+    await FeeSchema.create({
+        AdmissionNo:ADN+1,
+        Total:fee.Fees,
+        Remaining: fee.Fees,
+        Paid:0
+    })
+    await student.update({AdmissionNo:ADN+1});
+    await lastAdmissionNumber.update({LastAdmission:ADN+1});
+    return response.redirect('back');
 }

@@ -11,6 +11,36 @@ module.exports.getFeeDetails = async function(req, res){
 module.exports.feeSubmission =async function(req, res){
     let fee = await Fee.findOne({AdmissionNo:req.body.adm_no});
     console.log(fee);
-    await fee.update({Paid: fee.Paid + +req.body.feeAmount, Remaining: fee.Remaining-req.body.feeAmount});
+    let paidFee = fee.Paid;
+    let remainingFee = fee.Remaining
+    if(paidFee == null){
+        paidFee = 0
+    }
+
+    if(remainingFee == null){
+        remainingFee = 0
+    }
+    await fee.update({Paid: paidFee + +req.body.feeAmount, Remaining: remainingFee-req.body.feeAmount});
     return res.redirect('back')
+}
+
+module.exports.updateFeeForm = async function(req, res){
+    return res.render('updateFeeForm')
+}
+
+module.exports.updateFee = async function(req, res){
+    let students =await Student.find({Class:req.body.Class});
+    for(let i=0;i<students.length;i++){
+        let record = await Fee.findOne({AdmissionNo:students[0].AdmissionNo});
+        if(record){
+            await record.update({Total:req.body.Amount})
+        }else{
+            await Fee.create({
+                Total:req.body.Amount
+            })
+        }
+    }
+    return res.status(200).json({
+        message:"Success"
+    })
 }

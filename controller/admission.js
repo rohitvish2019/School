@@ -18,7 +18,7 @@ module.exports.addStudent = async function(request, response){
         Remaining: fee.Fees,
         Paid:0
     })
-    await student.update({AdmissionNo:ADN+1});
-    await lastAdmissionNumber.update({LastAdmission:ADN+1});
+    await student.updateOne({AdmissionNo:ADN+1});
+    await lastAdmissionNumber.updateOne({LastAdmission:ADN+1});
     return response.redirect('back');
 }

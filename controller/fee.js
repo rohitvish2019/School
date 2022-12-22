@@ -1,5 +1,6 @@
 const Fee = require('../modals/FeeSchema');
 const Student = require('../modals/admissionSchema');
+const FeeStructure = require('../modals/feeStructure');
 module.exports.getFeeDetails = async function(req, res){
     let student = await Student.findById(req.params.id);
     console.log(student.AdmissionNo);
@@ -29,18 +30,6 @@ module.exports.updateFeeForm = async function(req, res){
 }
 
 module.exports.updateFee = async function(req, res){
-    let students =await Student.find({Class:req.body.Class});
-    for(let i=0;i<students.length;i++){
-        let record = await Fee.findOne({AdmissionNo:students[0].AdmissionNo});
-        if(record){
-            await record.update({Total:req.body.Amount})
-        }else{
-            await Fee.create({
-                Total:req.body.Amount
-            })
-        }
-    }
-    return res.status(200).json({
-        message:"Success"
-    })
+    await FeeStructure.findOneAndUpdate({Class:req.body.Class}, {Fees: req.body.Fees});
+    return res.redirect('back');
 }

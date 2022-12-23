@@ -2,6 +2,7 @@ const Student = require('../modals/admissionSchema');
 const AdmissionNo = require('../modals/admission_no');
 const FeeStructure = require('../modals/feeStructure');
 const FeeSchema = require('../modals/FeeSchema');
+const Result = require('../modals/Result');
 module.exports.addmission =async function(request, response){
     return response.render('./addmission');
 }
@@ -20,5 +21,9 @@ module.exports.addStudent = async function(request, response){
     })
     await student.updateOne({AdmissionNo:ADN+1});
     await lastAdmissionNumber.updateOne({LastAdmission:ADN+1});
+    await Result.create({
+        AdmissionNo: ADN+1,
+        Class:request.body.Class
+    })
     return response.redirect('back');
 }

@@ -56,10 +56,10 @@ function showOnDOM(student){
     </div>   
     <div class='d-flex justify-content-around my-3'>
         <div>
-            <a  class='btn btn-primary' id='full-${student._id}'>Full Details</a>
+            <a href='/result/search/${student.AdmissionNo}' class='btn btn-primary' id='result-${student._id}'>Result</a>
             <a href='/fee/getFee/${student._id}' class='btn btn-primary' id='fee-${student.AdmissionNo}'>Fee info</a>
         </div>
-    </div>   
+    </div>    
     `
     }
 }

@@ -4,6 +4,9 @@ const Fees = new mongoose.Schema({
     AdmissionNo : {
         type: String,
     },
+    Class:{
+        type:String
+    },
     Total :{
         type: Number
     },
@@ -15,6 +18,9 @@ const Fees = new mongoose.Schema({
     },
     LastPaid: {
         type:String
+    },
+    PayHistory:{
+        type:Array  
     }
 },
 {

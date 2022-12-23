@@ -61,20 +61,7 @@ function showResult(result, student){
     document.getElementById('marks-form').appendChild(element);
 }
 
-/*
-<div>
-                
-            </div>
-            <div>
-                <h6>Science : </h6>
-                <h4><input type="text" value="78"></h4>
-            </div>
-            <div>
-                <h6>Science : </h6>
-                <h4><input type="text" value="78"></h4>
-            </div>
 
-*/
 function showZeroResult(){
 
 }

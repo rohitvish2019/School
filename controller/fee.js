@@ -9,9 +9,23 @@ module.exports.getFeeDetails = async function(req, res){
     
 }
 
+module.exports.getFee =async function(req, res){
+    let fee = await Fee.find({AdmissionNo:req.query.AdmissionNo,Class:req.query.Class});
+    if(fee){
+        return res.status(200).json({
+            message:'ok',
+            data:fee
+        })
+    }else{
+        return res.status(404).json({
+            message:'No data'
+        })
+    }
+    
+}
+
 module.exports.feeSubmission =async function(req, res){
-    let fee = await Fee.findOne({AdmissionNo:req.body.adm_no});
-    console.log(fee);
+    let fee = await Fee.findOne({AdmissionNo:req.body.AdmissionNo, Class:req.body.Class});
     let paidFee = fee.Paid;
     let remainingFee = fee.Remaining
     if(paidFee == null){

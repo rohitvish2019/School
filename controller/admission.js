@@ -8,22 +8,26 @@ module.exports.addmission =async function(request, response){
 }
 
 module.exports.addStudent = async function(request, response){
-    let student = await Student.create(request.body);
-    let lastAdmissionNumber = await AdmissionNo.findOne({});
-    let ADN = lastAdmissionNumber.LastAdmission;
-
-    let fee =await FeeStructure.findOne({Class:request.body.Class});
-    await FeeSchema.create({
-        AdmissionNo:ADN+1,
-        Total:fee.Fees,
-        Remaining: fee.Fees,
-        Paid:0
-    })
-    await student.updateOne({AdmissionNo:ADN+1});
-    await lastAdmissionNumber.updateOne({LastAdmission:ADN+1});
-    await Result.create({
-        AdmissionNo: ADN+1,
-        Class:request.body.Class
-    })
-    return response.redirect('back');
+    try{
+        let student = await Student.create(request.body);
+        let lastAdmissionNumber = await AdmissionNo.findOne({});
+        let ADN = lastAdmissionNumber.LastAdmission;
+        let fee =await FeeStructure.findOne({Class:request.body.Class});
+        await FeeSchema.create({
+            AdmissionNo:ADN+1,
+            Total:fee.Fees,
+            Remaining: fee.Fees,
+            Paid:0
+        })
+        await student.updateOne({AdmissionNo:ADN+1});
+        await lastAdmissionNumber.updateOne({LastAdmission:ADN+1});
+        await Result.create({
+            AdmissionNo: ADN+1,
+            Class:request.body.Class
+        })
+        return response.redirect('back');
+    }catch(err){
+        console.log(err);
+        return response.redirect('back');
+    }
 }

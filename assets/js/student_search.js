@@ -25,39 +25,40 @@ function showOnDOM(student){
         document.getElementById('record').innerHTML=
         
     `   
+    <h3 class='my-4'><b><strong>Student Details</strong></b></h3>
     <div class='d-flex justify-content-between'>
         <div style='width:12%'>
-            <h6><u>Admission No</u></h6>
-            <h5>${student.AdmissionNo}</h5>
+            <h6><u><b>Admission No</b></u></h6>
+            <h4>${student.AdmissionNo}</h4>
         </div>
         <div style='width:12%'>
-            <h6><u>Name</u></h6>
-            <h5>${student.FirstName} ${student.LastName}</h5>
+            <h6><u><b>Name</b></u></h6>
+            <h4>${student.FirstName} ${student.LastName}</h4>
         </div>
         <div style='width:12%'>
-            <h6><u>Class</u></h6>
-            <h5>${student.Class}</h5>
+            <h6><u><b>Class</b></u></h6>
+            <h4>${student.Class}</h4>
         </div>
     </div>
     
     <div class='d-flex justify-content-between'>
         <div style='width:12%'>
-            <h6><u>Father's Name</u></h6>
-            <h5>${student.FathersName}</h5>
+            <h6><u><b>Father's Name</b></u></h6>
+            <h4>${student.FathersName}</h4>
         </div>
         <div style='width:12%'>
-            <h6><u>Mother's Name</u></h6>
-            <h5>${student.MothersName}</h5>
+            <h6><u><b>Mother's Name</b></u></h6>
+            <h4>${student.MothersName}</h4>
         </div>
         <div style='width:12%'>
-            <h6><u>Aadhar</u></h6>
-            <h5>${student.AadharNumber}</h5>
+            <h6><u><b>Aadhar</b></u></h6>
+            <h4>${student.AadharNumber}</h4>
         </div>
     </div>   
     <div class='d-flex justify-content-around my-3'>
         <div>
-            <a href='/result/search/${student.AdmissionNo}' class='btn btn-primary' id='result-${student._id}'>Result</a>
-            <a href='/fee/getFee/${student._id}' class='btn btn-primary' id='fee-${student.AdmissionNo}'>Fee info</a>
+            <a href='/result/search/${student.AdmissionNo}' class='btn btn-success' id='result-${student._id}'>Result</a>
+            <a href='/fee/getFee/${student._id}' class='btn btn-success' id='fee-${student.AdmissionNo}'>Fee info</a>
         </div>
     </div>    
     `

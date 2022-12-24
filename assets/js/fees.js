@@ -6,10 +6,18 @@ function checkFees(){
             AdmissionNo:document.getElementById('AdmissionNoFees').value,
             Class: document.getElementById('ClassFees').value
         },
-        success: function(data){showFees(data.data[0])}
+        success: function(data){showFees(data.data)},
+        error: function(err){showNoFees()}
     })
 }
-
+function showNoFees(){
+    console.log('no records');
+    document.getElementById('fees-details').innerHTML=
+    `
+    <h4>No details available</h4>
+    `
+    document.getElementById('fee-submit-form').innerHTML=``
+}
 function showFees(fees){
     updateSubmissionForm(fees);
     document.getElementById('fees-details').innerHTML=
@@ -30,6 +38,23 @@ function showFees(fees){
 }
 
 function updateSubmissionForm(fees){
+    document.getElementById('fee-submit-form').innerHTML=
+    `
+        <form action="/fee/submit" class="d-flex justify-content-around flex-column container my-4" method="POST">
+            <div style="min-width: 15%;">
+                <h4>Fee Submission</h4>
+            </div>
+            <input name="AdmissionNo" hidden id="AdmissionNoForFeeSubmit">
+            <input name="Class" hidden id="ClassForFeeSubmit">
+            <div style="min-width: 15%;" class="my-4">
+                <h6>Amount</h6>
+                <input name="feeAmount"  type="number" placeholder="Enter amount here">
+            </div>
+            <div style="width: 15%;">
+                <input class="btn btn-success" type="submit" value="Pay">
+            </div>
+        </form>
+    `
     document.getElementById('ClassForFeeSubmit').setAttribute('value',fees.Class)
     document.getElementById('AdmissionNoForFeeSubmit').setAttribute('value', fees.AdmissionNo)
 }

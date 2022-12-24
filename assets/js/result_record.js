@@ -8,7 +8,7 @@ function getResult(){
             Class: document.getElementById('class_result').value
         },
         success:function(data){showResult(data.data.result, data.data.student)} ,
-        error: showZeroResult()
+        error: function(err){showZeroResult()}
     })
 }
 
@@ -16,7 +16,9 @@ function showResult(result, student){
     console.log("show result");
     console.log(result);
     document.getElementById('search_record').innerHTML=
+
     `
+        <h3 class='container my-4' style='border-top: 2px solid green;'> Result Details </h3>
         <form action='/result/update' method='POST' id='marks-form' class="d-flex container justify-content-between my-4" style="flex-direction:column;">
             
             <input type='text' hidden name='AdmissionNo' value='${student.AdmissionNo}'>
@@ -56,13 +58,17 @@ function showResult(result, student){
     let element = document.createElement('div');
     element.innerHTML=
     `
-    <input type="submit" value="Update">    
+    <input type="submit" value="Update" class='btn btn-success'>    
     `
     document.getElementById('marks-form').appendChild(element);
 }
 
 
 function showZeroResult(){
-
+    document.getElementById('search_record').innerHTML=
+    `
+    <h3 class='container my-4' style='border-top: 2px solid green;'> Result Details </h3>
+    <h5 class='container'> No record found </h5>
+    `
 }
 document.getElementById('search_result').addEventListener('click', getResult)

@@ -3,4 +3,5 @@ const router = express.Router();
 const admissonController = require('../controller/admission');
 router.get('/',admissonController.addmission);
 router.post('/create', admissonController.addStudent)
+router.post('/updateLastAdmission', admissonController.updateLastAdmission);
 module.exports = router;

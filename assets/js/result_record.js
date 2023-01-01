@@ -42,7 +42,7 @@ function showResult(result, student){
     if(result.Class == '6' || result.Class == '7' || result.Class=='8'){
         otherSubjects = ['Science', 'Social_Science', 'Sanskrit']
     }else{
-        otherSubjects =['Moral', 'Computer', 'Environment' ]
+        otherSubjects =['Moral', 'Computer', 'Enviornment' ]
     }
 
     for(let i=0;i<otherSubjects.length;i++){

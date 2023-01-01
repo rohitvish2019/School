@@ -63,7 +63,18 @@ module.exports.updateFeeForm = async function(req, res){
 
 module.exports.updateFee = async function(req, res){
     try{
-        await FeeStructure.findOneAndUpdate({Class:req.body.Class}, {Fees: req.body.Fees});
+        let currentFee = await FeeStructure.findOne({Class:req.body.Class});
+        if(currentFee){
+            await currentFee.update({Fees: req.body.Fees});
+            currentFee.save();
+        }
+        else{
+            await FeeStructure.create({
+                Class:req.body.Class,
+                Fees: req.body.Fees
+            });
+        }   
+        
         return res.redirect('back');
     }catch(err){
         console.log(err);

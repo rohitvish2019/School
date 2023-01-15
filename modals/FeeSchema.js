@@ -10,6 +10,10 @@ const Fees = new mongoose.Schema({
     Total :{
         type: Number
     },
+    Concession:{
+        type:Number,
+        default:0
+    },
     Paid: {
         type: Number
     },

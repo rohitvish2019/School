@@ -16,7 +16,7 @@ module.exports.getFeeDetails = async function(req, res){
 
 module.exports.getFee =async function(req, res){
     try{
-        let fee = await Fee.findOne({AdmissionNo:req.query.AdmissionNo,Class:req.query.Class});
+        let fee = await Fee.find({AdmissionNo:req.query.AdmissionNo});
         if(fee){
             return res.status(200).json({
                 message:'Success',
@@ -37,10 +37,11 @@ module.exports.getFee =async function(req, res){
 }
 
 module.exports.feeSubmission =async function(req, res){
+    console.log(req.body);
     try{
         let fee = await Fee.findOne({AdmissionNo:req.body.AdmissionNo, Class:req.body.Class});
         let paidFee = fee.Paid;
-        let remainingFee = fee.Remaining
+        let remainingFee = fee.Remaining;
         if(paidFee == null){
             paidFee = 0
         }
@@ -81,4 +82,16 @@ module.exports.updateFee = async function(req, res){
         return res.redirect('back')
     }
     
+}
+
+module.exports.addConsession = async function(req, res){
+    let fee = await Fee.findOne({AdmissionNo:req.body.AdmissionNo, Class:req.body.Class});
+    if(fee){
+        console.log("Entered in method");
+        let cnc = fee.Concession;
+        console.log(cnc);
+        await fee.update({Concession: cnc + +req.body.Amount});
+        fee.save();
+    }
+    return 0;
 }

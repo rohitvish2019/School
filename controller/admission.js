@@ -4,11 +4,13 @@ const FeeStructure = require('../modals/feeStructure');
 const FeeSchema = require('../modals/FeeSchema');
 const Result = require('../modals/Result');
 const AdmissionNumber = require('../modals/admission_no');
+
 module.exports.addmission =async function(request, response){
     let last = await AdmissionNo.findOne({});
     if(last){
         let adm = last.LastAdmission + 1
         return response.render('./addmission', {ThisAdmissionNumber:adm});
+        
     }else{
         return response.render('startup')
     }

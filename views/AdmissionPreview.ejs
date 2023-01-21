@@ -40,7 +40,7 @@
     
 </style>
 <body id="main">
-    <form action="/admissions/create" method="POST" class="container" id="admissionForm" >
+    <form action="/admissions/create" method="POST" class="container" id="admissionForm" onsubmit="return generatePDF()">
         <div id="toPDF">
             <h3>Academic details</h3>
             <div id="school-Info" style="display: flex; flex-wrap: wrap; margin-top: 1%; border-bottom: 1px solid black;">
@@ -205,16 +205,17 @@
                 <input readonly type="submit" value="Submit" class="btn btn-success">
             </div>
             -->
-            <div class="mx-2 my-4" style="display: flex; justify-content: space-around;">
-                <input readonly type="submit" value="Submit" class="btn btn-success">
-            </div>
+            
+        </div>
+        <div class="mx-2 my-4" style="display: flex; justify-content: space-around;">
+            <button type="submit" value="Submit" class="btn btn-success"  >Submit</button>
         </div>
     </form>
     <button id="download-button">Download as PDF</button>
     <script>
         const button = document.getElementById('download-button');
         var opt = {
-            margin:       1,
+            margin:       0.63,
             filename:     'myfile.pdf',
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { scale: 2 },
@@ -229,6 +230,8 @@
         }
 
         button.addEventListener('click', generatePDF);
+
+        let form = document.getElementById('admissionForm');
     </script>
 </body>
 <!--

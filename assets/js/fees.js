@@ -69,7 +69,7 @@ function showFees(fees){
                 <h4>${fees[i].Remaining}</h5>
             </div>
             <div style="min-width: 15%;">
-                <h4>${fees[i].Consession}</h5>
+                <h4>${fees[i].Concession}</h5>
             </div>
             <div style="min-width: 15%;">
                 <button class='btn btn-success' onclick='addConsession(${fees[i].Class}, ${fees[i].AdmissionNo})'>Add Concession</button>
@@ -97,7 +97,11 @@ function addConsession(Class, AdmissionNo){
                 Class:Class,
                 Amount:Concession
             },
-            url:'/fee/getConsession'
+            url:'/fee/getConsession',
+            success: function(data){
+                window.location.href='/fee/getFee/'+data.data
+                
+            }
         })
     }else{
         console.log("Invalid amount");

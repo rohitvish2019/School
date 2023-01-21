@@ -90,8 +90,11 @@ module.exports.addConsession = async function(req, res){
         console.log("Entered in method");
         let cnc = fee.Concession;
         console.log(cnc);
-        await fee.update({Concession: cnc + +req.body.Amount});
+        await fee.update({Concession: cnc + +req.body.Amount, Remaining: fee.Total - (fee.Paid + fee.Concession)});
         fee.save();
     }
-    return 0;
+    return res.status(200).json({
+        message:"Concession Added to fees",
+        data: fee._id
+    });
 }

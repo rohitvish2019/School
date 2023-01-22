@@ -89,7 +89,6 @@ function addConsession(Class, AdmissionNo){
     let Amount = +Concession;
     console.log(AdmissionNo);
     if(Amount && Amount != 'NaN'){
-        console.log("Calling AJAX");
         $.ajax({
             type:'POST',
             data:{

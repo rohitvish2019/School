@@ -49,7 +49,7 @@ module.exports.feeSubmission =async function(req, res){
         if(remainingFee == null){
             remainingFee = 0
         }
-        await fee.update({Paid: paidFee + +req.body.feeAmount, Remaining: remainingFee-req.body.feeAmount});
+        await fee.update({Paid:fee.Paid + +req.body.feeAmount, Remaining: fee.Remaining - +req.body.feeAmount });
         return res.redirect('back')
     }catch(err){
         console.log(err)
@@ -72,7 +72,7 @@ module.exports.updateFee = async function(req, res){
         else{
             await FeeStructure.create({
                 Class:req.body.Class,
-                Fees: req.body.Fees
+                Fees: req.body.Fees74
             });
         }   
         
@@ -90,7 +90,7 @@ module.exports.addConsession = async function(req, res){
         console.log("Entered in method");
         let cnc = fee.Concession;
         console.log(cnc);
-        await fee.update({Concession: cnc + +req.body.Amount, Remaining: fee.Total - (fee.Paid + fee.Concession)});
+        await fee.update({Concession: fee.Concession + +req.body.Amount, Remaining: fee.Remaining - req.body.Amount});
         fee.save();
     }
     return res.status(200).json({

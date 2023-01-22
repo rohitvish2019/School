@@ -38,7 +38,7 @@ module.exports.addStudent = async function(request, response){
             Class:request.body.Class
         })
         await lastAdmissionNumber.updateOne({LastAdmission:ADN+1});
-        createFormPDF();
+        
         return response.redirect('/admissions')
     }catch(err){
         if(student){
@@ -58,13 +58,13 @@ module.exports.addStudent = async function(request, response){
     }
 }
 
-module.exports.updateLastAdmission = function(req, res){
+module.exports.updateLastAdmission =async function(req, res){
     console.log(req.body);
-    AdmissionNumber.create(req.body)
+    await AdmissionNumber.create(req.body);
     return res.redirect('/admissions')
 }
 
-
+/*
 let createFormPDF = async function(){
     try{
         const puppeteer = require('puppeteer');
@@ -77,21 +77,28 @@ let createFormPDF = async function(){
         await page.screenshot({
             path: 'E:\\Projects\\School\\screenshot.jpg'
           });
-        /*
+        
         const pdf = await page.pdf({
             path: 'E:\\Projects\\School\\result.pdf',
             margin: { top: '100px', right: '50px', bottom: '100px', left: '50px' },
             printBackground: true,
             format: 'A4',
         });
-        */
+        
     }catch(err){
         console.log(err);
     }
     
-}
-
+} 
+*/
 module.exports.getPreview = function(req, res){
     console.log(req.body)
     return res.render('AdmissionPreview', {data:req.body})
+}
+
+module.exports.getProfile = async function(req, res){
+    let student = await Student.findOne({AdmissionNo:req.params.id});
+    
+    console.log(req.params.id);
+    return res.render('StudentProfile', {data:student})
 }

@@ -11,7 +11,7 @@
                 <div class='d-flex justify-content-between'>
                     <div style='width:12%'>
                         <h6><u><b>Admission No</b></u></h6>
-                        <h4><%=student.Name%></h4>
+                        <h4><%=student.AdmissionNo%></h4>
                     </div>
                     <div style='width:12%'>
                         <h6><u><b>Name</b></u></h6>
@@ -41,6 +41,7 @@
                     <div>
                         <a href='/result/search/<%=student.AdmissionNo%>' class='btn btn-success' id='result-${student._id}'>Result</a>
                         <a href='/fee/getFee/<%=student._id%>' class='btn btn-success' id='fee-${student.AdmissionNo}'>Fee info</a>
+                        <a href='/admissions/getProfile/<%=student.AdmissionNo%>' class='btn btn-success' id='fee-${student.AdmissionNo}'>Admission Form</a>
                     </div>
                 </div>
             </div>

@@ -1,3 +1,4 @@
+// This schema will store the fee details of each student
 const mongoose = require('mongoose');
 const db = require('../config/dbConnection');
 const Fees = new mongoose.Schema({
@@ -24,7 +25,8 @@ const Fees = new mongoose.Schema({
         type:String
     },
     PayHistory:{
-        type:Array  
+        type:Array,
+        ref:'FeeHistory'
     }
 },
 {
@@ -33,18 +35,3 @@ const Fees = new mongoose.Schema({
 
 const Fee = mongoose.model('Fee', Fees);
 module.exports = Fee;
-
-/*
-    January:Number,
-    February:Number,
-    March: Number,
-    April:Number,
-    May:Number,
-    June: Number,
-    July:Number,
-    August: Number,
-    September: Number,
-    October:Number,
-    November: Number,
-    December:Number,
-*/

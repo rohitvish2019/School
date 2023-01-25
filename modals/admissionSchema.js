@@ -1,3 +1,4 @@
+//Basic student details will be stored in this schema
 const mongoose = require('mongoose');
 const db = require('../config/dbConnection');
 const Students = new mongoose.Schema({

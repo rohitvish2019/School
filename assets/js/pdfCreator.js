@@ -2,6 +2,8 @@ console.log('PDF creator loaded')
 const button = document.getElementById('download-button');
 button.addEventListener('click', generatePDF);
 console.log('PDF creator loaded')
+
+// To generate the pdf of admission form
 function generatePDF() {   
       
     var opt = {

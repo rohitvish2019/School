@@ -1,3 +1,4 @@
+//This will be used to add/get last admission number
 const mongoose = require('mongoose');
 const db = require('../config/dbConnection');
 

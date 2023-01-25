@@ -1,6 +1,8 @@
 let mybtn = document.getElementById('showStudentsList');
 mybtn.addEventListener('click', getStudentsList)
 
+// To get the students list classwise from server
+
 function getStudentsList(){
     $.ajax({
         url:'/student/getStudentList',
@@ -12,6 +14,8 @@ function getStudentsList(){
         error: function(err){showNoRecord(err)}
     })
 }
+
+ // Show students list on UI 
 
 function showStudentsList(data){
     let listDiv = document.getElementById('classList')
@@ -51,6 +55,8 @@ function showStudentsList(data){
     }
     console.log(data);
 }
+
+// Invoke when no/error response received from getStudentsList
 
 function showNoRecord(err){
     console.log(err);

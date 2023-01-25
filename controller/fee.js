@@ -1,7 +1,9 @@
 const Fee = require('../modals/FeeSchema');
 const Student = require('../modals/admissionSchema');
 const FeeStructure = require('../modals/feeStructure');
+const FeeHistory = require('../modals/feeHistory');
 
+// To get the fee details of individual student
 module.exports.getFeeDetails = async function(req, res){
     try{
         let student = await Student.findById(req.params.id);
@@ -14,6 +16,7 @@ module.exports.getFeeDetails = async function(req, res){
     
 }
 
+//
 module.exports.getFee =async function(req, res){
     try{
         let fee = await Fee.find({AdmissionNo:req.query.AdmissionNo});
@@ -50,6 +53,12 @@ module.exports.feeSubmission =async function(req, res){
             remainingFee = 0
         }
         await fee.update({Paid:fee.Paid + +req.body.feeAmount, Remaining: fee.Remaining - +req.body.feeAmount });
+        await FeeHistory.create({
+            AdmissionNo:fee.AdmissionNo,
+            Class: fee.Class,
+            Amount: req.body.feeAmount,
+            Payment_Date: req.body.date
+        })
         return res.redirect('back')
     }catch(err){
         console.log(err)
@@ -97,4 +106,13 @@ module.exports.addConsession = async function(req, res){
         message:"Concession Added to fees",
         data: fee._id
     });
+}
+
+
+module.exports.getFeeHistory = async function(req, res){
+    let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo});
+    return res.status(200).json({
+        message:'History fetched successfully',
+        data: feeList
+    })
 }

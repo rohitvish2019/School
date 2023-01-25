@@ -1,3 +1,4 @@
+//This schema will store the result of students
 const mongoose = require('mongoose');
 const db = require('../config/dbConnection');
 const ResultSchema = new mongoose.Schema({

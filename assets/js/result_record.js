@@ -1,4 +1,4 @@
-
+// To get result of the student from server
 function getResult(){
     $.ajax({
         url:'/result/get',
@@ -11,6 +11,8 @@ function getResult(){
         error: function(err){showZeroResult()}
     })
 }
+
+// show the student result on UI 
 
 function showResult(result, student){
     console.log("show result");
@@ -63,6 +65,7 @@ function showResult(result, student){
     document.getElementById('marks-form').appendChild(element);
 }
 
+// Invoke when no/error response received from getResult
 
 function showZeroResult(){
     document.getElementById('search_record').innerHTML=
@@ -71,4 +74,7 @@ function showZeroResult(){
     <h5 class='container'> No record found </h5>
     `
 }
+
+//Search listener button listener
+
 document.getElementById('search_result').addEventListener('click', getResult)

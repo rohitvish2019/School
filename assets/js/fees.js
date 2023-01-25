@@ -1,14 +1,20 @@
+// To get fees data from sever of a student
 function checkFees(){
+    let adm = document.getElementById('AdmissionNoFees').value;
     $.ajax({
         url: '/fee/getMyFee',
         type:'GET',
         data:{
-            AdmissionNo:document.getElementById('AdmissionNoFees').value,
+            AdmissionNo:adm,
         },
         success: function(data){showFees(data.data)},
         error: function(err){showNoFees()}
-    })
+    });
+    getFeeHistory(adm)
 }
+
+// Invoke this function in case of no/error response received from checkFees to show no fees found
+
 function showNoFees(){
     console.log('no records');
     document.getElementById('fees-details').innerHTML=
@@ -17,8 +23,12 @@ function showNoFees(){
     `
     document.getElementById('fee-submit-form').innerHTML=``
 }
+
+// Add fees details on UI
+
 function showFees(fees){
     updateSubmissionForm(fees);
+    // Adding heading for fee details
     document.getElementById('fees-details').innerHTML=``;
     let feeItem = document.createElement('div');
         feeItem.innerHTML=
@@ -47,7 +57,8 @@ function showFees(fees){
         feeItem.classList.add('container');
         feeItem.classList.add('d-flex')
         document.getElementById('fees-details').appendChild(feeItem);
-    
+    // Addng classwise list of fees details
+
     for(let i=0;i<fees.length;i++){
         let feeItem = document.createElement('div');
         feeItem.innerHTML=
@@ -84,6 +95,8 @@ function showFees(fees){
     
 }
 
+// Add the concession provided for the student
+
 function addConsession(Class, AdmissionNo){
     let Concession = prompt("You are giving fee consession in class "+Class+" Please enter the amount");
     let Amount = +Concession;
@@ -108,6 +121,8 @@ function addConsession(Class, AdmissionNo){
     
 }
 
+// To render the UI of pay fees form
+
 function updateSubmissionForm(fees){
     console.log(fees);
     document.getElementById('fee-submit-form').innerHTML=
@@ -121,21 +136,25 @@ function updateSubmissionForm(fees){
                 <h6>Amount</h6>
                 <input name="feeAmount"  type="number" placeholder="Enter amount here">
             </div>
+            <div style="min-width: 15%;" class="my-4">
+                <h6>Amount</h6>
+                <input name="date" type="date" >
+            </div>
             <div style="min-width: 15%;">
             <h6>Class</h6>
-            <select required name="Class" id="ClassForFeeSubmit" style="width: 17%;">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>kg-1</option>
-                <option>kg-2</option>
-            </select>
-        </div>
+                <select required name="Class" id="ClassForFeeSubmit" style="width: 17%;">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>kg-1</option>
+                    <option>kg-2</option>
+                </select>
+            </div>
             <div style="width: 15%;">
                 <input class="btn btn-success" type="submit" value="Pay">
             </div>
@@ -144,5 +163,37 @@ function updateSubmissionForm(fees){
     document.getElementById('ClassForFeeSubmit').setAttribute('value',fees.Class)
     document.getElementById('AdmissionNoForFeeSubmit').setAttribute('value', fees[0].AdmissionNo)
 }
+
+// Get the paid fees histor of a student from server
+
+function getFeeHistory(AdmissionNo){
+    $.ajax({
+        url:'/fee/history/'+AdmissionNo,
+        type:'GET',
+        success: function(data){showFeeHistory(data.data)},
+        error: function(err){console.error.bind(err)}
+    })
+}
+
+// Show fees history of student on UI
+
+function showFeeHistory(data){
+    let container = document.getElementById('fee-history-container');
+    for(let i=0;i<data.length;i++){
+        let element = document.createElement('div');
+        element.innerHTML=
+        `
+            <label><b>${data[i].Class}</b></label>
+            <label><b>${data[i].Amount}</b></label>
+            <label><b>${data[i].Payment_Date}</b></label>
+        `
+        element.classList.add('d-flex');
+        element.classList.add('justify-content-between');
+        container.appendChild(element);
+    }
+    console.log(data);
+}
+
+//Check fees button listener
 
 document.getElementById('check-fees').addEventListener('click', checkFees)

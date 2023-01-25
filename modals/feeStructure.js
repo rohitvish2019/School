@@ -1,3 +1,4 @@
+//This schema willl have the fees sturucture for every class
 const mongoose = require('mongoose');
 const db = require('../config/dbConnection');
 const FeeStructure = new mongoose.Schema({

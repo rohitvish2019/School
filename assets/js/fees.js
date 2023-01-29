@@ -178,7 +178,23 @@ function getFeeHistory(AdmissionNo){
 // Show fees history of student on UI
 
 function showFeeHistory(data){
+    
+    document.getElementById('header').innerHTML=
+    `
+    <b>Fee History</b>
+    `
     let container = document.getElementById('fee-history-container');
+    container.innerHTML=``;
+    let element = document.createElement('div');
+    element.innerHTML=
+    `
+        <label><b>Class</b></label>
+        <label><b>Amount</b></label>
+        <label><b>Payment Date</b></label>
+    `
+    element.classList.add('d-flex');
+    element.classList.add('justify-content-between');
+    container.appendChild(element);
     for(let i=0;i<data.length;i++){
         let element = document.createElement('div');
         element.innerHTML=

@@ -81,7 +81,7 @@ module.exports.updateFee = async function(req, res){
         else{
             await FeeStructure.create({
                 Class:req.body.Class,
-                Fees: req.body.Fees74
+                Fees: req.body.Fees
             });
         }   
         

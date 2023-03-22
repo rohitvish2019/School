@@ -137,7 +137,7 @@ function updateSubmissionForm(fees){
                 <input name="feeAmount"  type="number" placeholder="Enter amount here">
             </div>
             <div style="min-width: 15%;" class="my-4">
-                <h6>Amount</h6>
+                <h6>Paid on</h6>
                 <input name="date" type="date" >
             </div>
             <div style="min-width: 15%;">

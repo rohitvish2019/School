@@ -8,6 +8,10 @@ const ResultSchema = new mongoose.Schema({
     AdmissionNo :{
         type: Number
     },
+    Term:{
+        type:String,
+        enum: ['Quarterly','Half-Yearly','Final']
+    },
     Hindi:{
         type:Number,
         default: -1

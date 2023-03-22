@@ -1,20 +1,30 @@
+document.getElementById('get-marksheet').style.display='none';
 // To get result of the student from server
+function clearResultOnUI(){
+    document.getElementById('search_record').innerHTML=``;
+}
+document.getElementById('class_result').addEventListener('change',clearResultOnUI);
+document.getElementById('term_result').addEventListener('change',clearResultOnUI);
+
+
 function getResult(){
     $.ajax({
         url:'/result/get',
         type:'GET',
         data:{
             AdmissionNo: document.getElementById('AdmissionNo_result').value,
-            Class: document.getElementById('class_result').value
+            Class: document.getElementById('class_result').value,
+            Term: document.getElementById('term_result').value
         },
-        success:function(data){showResult(data.data.result, data.data.student)} ,
+        success:function(data){showResult(data.data.result, data.data.student, document.getElementById('term_result').value)} ,
         error: function(err){showZeroResult()}
     })
 }
 
 // show the student result on UI 
 
-function showResult(result, student){
+function showResult(result, student, term){
+    //document.getElementById('get-marksheet').style.display='block';
     console.log("show result");
     console.log(result);
     document.getElementById('search_record').innerHTML=
@@ -25,6 +35,7 @@ function showResult(result, student){
             
             <input type='text' hidden name='AdmissionNo' value='${student.AdmissionNo}'>
             <input type='text' hidden name='Class' value='${student.Class}'>
+            <input type='text' hidden name='Term' value='${term}'>
             <div>
                 <h6>Hindi : </h6>
                 <h4><input name='Hindi' type="text" value=${result.Hindi}></h4>
@@ -38,6 +49,7 @@ function showResult(result, student){
                 <h4><input name='Math' type="text" value=${result.Math}></h4>
             </div>
         </form>
+        <button class="btn btn-success" id="get-marksheet">Get Marksheet</button>
     `
     let val = 75;
     let otherSubjects = [];
@@ -70,6 +82,7 @@ function showResult(result, student){
 function showZeroResult(){
     document.getElementById('search_record').innerHTML=
     `
+    <button class="btn btn-success" id="get-marksheet" hidden>Get Marksheet</button>
     <h3 class='container my-4' style='border-top: 2px solid green;'> Result Details </h3>
     <h5 class='container'> No record found </h5>
     `

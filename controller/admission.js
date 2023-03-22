@@ -20,47 +20,65 @@ module.exports.addmission =async function(request, response){
 
 //To add new student in record with dependencies 
 module.exports.addStudent = async function(request, response){
-    let student, lastAdmissionNumber, ADN, fee, newFee, result
+    let student, lastAdmissionNumber, ADN, fee, newFee, result_q, result_h,result_f, fee_record;
     try{
         student = await Student.create(request.body);
         lastAdmissionNumber = await AdmissionNo.findOne({});
         ADN = lastAdmissionNumber.LastAdmission;
+        await student.updateOne({AdmissionNo:ADN+1});
+        
         fee = await FeeStructure.findOne({Class:request.body.Class});
-        newFee = await FeeSchema.create({
+
+        fee_record = await FeeSchema.create({
             AdmissionNo:ADN+1,
             Class:request.body.Class,
             Total:fee.Fees,
             Remaining: fee.Fees,
             Paid:0
-        })
-        await student.updateOne({AdmissionNo:ADN+1});
+        });
+
         
-        result = await Result.create({
+        result_q = await Result.create({
             AdmissionNo: ADN+1,
-            Class:request.body.Class
-        })
+            Class:request.body.Class,
+            Term: 'Quarterly',
+        });
+
+        result_h = await Result.create({
+            AdmissionNo: ADN+1,
+            Class:request.body.Class,
+            Term: 'Half-Yearly',
+        });
+
+        result_f = await Result.create({
+            AdmissionNo: ADN+1,
+            Class:request.body.Class,
+            Term: 'Final',
+        });
+
         await lastAdmissionNumber.updateOne({LastAdmission:ADN+1});
-        
-        return response.redirect('/admissions')
     }catch(err){
         if(student){
             Student.remove(student)
         }
-        if(fee){
-            FeeStructure.remove(fee)
+        if(fee_record){
+            FeeStructure.remove(fee_record)
         }
-        if(newFee){
-            FeeSchema.remove(newFee)
+        if(result_q){
+            Result.remove(result_q);
         }
-        if(result){
-            Result.remove(result);
+        if(result_h){
+            Result.remove(result_h);
+        }
+        if(result_f){
+            Result.remove(result_f);
         }
         console.log(err);
-        return response.redirect('/admissions')
     }
+    return response.redirect('/admissions')
 }
 
-// To update the last admission nuber in case of first startup of application
+// To update the last admission number in case of first startup of application
 
 module.exports.updateLastAdmission =async function(req, res){
     console.log(req.body);

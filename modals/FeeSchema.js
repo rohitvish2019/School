@@ -16,7 +16,8 @@ const Fees = new mongoose.Schema({
         default:0
     },
     Paid: {
-        type: Number
+        type: Number,
+        default:0
     },
     Remaining: {
         type:Number

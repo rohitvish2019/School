@@ -3,7 +3,7 @@ const Student = require('../modals/admissionSchema')
 module.exports.getResult = async function(req, res){
     try{
         let result =await Result.findOne({Class:req.query.Class, AdmissionNo: req.query.AdmissionNo, Term:req.query.Term});
-        let student = await Student.findOne({AdmissionNo:req.query.AdmissionNo});
+        let student = await Student.findOne({AdmissionNo:result.AdmissionNo, Class:result.Class});
         console.log(req.query);
         if(result){
             return res.status(200).json({
@@ -42,7 +42,8 @@ module.exports.addUpdateResult = async function(req, res){
 
 module.exports.searchResult = async function(req, res){
     try{
-        let student = await Student.findOne({AdmissionNo:req.params.id});
+        let student = await Student.findOne({AdmissionNo:req.params.id, Class:req.query.Class});
+        console.log(student);
         return res.render('search_result', {student:student});
     }catch(err){
         console.log(err);

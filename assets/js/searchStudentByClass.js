@@ -33,19 +33,19 @@ function showStudentsList(data){
     </a>
     `
     for(let i=0;i<data.length;i++){
-        let result = data[i];
+        let student = data[i];
         let item = document.createElement('a');
         item.innerHTML = 
         `
         <li class="container">
-            <label for="">${result.AdmissionNo}</label>
-            <label for="">${result.FirstName} ${result.LastName}</label>
-            <label for="">${result.Class}</label>
-            <label for="">${result.FathersName}</label>
-            <label for="">${result.MothersName}</label>
+            <label for="">${student.AdmissionNo}</label>
+            <label for="">${student.FirstName} ${student.LastName}</label>
+            <label for="">${student.Class}</label>
+            <label for="">${student.FathersName}</label>
+            <label for="">${student.MothersName}</label>
         </li>
         `
-        let href= '/student/get/'+result.AdmissionNo
+        let href= '/student/get/'+student.AdmissionNo+'?Class='+student.Class
         item.setAttribute('href', href);
         item.classList.add('btn');
         item.classList.add('btn-light');

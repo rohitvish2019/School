@@ -2,6 +2,9 @@ document.getElementById('get-marksheet').style.display='none';
 // To get result of the student from server
 function clearResultOnUI(){
     document.getElementById('search_record').innerHTML=``;
+    document.getElementById('classForResult').setAttribute('value', document.getElementById('class_result').value);
+    document.getElementById('admissionNoForResult').setAttribute('value', document.getElementById('AdmissionNo_result').value)
+    document.getElementById('termForResult').setAttribute('value', document.getElementById('term_result').value)
 }
 document.getElementById('class_result').addEventListener('change',clearResultOnUI);
 document.getElementById('term_result').addEventListener('change',clearResultOnUI);
@@ -33,9 +36,9 @@ function showResult(result, student, term){
         <h3 class='container my-4' style='border-top: 2px solid green;'> Result Details </h3>
         <form action='/result/update' method='POST' id='marks-form' class="d-flex container justify-content-between my-4" style="flex-direction:column;">
             
-            <input type='text' hidden name='AdmissionNo' value='${student.AdmissionNo}'>
-            <input type='text' hidden name='Class' value='${student.Class}'>
-            <input type='text' hidden name='Term' value='${term}'>
+            <input type='text' id='admissionNoForResult' hidden name='AdmissionNo' value='${student.AdmissionNo}'>
+            <input type='text' id='classForResult' hidden name='Class' value='${student.Class}'>
+            <input type='text' id='termForResult' hidden name='Term' value='${term}'>
             <div>
                 <h6>Hindi : </h6>
                 <h4><input name='Hindi' type="text" value=${result.Hindi}></h4>

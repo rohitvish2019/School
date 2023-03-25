@@ -84,7 +84,7 @@ function showStudentsList(data){
     let controls = document.createElement('div');
     controls.innerHTML=
     `
-        <button class='btn btn-success' id='upgradeClassList' onclick=upgradeClassList() >Upgrade All</button>
+        <button class='btn btn-success' id='upgradeClassList' onclick=upgradeClassList() >Upgrade selected</button>
         <button class='btn btn-success'>De-select</button>
     `
     listDiv.appendChild(controls);

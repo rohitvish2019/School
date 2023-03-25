@@ -35,7 +35,7 @@ module.exports.getStudentsByClassForm = function(req, res){
 }
 
 module.exports.getStudentsList = async function(req, res){
-    let studentList = await Student.find({Class:req.query.Class})
+    let studentList = await Student.find({Class:req.query.Class, isThisCurrentRecord:true},)
     return res.status(200).json({
         message:"Student list fetched successfully",
         data: studentList
@@ -107,12 +107,14 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass){
         LastSchoolName:last_class_details.LastSchoolName, 
         LastPassingClass:last_class_details.LastPassingClass, 
         LastClassPassingYear:last_class_details.LastClassPassingYear, 
-        LastClassGrade:last_class_details.LastClassGrade
+        LastClassGrade:last_class_details.LastClassGrade,
     })
 
     
 
     await newRecord.update({Class:newClass,LastClassPassingYear:+last_class_details.LastClassPassingYear + 1, LastClassGrade:'need to add', LastSchoolName:'this school', LastPassingClass:last_class_details.Class});
+    await last_class_details.updateOne({isThisCurrentRecord:false});
+    await last_class_details.save();
     await newRecord.save();
  
     feeAmounttForClass = await FeeStructure.findOne({Class:newClass});

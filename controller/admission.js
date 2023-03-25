@@ -9,6 +9,7 @@ const AdmissionNumber = require('../modals/admission_no');
 module.exports.addmission =async function(request, response){
     let last = await AdmissionNo.findOne({});
     if(last){
+
         let adm = last.LastAdmission + 1
         return response.render('./addmission', {ThisAdmissionNumber:adm});
         

@@ -34,7 +34,11 @@ const Students = new mongoose.Schema({
     LastSchoolName:String, 
     LastPassingClass:String, 
     LastClassPassingYear:String, 
-    LastClassGrade:String
+    LastClassGrade:String,
+    isThisCurrentRecord:{
+        type:Boolean,
+        default:true
+    }
 });
 
 const Student = mongoose.model('Student', Students);

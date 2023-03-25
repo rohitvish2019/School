@@ -26,7 +26,7 @@ module.exports.getResult = async function(req, res){
 module.exports.addUpdateResult = async function(req, res){
     console.log(req.body);
     try{
-        let result = Result.findOne({AdmissionNo: req.body.AdmissionNo, Class:req.body.Class});
+        let result = Result.findOne({AdmissionNo: req.body.AdmissionNo, Class:req.body.Class, Term:req.body.Term});
         if(result){
             console.log('deleting old record')
             await result.deleteOne();

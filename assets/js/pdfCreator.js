@@ -5,6 +5,13 @@ button.addEventListener('click', generatePDFAdmissionForm);
 
 // To generate the pdf of admission form
 function generatePDFAdmissionForm() {   
+    new Noty({
+        theme: 'relax',
+        text: 'Admission form is downloading',
+        type: 'success',
+        layout: 'topRight',
+        timeout: 1500
+    }).show();
     let firstname = document.getElementById('fname').value;
     let lastname = document.getElementById('lname').value;
     let admissionno = document.getElementById('admno').value;
@@ -22,6 +29,7 @@ function generatePDFAdmissionForm() {
     html2pdf(element, opt);
     console.log(element);
     html2pdf().set(opt).from(element).save();
+    
 }
 
 

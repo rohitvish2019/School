@@ -2,6 +2,7 @@ const Student = require('../modals/admissionSchema');
 const Fee = require('../modals/FeeSchema');
 const FeeStructure = require('../modals/feeStructure');
 const Result = require('../modals/Result');
+const Noty = require('noty');
 module.exports.getStudent = async function(req, res){
     
     console.log(req.query);
@@ -43,6 +44,7 @@ module.exports.getStudentsList = async function(req, res){
 }
 
 module.exports.upgradeClassPage = function(req, res){
+    req.flash('success', 'upgrade class');
     return res.render('upgradeClass');
 }
 

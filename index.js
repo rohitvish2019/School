@@ -5,14 +5,33 @@ const ejs = require('ejs');
 const cookieParser = require('cookie-parser');
 const { request, urlencoded } = require('express');
 const port = 8000;
+const session = require('express-session');
+const flash = require('connect-flash');
+const customMiddleWare = require('./config/middleware');
 const app = express();
 app.use(cookieParser());
 app.use(urlencoded({extended:true}));
-app.use('/', require('./routers/index'));
+
 app.set('view engine', 'ejs');
 app.set('views','./views');
 app.use(express.static('./assets'));
 
+app.use(session({
+    name: 'EmployeeReview',
+    secret: 'getitDone',
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+        maxAge: (1000 * 60 * 100)
+    },
+}));
+
+
+
+app.use(flash());
+app.use(customMiddleWare.setFlash);
+
+app.use('/', require('./routers/index'));
 
 app.listen(port, function(err){
     if(err){

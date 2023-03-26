@@ -18,6 +18,18 @@ function getStudentsList(){
  // Show students list on UI 
 
 function showStudentsList(data){
+    if(data.length<=0){
+        showNoRecord('No record found');
+        return;
+    }
+    new Noty({
+        theme: 'relax',
+        text: 'Class details fetched',
+        type: 'success',
+        layout: 'topRight',
+        timeout: 1500
+    }).show(); 
+    
     let listDiv = document.getElementById('classList')
     listDiv.innerHTML=
     
@@ -59,5 +71,14 @@ function showStudentsList(data){
 // Invoke when no/error response received from getStudentsList
 
 function showNoRecord(err){
+    let listDiv = document.getElementById('classList')
+    listDiv.innerHTML=``
+    new Noty({
+        theme: 'relax',
+        text: err,
+        type: 'error',
+        layout: 'topRight',
+        timeout: 1500
+    }).show(); 
     console.log(err);
 }

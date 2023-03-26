@@ -19,7 +19,10 @@ function getResult(){
             Class: document.getElementById('class_result').value,
             Term: document.getElementById('term_result').value
         },
-        success:function(data){showResult(data.data.result, data.data.student, document.getElementById('term_result').value)} ,
+        success:function(data){
+            showResult(data.data.result, data.data.student, document.getElementById('term_result').value)
+            
+        } ,
         error: function(err){showZeroResult()}
     })
 }
@@ -28,6 +31,13 @@ function getResult(){
 
 function showResult(result, student, term){
     //document.getElementById('get-marksheet').style.display='block';
+    new Noty({
+        theme: 'relax',
+        text: 'Result fetched successfully',
+        type: 'success',
+        layout: 'topRight',
+        timeout: 1500
+    }).show(); 
     console.log("show result");
     console.log(result);
     document.getElementById('search_record').innerHTML=
@@ -83,6 +93,13 @@ function showResult(result, student, term){
 // Invoke when no/error response received from getResult
 
 function showZeroResult(){
+    new Noty({
+        theme: 'relax',
+        text: 'No result found for the student',
+        type: 'error',
+        layout: 'topRight',
+        timeout: 1500
+    }).show(); 
     document.getElementById('search_record').innerHTML=
     `
     <button class="btn btn-success" id="get-marksheet" hidden>Get Marksheet</button>

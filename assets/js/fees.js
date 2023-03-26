@@ -16,6 +16,13 @@ function checkFees(){
 // Invoke this function in case of no/error response received from checkFees to show no fees found
 
 function showNoFees(){
+    new Noty({
+        theme: 'relax',
+        text: 'No fees details found for the student in selected class',
+        type: 'success',
+        layout: 'topRight',
+        timeout: 1500
+    }).show(); 
     console.log('no records');
     document.getElementById('fees-details').innerHTML=
     `
@@ -27,6 +34,13 @@ function showNoFees(){
 // Add fees details on UI
 
 function showFees(fees){
+    new Noty({
+        theme: 'relax',
+        text: 'Fees fetched successfully',
+        type: 'success',
+        layout: 'topRight',
+        timeout: 1500
+    }).show();
     updateSubmissionForm(fees);
     // Adding heading for fee details
     document.getElementById('fees-details').innerHTML=``;
@@ -98,6 +112,7 @@ function showFees(fees){
 // Add the concession provided for the student
 
 function addConsession(Class, AdmissionNo){
+    
     let Concession = prompt("You are giving fee consession in class "+Class+" Please enter the amount");
     let Amount = +Concession;
     console.log(AdmissionNo);
@@ -111,8 +126,14 @@ function addConsession(Class, AdmissionNo){
             },
             url:'/fee/getConsession',
             success: function(data){
-                window.location.href='/fee/getFee/'+data.data
-                
+                new Noty({
+                    theme: 'relax',
+                    text: 'Concession added to the fee',
+                    type: 'success',
+                    layout: 'topRight',
+                    timeout: 1500
+                }).show();
+                setTimeout(function(){window.location.href='/fee/getFee/'+data.data}, 1500)
             }
         })
     }else{
@@ -164,7 +185,7 @@ function updateSubmissionForm(fees){
     document.getElementById('AdmissionNoForFeeSubmit').setAttribute('value', fees[0].AdmissionNo)
 }
 
-// Get the paid fees histor of a student from server
+// Get the paid fees history of a student from server
 
 function getFeeHistory(AdmissionNo){
     $.ajax({

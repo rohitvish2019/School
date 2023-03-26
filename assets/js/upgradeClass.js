@@ -18,7 +18,16 @@ function upgradeClassList(){
             studentList:studentListToUpgrade,
             Class:classToUpgrade
         },
-        success: function(data){console.log(data)},
+        success: function(data){
+            console.log(data);
+            new Noty({
+                theme: 'relax',
+                text: 'Marked students will be upgraded to next class',
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+        },
         error:function(err){console.error.bind(err)}
     })
     //console.log(class_of_students);
@@ -38,6 +47,17 @@ function toggleCheck(id){
 }
 
 function showStudentsList(data){
+    if(data.length <= 0){
+        showNoRecord('No record found')
+        return;
+    }
+    new Noty({
+        theme: 'relax',
+        text: 'Class details fetched',
+        type: 'success',
+        layout: 'topRight',
+        timeout: 1500
+    }).show();
     if(data[0]){
         classToUpgrade=data[0].Class;
     }
@@ -94,6 +114,15 @@ function showStudentsList(data){
 // Invoke when no/error response received from getStudentsList
 
 function showNoRecord(err){
+    let listDiv = document.getElementById('classList')
+    listDiv.innerHTML=``;
+    new Noty({
+        theme: 'relax',
+        text: err,
+        type: 'Warning',
+        layout: 'topRight',
+        timeout: 1500
+    }).show();
     console.log(err);
 }
 document.getElementById('getClassBtn').addEventListener('click', getClassList);

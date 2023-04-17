@@ -1,0 +1,16 @@
+body{
+    background: url('/images/background.jpg');
+    background-size: cover;
+}
+.main-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.sub-container{
+    display: block;
+    width: 71%;
+    margin-left: 8%;
+    margin-top: 2%;
+}

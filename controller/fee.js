@@ -52,11 +52,11 @@ module.exports.feeSubmission =async function(req, res){
         if(remainingFee == null){
             remainingFee = 0
         }
-        await fee.update({Paid:fee.Paid + +req.body.feeAmount, Remaining: fee.Remaining - +req.body.feeAmount });
+        await fee.update({Paid:fee.Paid + +req.body.Amount, Remaining: fee.Remaining - +req.body.Amount });
         await FeeHistory.create({
             AdmissionNo:fee.AdmissionNo,
             Class: fee.Class,
-            Amount: req.body.feeAmount,
+            Amount: req.body.Amount,
             Payment_Date: req.body.date
         })
         return res.redirect('back')
@@ -102,10 +102,7 @@ module.exports.addConsession = async function(req, res){
         await fee.update({Concession: fee.Concession + +req.body.Amount, Remaining: fee.Remaining - req.body.Amount});
         fee.save();
     }
-    return res.status(200).json({
-        message:"Concession Added to fees",
-        data: fee._id
-    });
+    return res.redirect('back');
 }
 
 

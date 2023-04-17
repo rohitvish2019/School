@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const db = require('../config/dbConnection');
 const Students = new mongoose.Schema({
     AdmissionNo:String,
+    Session:Number,
     FirstName:String,
     LastName: String,
     FathersName:String,
@@ -39,6 +40,9 @@ const Students = new mongoose.Schema({
         type:Boolean,
         default:true
     }
+},
+{
+    timestamps:true
 });
 
 const Student = mongoose.model('Student', Students);

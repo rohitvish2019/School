@@ -1,0 +1,66 @@
+body{
+    background: url('/images/background.jpg');
+    background-size: cover;
+}
+.main-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.sub-container{
+    display: block;
+    width: 71%;
+    margin-left: 8%;
+    margin-top: 2%;
+}
+
+table{
+    width: 100%;
+    
+}
+td, th{
+    width: 15%;
+    text-align: center;
+    padding-top: 3%;
+    
+}
+
+th{
+    border-bottom: 1px solid black;
+    padding-bottom: 2%;
+}
+
+button{
+    margin-left: 3%;
+}
+
+#popup{
+    height: 280px;
+    width: 330px;
+    border: 1px solid purple;
+    background-color: antiquewhite;
+    position: fixed;
+    top: 25%;
+    left: 40%;
+}
+
+#close-button{
+    position: relative;
+    top: 0%;
+    left: 90%;
+}
+
+label{
+    font-weight: bold;
+    width: 25%;
+}
+
+.form-item{
+    margin: 8%;
+}
+
+.student-details{
+    margin-bottom: 3%;
+    margin-left: 6%;
+}

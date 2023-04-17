@@ -1,0 +1,15 @@
+.logo{
+    width: 15%;
+}
+.main-container{
+    display: flex;
+    justify-content: center;
+}
+.sub-container{
+    width: 71%;
+    margin-left: 8%;
+    margin-top: 2%;
+}
+
+
+

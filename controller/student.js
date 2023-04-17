@@ -4,19 +4,29 @@ const FeeStructure = require('../modals/feeStructure');
 const Result = require('../modals/Result');
 const Noty = require('noty');
 module.exports.getStudent = async function(req, res){
-    
     console.log(req.query);
+    let student = await Student.findOne({AdmissionNo:req.params.adm_no, Class:req.query.Class});
     try{
-        let student = await Student.findOne({AdmissionNo:req.params.adm_no, Class:req.query.Class});
-        if(student){
-            console.log("Student found");
-            return res.render('student_details',{student:student});
-        }else{
-            console.log('Student not found')
-            return res.status(404).json({
-                message:"No student found"
-            })
+        if(req.query.action === 'fee'){
+            let feesList = await Fee.find({AdmissionNo:req.params.adm_no});
+            return res.render('feeDetails',{feesList, student});
         }
+        else if(req.query.action ==='result'){
+            let result = await Result.find({AdmissionNo:req.params.adm_no, Class:req.query.Class});
+            return res.render('resultDetails',{result, student});
+        }
+        else{
+            if(student){
+                console.log("Student found");
+                return res.render('student_details',{student:student});
+            }else{
+                console.log('Student not found')
+                return res.status(404).json({
+                    message:"No student found"
+                })
+            }
+        }
+        
     }catch(err){
         console.log(err)
         return res.status(500).json({
@@ -32,19 +42,28 @@ module.exports.search = function(req, res){
 }
 
 module.exports.getStudentsByClassForm = function(req, res){
-    return res.render('studentListByClass');
+    return res.render('studentListByClass',{action:'none'});
+}
+
+module.exports.getStudentsByClassFormFee = function(req, res){
+    return res.render('studentListByClass', {action:'fee'});
+}
+
+module.exports.getStudentsByClassFormResult = function(req, res){
+    return res.render('studentListByClass', {action:'result'});
 }
 
 module.exports.getStudentsList = async function(req, res){
-    let studentList = await Student.find({Class:req.query.Class, isThisCurrentRecord:true},)
+    console.log(req.query);
+    let studentList = await Student.find({Class:req.query.Class, isThisCurrentRecord:true})
     return res.status(200).json({
         message:"Student list fetched successfully",
-        data: studentList
+        data: {studentList, action:req.query.Action}
     })
 }
 
 module.exports.upgradeClassPage = function(req, res){
-    req.flash('success', 'upgrade class');
+
     return res.render('upgradeClass');
 }
 
@@ -175,4 +194,24 @@ module.exports.upgradeClassBulk = function(req, res){
     }
     console.log(req.body);
     return res.redirect('home');
+}
+
+
+module.exports.getMarksheetUI = async function(req, res){
+    console.log(req.query);
+    console.log(req.params);
+    let result_q = await Result.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo, Term:'Quarterly'});
+    let result_h = await Result.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo, Term:'Half-Yearly'});
+    let result_f = await Result.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo, Term:'Final'});
+    let student = await Student.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo});
+    let subjects;
+    if(student.Class == '6' || student.Class=='7' || student.Class=='8'){
+        subjects=['Hindi', 'English','Math', 'Science', 'Social_Science', 'Sanskrit']
+    }
+    else{
+        subjects=['Hindi', 'English','Math', 'Moral', 'Computer', 'Enviornment']
+    }
+    
+    
+    return res.render('getMarksheet',{result_q, result_h, result_f, student, subjects});
 }

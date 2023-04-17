@@ -231,6 +231,46 @@ function showFeeHistory(data){
     console.log(data);
 }
 
-//Check fees button listener
 
-document.getElementById('check-fees').addEventListener('click', checkFees)
+function closePopup(){
+    document.getElementById('popup').style.display='none';
+    classes = document.getElementsByClassName('class_option');
+    for(let i=0;i<classes.length;i++){
+        classes[i].removeAttribute('selected');
+    }
+    console.log(classes[0]);
+    
+}
+
+function openPopup(data){
+    console.log(data)
+    document.getElementById('popup').style.display='block';
+    let details = data.split('_');
+    console.log(details);
+    document.getElementById(details[0]).setAttribute('selected','true')
+    document.getElementById('fee-form').setAttribute('action','/fee/'+details[2])
+    let action = '';
+    if(details[2] === 'submit'){
+        action = 'Fees Pay'
+    }else{
+        action = 'Concession'
+    }
+    document.getElementById('purpose').setAttribute('value',action)
+    
+}
+
+function getSelected(){
+
+}
+
+//Check fees button listener
+let check_fees_button = document.getElementById('check-fees');
+let cross = document.getElementById('cross');
+if(check_fees_button){
+    check_fees_button.addEventListener('click', checkFees);
+}
+if(cross){
+    cross.addEventListener('click', closePopup)
+}
+
+

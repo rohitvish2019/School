@@ -1,4 +1,4 @@
-document.getElementById('get-marksheet').style.display='none';
+//document.getElementById('get-marksheet').style.display='none';
 // To get result of the student from server
 function clearResultOnUI(){
     document.getElementById('search_record').innerHTML=``;
@@ -100,12 +100,7 @@ function showZeroResult(){
         layout: 'topRight',
         timeout: 1500
     }).show(); 
-    document.getElementById('search_record').innerHTML=
-    `
-    <button class="btn btn-success" id="get-marksheet" hidden>Get Marksheet</button>
-    <h3 class='container my-4' style='border-top: 2px solid green;'> Result Details </h3>
-    <h5 class='container'> No record found </h5>
-    `
+    
 }
 
 //Search listener button listener

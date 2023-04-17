@@ -1,0 +1,50 @@
+body{
+    background: url('/images/background.jpg');
+    background-size: cover;
+}
+.main-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.sub-container{
+    display: block;
+    width: 71%;
+    margin-left: 8%;
+    margin-top: 2%;
+}
+
+table{
+    width: 100%;
+    
+}
+td, th, tr{
+    width: 15%;
+    text-align: center;
+    padding-top: 3%;
+    border: 1px solid black;
+    
+}
+
+th{
+    border-bottom: 1px solid black;
+    padding-bottom: 2%;
+    font-weight: bold;
+}
+
+label{
+    font-weight: bold;
+}
+
+.actions{
+    margin: 3%;
+    display: flex;
+    justify-content: space-around;
+}
+
+input{
+    border: none;
+    background-color: transparent;
+    text-align: center;
+}

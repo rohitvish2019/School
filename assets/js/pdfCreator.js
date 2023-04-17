@@ -1,6 +1,13 @@
 console.log('PDF creator loaded')
-const button = document.getElementById('download-button');
-button.addEventListener('click', generatePDFAdmissionForm);
+const button1 = document.getElementById('download-button');
+if(button1 != null){
+    button1.addEventListener('click', generatePDFAdmissionForm);
+}
+
+const button2 = document.getElementById('download-marksheet');
+if(button2 != null){
+    button2.addEventListener('click', generatePDFMarksheet);
+}
 
 
 // To generate the pdf of admission form
@@ -34,19 +41,20 @@ function generatePDFAdmissionForm() {
 
 
 function generatePDFMarksheet() {   
-    let firstname = document.getElementById('fname').value;
-    let lastname = document.getElementById('lname').value;
+    
+    let student_name = document.getElementById('student_name').value;
     let admissionno = document.getElementById('admno').value;
     var opt = {
         margin:       0.63,
-        filename:     firstname+'_'+lastname+'_'+admissionno+'marksheet',
+        filename: 'Marksheet',
+        filename:     student_name+'_'+admissionno+'_marksheet',
         image:        { type: 'jpeg', quality: 0.98 },
         html2canvas:  { scale: 2 },
         jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
         };
     // Choose the element that your content will be rendered to.
     console.log('creating pdf');
-    let element = document.getElementById('toPDF');
+    let element = document.getElementById('marksheet');
     // Choose the element and save the PDF for your user.
     html2pdf(element, opt);
     console.log(element);

@@ -8,16 +8,17 @@ function getStudentsList(){
         url:'/student/getStudentList',
         type:'GET',
         data:{
-            Class: ClassForSearch.value
+            Class: ClassForSearch.value,
+            Action : action.value
         },
-        success: function(data){showStudentsList(data.data)},
+        success: function(data){showStudentsList(data.data.studentList, data.data.action)},
         error: function(err){showNoRecord(err)}
     })
 }
 
  // Show students list on UI 
 
-function showStudentsList(data){
+function showStudentsList(data, action){
     if(data.length<=0){
         showNoRecord('No record found');
         return;
@@ -57,7 +58,7 @@ function showStudentsList(data){
             <label for="">${student.MothersName}</label>
         </li>
         `
-        let href= '/student/get/'+student.AdmissionNo+'?Class='+student.Class
+        let href= '/student/get/'+student.AdmissionNo+'?Class='+student.Class+'&action='+action
         item.setAttribute('href', href);
         item.classList.add('btn');
         item.classList.add('btn-light');

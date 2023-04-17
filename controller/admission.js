@@ -9,9 +9,12 @@ const AdmissionNumber = require('../modals/admission_no');
 module.exports.addmission =async function(request, response){
     let last = await AdmissionNo.findOne({});
     if(last){
-
+        let year = +new Date().getFullYear();
+        let past_year = year -1;
+        let current_year = year;
+        let next_year = year + 1;
         let adm = last.LastAdmission + 1
-        return response.render('./addmission', {ThisAdmissionNumber:adm});
+        return response.render('./addmission', {ThisAdmissionNumber:adm,past_year, current_year, next_year });
         
     }else{
         return response.render('startup')

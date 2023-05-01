@@ -5,7 +5,7 @@ function getClassList(){
         data:{
             Class: ClassForSearch.value
         },
-        success: function(data){showStudentsList(data.data)},
+        success: function(data){showStudentsList(data.data.studentList)},
         error: function(err){showNoRecord(err)}
     })
 }
@@ -47,6 +47,7 @@ function toggleCheck(id){
 }
 
 function showStudentsList(data){
+    console.log(data);
     if(data.length <= 0){
         showNoRecord('No record found')
         return;

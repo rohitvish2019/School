@@ -8,6 +8,8 @@ router.use('/student', passport.checkAuthentication, require('./student'));
 router.use('/fee', passport.checkAuthentication, require('./fee'));
 router.use('/result', passport.checkAuthentication, require('./result'));
 router.use('/documents', passport.checkAuthentication, require('./documents'))
+router.use('/reports', passport.checkAuthentication, require('./reports'));
 router.use('/user', require('./user'));
+
 
 module.exports = router;

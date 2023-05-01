@@ -1,0 +1,59 @@
+body{
+    background: url('/images/background.jpg');
+    background-size: cover;
+}
+.main-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.sub-container{
+    display: block;
+    width: 71%;
+    margin-left: 8%;
+    margin-top: 2%;
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+.list-header{
+    display: flex;
+    justify-content: space-around;
+    
+}
+
+.list-container{
+    width: 100%;
+    
+}
+
+
+.list-header h6{
+    width: 17%;
+
+
+}
+
+.list-header label{
+    width: 17%;
+    margin-top: 1%;
+    
+}
+
+.list-header button{
+    margin-top: 8%;
+    height: 70%;
+    text-align: center;
+}
+/*
+.list-header button{
+    width: 95%;
+    text-align: center;
+    margin-top: 15%;
+
+}
+*/
+
+

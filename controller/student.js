@@ -129,6 +129,7 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass){
         LastPassingClass:last_class_details.LastPassingClass, 
         LastClassPassingYear:last_class_details.LastClassPassingYear, 
         LastClassGrade:last_class_details.LastClassGrade,
+        Session:+last_class_details.Session + 1
     })
 
     

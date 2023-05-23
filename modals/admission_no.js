@@ -3,7 +3,13 @@ const mongoose = require('mongoose');
 const db = require('../config/dbConnection');
 
 const AdmissionNo = new mongoose.Schema({
-    LastAdmission: Number
+    LastAdmission: {
+        type:Number
+    },
+    LastRegistration : {
+        type:Number,
+        default:0
+    }
 },
 {
     timestamps:true

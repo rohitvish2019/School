@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const admissonController = require('../controller/admission');
+
+
+
+//old code
 router.get('/',admissonController.addmission);
 router.post('/create', admissonController.addStudent)
 router.post('/updateLastAdmission', admissonController.updateLastAdmission);

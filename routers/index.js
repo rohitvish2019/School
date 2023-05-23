@@ -4,6 +4,7 @@ const passport = require('passport');
 const passportLocal = require('passport-local');
 const LocalStrategy = require('../config/passport-local-strategy');
 router.use('/admissions', passport.checkAuthentication, require('./addmission'));
+router.use('/registration', passport.checkAuthentication, require('./registration'));
 router.use('/student', passport.checkAuthentication, require('./student'));
 router.use('/fee', passport.checkAuthentication, require('./fee'));
 router.use('/result', passport.checkAuthentication, require('./result'));

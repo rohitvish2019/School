@@ -1,9 +1,8 @@
 //Basic student details will be stored in this schema
 const mongoose = require('mongoose');
 const db = require('../config/dbConnection');
-const Students = new mongoose.Schema({
+const RegisteredStudents = new mongoose.Schema({
     RegistrationNo:String,
-    AdmissionNo:String,
     Session:Number,
     FirstName:String,
     LastName: String,
@@ -46,5 +45,5 @@ const Students = new mongoose.Schema({
     timestamps:true
 });
 
-const Student = mongoose.model('Student', Students);
-module.exports = Student;
+const RegisteredStudent = mongoose.model('RegisteredStudents', RegisteredStudents);
+module.exports = RegisteredStudent;

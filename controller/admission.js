@@ -4,8 +4,18 @@ const FeeStructure = require('../modals/feeStructure');
 const FeeSchema = require('../modals/FeeSchema');
 const Result = require('../modals/Result');
 const AdmissionNumber = require('../modals/admission_no');
+const RegisterdStudent = require('../modals/RegistrationSchema');
 
 // To render the admission form page
+
+
+
+
+
+
+
+
+//Old code
 module.exports.addmission =async function(request, response){
     let last = await AdmissionNo.findOne({});
     if(last){

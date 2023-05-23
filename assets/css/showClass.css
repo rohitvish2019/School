@@ -29,9 +29,12 @@ li{
 
 }
 label{
-    width: 18%;
+    width: 11%;
     min-width: 150px;
 }
 .student-list{
     width: 100%;
+    margin-top: 1%;
+    border-bottom: 0.5px dotted green;
+    text-align: center;
 }

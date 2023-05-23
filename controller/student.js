@@ -3,6 +3,7 @@ const Fee = require('../modals/FeeSchema');
 const FeeStructure = require('../modals/feeStructure');
 const Result = require('../modals/Result');
 const Noty = require('noty');
+const RegisteredStudent = require('../modals/RegistrationSchema');
 module.exports.getStudent = async function(req, res){
     console.log(req.query);
     let student = await Student.findOne({AdmissionNo:req.params.adm_no, Class:req.query.Class});
@@ -14,6 +15,10 @@ module.exports.getStudent = async function(req, res){
         else if(req.query.action ==='result'){
             let result = await Result.find({AdmissionNo:req.params.adm_no, Class:req.query.Class});
             return res.render('resultDetails',{result, student});
+        }
+        else if(req.query.action ==='tc'){
+            let result = await Result.find({AdmissionNo:req.params.adm_no, Class:req.query.Class});
+            return res.render('TCDetails',{student});
         }
         else{
             if(student){
@@ -53,9 +58,24 @@ module.exports.getStudentsByClassFormResult = function(req, res){
     return res.render('studentListByClass', {action:'result'});
 }
 
+module.exports.getStudentsByClassFormTC = function(req, res){
+    return res.render('studentListByClass', {action:'tc'});
+}
+
+module.exports.getStudentsByClassFormAdmission = function(req, res){
+    return res.render('studentListByClass', {action:'admission'});
+}
+
 module.exports.getStudentsList = async function(req, res){
     console.log(req.query);
-    let studentList = await Student.find({Class:req.query.Class, isThisCurrentRecord:true})
+    let studentList;
+    if(req.query.Action === 'admission'){
+        studentList = await RegisteredStudent.find({Class:req.query.Class})
+    }
+    else{
+        studentList = await Student.find({Class:req.query.Class, isThisCurrentRecord:true})
+    }
+    
     return res.status(200).json({
         message:"Student list fetched successfully",
         data: {studentList, action:req.query.Action}

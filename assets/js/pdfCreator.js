@@ -10,6 +10,13 @@ if(button2 != null){
 }
 
 
+
+const button3 = document.getElementById('tc-download');
+
+if(button3 != null){
+    button3.addEventListener('click', generatePDFTC);
+}
+
 // To generate the pdf of admission form
 function generatePDFAdmissionForm() {   
     new Noty({
@@ -55,6 +62,28 @@ function generatePDFMarksheet() {
     // Choose the element that your content will be rendered to.
     console.log('creating pdf');
     let element = document.getElementById('marksheet');
+    // Choose the element and save the PDF for your user.
+    html2pdf(element, opt);
+    console.log(element);
+    html2pdf().set(opt).from(element).save();
+}
+
+
+function generatePDFTC() {   
+    
+    let student_name = document.getElementById('student_name').value;
+    let admissionno = document.getElementById('admno').value;
+    var opt = {
+        margin:       0.63,
+        filename: 'Marksheet',
+        filename:     student_name+'_'+admissionno+'_marksheet',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+    // Choose the element that your content will be rendered to.
+    console.log('creating pdf');
+    let element = document.getElementById('tc-body');
     // Choose the element and save the PDF for your user.
     html2pdf(element, opt);
     console.log(element);

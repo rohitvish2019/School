@@ -1,0 +1,35 @@
+
+.main-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.sub-container{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin-left: 8%;
+    margin-top: 2%;
+}
+
+.basic-details{
+    display: flex;
+    justify-content: space-between;
+    margin: 2%;
+    
+}
+
+.basic-details label{
+    text-align: left;
+}
+
+.content{
+    margin: 2%;
+}
+
+.heading{
+    text-align: center;
+    font-weight: bolder;
+
+}

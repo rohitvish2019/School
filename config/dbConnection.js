@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/School');
+const PropertiesReader = require('properties-reader');
+const properties = PropertiesReader('config/database.properties');
+let url = properties.get('url');
+mongoose.connect(url);
 
 const db = mongoose.connection;
 db.on('error', function(){

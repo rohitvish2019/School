@@ -32,7 +32,7 @@ function showNoFees(){
 }
 
 // Add fees details on UI
-
+/*
 function showFees(fees){
     new Noty({
         theme: 'relax',
@@ -109,6 +109,9 @@ function showFees(fees){
     
 }
 
+*/
+
+/*
 // Add the concession provided for the student
 
 function addConsession(Class, AdmissionNo){
@@ -142,6 +145,9 @@ function addConsession(Class, AdmissionNo){
     
 }
 
+*/
+
+/*
 // To render the UI of pay fees form
 
 function updateSubmissionForm(fees){
@@ -184,9 +190,11 @@ function updateSubmissionForm(fees){
     document.getElementById('ClassForFeeSubmit').setAttribute('value',fees.Class)
     document.getElementById('AdmissionNoForFeeSubmit').setAttribute('value', fees[0].AdmissionNo)
 }
-
+*/
 // Get the paid fees history of a student from server
 
+
+/*
 function getFeeHistory(AdmissionNo){
     $.ajax({
         url:'/fee/history/'+AdmissionNo,
@@ -196,8 +204,11 @@ function getFeeHistory(AdmissionNo){
     })
 }
 
+*/
 // Show fees history of student on UI
 
+
+/*
 function showFeeHistory(data){
     
     document.getElementById('header').innerHTML=
@@ -231,6 +242,7 @@ function showFeeHistory(data){
     console.log(data);
 }
 
+*/
 
 function closePopup(){
     document.getElementById('popup').style.display='none';

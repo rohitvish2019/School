@@ -16,6 +16,21 @@
     
     <div class="main-container">
         <div class="sub-container">
+            <div style="margin-left: 10%; margin-bottom: 5%; color: goldenrod;">
+                <h1>
+                    <% if(action == 'fee'){%>
+                        Fee Submission
+                    <%}else if(action == 'result'){%>
+                        Result
+                    <%}else if(action == 'admission'){%>
+                        Admission Approval
+                    <%}else if(action == 'tc'){%>
+                        Transfer certificate
+                    <%}else{%>
+                        Student Details
+                    <%}%>
+                </h1>
+            </div>
             <div class="getClassDetailsForm">
                 <input type="hidden" value="<%=action%>" id="action">
                 <select required id="ClassForSearch" style="width: 14%;">

@@ -105,7 +105,7 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass){
     }else if(last_class_details.Class=='kg-2'){
         newClass='1'
     }else{
-        newClass=+last_class_details.Class + 1;
+        newClass=toString(+last_class_details.Class + 1);
     }
     let thisRecordExists = await Student.findOne({AdmissionNo:last_class_details.AdmissionNo, Class:newClass});
     if(thisRecordExists){
@@ -152,7 +152,6 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass){
         Session:+last_class_details.Session + 1
     })
 
-    
 
     await newRecord.update({Class:newClass,LastClassPassingYear:+last_class_details.LastClassPassingYear + 1, LastClassGrade:'need to add', LastSchoolName:'this school', LastPassingClass:last_class_details.Class});
     await last_class_details.updateOne({isThisCurrentRecord:false});
@@ -208,6 +207,7 @@ module.exports.upgradeOneStudent = async function(req, res){
 
 
 module.exports.upgradeClassBulk = function(req, res){
+   
     studentList = req.body.studentList;
     studentClass = req.body.Class
     for(let i=0;i<studentList.length;i++){

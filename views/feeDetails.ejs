@@ -57,10 +57,14 @@
                 </div>
                 
                 <form id='fee-form' action="/fee/submit" method="POST">
-                    <input name='AdmissionNo' type="hidden" value="<%=feesList[0].AdmissionNo%>">
+                    <div class="form-item">
+                        <label>Ad. No</label>
+                        <input required readonly name='AdmissionNo' value="<%=feesList[0].AdmissionNo%>">
+                    </div>
+                    
                     <div class="form-item">
                         <label>Class</label>
-                        <select name="Class" style="width: 14%;">
+                        <select name="Class" style="width: 25%;">
                             <%for (let i=0;i<feesList.length;i++){%>
                                 <option class="class_option" id="<%=feesList[i].Class%>" value="<%=feesList[i].Class%>"><%=feesList[i].Class%></option>
                             <%}%>

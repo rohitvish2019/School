@@ -10,6 +10,34 @@ function getClassList(){
     })
 }
 
+
+function upgradeStudent(AdmissionNo, Class){
+    $.ajax({
+        url:'/student/upgrade/'+AdmissionNo+'?Class='+Class,
+        type:'get',
+        success:function(){
+            console.log('student upgraded');
+            new Noty({
+                theme: 'relax',
+                text: 'Student upgraded successfully',
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+            document.getElementById('item_'+AdmissionNo).style.display='none'
+        },
+        error:function(){
+            new Noty({
+                theme: 'relax',
+                text: 'Unable to upgrade. please try again later',
+                type: 'alert',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+        }
+    })
+}
+
 function upgradeClassList(){
     $.ajax({
         url:'/student/upgradeClassBulk',
@@ -92,14 +120,14 @@ function showStudentsList(data){
             <label for="">${student.FathersName}</label>
             <label for="">${student.MothersName}</label>
             <label for="">${student.LastClassGrade}</label>
-            <a href='upgrade/${student.AdmissionNo}?Class=${student.Class}' class='btn btn-success'>Upgrade</a>
+            <button onclick='upgradeStudent(${student.AdmissionNo},${student.Class})' href='upgrade/${student.AdmissionNo}?Class=${student.Class}' class='btn btn-success'>Upgrade</button>
         </li>        
         `
         
         item.classList.add('btn');
         item.classList.add('btn-light');
         item.classList.add('student-list');
-         
+        item.setAttribute('id','item_'+student.AdmissionNo);
         listDiv.appendChild(item);
     }
     let controls = document.createElement('div');

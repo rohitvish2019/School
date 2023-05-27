@@ -36,8 +36,8 @@ button{
 }
 
 #popup{
-    height: 280px;
-    width: 330px;
+    height: 330px;
+    width: 350px;
     border: 1px solid purple;
     background-color: antiquewhite;
     position: fixed;
@@ -57,7 +57,7 @@ label{
 }
 
 .form-item{
-    margin: 8%;
+    margin: 4%;
 }
 
 .student-details{

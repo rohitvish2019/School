@@ -55,34 +55,32 @@
                         <input id='purpose' style="border: none; background-color: transparent;" type="text" value="Fees pay">
                     </b>   
                 </div>
+                <div class="form-item">
+                    <label>Ad. No</label>
+                    <input required readonly id='AdmissionNo_fee' value="<%=feesList[0].AdmissionNo%>">
+                </div>
                 
-                <form id='fee-form' action="/fee/submit" method="POST">
-                    <div class="form-item">
-                        <label>Ad. No</label>
-                        <input required readonly name='AdmissionNo' value="<%=feesList[0].AdmissionNo%>">
-                    </div>
+                <div class="form-item">
+                    <label>Class</label>
+                    <select id="Class_fee" style="width: 25%;">
+                        <%for (let i=0;i<feesList.length;i++){%>
+                            <option class="class_option" id="<%=feesList[i].Class%>" value="<%=feesList[i].Class%>"><%=feesList[i].Class%></option>
+                        <%}%>
+                    </select>
+                </div>
+                <div class="form-item">
+                    <label for="">Amount</label>
+                    <input required id="Amount_fee" type="text" placeholder="Amount">
+                </div>
+                <div class="form-item">
+                    <label for="">Date</label>
+                    <input required id="date_fee" type="date" name="" id="">
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <button id='submit_fee' onclick="submitFeeOrConcession()">Pay</button>
+                </div>
                     
-                    <div class="form-item">
-                        <label>Class</label>
-                        <select name="Class" style="width: 25%;">
-                            <%for (let i=0;i<feesList.length;i++){%>
-                                <option class="class_option" id="<%=feesList[i].Class%>" value="<%=feesList[i].Class%>"><%=feesList[i].Class%></option>
-                            <%}%>
-                        </select>
-                    </div>
-                    <div class="form-item">
-                        <label for="">Amount</label>
-                        <input required name="Amount" type="text" placeholder="Amount">
-                    </div>
-                    <div class="form-item">
-                        <label for="">Date</label>
-                        <input required name="date" type="date" name="" id="">
-                    </div>
-                    <div style="display: flex; justify-content: center;">
-                        <input type="submit" value="Pay">
-                    </div>
-                    
-                </form>
+                
             </div>
         </div>
     </div>

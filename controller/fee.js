@@ -58,11 +58,15 @@ module.exports.feeSubmission =async function(req, res){
             Class: fee.Class,
             Amount: req.body.Amount,
             Payment_Date: req.body.date
+        });
+        return res.status(200).json({
+            message:'Fees record updated successfully'
         })
-        return res.redirect('back')
     }catch(err){
         console.log(err)
-        return res.redirect('back')
+        return res.status(500).json({
+            message:'Internal server error'
+        })
     }
     
 }
@@ -94,14 +98,24 @@ module.exports.updateFee = async function(req, res){
 }
 
 module.exports.addConsession = async function(req, res){
-    let fee = await Fee.findOne({AdmissionNo:req.body.AdmissionNo, Class:req.body.Class});
-    if(fee){
-        console.log("Entered in method");
-        let cnc = fee.Concession;
-        console.log(cnc);
-        await fee.update({Concession: fee.Concession + +req.body.Amount, Remaining: fee.Remaining - req.body.Amount});
-        fee.save();
+    try{
+        let fee = await Fee.findOne({AdmissionNo:req.body.AdmissionNo, Class:req.body.Class});
+        if(fee){
+            console.log("Entered in method");
+            let cnc = fee.Concession;
+            console.log(cnc);
+            await fee.update({Concession: fee.Concession + +req.body.Amount, Remaining: fee.Remaining - req.body.Amount});
+            fee.save();
+        }
+        return res.status(200).json({
+            message:'Successfully added concession record'
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:'Error adding concession :: Internal server error'
+        })
     }
+    
     return res.redirect('back');
 }
 

@@ -260,10 +260,10 @@ function openPopup(data){
     let details = data.split('_');
     console.log(details);
     document.getElementById(details[0]).setAttribute('selected','true')
-    document.getElementById('fee-form').setAttribute('action','/fee/'+details[2])
+    //document.getElementById('fee-form').setAttribute('action','/fee/'+details[2])
     let action = '';
     if(details[2] === 'submit'){
-        action = 'Fees Pay'
+        action = 'Fee'
     }else{
         action = 'Concession'
     }
@@ -274,6 +274,53 @@ function openPopup(data){
 function getSelected(){
 
 }
+
+function submitFeeOrConcession(){
+    let AdmissionNo = document.getElementById('AdmissionNo_fee').value;
+    let Class = document.getElementById('Class_fee').value;
+    let Date = document.getElementById('date_fee').value;
+    let Amount = document.getElementById('Amount_fee').value;
+    let purpose = document.getElementById('purpose').value
+    $.ajax({
+        url:'/fee/'+purpose,
+        type:'post',
+        data:{
+            AdmissionNo,
+            Class,
+            Date,
+            Amount
+        },
+        success:function(data){
+            closePopup();
+            new Noty({
+                theme: 'relax',
+                text: data.message,
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1000
+            }).show();
+            setTimeout(function(){
+                window.location.href='/student/get/'+AdmissionNo+'?Class='+Class+'&action=fee'
+            },1000)
+            
+        },
+        error: function(data){
+            new Noty({
+                theme: 'relax',
+                text: data.message,
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1000
+            }).show();
+            setTimeout(function(){
+                window.location.href='/student/get/'+AdmissionNo+'?Class='+Class+'&action=fee'
+            },1000)
+        }
+    })
+}
+
+
+
 
 //Check fees button listener
 let check_fees_button = document.getElementById('check-fees');

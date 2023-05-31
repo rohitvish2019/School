@@ -105,7 +105,7 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass){
     }else if(last_class_details.Class=='kg-2'){
         newClass='1'
     }else{
-        newClass=toString(+last_class_details.Class + 1);
+        newClass=+last_class_details.Class + 1;
     }
     let thisRecordExists = await Student.findOne({AdmissionNo:last_class_details.AdmissionNo, Class:newClass});
     if(thisRecordExists){
@@ -157,9 +157,9 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass){
     await last_class_details.updateOne({isThisCurrentRecord:false});
     await last_class_details.save();
     await newRecord.save();
- 
+    console.log(newClass);
     feeAmounttForClass = await FeeStructure.findOne({Class:newClass});
-    
+    console.log(feeAmounttForClass);
     
     await Fee.create({
         AdmissionNo: newRecord.AdmissionNo,
@@ -194,9 +194,13 @@ module.exports.upgradeOneStudent = async function(req, res){
     let status = await upgradeClassStudent(req.params.AdmissionNo, req.query.Class);
     console.log(status);
     if(status==200){
-        return res.end('Upgrading class for student');
+        return res.status(200).json({
+            message:'Student upgraded successfully'
+        });
     }else if(status==400){
-        return res.end('Can not upgrade class for top class 8th');
+        return res.status(400).json({
+            message:'Student can not be upgraded from class 8th as per school policy'
+        });
     }else if(status==409){
         return res.end('This student is already upgraded to next class');
     }else{
@@ -207,14 +211,26 @@ module.exports.upgradeOneStudent = async function(req, res){
 
 
 module.exports.upgradeClassBulk = function(req, res){
-   
-    studentList = req.body.studentList;
-    studentClass = req.body.Class
-    for(let i=0;i<studentList.length;i++){
-        upgradeClassStudent(studentList[i],studentClass)
+    try{
+        if(req.body.Class==='8'){
+            return res.status(400).json({
+                message:'8th class can not be upgraded'
+            })
+        }
+        studentList = req.body.studentList;
+        studentClass = req.body.Class
+        for(let i=0;i<studentList.length;i++){
+            upgradeClassStudent(studentList[i],studentClass)
+        }
+        return res.status(200).json({
+            message:'Markes students are updgraded to new class successfully.'
+        });
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Internal server error'
+        })
     }
-    console.log(req.body);
-    return res.redirect('home');
 }
 
 

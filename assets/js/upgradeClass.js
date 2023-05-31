@@ -26,11 +26,11 @@ function upgradeStudent(AdmissionNo, Class){
             }).show();
             document.getElementById('item_'+AdmissionNo).style.display='none'
         },
-        error:function(){
+        error:function(err){
             new Noty({
                 theme: 'relax',
-                text: 'Unable to upgrade. please try again later',
-                type: 'alert',
+                text: JSON.parse(err.responseText).message,
+                type: 'error',
                 layout: 'topRight',
                 timeout: 1500
             }).show();
@@ -50,13 +50,25 @@ function upgradeClassList(){
             console.log(data);
             new Noty({
                 theme: 'relax',
-                text: 'Marked students will be upgraded to next class',
+                text: data.message,
                 type: 'success',
+                layout: 'topRight',
+                timeout: 1000
+            }).show();
+        setTimeout(function(){
+            window.location.href='/student/upgradeClass'
+        }, 1000)
+        },
+        error:function(err){
+            console.error.bind(err)
+            new Noty({
+                theme: 'relax',
+                text: JSON.parse(err.responseText).message,
+                type: 'error',
                 layout: 'topRight',
                 timeout: 1500
             }).show();
-        },
-        error:function(err){console.error.bind(err)}
+        }
     })
     //console.log(class_of_students);
 }

@@ -57,7 +57,8 @@ module.exports.feeSubmission =async function(req, res){
             AdmissionNo:fee.AdmissionNo,
             Class: fee.Class,
             Amount: req.body.Amount,
-            Payment_Date: req.body.date
+            Payment_Date: req.body.Date.slice(0,10),
+            Comment: req.body.Comment
         });
         return res.status(200).json({
             message:'Fees record updated successfully'
@@ -115,8 +116,6 @@ module.exports.addConsession = async function(req, res){
             message:'Error adding concession :: Internal server error'
         })
     }
-    
-    return res.redirect('back');
 }
 
 

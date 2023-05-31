@@ -12,7 +12,10 @@ const FeesHistory = new mongoose.Schema({
         type: Number
     },
     Payment_Date:{
-        type:Date,
+        type:String,
+    },
+    Comment:{
+        type:String
     }
 },
 {

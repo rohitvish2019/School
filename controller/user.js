@@ -28,3 +28,7 @@ module.exports.logout = function(req, res){
         return res.redirect('back')
     }
 }
+
+module.exports.addUserPage = function(req, res){
+    return res.render('addUser');
+}

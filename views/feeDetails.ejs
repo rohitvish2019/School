@@ -6,8 +6,8 @@
     <%- include('_header'); %>
     <div class="main-container">
         <div class="sub-container">
+            
             <div class="student-details">
-                
                 <div>
                     <label for="">Name : </label>
                     <label for=""><%=student.FirstName%> <%=student.LastName%></label>
@@ -25,28 +25,46 @@
                     <label for=""><%=student.MothersName%></label>
                 </div>
             </div>
-            <table>
-                <tr style="width: 100%;">
-                    <th>Class</th>
-                    <th>Total</th>
-                    <th>Concession</th>
-                    <th>Paid</th>
-                    <th>Remaining</th>
-                    <th colspan="2">Action</th>
-                </tr>
-                <% for(let i=0;i<feesList.length;i++){%>
-                    <tr>
-                        <td><%=feesList[i].Class%></td>
-                        <td><%=feesList[i].Total%></td>
-                        <td><%=feesList[i].Concession%></td>
-                        <td><%=feesList[i].Paid%></td>
-                        <td><%=feesList[i].Remaining%></td>
-                        <td><button class='btn btn-success' id='concession_<%=feesList[i].Class%>_<%=feesList[i].AdmissionNo%>' onclick="openPopup('<%=feesList[i].Class%>_<%=feesList[i].AdmissionNo%>_con')">Concession</button></td>
-                        <td><button class='btn btn-success' id='pay_<%=feesList[i].Class%>_<%=feesList[i].AdmissionNo%>' onclick="openPopup('<%=feesList[i].Class%>_<%=feesList[i].AdmissionNo%>_submit')">Pay</button></td>
+            <div id="toggler_button" class="toggeler">
+                <span class="fee-details" id="details-button"><h5>Fees Details</h5></span>
+                <span class="fee-history" id="history-button"><h5>Fees History</h5></span>
+            </div>
+            <div id="fee-details" class="details-div">
+                <table>
+                    <tr style="width: 100%;">
+                        <th>Class</th>
+                        <th>Total</th>
+                        <th>Concession</th>
+                        <th>Paid</th>
+                        <th>Remaining</th>
+                        <th colspan="2">Action</th>
                     </tr>
-                <%}%>
-            </table>
+                    <% for(let i=0;i<feesList.length;i++){%>
+                        <tr>
+                            <td><%=feesList[i].Class%></td>
+                            <td><%=feesList[i].Total%></td>
+                            <td><%=feesList[i].Concession%></td>
+                            <td><%=feesList[i].Paid%></td>
+                            <td><%=feesList[i].Remaining%></td>
+                            <td><button class='btn btn-success' id='concession_<%=feesList[i].Class%>_<%=feesList[i].AdmissionNo%>' onclick="openPopup('<%=feesList[i].Class%>_<%=feesList[i].AdmissionNo%>_con')">Concession</button></td>
+                            <td><button class='btn btn-success' id='pay_<%=feesList[i].Class%>_<%=feesList[i].AdmissionNo%>' onclick="openPopup('<%=feesList[i].Class%>_<%=feesList[i].AdmissionNo%>_submit')">Pay</button></td>
+                        </tr>
+                    <%}%>
+                </table>
+            </div>
 
+            <div id="fee-history" style="display: none;" class="details-div">
+                <table id="fee-history-dynamic-container">
+                    <tr style="width: 100%;">
+                        <th>AdmissionNo</th>
+                        <th>Class</th>
+                        <th>Amount</th>
+                        <th>Payment_Date</th>
+                        <th>Comment</th>
+                    </tr>
+                    
+                </table>
+            </div>
             <div id="popup" style="display: none;">
        
                 <div  id="close-button"><img id="cross" src="/images/cross.png" alt="" srcset="" height="10%" width="10%"></div>
@@ -75,6 +93,10 @@
                 <div class="form-item">
                     <label for="">Date</label>
                     <input required id="date_fee" type="date" name="" id="">
+                </div>
+                <div class="form-item">
+                    <label for="">Comment</label>
+                    <textarea id="comment_fee" cols="20" rows="2"></textarea>
                 </div>
                 <div style="display: flex; justify-content: center;">
                     <button id='submit_fee' onclick="submitFeeOrConcession()">Pay</button>

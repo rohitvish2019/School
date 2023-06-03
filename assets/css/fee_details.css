@@ -67,29 +67,30 @@ label{
 }
 
 .toggeler{
-    height: 50px;
+    height: 30px;
     width: 100%;
     border: 1px solid green;
     display: flex;
     justify-content: space-around;
     text-align: center;
-    border-radius: 1.5rem;
+    margin-top: 3%;
  
 }
 
 span{
     text-align: center;
     width: 50%;
+    border: 1px dotted #198754 ;
 }
 
 .fee-details{
     background-color: #198754;
-    border-radius: 1.5rem;
+    
 }
 
 .fee-history{
     background-color: transparent;
-    border-radius: 1.5rem;
+    
 }
 
 #fees-history{
@@ -99,7 +100,7 @@ span{
 
 #fees-details{
     width: 100%;
-    border-radius: 1.5rem;
+    
 }
 
 .details-div{

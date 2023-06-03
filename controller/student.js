@@ -233,7 +233,27 @@ module.exports.upgradeClassBulk = function(req, res){
     }
 }
 
+function calculateGrade(value){
+    if(value > 100 || value == -1){
+        return 'NA'
+    }else if( value <= 100 && value > 90){
+        return 'A+'
+    }else if(value <= 90 && value > 74){
+        return 'A'
+    }else if( value <= 75 && value > 59){
+        return 'B'
+    }else if(value <= 60 && value > 44){
+        return 'C'
+    }else if(value <= 45 && value > 33){
+        return 'D'
+    }else{
+        return 'F'
+    }
+}
 
+function getPercentage(marks, total){
+    return marks*100/total
+}
 module.exports.getMarksheetUI = async function(req, res){
     console.log(req.query);
     console.log(req.params);
@@ -242,13 +262,44 @@ module.exports.getMarksheetUI = async function(req, res){
     let result_f = await Result.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo, Term:'Final'});
     let student = await Student.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo});
     let subjects;
+    console.log(result_q['Hindi']);
+    let result = [];
+    result.push(result_q);
+    result.push(result_h);
+    result.push(result_f);
+    console.log(result[0].Hindi);
+    let q_grades={};
+    let h_grades={};
+    let f_grades={};
+    let grades = [];
+    let totals = [];
+    grades.push(q_grades);
+    grades.push(h_grades);
+    grades.push(f_grades);
+    
+    
     if(student.Class == '6' || student.Class=='7' || student.Class=='8'){
         subjects=['Hindi', 'English','Math', 'Science', 'Social_Science', 'Sanskrit']
     }
     else{
         subjects=['Hindi', 'English','Math', 'Moral', 'Computer', 'Enviornment']
     }
+    for(let i=0;i<grades.length;i++){
+        let t= 0;
+        for(let j=0;j<subjects.length;j++){
+            let grade = calculateGrade(result[i][subjects[j]])
+            t = t+result[i][subjects[j]];
+            grades[i][subjects[j]] = grade;
+        }
+        totals.push(t);
+    }
+    for(let i=0;i<3;i++){
+        totals.push(calculateGrade(getPercentage(totals[i], 600)));
+    }    
+
+    console.log(totals);
     
     
-    return res.render('getMarksheet',{result_q, result_h, result_f, student, subjects});
+    
+    return res.render('getMarksheet',{result_q, result_h, result_f, student, subjects, grades, totals});
 }

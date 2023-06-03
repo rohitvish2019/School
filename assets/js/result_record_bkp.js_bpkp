@@ -1,5 +1,7 @@
 //document.getElementById('get-marksheet').style.display='none';
 // To get result of the student from server
+console.log('data 1');
+
 function clearResultOnUI(){
     document.getElementById('search_record').innerHTML=``;
     document.getElementById('classForResult').setAttribute('value', document.getElementById('class_result').value);

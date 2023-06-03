@@ -110,22 +110,53 @@ function submitFeeOrConcession(){
 }
 
 function toggeller(){
-    let feeHistory = document.getElementById('fee-history');
-    let feeDetails = document.getElementById('fee-details');
-    let detailsButton = document.getElementById('details-button');
-    let historyButton = document.getElementById('history-button');
-    if(feeHistory.style.display=='none'){
-        feeHistory.style.display='block';
-        feeDetails.style.display='none'
-        historyButton.style.backgroundColor='#198754'
-        detailsButton.style.backgroundColor='transparent'
-        getFeesHistory();
+    
+}
+
+function getConcessionHistory(){
+    let AdmissionNo = document.getElementById('AdmissionNo_fee').value;
+    $.ajax({
+        type:'get',
+        url:'/fee/getConcessionHistory/'+AdmissionNo,
+        success: function(data){
+            showConcessionHistory(data.data)
+        }
+    })
+}
+
+
+function showConcessionHistory(data){
+    console.log(data);
+    if(data.length <= 0){
+        return;
     }
-    else{
-        feeHistory.style.display='none';
-        feeDetails.style.display='block'
-        historyButton.style.backgroundColor='transparent'
-        detailsButton.style.backgroundColor='#198754'
+    let container = document.getElementById('concession-history-dynamic-container');
+    console.log(container);
+    container.innerHTML=``;
+
+    let headerItem = document.createElement('tr');
+    headerItem.innerHTML=
+    `
+        <th>AdmissionNo</th>
+        <th>Class</th>
+        <th>Amount</th>
+        <th>Concession Date</th>
+        <th>Comment</th>
+    `
+    headerItem.style.width='100%'
+    container.appendChild(headerItem);
+         
+    for(let i=0;i<data.length;i++){
+        let item = document.createElement('tr');
+        item.innerHTML=
+        `
+            <td>${data[i].AdmissionNo}</td>
+            <td>${data[i].Class}</td>
+            <td>${data[i].Amount}</td>
+            <td>${data[i].Payment_Date}</td>
+            <td>${data[i].Comment}</td>
+        `
+        container.appendChild(item);
     }
 }
 
@@ -146,6 +177,18 @@ function showFeesHistory(data){
         return;
     }
     let container = document.getElementById('fee-history-dynamic-container');
+    container.innerHTML=``;
+    let headerItem = document.createElement('tr');
+    headerItem.innerHTML=
+    `
+        <th>AdmissionNo</th>
+        <th>Class</th>
+        <th>Amount</th>
+        <th>Payment Date</th>
+        <th>Comment</th>
+    `
+    headerItem.style.width='100%'
+    container.appendChild(headerItem);
     for(let i=0;i<data.length;i++){
         let item = document.createElement('tr');
         item.innerHTML=
@@ -160,7 +203,57 @@ function showFeesHistory(data){
     }
 }
 
-document.getElementById('toggler_button').addEventListener('click', toggeller);
+
+function openPaymentHistory(){
+    let feeHistory = document.getElementById('fee-history');
+    let feeDetails = document.getElementById('fee-details');
+    let concessionHistory = document.getElementById('concession-history');
+
+    document.getElementById('details-button').style.backgroundColor='transparent';
+    document.getElementById('history-button-pay').style.backgroundColor='#198754';
+    document.getElementById('history-button-con').style.backgroundColor='transparent';
+
+    feeDetails.style.display='none';
+    concessionHistory.style.display='none';
+    feeHistory.style.display='block'
+
+    getFeesHistory();
+
+}
+
+function openConcessionHistory(){
+    let feeHistory = document.getElementById('fee-history');
+    let feeDetails = document.getElementById('fee-details');
+    let concessionHistory = document.getElementById('concession-history');
+
+    document.getElementById('details-button').style.backgroundColor='transparent';
+    document.getElementById('history-button-pay').style.backgroundColor='transparent';
+    document.getElementById('history-button-con').style.backgroundColor='#198754';
+
+    feeDetails.style.display='none';
+    concessionHistory.style.display='block';
+    feeHistory.style.display='none'
+    getConcessionHistory();
+}
+
+function openFeeDetails(){
+    let feeHistory = document.getElementById('fee-history');
+    let feeDetails = document.getElementById('fee-details');
+    let concessionHistory = document.getElementById('concession-history');
+
+    document.getElementById('details-button').style.backgroundColor='#198754';
+    document.getElementById('history-button-pay').style.backgroundColor='transparent';
+    document.getElementById('history-button-con').style.backgroundColor='transparent';
+
+    feeDetails.style.display='block';
+    concessionHistory.style.display='none';
+    feeHistory.style.display='none'
+}
+
+document.getElementById('details-button').addEventListener('click', openFeeDetails);
+document.getElementById('history-button-pay').addEventListener('click', openPaymentHistory);
+document.getElementById('history-button-con').addEventListener('click', openConcessionHistory);
+
 
 //Check fees button listener
 let check_fees_button = document.getElementById('check-fees');

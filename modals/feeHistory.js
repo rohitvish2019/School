@@ -16,6 +16,10 @@ const FeesHistory = new mongoose.Schema({
     },
     Comment:{
         type:String
+    },
+    type:{
+        type:String,
+        enum:['Fees', 'Concession']
     }
 },
 {

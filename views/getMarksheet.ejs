@@ -64,30 +64,59 @@
             <table style="width: 100%; border: 1px solid black;">
                 <tr>
                     <th rowspan="2" style="width: 20%;">Subject</th>
-                    <th colspan="2" style="width: 20%;">Quarterly</th>
-                    <th colspan="2" style="width: 20%;">Half-Yearly</th>
-                    <th colspan="2" style="width: 20%;">Final</th>
+                    <th colspan="3" style="width: 20%;">Quarterly</th>
+                    <th colspan="3" style="width: 20%;">Half-Yearly</th>
+                    <th colspan="3" style="width: 20%;">Final</th>
                 </tr>
                 <tr>
                     <th>Max Marks</th>
                     <th>Marks obtained</th>
+                    <th>Grade</th>
                     <th>Max Marks</th>
                     <th>Marks obtained</th>
+                    <th>Grade</th>
                     <th>Max Marks</th>
                     <th>Marks obtained</th>
+                    <th>Grade</th>
                 </tr>
 
                 <%for(let i=0;i<subjects.length;i++){%>
                     <tr>
                         <td style="text-align: left; padding-left: 10%;"><%=subjects[i]%></td>
-                        <td>50</td>
+                        <td>100</td>
                         <td><%=result_q[subjects[i]]%></td>
-                        <td>50</td>
+                        <td><%=grades[0][subjects[i]]%></td>
+
+                        <td>100</td>
                         <td><%=result_h[subjects[i]]%></td>
+                        <td><%=grades[1][subjects[i]]%></td>
+
+                        
                         <td>100</td>
                         <td><%=result_f[subjects[i]]%></td>
+                        <td><%=grades[2][subjects[i]]%></td>
+
                     </tr>
                 <%}%>
+
+                <tr>
+                    <td>Total</td>
+
+                    <td>600</td>
+                    <td><%=totals[0]%></td>
+                    <td><%=totals[3]%></td>
+
+                    <td>600</td>
+                    <td><%=totals[1]%></td>
+                    <td><%=totals[4]%></td>
+
+                    <td>600</td>
+                    <td><%=totals[2]%></td>
+                    <td><%=totals[5]%></td>
+
+                    
+
+                </tr>
             </table>
 
 

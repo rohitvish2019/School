@@ -58,7 +58,8 @@ module.exports.feeSubmission =async function(req, res){
             Class: fee.Class,
             Amount: req.body.Amount,
             Payment_Date: req.body.Date.slice(0,10),
-            Comment: req.body.Comment
+            Comment: req.body.Comment,
+            type:'Fees'
         });
         return res.status(200).json({
             message:'Fees record updated successfully'
@@ -107,6 +108,14 @@ module.exports.addConsession = async function(req, res){
             console.log(cnc);
             await fee.update({Concession: fee.Concession + +req.body.Amount, Remaining: fee.Remaining - req.body.Amount});
             fee.save();
+            await FeeHistory.create({
+                AdmissionNo:fee.AdmissionNo,
+                Class: fee.Class,
+                Amount: req.body.Amount,
+                Payment_Date: req.body.Date.slice(0,10),
+                Comment: req.body.Comment,
+                type:'Concession'
+            });
         }
         return res.status(200).json({
             message:'Successfully added concession record'
@@ -120,7 +129,16 @@ module.exports.addConsession = async function(req, res){
 
 
 module.exports.getFeeHistory = async function(req, res){
-    let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo});
+    let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo,type:'Fees'}).sort({Payment_Date:'descending'});
+    return res.status(200).json({
+        message:'History fetched successfully',
+        data: feeList
+    })
+}
+
+
+module.exports.getConcessionHistory = async function(req, res){
+    let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo, type:'Concession'}).sort({Payment_Date:'descending'});
     return res.status(200).json({
         message:'History fetched successfully',
         data: feeList

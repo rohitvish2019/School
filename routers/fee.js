@@ -10,5 +10,6 @@ router.post('/getConsession', feeController.addConsession);
 router.post('/Fee', feeController.feeSubmission);
 router.post('/Concession', feeController.addConsession);
 router.get('/getHistory/:AdmissionNo', feeController.getFeeHistory);
+router.get('/getConcessionHistory/:AdmissionNo', feeController.getConcessionHistory)
 
 module.exports = router;

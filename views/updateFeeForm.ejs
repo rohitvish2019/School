@@ -5,8 +5,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/updateAnuualFeeForm.css">
 <%- include('_header'); %>
-<h1>Update fee here...</h1>
+<!--
 <form action="/fee/updateFee" class="d-flex justify-content-around container my-4" method="POST">
     <div>
         <h6>Class</h6>
@@ -35,7 +36,46 @@
         <h6>Action</h6>
         <input type="submit" value="Update">
     </div>
+
+    <table border="1px solid black">
+        <tr>
+            <th>Class</th>
+            <th>Fees</th>
+            <th>Action</th>
+        </tr> 
+        <% for (let i=0;i<feesData.length;i++){%>
+            <tr>
+                <td><%=feesData[i].Class%></td>
+                <td><%=feesData[i].Fees%></td>
+                <td><button>Update</button></td>
+            </tr>
+        <%}%>
+        
+    </table>
     
     
 </form>
+-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.2/jquery.min.js" integrity="sha512-tWHlutFnuG0C6nQRlpvrEhE4QpkG1nn2MOUMWmUeRePl4e3Aki0VB6W1v3oLjFtd0hVOtRQ9PHpSfN6u6/QXkQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<div class="main-container">
+    <table class="sub-container">
+        <tr>
+          <th>Class</th>
+          <th>Annual Fees</th>
+          <th>Actions</th>
+        </tr>
+        <% for (let i=0;i<feesData.length;i++){%>
+        <tr>
+          <td><b>Class <%=feesData[i].Class%></b></td>
+          <td><input readonly id="feesInput_<%=feesData[i].Class%>" type="text" value=<%=feesData[i].Fees%>></td>
+          <td><button id="editFee_<%=feesData[i].Class%>" class="btn btn-primary">Edit</button> <button hidden id="updateFee_<%=feesData[i].Class%>" class="btn btn-success">Update</button></td>
+        </tr>
+        <%}%>
+      </table>
+</div>
+
+<script src="/js/updateFee.js"></script>
+
 <%- include('_footer'); %>

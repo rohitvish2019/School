@@ -1,0 +1,27 @@
+body{
+    background: url('/images/background.jpg');
+    background-size: cover;
+}
+.main-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.sub-container{
+    display: block;
+    margin-left: 8%;
+    margin-top: 5%;
+    padding-top: 5%;
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+
+.list-heading{
+    font-weight: bolder;
+    display: flex;
+    justify-content: space-between;
+}
+

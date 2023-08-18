@@ -1,0 +1,35 @@
+body{
+    background: url('/images/background.jpg');
+    background-size: cover;
+}
+.main-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.sub-container{
+    display: block;
+    width: 71%;
+    margin-left: 8%;
+    margin-top: 2%;
+}
+
+/* Add some basic styling to the table */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+  }
+  
+  th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    width: 10%;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  

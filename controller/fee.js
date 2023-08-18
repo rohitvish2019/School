@@ -74,7 +74,14 @@ module.exports.feeSubmission =async function(req, res){
 }
 
 module.exports.updateFeeForm = async function(req, res){
-    return res.render('updateFeeForm')
+    let feesData = [];
+    try{
+        feesData = await FeeStructure.find({});
+        console.log(feesData);
+    }catch(err){
+        console.log(err);
+    }
+    return res.render('updateFeeForm', {feesData});
 }
 
 module.exports.updateFee = async function(req, res){

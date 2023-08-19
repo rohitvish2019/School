@@ -1,3 +1,4 @@
+const UserSchema = require('../modals/userSchema');
 module.exports.login = function(req, res){
     if(req.isAuthenticated()){
         return res.render('admin_home')
@@ -27,6 +28,14 @@ module.exports.logout = function(req, res){
         console.log(err);
         return res.redirect('back')
     }
+}
+
+module.exports.addNewUser = async function(req, res){
+    await UserSchema.create(
+        req.body
+    );
+
+    return res.redirect('back');
 }
 
 module.exports.addUserPage = function(req, res){

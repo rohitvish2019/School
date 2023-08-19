@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
-    name:{
+    full_name:{
         type: String,
     },
     email:{
@@ -16,6 +16,15 @@ const userSchema = new mongoose.Schema({
     isAdmin:{
         type: Boolean,
         default : false
+    },
+    role:{
+        type:String
+    },
+    address:{
+        type:String
+    },
+    mobile_number:{
+        type:String
     }
 },
 {

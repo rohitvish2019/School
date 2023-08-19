@@ -6,69 +6,66 @@
 
 <header>
   <div class="main-container">
-    <div class="sub-container">
-      <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand logo" href="/user/login">
-            <img src="/images/svvn_logo.png" alt="Bootstrap" width="100%" height="24%">
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              
-              
-              
+    <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-dark" id="navbar1">
+      <div class="container-fluid">
+        <a class="navbar-brand logo" href="/user/login">
+          <img src="/images/svvn_logo.png" alt="Bootstrap" width="60%" height="24%">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" id="navbar-items">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Student
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/registration/new">New Registration</a></li>
+                
+                <li><a class="dropdown-item" href="/student/showByClass">Show classwise</a></li>
+                <li><a class="dropdown-item" href="/student/showByClass/admission">Admission approval</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="/student/showByClass/fee">Fees</a></li>
+                <li><a class="dropdown-item" href="/student/showByClass/result">Result</a></li>
+                <li><a class="dropdown-item" href="/student/showByClass/tc">Transfer certificate</a></li>
+                
+                <li><a class="dropdown-item" href="#"></a></li>
+              </ul>
+            </li>
 
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Student
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="/registration/new">New Registration</a></li>
-                  
-                  <li><a class="dropdown-item" href="/student/showByClass">Show classwise</a></li>
-                  <li><a class="dropdown-item" href="/student/showByClass/admission">Admission approval</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="/student/showByClass/fee">Fees</a></li>
-                  <li><a class="dropdown-item" href="/student/showByClass/result">Result</a></li>
-                  <li><a class="dropdown-item" href="/student/showByClass/tc">Transfer certificate</a></li>
-                  
-                  <li><a class="dropdown-item" href="#"></a></li>
-                </ul>
-              </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Teacher
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/teachers/home">Show all</a></li>
+                <li><a class="dropdown-item" href="#">Update salary</a></li>
+              </ul>
+            </li>
 
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Teacher
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Show all</a></li>
-                  <li><a class="dropdown-item" href="#">Update salary</a></li>
-                </ul>
-              </li>
-
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Administration
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="/fee/updateFeeForm">Update annual fee</a></li>
-                  <li><a class="dropdown-item" href="/student/upgradeClass">Annual class upgrade</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="/user/new">Add new user</a></li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/documents">Documents</a>
-              </li>
-              
-            </ul>
-            <a href="/user/logout" class="btn btn-warning">Logout</a>
-          </div>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Administration
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/fee/updateFeeForm">Update annual fee</a></li>
+                <li><a class="dropdown-item" href="/student/upgradeClass">Annual class upgrade</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="/user/new">Add new user</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/documents">Documents</a>
+            </li>
+            
+          </ul>
+          <a href="/user/logout" class="btn btn-warning">Logout</a>
         </div>
-      </nav>
+      </div>
+    </nav>
+    <div class="sub-container">
+      
     </div>
   </div>
 

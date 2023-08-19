@@ -8,8 +8,22 @@
 .sub-container{
     width: 71%;
     margin-left: 8%;
-    margin-top: -3%;
+   
 }
+
+#navbar1{
+    position: fixed;
+    top: 0%;
+    background-color: #0a5e5e;
+    height: 10%;
+    width: 100%;
+    color: white;
+}
+
+#navbar-items{
+    color: white;
+}
+
 
 
 

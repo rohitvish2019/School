@@ -1,4 +1,4 @@
-//This schema will store the history of fees for each student
+
 const mongoose = require('mongoose');
 const db = require('../config/dbConnection');
 const totalMarks = new mongoose.Schema({

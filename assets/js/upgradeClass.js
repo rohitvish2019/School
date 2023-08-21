@@ -108,47 +108,47 @@ function showStudentsList(data){
     
     `
     <a class="btn student-list">
-        <li style="background-color: #479b7e;color: #03420b; width: 100%;">
-            <label style="margin-left: 3%;"><b>Student ID</b></label>
-            <label><b>Name</b></label>
-            <label><b>Class</b></label>
-            <label><b>Father's Name</b></label>
-            <label><b>Mother's Name</b></label>
-            <label><b>Last Result</b></label>
-            <label><b>Action</b></label>
-        </li>
+    <tr>
+        <th>Select</th>
+        <th>Student ID</th>
+        <th>Name</th>
+        <th>Class</th>
+        <th>Father's Name</th>
+        <th>Mother's Name</th>
+        <th>Last Result</th>
+        <th>Actions</th>
+    </tr>
     </a>
     `
     for(let i=0;i<data.length;i++){
         let student = data[i];
-        let item = document.createElement('a');
+        let item = document.createElement('tr');
         item.innerHTML = 
         `
-        <li class="container">
-            <input type=checkbox id=${student.AdmissionNo}_checkbox onchange='toggleCheck(${student.AdmissionNo})'>
-            <label for="">${student.AdmissionNo}</label>
-            <label for="">${student.FirstName} ${student.LastName}</label>
-            <label for="">${student.Class}</label>
-            <label for="">${student.FathersName}</label>
-            <label for="">${student.MothersName}</label>
-            <label for="">${student.LastClassGrade}</label>
-            <button onclick='upgradeStudent(${student.AdmissionNo},${student.Class})' href='upgrade/${student.AdmissionNo}?Class=${student.Class}' class='btn btn-success'>Upgrade</button>
-        </li>        
+            <th><input type=checkbox id=${student.AdmissionNo}_checkbox onchange='toggleCheck(${student.AdmissionNo})'></th>
+            <th>${student.AdmissionNo}</th>
+            <th>${student.FirstName} ${student.LastName}</th>
+            <th>${student.Class}</th>
+            <th>${student.FathersName}</th>
+            <th>${student.MothersName}</th>
+            <th>${student.LastClassGrade}</th>
+            <th><button onclick='upgradeStudent(${student.AdmissionNo},${student.Class})' href='upgrade/${student.AdmissionNo}?Class=${student.Class}' class='btn btn-success'>Upgrade</button></th>   
         `
         
-        item.classList.add('btn');
-        item.classList.add('btn-light');
-        item.classList.add('student-list');
+        //item.classList.add('btn');
+        //item.classList.add('btn-light');
+        //item.classList.add('student-list');
         item.setAttribute('id','item_'+student.AdmissionNo);
         listDiv.appendChild(item);
     }
+    let controlsSection = document.getElementById('controlsSection')
     let controls = document.createElement('div');
     controls.innerHTML=
     `
         <button class='btn btn-success' id='upgradeClassList' onclick=upgradeClassList() >Upgrade selected</button>
         <button class='btn btn-success'>De-select</button>
     `
-    listDiv.appendChild(controls);
+    controlsSection.appendChild(controls);
     console.log(data);
 }
 

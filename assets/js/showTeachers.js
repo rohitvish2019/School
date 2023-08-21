@@ -16,9 +16,17 @@ function runListener(event){
     }
     else if(itemFirstClass === 'editTeacher'){
         document.getElementById(itemId.slice(5)+'_name').removeAttribute('readonly');
+        document.getElementById(itemId.slice(5)+'_name').style.border='1px solid black'
+
         document.getElementById(itemId.slice(5)+'_education').removeAttribute('readonly');
+        document.getElementById(itemId.slice(5)+'_education').style.border='1px solid black'
+
         document.getElementById(itemId.slice(5)+'_salary').removeAttribute('readonly');
+        document.getElementById(itemId.slice(5)+'_salary').style.border='1px solid black'
+
         document.getElementById(itemId.slice(5)+'_address').removeAttribute('readonly');
+        document.getElementById(itemId.slice(5)+'_address').style.border='1px solid black'
+
         //document.getElementById(itemId.slice(5)+'_subjects').removeAttribute('readonly');
         //document.getElementById(itemId.slice(5)+'_documents').removeAttribute('readonly');
         document.getElementById('update_'+itemId.slice(5)).removeAttribute('hidden');
@@ -48,7 +56,7 @@ function runListener(event){
                     timeout: 1000
                 }).show();
                 setTimeout(function(){
-                    window.location.href='http://localhost:8000/teachers/home'
+                    window.location.href='/teachers/home'
                 },800)
             },
             error: function(err){console.error.bind(err)}

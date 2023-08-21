@@ -14,6 +14,18 @@ const TeachersDetails = new mongoose.Schema({
     Address:{
         type:String
     },
+    Mobile:{
+        type:String
+    },
+    Aadhar:{
+        type:String
+    },
+    DOB:{
+        type:String
+    },
+    Samagra:{
+        type:String
+    },
     Documents:[{
         type:String
     }],

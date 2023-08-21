@@ -25,6 +25,7 @@ function runListener(event){
         document.getElementById('updateFee_'+actionClass.slice(8)).removeAttribute('hidden');
         console.log('feesInput_'+actionClass.slice(8))
         document.getElementById('feesInput_'+actionClass.slice(8)).removeAttribute('readonly');
+        document.getElementById('feesInput_'+actionClass.slice(8)).style.border='1px solid black';
         document.getElementById(actionClass).setAttribute('hidden','true')
     }
     else{

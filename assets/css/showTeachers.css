@@ -1,6 +1,11 @@
 body{
     background: url('/images/background.jpg');
     background-size: cover;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    font-size: small;
 }
 .main-container{
     display: flex;
@@ -58,10 +63,18 @@ background-color: #f2f2f2;
   input {
     width: 150px;
     padding: 5px;
+    outline: none;
+  }
+
+  textarea:focus-visible{
+    outline: none;
+    border: none;
   }
   
   .button-container {
     margin-top: 20px;
+    display: flex;
+    justify-content: center;
   }
   
   button {
@@ -79,7 +92,7 @@ background-color: #f2f2f2;
     position: fixed;
     top: 15%;
     left: 40%;
-    font-size: small;
+    font-size: smaller;
     width: 25%;
 }
 

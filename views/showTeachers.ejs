@@ -5,7 +5,7 @@
 <%- include('_header'); %>
 <div class="main-container" id="main">
     
-    <div id="AddNewTeacher" style="display: flex; flex-direction: row-reverse; width: 78%;">
+    <div id="AddNewTeacher" style="display: flex; flex-direction: row-reverse; width: 98%;">
         <button class="btn btn-primary" id="AddNewTeacher">Add New</button>
     </div>
     
@@ -17,8 +17,10 @@
               <th>Education</th>
               <th>Salary</th>
               <th>Address</th>
-              <th>Subjects</th>
-              <th>Documents</th>
+              <th>Aadhar</th>
+              <th>Mobile</th>
+              <th>Samagra</th>
+              <th>DOB</th>
               <th>Actions</th>
             </tr>
     
@@ -28,8 +30,13 @@
                 <td><textarea readonly id="<%=teachers[i]._id%>_education" rows="1"><%=teachers[i].Education%></textarea></td>
                 <td><textarea readonly id="<%=teachers[i]._id%>_salary" rows="1"><%=teachers[i].Salary%></textarea></td>
                 <td><textarea readonly id="<%=teachers[i]._id%>_address" rows="3"><%=teachers[i].Address%></textarea></td>
-                <td></td>
-                <td></td>
+                <td><textarea readonly id="<%=teachers[i]._id%>_aadhar" name="" id="" cols="12" rows="1"><%=teachers[i].Aadhar%></textarea></td>
+                <td><textarea readonly id="<%=teachers[i]._id%>_mobile" name="" id="" cols="12" rows="1"><%=teachers[i].Mobile%></textarea></td>
+
+                <td><textarea readonly id="<%=teachers[i]._id%>_samagra" name="" id="" cols="12" rows="1"><%=teachers[i].Samagra%></textarea></td>
+
+                <td><input type="date" readonly id="<%=teachers[i]._id%>_dob" name="" id="" value="<%=teachers[i].DOB%>"></td>
+
                 <td>
                   <button id="edit_<%=teachers[i]._id%>" class="editTeacher btn btn-primary">Edit</button>
                   <button hidden id="update_<%=teachers[i]._id%>" class="btn btn-success">Update</button>
@@ -45,45 +52,61 @@
             <form action="/teachers/addNew" method="POST">
                 <div class="close-button"><img id="closeButton" width="10%" height="10%" src="/images/cross.png" alt=""></div>
                 <h4 style="text-align: center;">Add New Teacher</h4>
-                <div class="input-container">
-                  <label for="name">Teacher's Name:</label>
-                  <input type="text" id="name" name="Name">
-                </div>
-              
-                <div class="input-container">
-                  <label for="education">Education:</label>
-                  <input type="text" id="education" name="Education">
-                </div>
-              
-                <div class="input-container">
-                  <label for="salary">Salary:</label>
-                  <input type="text" id="salary" name="Salary">
-                </div>
-              
-                <div class="input-container">
-                  <label for="address">Address:</label>
-                  <input type="text" id="address" name="Address">
+                <div style="display: flex; flex-direction: row;">
+                  <div style="margin-left: 15%;">
+                    <div class="input-container">
+                      <label for="name">Teacher's Name:</label>
+                      <input type="text" id="name" name="Name">
+                    </div>
+                  
+                    <div class="input-container">
+                      <label for="education">Education:</label>
+                      <input type="text" id="education" name="Education">
+                    </div>
+                  
+                    <div class="input-container">
+                      <label for="salary">Salary:</label>
+                      <input type="text" id="salary" name="Salary">
+                    </div>
+
+                    <div class="input-container">
+                      <label for="DOB">DOB:</label>
+                      <input type="date" id="DOB" name="DOB">
+                    </div>
+
+                  </div>
+
+
+                  <div>
+                    <div class="input-container">
+                      <label for="address">Address:</label>
+                      <input type="text" id="address" name="Address">
+                    </div>
+                    
+                    <div class="input-container">
+                      <label for="address">Mobile:</label>
+                      <input type="text" id="mobile" name="Mobile">
+                    </div>
+    
+                    <div class="input-container">
+                      <label for="aadhar">Aadhar:</label>
+                      <input type="text" id="aadhar" name="Aadhar">
+                    </div>
+
+                    <div class="input-container">
+                      <label for="samagra">Samagra:</label>
+                      <input type="text" id="samagra" name="Samagra">
+                    </div>
+
+                  </div>
                 </div>
                 
-                <div class="input-container">
-                  <label for="address">Mobile:</label>
-                  <input type="text" id="mobile" name="Mobile">
-                </div>
+              
+                
 
-                <div class="input-container">
-                  <label for="aadhar">Aadhar:</label>
-                  <input type="text" id="aadhar" name="Aadhar">
-                </div>
+                
 
-                <div class="input-container">
-                  <label for="samagra">Samagra:</label>
-                  <input type="text" id="samagra" name="Samagra">
-                </div>
-
-                <div class="input-container">
-                  <label for="DOB">DOB:</label>
-                  <input type="date" id="DOB" name="DOB">
-                </div>
+                
                 
               
                 

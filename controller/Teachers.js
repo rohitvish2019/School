@@ -7,12 +7,7 @@ module.exports.home = async function(req, res){
 
 module.exports.addNewTeacher = async function(req, res){
     try{
-        await TeachersSchema.create({
-            Name:req.body.name,
-            Education:req.body.education,
-            Salary: req.body.salary,
-            Address: req.body.address,
-        });
+        await TeachersSchema.create(req.body);
         return res.redirect('back');
     }catch(err){
         return res.redirect('back')
@@ -23,10 +18,14 @@ module.exports.updateTeacherDetails = async function(req, res){
     console.log(req.body.id)
     let record = await TeachersSchema.findById(req.body.id);
     await record.updateOne({
-        Name:req.body.name,
-        Address: req.body.address,
-        Salary: req.body.salary,
-        Education: req.body.education
+        Name:req.body.Name,
+        Address: req.body.Address,
+        Salary: req.body.Salary,
+        Education: req.body.Education,
+        Aadhar:req.body.Aadhar,
+        Mobile:req.body.Mobile,
+        Samagra:req.body.Samagra,
+        DOB:req.body.DOB
     });
 
     await record.save();

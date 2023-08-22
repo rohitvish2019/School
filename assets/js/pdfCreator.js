@@ -49,8 +49,8 @@ function generatePDFAdmissionForm() {
 
 function generatePDFMarksheet() {   
     
-    let student_name = document.getElementById('student_name').value;
-    let admissionno = document.getElementById('admno').value;
+    let student_name = document.getElementById('student_name').innerText;
+    let admissionno = document.getElementById('admno').innerText;
     var opt = {
         margin:       0.63,
         filename: 'Marksheet',

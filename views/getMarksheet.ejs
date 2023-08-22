@@ -2,131 +2,117 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.2/jquery.min.js" integrity="sha512-tWHlutFnuG0C6nQRlpvrEhE4QpkG1nn2MOUMWmUeRePl4e3Aki0VB6W1v3oLjFtd0hVOtRQ9PHpSfN6u6/QXkQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<style>
 
-    th, td{
-        border: 1px solid black;
-        text-align: center;
-    }
-    input{
-        border: none;
-    }
-</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.0/html2pdf.bundle.min.js" integrity="sha512-w3u9q/DeneCSwUDjhiMNibTRh/1i/gScBVp2imNVAMCt6cUHIw6xzhzcPFIaL3Q1EbI2l+nu17q2aLJJLo4ZYg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<div id="marksheet" >   
-    <div id="logo">
-        <img src="/images/new_creation_logo.JPG" alt="school logo" srcset="" width="100%">
-    </div>
-    <div class="container d-flex flex-column">
-        <div style="margin-top: 5%;">
-            <div id="academic_details" class="d-flex justify-content-between">
-                <div>
-                    <h4>Admission No : 
-                        <input type="text" id="admno" readonly value="<%=student.AdmissionNo%>">
-                    </h4>
-                </div>
-                <div>
-                    <h4>Class : <%=student.Class%></h4>
-                </div>
-                <div>
-                    <h4>Roll Number : 12<%=student.RollNo%></h4>
-                </div>
+<link rel="stylesheet" href="/css/marksheet-style.css">
+<body>
+    
+    <div class="marksheet" id="marksheet">
+        <div id="logo">
+            <img style="margin-top: 5%; margin-bottom: 3%;" src="/images/school-header.png" alt="school logo" srcset="" width="82%">
+        </div>
+        <div class="student-info">
+            <div class="row">
+                <div class="label">Admission No:</div>
+                <div class="value" id="admno"><%=student.AdmissionNo%></div>
+                <div class="label">Class:</div>
+                <div class="value"><%=student.Class%></div>
+                <div class="label">Roll No:</div>
+                <div class="value">15</div>
             </div>
-
-            <div class="my-4">
-                <h2>Student Details</h2>
+            <div class="row">
+                <div class="label" >Student Name:</div>
+                <div class="value" id="student_name"><%=student.FirstName%> <%=student.LastName%></div>
+                <div class="label">Father's Name:</div>
+                <div class="value"><%=student.FathersName%></div>
+                <div class="label">Mother's Name:</div>
+                <div class="value"><%=student.MothersName%></div>
             </div>
-            <div id="student_details" class="d-flex justify-content-between">
-                <div>
-                    <h4>Name</h4>
-                    <b>
-                        <input type="text" id="student_name" value="<%=student.FirstName%> <%=student.LastName%>">
-                    </b>
-                </div>
-
-                <div>
-                    <h4>Father's Name</h4>
-                    <h6><%=student.FathersName%></h6>
-                </div>
-                <div>
-                    <h4>Mother's Name</h4>
-                    <h6><%=student.MothersName%></h6>
-                </div>
-                <div>
-                    <h4>DOB</h4>
-                    <h6><%=student.DOB%></h6>
-                </div>
+            <div class="row">
+                <div class="label">Aadhar No:</div>
+                <div class="value"><%=student.AadharNumber%></div>
+                <div class="label">Samagra ID:</div>
+                <div class="value"><%=student.SSSM%></div>
+                <div class="label">Date of Birth:</div>
+                <div class="value"><%=student.DOB%></div>
             </div>
-
-            <div class="my-4">
-                <h2>Result Details</h2>
+            <div class="row">
+                <div class="label">Gender:</div>
+                <div class="value"><%=student.Gender%></div>
+                <div class="label">Passing Year:</div>
+                <div class="value"><%=student.Session%></div>
+                <div class="label">Overall Score:</div>
+                <div class="value"><%=student.Score%></div>
             </div>
-            <table style="width: 100%; border: 1px solid black;">
+        </div>
+        <div class="result-section">
+            <h4>Academic performace details</h4>
+            <table>
                 <tr>
-                    <th rowspan="2" style="width: 20%;">Subject</th>
-                    <th colspan="3" style="width: 20%;">Quarterly</th>
-                    <th colspan="3" style="width: 20%;">Half-Yearly</th>
-                    <th colspan="3" style="width: 20%;">Final</th>
+                    <th>Subject</th>
+                    <th>Quarterly</th>
+                    <th>Half-Yearly</th>
+                    <th>Final</th>
                 </tr>
-                <tr>
-                    <th>Max Marks</th>
-                    <th>Marks obtained</th>
-                    <th>Grade</th>
-                    <th>Max Marks</th>
-                    <th>Marks obtained</th>
-                    <th>Grade</th>
-                    <th>Max Marks</th>
-                    <th>Marks obtained</th>
-                    <th>Grade</th>
-                </tr>
-
                 <%for(let i=0;i<subjects.length;i++){%>
                     <tr>
                         <td style="text-align: left; padding-left: 10%;"><%=subjects[i]%></td>
-                        <td>100</td>
-                        <td><%=result_q[subjects[i]]%></td>
+                        
+                        
                         <td><%=grades[0][subjects[i]]%></td>
 
-                        <td>100</td>
-                        <td><%=result_h[subjects[i]]%></td>
+                        
+                        
                         <td><%=grades[1][subjects[i]]%></td>
 
                         
-                        <td>100</td>
-                        <td><%=result_f[subjects[i]]%></td>
+                        
+                        
                         <td><%=grades[2][subjects[i]]%></td>
 
                     </tr>
                 <%}%>
-
-                <tr>
-                    <td>Total</td>
-
-                    <td>600</td>
-                    <td><%=totals[0]%></td>
-                    <td><%=totals[3]%></td>
-
-                    <td>600</td>
-                    <td><%=totals[1]%></td>
-                    <td><%=totals[4]%></td>
-
-                    <td>600</td>
-                    <td><%=totals[2]%></td>
-                    <td><%=totals[5]%></td>
-
-                    
-
-                </tr>
+				
+                <!-- Add rows for subjects and scores -->
             </table>
-
-
-            
+            <!-- Additional activities table -->
+            <h4>Additional activities details</h4>
+            <table>
+                <tr>
+                    <th>Subject</th>
+                    <th>Score</th>
+                </tr>
+                <tr>
+                    <td>Games</td>
+                    <td>A+</td>
+                </tr>
+                <tr>
+                    <td>Cultural activities</td>
+                    <td>A</td>
+                    
+                </tr>
+                <!-- Rows for additional activities -->
+            </table>
         </div>
-        
+        <div class="official-section">
+            <div class="signature">
+                <div class="role">Principal's Signature:</div>
+                <div class="date">Date:</div>
+            </div>
+            <div class="signature">
+                <div class="role">Class Teacher's Signature:</div>
+                <div class="date">Date:</div>
+            </div>
+            <div class="signature">
+                <div class="role">Parent's Signature:</div>
+                <div class="date">Date:</div>
+            </div>
+        </div>
     </div>
-</div> 
+</body>
+
 <div>
-    <button id="download-marksheet" class="btn btn-success my-4">Download</button>
+    <button id="download-marksheet" class="btn btn-success my-4 download-button">Download</button>
 </div>
 <script src="/js/pdfCreator.js"></script>
 

@@ -5,57 +5,49 @@
 
 <body id="tc-body">
     
-    <div class="main-container">
-        <div class="sub-container">
-            <div class="hidden-values">
-                <input type="hidden" id="student_name" value="<%=student.FirstName%> <%=student.LastName%>">
-                <input type="hidden" id="admno" value="<%= student.AdmissionNo%>">
-            </div>
-            <div style="margin-left: 4%;">
-                <img src="/images/new_creation_logo.JPG" alt="" srcset="">
-            </div>
-            <div class="heading">
-                <h1>Transfer Certificate</h1>
-            </div>
-            <div class="basic-details">
-                <label>Admission No : <%= student.AdmissionNo%></label>
-                <label>TC No: 1254</label>
-            </div>
+    <div class="certificate">
+        <div class="school-name">
+                <img width="100%" src="/images/school-header.png" alt="" srcset="">
+         </div>
+		 <h2>Transfer Certificate</h2>
+        <div class="date">Date of Issuance: [Date]</div>
+		<div class="date">TC Number: [Date]</div>
+		<div class="date">Admission No: [Date]</div>
+        <div class="content">
+            <p>To Whom It May Concern,</p><br/>
 
-            <div class="basic-details">
-                <label>Admission Class</label>
-                <label>Admission Date</label>
-            </div>
-            
-            <div class="content">
-                This is to certify that <b> <%=student.FirstName%> <%=student.LastName%> </b>father's name <b> <%=student.FathersName%> </b> mother's name <b> <%=student.MothersName%> </b> religion <%=student.Religion%>
-                caste <%=student.Caste%> attended SCHOOL_NAME from ADMISSION_DATE to LEAVING_DATE and now leaves on LEAVING_DATE paying all fees.
-            </div>
+<p>
+This is to certify that <b> <%=student.FirstName%> <%=student.LastName%> </b>father's name <b> <%=student.FathersName%> </b> mother's name <b> <%=student.MothersName%> </b> religion <%=student.Religion%>
+                caste <%=student.Caste%> attended ShreeVeer Vidya Niketan School Shahpur from ADMISSION_DATE to LEAVING_DATE and now leaves on LEAVING_DATE paying all fees.
+</p>
 
-            <div class="content">
-                His/Her date of birth as per school record was <%=student.DOB%> in words DOB_IN_WORDS.
-            </div>
+<br/>
+<p>
+His/Her date of birth as per school record was <%=student.DOB%> in words DOB_IN_WORDS.
+</p>
+<br/>
 
-            <div class="content">
-                The last promotion examination appeared by him/her was <%=student.Class%>> in the year LAST_YEAR_IN_SCHOOL and his/her result was LAST_CLASS_RESULT.
-            </div>
+<p>
+The last promotion examination appeared by him/her was <%=student.Class%>> in the year LAST_YEAR_IN_SCHOOL and his/her result was LAST_CLASS_RESULT.
+</p>
+<br/>
 
-            <div class="content">
-                He/She was enrolled in class ADMISSION_CLASS , He/She has been vaccinated or is otherwise protected from small pox.
+<p>
+He/She was enrolled in class ADMISSION_CLASS , He/She has been vaccinated or is otherwise protected from small pox.
                 His/Her conduct was CONDUCT and leaves the school on account of LEAVING DATE
-            </div>
-            <div class="basic-details">
-                <div>
-                    date
-                </div>
+</p>
+<br/>
 
-                <div>
-                    Principal
-                </div>
-            </div>
+<p>
 
-            
+
+</p>
+<br/>
+<br/>
+<br/>
         </div>
+        <div class="signature">Principal's Signature: ______________________</div>
+        <div class="seal">School Seal</div>
     </div>
 
     

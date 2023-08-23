@@ -4,6 +4,13 @@ const FeeStructure = require('../modals/feeStructure');
 const Result = require('../modals/Result');
 const Noty = require('noty');
 const RegisteredStudent = require('../modals/RegistrationSchema');
+const PropertiesReader = require('properties-reader');
+const properties = PropertiesReader('E:\\Projects\\School\\config\\school.properties');
+const quarterlyTotalMarks = properties.get('quarterly-total');
+const halfYearlyTotalMarks = properties.get('half-yearly-total');
+const finalTotalMarks = properties.get('final-total');
+
+
 module.exports.getStudent = async function(req, res){
     console.log(req.query);
     let student = await Student.findOne({AdmissionNo:req.params.adm_no, Class:req.query.Class});
@@ -14,7 +21,7 @@ module.exports.getStudent = async function(req, res){
         }
         else if(req.query.action ==='result'){
             let result = await Result.find({AdmissionNo:req.params.adm_no, Class:req.query.Class});
-            return res.render('resultDetails',{result, student});
+            return res.render('resultDetails',{result, student, quarterlyTotalMarks, halfYearlyTotalMarks, finalTotalMarks});
         }
         else if(req.query.action ==='tc'){
             let result = await Result.find({AdmissionNo:req.params.adm_no, Class:req.query.Class});
@@ -88,10 +95,47 @@ module.exports.upgradeClassPage = function(req, res){
 }
 
 
+function validateResultStatus(resultData){
+    let student_Class = resultData[0].Class;
+    if(student_Class == '6' || student_Class=='7' || student_Class=='8'){
+        subjects=['Hindi', 'English','Math', 'Science', 'Social_Science', 'Sanskrit']
+    }
+    else{
+        subjects=['Hindi', 'English','Math', 'Moral', 'Computer', 'Enviornment']
+    }
+
+    
+    let maxMarks=0;
+    for(let i=0;i<resultData.length;i++){
+        if(i==0){
+            maxMarks = quarterlyTotalMarks
+        }else if(i==1){
+            maxMarks = halfYearlyTotalMarks
+        }else if(i==2){
+            maxMarks = finalTotalMarks
+        }else{
+            maxMarks=100
+        }
+        for(let j=0;j<subjects.length;j++){
+            if(resultData[i][subjects[j]] == -1 || resultData[i][subjects[j]] > maxMarks){
+                return false;
+            }
+        }
+    }
+    console.log(subjects);
+    return true;
+}
+
 async function upgradeClassStudent(studentAdmissionNumber, studentClass){
 
     let last_class_details, newRecord, newClass, feeAmounttForClass, result_q, result_h, result_f
     last_class_details = await Student.findOne({AdmissionNo:studentAdmissionNumber, Class:studentClass});
+    let lastResult = await Result.find({AdmissionNo:studentAdmissionNumber, Class:studentClass});
+    let lastResultStatus = validateResultStatus(lastResult);
+    if(!lastResultStatus){
+       return 424;
+    }
+
     if(last_class_details.Class=='8'){
         return 400;
         /*res.status(400).json({
@@ -203,7 +247,13 @@ module.exports.upgradeOneStudent = async function(req, res){
         });
     }else if(status==409){
         return res.end('This student is already upgraded to next class');
-    }else{
+    }
+    else if(status == 424){
+        return res.status(424).json({
+            message:"Result is not updated correctly, kindly update and try again"
+        })
+    }
+    else{
         return res.end('error upgrading class');
     }
     
@@ -234,7 +284,10 @@ module.exports.upgradeClassBulk = function(req, res){
 }
 
 function calculateGrade(value){
-    if(value > 100 || value == -1){
+    if(value > 100){
+        return "Invalid"
+    }
+    if(value <= -1){
         return 'NA'
     }else if( value <= 100 && value > 90){
         return 'A+'
@@ -267,6 +320,11 @@ module.exports.getMarksheetUI = async function(req, res){
     result.push(result_q);
     result.push(result_h);
     result.push(result_f);
+    let resultStatus = validateResultStatus(result);
+    let error_message='';
+    if(!resultStatus){
+        error_message='Result is not updated correctly, kindly update the result and try again';
+    }
     console.log(result[0].Hindi);
     let q_grades={};
     let h_grades={};
@@ -286,8 +344,19 @@ module.exports.getMarksheetUI = async function(req, res){
     }
     for(let i=0;i<grades.length;i++){
         let t= 0;
+        if(i==0){
+            totalsToTerm = quarterlyTotalMarks
+        }else if(i==1){
+            totalsToTerm = halfYearlyTotalMarks
+        }
+        else if(i=2){
+            totalsToTerm = finalTotalMarks
+        }
+        else{
+            totalsToTerm=100
+        }
         for(let j=0;j<subjects.length;j++){
-            let grade = calculateGrade(result[i][subjects[j]])
+            let grade = calculateGrade(getPercentage(result[i][subjects[j]],totalsToTerm))
             t = t+result[i][subjects[j]];
             grades[i][subjects[j]] = grade;
         }
@@ -301,5 +370,5 @@ module.exports.getMarksheetUI = async function(req, res){
     
     
     
-    return res.render('getMarksheet',{result_q, result_h, result_f, student, subjects, grades, totals});
+    return res.render('getMarksheet',{error_message, result_q, result_h, result_f, student, subjects, grades, totals});
 }

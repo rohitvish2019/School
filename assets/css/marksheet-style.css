@@ -94,3 +94,11 @@ h4{
     right: 5%;
 
 }
+
+.error-text{
+    color: red;
+    font-size: medium;
+    text-align: left;
+    margin: 1%;
+    font-weight: bold;
+}

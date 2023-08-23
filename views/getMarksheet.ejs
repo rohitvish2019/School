@@ -11,6 +11,10 @@
         <div id="logo">
             <img style="margin-top: 5%; margin-bottom: 3%;" src="/images/school-header.png" alt="school logo" srcset="" width="82%">
         </div>
+        <div class="error-text">
+            <%=error_message%>
+        </div>
+        
         <div class="student-info">
             <div class="row">
                 <div class="label">Admission No:</div>
@@ -111,9 +115,12 @@
     </div>
 </body>
 
-<div>
-    <button id="download-marksheet" class="btn btn-success my-4 download-button">Download</button>
-</div>
+    <div>
+        <button id="download-marksheet" class="btn btn-success my-4 download-button">Download</button>
+    </div>
+
+
+
 <script src="/js/pdfCreator.js"></script>
 
 

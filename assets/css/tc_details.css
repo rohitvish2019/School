@@ -1,36 +1,50 @@
-
-.main-container{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-}
-.sub-container{
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-    margin-left: 8%;
-    margin-top: 2%;
-    margin-bottom: 5%;
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
-.basic-details{
-    display: flex;
-    justify-content: space-between;
-    margin: 2%;
-    
-}
-
-.basic-details label{
-    text-align: left;
-}
-
-.content{
-    margin: 2%;
-}
-
-.heading{
+.certificate {
+    width: 794px; /* A4 width in pixels */
+    height: 1123px; /* A4 height in pixels */
+    margin: 50px auto;
+    border: 1px solid #000;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
     text-align: center;
-    font-weight: bolder;
-
 }
+
+.school-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.date {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.content {
+    margin: 30px 0;
+}
+
+.signature {
+    margin-top: 40px;
+}
+
+.seal {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-style: italic;
+}
+
+p{
+	text-align:left
+}
+
+/* Add more styling as needed */
+

@@ -1,6 +1,11 @@
 body{
     background: url('/images/background.jpg');
     background-size: contain;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    font-size: small;
 }
 .main-container{
     display: flex;
@@ -10,7 +15,7 @@ body{
 }
 .sub-container{
     display: block;
-    width: 68%;
+    width: 71%;
     margin-left: 8%;
     margin-top: 5%;
     margin-bottom: 5%;

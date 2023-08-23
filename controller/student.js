@@ -372,3 +372,19 @@ module.exports.getMarksheetUI = async function(req, res){
     
     return res.render('getMarksheet',{error_message, result_q, result_h, result_f, student, subjects, grades, totals});
 }
+
+module.exports.dischargeStudent = async function(req, res){
+    console.log(req.params);
+    try{
+        await Student.findOneAndUpdate({AdmissionNo:req.params.AdmissionNo}, {isThisCurrentRecord:false});
+        return res.status(200).json({
+            message:"Student is updated as alumini now"
+        })
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:"Error discharging student, please try again later"
+        })
+    }
+    
+}

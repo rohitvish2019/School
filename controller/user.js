@@ -10,6 +10,9 @@ module.exports.signUp = function(req, res){
     return res.render('sign-up');
 }
 
+module.exports.home = function(req, res){
+    
+}
 module.exports.createSession = function(req, res){
     return res.render('admin_home');
 }

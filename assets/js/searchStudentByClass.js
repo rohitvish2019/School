@@ -17,6 +17,21 @@ function getStudentsList(){
 }
 
 
+
+function dischargeStudent(AdmissionNo){
+    console.log(AdmissionNo);
+    $.ajax({
+        type:'POST',
+        url:'/student/discharge/'+AdmissionNo,
+        success:function(data){
+            console.log(data)
+        },
+        error: function(err){
+            console.error.bind(err);
+        }
+    })
+}
+
 function admitStudent(registration){
     console.log('Admission approved for student at registration no '+registration);
     $.ajax({
@@ -127,6 +142,49 @@ function showStudentsList(data, action){
             let id_1 = 'item_';
             item.classList.add('student-list');
             item.setAttribute('id','item_'+student.RegistrationNo)
+            listDiv.appendChild(item);
+        }
+    }
+    else if(action === 'none'){
+        listDiv.innerHTML=
+    
+        `
+        <a class="student-list" >
+            <li style="background-color: #479b7e;color: #03420b; width: 100%;">
+                <label><b>${id}</b></label>
+                <label><b>Name</b></label>
+                <label><b>Class</b></label>
+                <label><b>Father's Name</b></label>
+                <label><b>Mother's Name</b></label>
+                <label><b>Actions</b></label>
+                
+            </li>
+        </a>
+        `
+
+
+        for(let i=0;i<data.length;i++){
+            let student = data[i];
+            let item = document.createElement('div');
+            item.innerHTML=
+            `
+            <li class="container">
+                <label for="">${student.AdmissionNo}</label>
+                <label for="">${student.FirstName} ${student.LastName}</label>
+                <label for="">${student.Class}</label>
+                <label for="">${student.FathersName}</label>
+                <label for="">${student.MothersName}</label>
+                <a style="margin-bottom:1%" class="btn btn-danger" id='terminate_${student.AdmissionNo}' onclick='dischargeStudent(${student.AdmissionNo})'>Terminate</a>
+                
+                <div>
+                    
+                </div>
+                
+            </li>
+            `
+            let id_1 = 'item_';
+            item.classList.add('student-list');
+            item.setAttribute('id','item_'+student.AdmissionNo)
             listDiv.appendChild(item);
         }
     }

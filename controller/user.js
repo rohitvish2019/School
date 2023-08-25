@@ -1,7 +1,7 @@
 const UserSchema = require('../modals/userSchema');
 module.exports.login = function(req, res){
     if(req.isAuthenticated()){
-        return res.render('admin_home')
+        return res.redirect('/user/home')
     }
     return res.render('login');
 }
@@ -11,10 +11,15 @@ module.exports.signUp = function(req, res){
 }
 
 module.exports.home = function(req, res){
-    
+    if(req.isAuthenticated){
+        return res.render('admin_home');
+    }else{
+        return re.redirect('/user/login')
+    }
 }
+
 module.exports.createSession = function(req, res){
-    return res.render('admin_home');
+    return res.redirect('/user/home')
 }
 
 module.exports.logout = function(req, res){

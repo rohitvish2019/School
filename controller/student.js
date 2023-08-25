@@ -9,7 +9,7 @@ const properties = PropertiesReader('E:\\Projects\\School\\config\\school.proper
 const quarterlyTotalMarks = properties.get('quarterly-total');
 const halfYearlyTotalMarks = properties.get('half-yearly-total');
 const finalTotalMarks = properties.get('final-total');
-
+const TCRecords = require('../modals/TC_Records');
 
 module.exports.getStudent = async function(req, res){
     console.log(req.query);
@@ -24,8 +24,14 @@ module.exports.getStudent = async function(req, res){
             return res.render('resultDetails',{result, student, quarterlyTotalMarks, halfYearlyTotalMarks, finalTotalMarks});
         }
         else if(req.query.action ==='tc'){
-            let result = await Result.find({AdmissionNo:req.params.adm_no, Class:req.query.Class});
-            return res.render('TCDetails',{student});
+            let tcData = await TCRecords.findOne({AdmissionNo:req.params.adm_no});
+            console.log("TC Data")
+            console.log(tcData);
+            let err=''
+            if(!tcData.ReleivingClass || !tcData.RelievingDate){
+                err = "TC not generated yet, Please discharge the student first and try again"
+                return res.render('TCDetails',{student,err});            }
+            return res.render('TCDetails',{student,err ,tcData});
         }
         else{
             if(student){
@@ -50,27 +56,27 @@ module.exports.getStudent = async function(req, res){
 }
 
 module.exports.search = function(req, res){
-    return res.render('student_search');
+    return res.render('student_search',{admin:req.user.isAdmin});
 }
 
 module.exports.getStudentsByClassForm = function(req, res){
-    return res.render('studentListByClass',{action:'none'});
+    return res.render('studentListByClass',{action:'none',admin:req.user.isAdmin});
 }
 
 module.exports.getStudentsByClassFormFee = function(req, res){
-    return res.render('studentListByClass', {action:'fee'});
+    return res.render('studentListByClass', {action:'fee',admin:req.user.isAdmin});
 }
 
 module.exports.getStudentsByClassFormResult = function(req, res){
-    return res.render('studentListByClass', {action:'result'});
+    return res.render('studentListByClass', {action:'result',admin:req.user.isAdmin});
 }
 
 module.exports.getStudentsByClassFormTC = function(req, res){
-    return res.render('studentListByClass', {action:'tc'});
+    return res.render('studentListByClass', {action:'tc',admin:req.user.isAdmin});
 }
 
 module.exports.getStudentsByClassFormAdmission = function(req, res){
-    return res.render('studentListByClass', {action:'admission'});
+    return res.render('studentListByClass', {action:'admission',admin:req.user.isAdmin});
 }
 
 module.exports.getStudentsList = async function(req, res){
@@ -91,7 +97,7 @@ module.exports.getStudentsList = async function(req, res){
 
 module.exports.upgradeClassPage = function(req, res){
 
-    return res.render('upgradeClass');
+    return res.render('upgradeClass', {admin:req.user.isAdmin});
 }
 
 
@@ -307,6 +313,17 @@ function calculateGrade(value){
 function getPercentage(marks, total){
     return marks*100/total
 }
+
+function getDate(){
+    const date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    // This arrangement can be altered based on how we want the date's format to appear.
+    let currentDate = `${day}-${month}-${year}`;
+    console.log(currentDate); 
+    return currentDate
+}
 module.exports.getMarksheetUI = async function(req, res){
     console.log(req.query);
     console.log(req.params);
@@ -362,21 +379,52 @@ module.exports.getMarksheetUI = async function(req, res){
         }
         totals.push(t);
     }
+    let Terms = ['Quarterly','Half-Yearly','Final'];
+    let overAllMarks = 0;
     for(let i=0;i<3;i++){
-        totals.push(calculateGrade(getPercentage(totals[i], 600)));
-    }    
+        let fullMarks=0;
+        if(i===0){
+            fullMarks = quarterlyTotalMarks
+        }else if(i===1){
+            fullMarks = halfYearlyTotalMarks
+        }else if(i==2){
+            fullMarks = finalTotalMarks
+        }else{
+            fullMarks = 600
+        }
+        overAllMarks = overAllMarks + totals[i];
+        totals.push(calculateGrade(getPercentage(totals[i], fullMarks*6)));
+    } 
+    await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{quarterlyGrade:totals[3]});
+    await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{halfYearlyGrade:totals[4]});
+    await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{finalGrade:totals[5]});   
+    await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{TotalGrade:calculateGrade(getPercentage(overAllMarks, (quarterlyTotalMarks+halfYearlyTotalMarks+finalTotalMarks)*6))});   
 
+    console.log("Result")
     console.log(totals);
+
     
     
     
-    return res.render('getMarksheet',{error_message, result_q, result_h, result_f, student, subjects, grades, totals});
+    
+    
+    return res.render('getMarksheet',{admin:req.user.isAdmin,error_message, result_q, result_h, result_f, student, subjects, grades, totals});
 }
 
 module.exports.dischargeStudent = async function(req, res){
-    console.log(req.params);
+    console.log("admissionNo is "+req.params.AdmissionNo);
     try{
-        await Student.findOneAndUpdate({AdmissionNo:req.params.AdmissionNo}, {isThisCurrentRecord:false});
+        let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo,isThisCurrentRecord:true})
+        console.log(student.TotalGrade)
+        if(!student.TotalGrade){
+            console.log("Result not updated")
+            return res.status(500).json({
+                message:"Result not updated correctly"
+            })
+        }
+        await Student.findOneAndUpdate({AdmissionNo:req.params.AdmissionNo,isThisCurrentRecord:true }, {isThisCurrentRecord:'false'});
+        await TCRecords.findOneAndUpdate({AdmissionNo:req.params.AdmissionNo}, {RelievingDate:getDate(), ReleivingClass:student.Class})
+        
         return res.status(200).json({
             message:"Student is updated as alumini now"
         })

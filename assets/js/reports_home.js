@@ -9,10 +9,31 @@ function search_class(){
         },
         error: function(err){
             console.error.bind(err);
+            showNoRecord();
         }
     })
 }
 
+function showNoRecord(){
+    let container = document.getElementById('list-container');
+    container.innerHTML=``;
+    let header = document.createElement('div');
+    header.innerHTML=
+    `
+    <div class="list-header">
+        <h6>Admission No</h6> 
+        <h6>Student Name</h6>
+        <h6>Father's Name</h6>
+        <h6>Mother's Name</h6>
+        <h6>Aadhar</h6>
+        <h6 style="width: 9.8%;">Actions</h6>
+    </div>
+    `
+    container.appendChild(header);
+    let record = document.createElement('div');
+    record.innerHTML= `<h3 style="text-align:center">No record found</h3>` 
+    container.appendChild(record);
+}
 
 function showClassList(data){
     if(data.length <= 0){
@@ -49,7 +70,7 @@ function showClassList(data){
         </button>
         <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/student/get/${data[i].AdmissionNo}?Class=${data[i].Class}&action=result">Marksheet</a></li>
-            <li><a class="dropdown-item" href="#">TC</a></li>
+            <li><a class="dropdown-item" href="/student/get/${data[i].AdmissionNo}?Class=${data[i].Class}&action=tc">TC</a></li>
             <li><a class="dropdown-item" href="/student/get/${data[i].AdmissionNo}?Class=${data[i].Class}&action=fee">Fees</a></li>
         </ul>
         </div>

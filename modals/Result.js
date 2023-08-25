@@ -51,7 +51,8 @@ const ResultSchema = new mongoose.Schema({
     Drawing:{
         type:Number,
         default: -1
-    },
+    }
+    
 },
 {
     timestamps:true

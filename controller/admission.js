@@ -16,6 +16,7 @@ const RegisterdStudent = require('../modals/RegistrationSchema');
 
 
 //Old code
+
 module.exports.addmission =async function(request, response){
     let last = await AdmissionNo.findOne({});
     if(last){
@@ -29,7 +30,6 @@ module.exports.addmission =async function(request, response){
     }else{
         return response.render('startup')
     }
-    
 }
 
 //To add new student in record with dependencies 

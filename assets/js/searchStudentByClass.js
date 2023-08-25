@@ -24,10 +24,25 @@ function dischargeStudent(AdmissionNo){
         type:'POST',
         url:'/student/discharge/'+AdmissionNo,
         success:function(data){
-            console.log(data)
+            document.getElementById('terminated_'+AdmissionNo).remove();
+            new Noty({
+                theme: 'relax',
+                text: 'Action Completed',
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
         },
         error: function(err){
+            console.log();
             console.error.bind(err);
+            new Noty({
+                theme: 'relax',
+                text: JSON.parse(err.responseText).message,
+                type: 'error',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
         }
     })
 }
@@ -168,7 +183,7 @@ function showStudentsList(data, action){
             let item = document.createElement('div');
             item.innerHTML=
             `
-            <li class="container">
+            <li class="container" id='terminated_${student.AdmissionNo}'>
                 <label for="">${student.AdmissionNo}</label>
                 <label for="">${student.FirstName} ${student.LastName}</label>
                 <label for="">${student.Class}</label>

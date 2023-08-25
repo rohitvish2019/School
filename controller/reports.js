@@ -1,7 +1,7 @@
 const Student = require('../modals/admissionSchema');
 
 module.exports.home = function(req, res){
-    return res.render('reports_home');
+    return res.render('reports_home',{error:""});
 }
 
 
@@ -16,7 +16,7 @@ module.exports.getClassList = async function(req, res){
         })
     }
     else if(studentsList.length <= 0){
-        return res.status(204).json({
+        return res.status(412).json({
             message: 'Empty result received from server'
         })
     }

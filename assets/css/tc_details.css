@@ -5,10 +5,10 @@ body {
 }
 
 .certificate {
-    width: 794px; /* A4 width in pixels */
+    width: 700px; /* A4 width in pixels */
     height: 1123px; /* A4 height in pixels */
     margin: 50px auto;
-    border: 1px solid #000;
+
     padding: 20px;
     box-sizing: border-box;
     position: relative;

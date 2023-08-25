@@ -51,6 +51,45 @@ module.exports.searchResult = async function(req, res){
     }
 }
 
+function getPercentage(marks, total){
+    return marks*100/total
+}
+
+
+function calculateGrade(value){
+    if(value > 100){
+        return "Invalid"
+    }
+    if(value <= -1){
+        return 'NA'
+    }else if( value <= 100 && value > 90){
+        return 'A+'
+    }else if(value <= 90 && value > 74){
+        return 'A'
+    }else if( value <= 75 && value > 59){
+        return 'B'
+    }else if(value <= 60 && value > 44){
+        return 'C'
+    }else if(value <= 45 && value > 33){
+        return 'D'
+    }else{
+        return 'F'
+    }
+}
+/*
+async function updateFinalGrades(AdmissionNo, Class){
+    let resultData = await Result.find({AdmissionNo:AdmissionNo, Class:Class});
+    for(let i=0;i<resultData.length;i++){
+        
+    }
+    await Student.findOneAndUpdate({AdmissionNo:AdmissionNo,Class:Class},{quarterlyGrade:"A"})
+    await Student.findOneAndUpdate({AdmissionNo:AdmissionNo,Class:Class},{halfYearlyGrade:"B"})
+    await Student.findOneAndUpdate({AdmissionNo:AdmissionNo,Class:Class},{finalGrade:"C"})
+    await Student.findOneAndUpdate({AdmissionNo:AdmissionNo,Class:Class},{TotalGrade:"D"})
+    console.log("printing result")
+    console.log(resultData);
+}
+*/
 
 module.exports.updateAllResults = async function(req, res){
     try{
@@ -99,6 +138,7 @@ module.exports.updateAllResults = async function(req, res){
         }
         
         await result_q.save();
+        //updateFinalGrades(req.params.AdmissionNo,req.query.Class);
         return res.redirect('back')
     }catch(err){
         console.log(err)

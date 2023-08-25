@@ -37,6 +37,10 @@ const Students = new mongoose.Schema({
     LastPassingClass:String, 
     LastClassPassingYear:String, 
     LastClassGrade:String,
+    quarterlyGrade:String,
+    halfYearlyGrade:String,
+    finalGrade:String,
+    TotalGrade:String,
     isThisCurrentRecord:{
         type:Boolean,
         default:true

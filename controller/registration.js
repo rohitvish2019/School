@@ -4,6 +4,7 @@ const FeeStructure = require('../modals/feeStructure');
 const Student = require('../modals/admissionSchema');
 const FeeSchema = require('../modals/FeeSchema');
 const Result = require('../modals/Result');
+const TCRecords = require('../modals/TC_Records');
 module.exports.registrationUI = async function(req, res){
     let last = await AdmissionNo.findOne({});
     if(last){
@@ -31,20 +32,7 @@ module.exports.register = async function(req, res){
         lastRegistrationNumber = await AdmissionNo.findOne({});
         RN = lastRegistrationNumber.LastRegistration;
         await student.updateOne({RegistrationNo:RN+1});
-        /*
-        fee = await FeeStructure.findOne({Class:request.body.Class});
-
-        fee_record = await FeeSchema.create({
-            AdmissionNo:RN+1,
-            Class:request.body.Class,
-            Total:fee.Fees,
-            Remaining: fee.Fees,
-            Paid:0
-        });
-
-        */
-        
-    await lastRegistrationNumber.updateOne({LastRegistration:+RN+1});
+        await lastRegistrationNumber.updateOne({LastRegistration:+RN+1});
     }catch(err){
         if(student){
             RegisteredStudent.remove(student)
@@ -71,6 +59,17 @@ module.exports.delete = async function(req, res){
     
 }
 
+
+function getDate(){
+    const date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    // This arrangement can be altered based on how we want the date's format to appear.
+    let currentDate = `${day}-${month}-${year}`;
+    console.log(currentDate); 
+    return currentDate
+}
 module.exports.admit = async function(req, res){
     let student,fee, studentData,result_q,result_h,result_f;
     console.log(req.params);
@@ -113,7 +112,11 @@ module.exports.admit = async function(req, res){
             Term: 'Final',
         });
         await RegisteredStudent.deleteOne(student);
-
+        await TCRecords.create({
+            AdmissionNo:lastAdmissionNo+1,
+            AdmissionClass: studentData.Class,
+            AdmissionDate: getDate()
+        })
         return res.status(200).json({
             message:'Student admitted'
         });

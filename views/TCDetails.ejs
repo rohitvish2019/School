@@ -3,40 +3,48 @@
 <link rel="stylesheet" href="/css/tc_details.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.0/html2pdf.bundle.min.js" integrity="sha512-w3u9q/DeneCSwUDjhiMNibTRh/1i/gScBVp2imNVAMCt6cUHIw6xzhzcPFIaL3Q1EbI2l+nu17q2aLJJLo4ZYg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<body id="tc-body">
-    
+<body >
+    <div id="tc-body">
+        <input type="text" value="<%=student.FirstName%> <%=student.LastName%>" id="student_name" hidden>
+    <input type="text" value="<%=student.AdmissionNo%>" id="admno" hidden>
     <div class="certificate">
         <div class="school-name">
                 <img width="100%" src="/images/school-header.png" alt="" srcset="">
          </div>
 		 <h2>Transfer Certificate</h2>
-        <div class="date">Date of Issuance: [Date]</div>
-		<div class="date">TC Number: [Date]</div>
-		<div class="date">Admission No: [Date]</div>
+         <%if(err){%>
+            <h3 style="color: red;"><%=err%></h3>
+        <%}else{%>
+            
+        
+         
+        <div class="date">Date of Issuance: <%=tcData.RelievingDate%></div>
+		<div class="date">TC Number: Number</div>
+		<div class="date">Admission No:<%=student.AdmissionNo%></div>
         <div class="content">
-            <p>To Whom It May Concern,</p><br/>
+            <p>To Whom It May Concern,</p>
 
 <p>
 This is to certify that <b> <%=student.FirstName%> <%=student.LastName%> </b>father's name <b> <%=student.FathersName%> </b> mother's name <b> <%=student.MothersName%> </b> religion <%=student.Religion%>
-                caste <%=student.Caste%> attended ShreeVeer Vidya Niketan School Shahpur from ADMISSION_DATE to LEAVING_DATE and now leaves on LEAVING_DATE paying all fees.
+                caste <%=student.Caste%> attended ShreeVeer Vidya Niketan School Shahpur from <%=tcData.AdmissionDate%> to <%=tcData.RelievingDate%> and now leaves on <%=tcData.RelievingDate%> paying all fees.
 </p>
 
-<br/>
+
 <p>
 His/Her date of birth as per school record was <%=student.DOB%> in words DOB_IN_WORDS.
 </p>
-<br/>
+
 
 <p>
-The last promotion examination appeared by him/her was <%=student.Class%>> in the year LAST_YEAR_IN_SCHOOL and his/her result was LAST_CLASS_RESULT.
+The last promotion examination appeared by him/her was <%=tcData.RelievingClass%> in the year <%=student.Session + 1%> and his/her result was <%=student.TotalGrade%>.
 </p>
-<br/>
+
 
 <p>
-He/She was enrolled in class ADMISSION_CLASS , He/She has been vaccinated or is otherwise protected from small pox.
-                His/Her conduct was CONDUCT and leaves the school on account of LEAVING DATE
+He/She was enrolled in class <%=tcData.AdmissionClass%> , He/She has been vaccinated or is otherwise protected from small pox.
+                His/Her conduct was CONDUCT and leaves the school on account of <%=tcData.RelievingClass%>.
 </p>
-<br/>
+
 
 <p>
 
@@ -47,12 +55,15 @@ He/She was enrolled in class ADMISSION_CLASS , He/She has been vaccinated or is 
 <br/>
         </div>
         <div class="signature">Principal's Signature: ______________________</div>
-        <div class="seal">School Seal</div>
+        <%}%>
     </div>
 
+    </div>
+    
     
 </body>
-<div>
+<div style="position: fixed;top: 2%;right: 3%;">
     <button id="tc-download" class="btn btn-warning">Download</button>
 </div>
 <script src="/js/pdfCreator.js"></script>
+<script src="/js/tcdetails.js"></script>

@@ -44,3 +44,7 @@ label{
     border-bottom: 0.5px dotted green;
     text-align: center;
 }
+
+input{
+    text-transform: capitalize;
+}

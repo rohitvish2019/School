@@ -46,5 +46,8 @@ p{
 	text-align:left
 }
 
+input{
+    text-transform: capitalize;
+}
 /* Add more styling as needed */
 

@@ -102,3 +102,7 @@ h4{
     margin: 1%;
     font-weight: bold;
 }
+
+input{
+    text-transform: capitalize;
+}

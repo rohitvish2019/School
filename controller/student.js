@@ -11,6 +11,67 @@ const halfYearlyTotalMarks = properties.get('half-yearly-total');
 const finalTotalMarks = properties.get('final-total');
 const TCRecords = require('../modals/TC_Records');
 
+
+
+function numberToWordsInRange(number1) {
+    let number = parseInt(number1.toString());
+    
+    const units = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+    const teens = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+    const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+    if (number < 0 || number > 99) {
+        return 'Number out of range';
+    }
+
+    if (number < 10) {
+        return units[number];
+    } else if (number < 20) {
+        return teens[number - 10];
+    } else {
+        const tensDigit = Math.floor(number / 10);
+        console.log("Tens")
+        const unitsDigit = number % 10;
+        console.log("Units"+unitsDigit)
+        return tens[tensDigit] + (unitsDigit !== 0 ? ' ' + units[unitsDigit] : '');
+    }
+}
+
+function getDOBInWords(thisDate){
+    
+    let year = parseInt(thisDate.toString().slice(0,4));
+    let month= parseInt(thisDate.toString().slice(5,7));
+    let date = parseInt(thisDate.toString().slice(8,10));
+    console.log(date+"%"+month+"%"+year)
+    const numbersInWords = [
+        "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
+        "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen",
+        "Twenty", "Twenty One", "Twenty Two", "Twenty Three", "Twenty Four", "Twenty Five", "Twenty Six", "Twenty Seven", "Twenty Eight", "Twenty Nine",
+        "Thirty", "Thirty One"
+    ];
+    
+    const monthsInWords = [
+        "", "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+
+    let dateInWords  = numbersInWords[date];
+    let monthInWords = monthsInWords[month]
+    let year1 = numberToWordsInRange(year.toString().substring(2));
+    console.log(numberToWordsInRange(year.toString().substring(2)))
+    return dateInWords +" "+monthInWords+" two thousands "+year1;
+    
+}
+
+function convertDateFormat(thisDate){
+
+    let year = thisDate.toString().slice(0,4);
+    let month= thisDate.toString().slice(5,7);
+    let day = thisDate.toString().slice(8,10);
+    console.log( day+"-"+month+"-"+year)
+    return day+"-"+month+"-"+year;
+}
+
 module.exports.getStudent = async function(req, res){
     console.log(req.query);
     let student = await Student.findOne({AdmissionNo:req.params.adm_no, Class:req.query.Class});
@@ -28,10 +89,13 @@ module.exports.getStudent = async function(req, res){
             console.log("TC Data")
             console.log(tcData);
             let err=''
+            let DOBInWords=getDOBInWords(student.DOB);
+            let DOBDate = convertDateFormat(student.DOB);
+
             if(!tcData.ReleivingClass || !tcData.RelievingDate){
                 err = "TC not generated yet, Please discharge the student first and try again"
-                return res.render('TCDetails',{student,err});            }
-            return res.render('TCDetails',{student,err ,tcData});
+                return res.render('TCDetails',{student,err,DOBInWords,DOBDate});            }
+            return res.render('TCDetails',{student,err ,tcData,DOBInWords,DOBDate});
         }
         else{
             if(student){
@@ -324,6 +388,8 @@ function getDate(){
     console.log(currentDate); 
     return currentDate
 }
+
+
 module.exports.getMarksheetUI = async function(req, res){
     console.log(req.query);
     console.log(req.params);

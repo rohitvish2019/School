@@ -124,6 +124,10 @@ td textarea{
   
 }
 
+input{
+  text-transform: capitalize;
+}
+
   
   
   

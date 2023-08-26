@@ -31,3 +31,6 @@ body{
     justify-content: space-between;
 }
 
+input{
+    text-transform: capitalize;
+}

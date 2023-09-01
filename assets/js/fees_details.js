@@ -186,6 +186,8 @@ function showFeesHistory(data){
         <th>Amount</th>
         <th>Payment Date</th>
         <th>Comment</th>
+        <th>Receipt</th>
+        <th>Cancel</th>
     `
     headerItem.style.width='100%'
     container.appendChild(headerItem);
@@ -198,6 +200,8 @@ function showFeesHistory(data){
             <td>${data[i].Amount}</td>
             <td>${data[i].Payment_Date}</td>
             <td>${data[i].Comment}</td>
+            <td><a href='/fee/receipt/${data[i]._id}'>Receipt</a></td>
+            <td><a href='/fee/cancel/${data[i]._id}'>Cancel</a></td>
         `
         container.appendChild(item);
     }

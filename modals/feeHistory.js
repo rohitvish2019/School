@@ -17,6 +17,13 @@ const FeesHistory = new mongoose.Schema({
     Comment:{
         type:String
     },
+    Receipt_No:{
+        type:Number
+    },
+    isCancelled:{
+        type:Boolean,
+        default:false
+    },
     type:{
         type:String,
         enum:['Fees', 'Concession']

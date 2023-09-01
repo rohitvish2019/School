@@ -9,6 +9,10 @@ const AdmissionNo = new mongoose.Schema({
     LastRegistration : {
         type:Number,
         default:0
+    },
+    LastFeeReceiptNo:{
+        type:Number,
+        default:1
     }
 },
 {

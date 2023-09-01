@@ -87,5 +87,5 @@ function generatePDFTC() {
     // Choose the element and save the PDF for your user.
     html2pdf(element, opt);
     console.log(element);
-    html2pdf().set(opt).from(element).save();
+    html2pdf().set(opt).from(element).save("/abc")
 }

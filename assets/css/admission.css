@@ -1,25 +1,145 @@
 body{
-    background: url('/images/background.jpg');
-    background-size: contain;
-    font-family: Arial, sans-serif;
+    
+    background-color: #d4e9e2;
+    
+}
+
+.header-container{
+    width: 100%;
+    height: 10%;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-    font-size: small;
+}
+
+.body-container{
+    width: 100%;
+    height: 75%;
+    display: flex;
+    justify-content: center;
+}
+
+.footer-container{
+    width: 100%;
+    height: 1;
+   
+}
+
+.left-side-panel{
+    border-radius: 0.8rem;
+    background-color: #d4e9e2;
+    width: 15%;
+    height: 100%;
+    padding: 1%;
+    margin-bottom: 2%;
+    border-right: none;
+    border-top-right-radius:0 ;
+    margin-top: -0.5%;
+    margin-right: -0.5%;
+}
+
+.right-side-panel{
+    border-radius: 0.8rem;
+    background-color: #d4e9e2;
+    width: 15%;
+    height: 100%;
+    border-left:none ;
+    border-top-left-radius:0 ;
+    
+    margin-bottom: 2%;
+    
+
+}
+
+.center-body{
+    
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin-left:-0.3% ;
+    
+}
+
+input{
     text-transform: capitalize;
 }
-.main-container{
+
+
+.quick-links{
+    
+    height: 40%;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    margin-left: 2%;
+    
+    margin-top: 4%;
+    
+}
+
+.contact-us{
+    margin-top: 10%;
+    height: 60%;
+}
+
+.quick-links .btn{
+    width: 175px;
+    min-width: 100px;
+    height: 30px;
+    font-size: medium;
+    vertical-align: middle;
+    margin: 1%;
+    border-radius: 1rem;
+    
+}
+
+.contact-us-form{
     display: flex;
     justify-content: center;
     flex-direction: column;
-    align-items: center;
+    margin: 1%;
+
 }
-.sub-container{
-    display: block;
-    width: 71%;
-    margin-left: 8%;
-    margin-top: 5%;
-    margin-bottom: 5%;
+
+
+
+
+.contact-us-form input, textarea{
+    margin: 1%;
+    border-radius: 0.5rem;
+}
+
+.news-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for individual news items */
+.news-item {
+    margin-bottom: 20px;
+    
+    padding-bottom: 10px;
+}
+
+/* Title of the news item */
+.news-title {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* Content of the news item */
+.news-content {
+    font-size: 13px;
+    color: #666;
+}
+
+/* Date of the news item */
+.news-date {
+    font-size: 14px;
+    color: #888;
 }
 
 #school-Info{
@@ -39,6 +159,7 @@ label{
     margin-top: 1%;
     font-weight: bold;
     display: block;
+    color: rgb(10, 107, 75);
 }
 select{
     width: 12%;
@@ -70,6 +191,9 @@ select{
     margin-left: 2%;
 }
 
-input{
+input, select{
     text-transform: capitalize;
+    border: none;
+    background-color: transparent;
+    border-bottom: 1.5px dotted rgb(4, 143, 90);
 }

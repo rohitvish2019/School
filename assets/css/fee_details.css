@@ -1,24 +1,39 @@
 body{
-    background: url('/images/background.jpg');
-    background-size: cover;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-    font-size: small;
+    
+    margin: 0.2%;
+    background-color: #d4e9e2;
 }
-.main-container{
+
+.header-container{
+    
+    width: 100%;
+    height: 10%;
+}
+
+.body-container{
+    
+    width: 100%;
+    height: 90%;
     display: flex;
     justify-content: center;
-    flex-direction: column;
-    align-items: center;
 }
-.sub-container{
-    display: block;
-    width: 71%;
-    margin-left: 8%;
-    margin-top: 2%;
-    margin-bottom: 5%;
+
+.footer-container{
+    
+    width: 100%;
+    height: 14%;
+}
+
+.left-side-panel{
+    width: 20%;
+    height: 100%;
+}
+
+
+.center-body{
+    
+    width: 100%;
+    height: 100%;
 }
 
 table{
@@ -50,26 +65,38 @@ button{
     top: 25%;
     left: 40%;
 }
+.student-details label{
+    width: 100%;
+    display: block;
+}
 
+#popup label{
+    width: 30%;
+    margin-left: 5%;
+    margin-top: 3%;
+    font-weight: bold;
+}
+
+#popup input, textarea{
+    width: 50%;
+}
+
+#popup textarea{
+    margin-top: 3%;
+}
 #close-button{
     position: relative;
     top: 0%;
     left: 90%;
 }
 
-label{
-    font-weight: bold;
-    width: 25%;
-}
 
-.form-item{
-    margin: 4%;
-}
+
 
 .student-details{
     margin-bottom: 1%;
-    margin-left: 6%;
     margin-top: 5%;
+    margin-left: 3%;
 }
 
 .toggeler{
@@ -110,7 +137,7 @@ span{
 }
 
 .details-div{
-    height: 310px;
+    height: 80%;
     overflow: scroll;
 }
 

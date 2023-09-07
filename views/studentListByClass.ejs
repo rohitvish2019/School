@@ -12,10 +12,13 @@
 <body>
     
     
-    <%- include('_header'); %>
-    
-    <div class="main-container">
-        <div class="sub-container">
+   
+    <div class="header-container">
+        <%- include('_header'); %>
+    </div>
+    <div class="body-container">
+        
+        <div class="center-body">
             <div style="margin-left: 10%; margin-bottom: 5%; color: goldenrod;">
                 <h1>
                     <% if(action == 'fee'){%>
@@ -47,17 +50,20 @@
                 </select>
                 <button class="btn btn-success" id="showStudentsList">Show List</button>
             </div>
-            <div>
+            <div style="height: 70%; overflow: scroll;">
                 <ul class="container" id="classList"></ul>
             </div>
-        </div>
-    </div>
-    <div class="container my-4 d-flex justify-content-around">
-        <div style="width: 100%;">
+
             
         </div>
         
+        </div>
     </div>
+    <div class="footer-container">
+        <%- include('_footer'); %>
+    </div>
+    
+    
 
     
    

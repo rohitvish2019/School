@@ -1,0 +1,26 @@
+1.Create a /etc/yum.repos.d/mongodb-org-7.0.repo file
+
+2.Write below contenet in file.
+
+[mongodb-org-7.0]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/amazon/2023/mongodb-org/7.0/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-7.0.asc
+
+
+3.Run command to install mongodb:
+sudo yum install -y mongodb-org
+
+4. Change user permisions.
+ 1 of these commands will success based on installation directory:
+
+sudo chown mongod:mongod /tmp/mongodb-27017.sock
+ sudo chown -R mongod:mongod /var/lib/mongodb
+
+5. start mongodb
+sudo systemctl start mongod
+
+6. check status
+sudo systemctl status mongod

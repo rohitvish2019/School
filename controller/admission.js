@@ -100,33 +100,6 @@ module.exports.updateLastAdmission =async function(req, res){
     return res.redirect('/admissions')
 }
 
-/*
-let createFormPDF = async function(){
-    try{
-        const puppeteer = require('puppeteer');
-        const browser = await puppeteer.launch();
-        const page = await browser.newPage();
-        const website_url = 'http://localhost:8000/admissions';
-        await page.setViewport({ width: 1280, height: 720 });
-        
-        await page.emulateMediaType('screen');
-        await page.screenshot({
-            path: 'E:\\Projects\\School\\screenshot.jpg'
-          });
-        
-        const pdf = await page.pdf({
-            path: 'E:\\Projects\\School\\result.pdf',
-            margin: { top: '100px', right: '50px', bottom: '100px', left: '50px' },
-            printBackground: true,
-            format: 'A4',
-        });
-        
-    }catch(err){
-        console.log(err);
-    }
-    
-} 
-*/
 
 // To render the preview before submitting the adission form
 module.exports.getPreview = function(req, res){

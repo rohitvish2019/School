@@ -8,7 +8,7 @@ const userController = require('../controller/user');
 router.get('/login', userController.login);
 router.get('/sign-up', userController.signUp)
 router.get('/logout', userController.logout);
-router.get('/new', userController.addUserPage);
+router.get('/new',passport.checkAuthentication, userController.addUserPage);
 router.post('/addNew',passport.checkAuthentication, userController.addNewUser);
 router.get('/home', passport.checkAuthentication, userController.home);
 

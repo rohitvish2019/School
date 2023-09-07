@@ -1,4 +1,6 @@
 const UserSchema = require('../modals/userSchema');
+const fs = require('fs')
+
 module.exports.login = function(req, res){
     if(req.isAuthenticated()){
         return res.redirect('/user/home')
@@ -11,11 +13,22 @@ module.exports.signUp = function(req, res){
 }
 
 module.exports.home = function(req, res){
-    if(req.isAuthenticated){
-        return res.render('admin_home');
-    }else{
-        return re.redirect('/user/login')
+
+    const pathToDirectory = '../School/assets/carousel-photos';
+    fs.readdir(pathToDirectory, (error, files) => {
+    if (error) {
+        console.log(error);
+    } else {
+        console.log(files);
+        console.log(files[0]);
+        if(req.isAuthenticated){
+            return res.render('admin_home', {files});
+        }else{
+            return re.redirect('/user/login')
+        }
     }
+    });
+    
 }
 
 module.exports.createSession = function(req, res){

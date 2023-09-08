@@ -5,8 +5,8 @@ const https = require('https');
 const hostname="localhost";
 const httpsPort = 443;
 const httpsOptions= {
-    cert:fs.readFileSync('E:\\SSL\\system.rohit.com.cer'),
-    key:fs.readFileSync('E:\\SSL\\system.rohit.com.key')
+    cert:fs.readFileSync('C:\\SSL\\system.rohit.com.cer'),
+    key:fs.readFileSync('C:\\SSL\\system.rohit.com.key')
 }
 
 

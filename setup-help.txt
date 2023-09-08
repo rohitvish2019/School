@@ -1,0 +1,18 @@
+Install Node js as per the system.
+
+https://nodejs.org/en/download
+
+Install mongodb
+
+https://www.mongodb.com/try/download/community
+
+download the code:
+
+https://github.com/rohitvish2019/School
+
+Extract files in a directory
+create a SSL folder in C drive
+
+move .cer and .key file to c://SSL directory
+
+Go to directory and double click on start.bat, let this command prompt running in background and access the website in browser url : https://localhost/user/login

@@ -48,6 +48,10 @@ const ResultSchema = new mongoose.Schema({
         type:Number,
         default: -1
     },
+    SchoolCode:{
+        
+        type:String
+    },
     Drawing:{
         type:Number,
         default: -1

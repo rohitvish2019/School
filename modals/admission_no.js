@@ -13,6 +13,10 @@ const AdmissionNo = new mongoose.Schema({
     LastFeeReceiptNo:{
         type:Number,
         default:1
+    },
+    SchoolCode:{
+        
+        type:String
     }
 },
 {

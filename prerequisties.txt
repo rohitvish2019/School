@@ -1,0 +1,2 @@
+Add last admission number.
+Add all classes fees

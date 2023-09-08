@@ -26,6 +26,10 @@ const TeachersDetails = new mongoose.Schema({
     Samagra:{
         type:String
     },
+    SchoolCode:{
+        
+        type:String
+    },
     Documents:[{
         type:String
     }],

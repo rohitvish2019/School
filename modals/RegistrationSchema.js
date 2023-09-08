@@ -36,6 +36,11 @@ const RegisteredStudents = new mongoose.Schema({
     LastPassingClass:String, 
     LastClassPassingYear:String, 
     LastClassGrade:String,
+    SchoolCode:{
+        
+        type:String,
+        default:'NA'
+    },
     isThisCurrentRecord:{
         type:Boolean,
         default:true

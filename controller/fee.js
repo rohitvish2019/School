@@ -17,7 +17,7 @@ function convertDateFormat(thisDate){
 module.exports.getFeeDetails = async function(req, res){
     try{
         let student = await Student.findById(req.params.id);
-        feeData = await Fee.findOne({AdmissionNo:student.AdmissionNo});
+        feeData = await Fee.findOne({AdmissionNo:student.AdmissionNo,SchoolCode:req.user.SchoolCode});
         return res.render('feeSubmit', {feeData:feeData, student:student});
     }catch(err){
         return res.redirect('back')
@@ -29,7 +29,7 @@ module.exports.getFeeDetails = async function(req, res){
 //
 module.exports.getFee =async function(req, res){
     try{
-        let fee = await Fee.find({AdmissionNo:req.query.AdmissionNo});
+        let fee = await Fee.find({AdmissionNo:req.query.AdmissionNo,SchoolCode:req.user.SchoolCode});
         if(fee){
             return res.status(200).json({
                 message:'Success',
@@ -52,7 +52,7 @@ module.exports.getFee =async function(req, res){
 module.exports.feeSubmission =async function(req, res){
     console.log(req.body);
     try{
-        let fee = await Fee.findOne({AdmissionNo:req.body.AdmissionNo, Class:req.body.Class});
+        let fee = await Fee.findOne({AdmissionNo:req.body.AdmissionNo, Class:req.body.Class,SchoolCode:req.user.SchoolCode});
         let paidFee = fee.Paid;
         let remainingFee = fee.Remaining;
         if(paidFee == null){
@@ -63,13 +63,14 @@ module.exports.feeSubmission =async function(req, res){
             remainingFee = 0
         }
         await fee.update({Paid:fee.Paid + +req.body.Amount, Remaining: fee.Remaining - +req.body.Amount });
-        let lastFeeReceiptNumber = await admissionNoSchema.findOne({});
+        let lastFeeReceiptNumber = await admissionNoSchema.findOne({SchoolCode:req.user.SchoolCode});
         await lastFeeReceiptNumber.update({LastFeeReceiptNo:lastFeeReceiptNumber.LastFeeReceiptNo+1});
         lastFeeReceiptNumber.save();
         console.log(lastFeeReceiptNumber);
         await FeeHistory.create({
             AdmissionNo:fee.AdmissionNo,
             Class: fee.Class,
+            SchoolCode:req.user.SchoolCode,
             Amount: req.body.Amount,
             Payment_Date: convertDateFormat(req.body.Date.slice(0,10)),
             Comment: req.body.Comment,
@@ -93,8 +94,8 @@ module.exports.cancelFees = async function(req, res){
         await feeRecord.update({isCancelled:true});
         await feeRecord.save();
 
-        let oldFee = await Fee.findOne({AdmissionNo:feeRecord.AdmissionNo, Class:feeRecord.Class});
-        await Fee.findOneAndUpdate({AdmissionNo:feeRecord.AdmissionNo, Class:feeRecord.Class},{Paid:oldFee.Paid - feeRecord.Amount, Remaining:oldFee.Remaining + feeRecord.Amount});
+        let oldFee = await Fee.findOne({AdmissionNo:feeRecord.AdmissionNo, Class:feeRecord.Class,SchoolCode:req.user.SchoolCode});
+        await Fee.findOneAndUpdate({AdmissionNo:feeRecord.AdmissionNo, Class:feeRecord.Class,SchoolCode:req.user.SchoolCode},{Paid:oldFee.Paid - feeRecord.Amount, Remaining:oldFee.Remaining + feeRecord.Amount});
         return res.redirect('back');
     }catch(err){
         return res.redirect('back');
@@ -104,7 +105,7 @@ module.exports.cancelFees = async function(req, res){
 module.exports.updateFeeForm = async function(req, res){
     let feesData = [];
     try{
-        feesData = await FeeStructure.find({});
+        feesData = await FeeStructure.find({SchoolCode:req.user.SchoolCode});
         console.log(feesData);
     }catch(err){
         console.log(err);
@@ -114,7 +115,7 @@ module.exports.updateFeeForm = async function(req, res){
 
 module.exports.updateFee = async function(req, res){
     try{
-        let currentFee = await FeeStructure.findOne({Class:req.body.Class});
+        let currentFee = await FeeStructure.findOne({Class:req.body.Class,SchoolCode:req.user.SchoolCode});
         if(currentFee){
             await currentFee.update({Fees: req.body.Fees});
             currentFee.save();
@@ -122,7 +123,8 @@ module.exports.updateFee = async function(req, res){
         else{
             await FeeStructure.create({
                 Class:req.body.Class,
-                Fees: req.body.Fees
+                Fees: req.body.Fees,
+                SchoolCode:req.user.SchoolCode
             });
         }   
         
@@ -131,12 +133,11 @@ module.exports.updateFee = async function(req, res){
         console.log(err);
         return res.redirect('back')
     }
-    
 }
 
 module.exports.addConsession = async function(req, res){
     try{
-        let fee = await Fee.findOne({AdmissionNo:req.body.AdmissionNo, Class:req.body.Class});
+        let fee = await Fee.findOne({AdmissionNo:req.body.AdmissionNo, Class:req.body.Class,SchoolCode:req.user.SchoolCode});
         if(fee){
             console.log("Entered in method");
             let cnc = fee.Concession;
@@ -149,7 +150,8 @@ module.exports.addConsession = async function(req, res){
                 Amount: req.body.Amount,
                 Payment_Date: convertDateFormat(req.body.Date.slice(0,10)),
                 Comment: req.body.Comment,
-                type:'Concession'
+                type:'Concession',
+                SchoolCode:req.user.SchoolCode
             });
         }
         return res.status(200).json({
@@ -164,7 +166,7 @@ module.exports.addConsession = async function(req, res){
 
 
 module.exports.getFeeHistory = async function(req, res){
-    let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo,type:'Fees',isCancelled:false}).sort({Payment_Date:'descending'});
+    let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo,type:'Fees',isCancelled:false,SchoolCode:req.user.SchoolCode}).sort({Payment_Date:'descending'});
     return res.status(200).json({
         message:'History fetched successfully',
         data: feeList
@@ -173,7 +175,7 @@ module.exports.getFeeHistory = async function(req, res){
 
 
 module.exports.getConcessionHistory = async function(req, res){
-    let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo, type:'Concession'}).sort({Payment_Date:'descending'});
+    let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo, type:'Concession',SchoolCode:req.user.SchoolCode}).sort({Payment_Date:'descending'});
     return res.status(200).json({
         message:'History fetched successfully',
         data: feeList
@@ -182,7 +184,7 @@ module.exports.getConcessionHistory = async function(req, res){
 
 module.exports.getFeeReceipt = async function(req, res){
     let feeReport = await FeeHistory.findById(req.params.id);
-    let student = await Student.findOne({AdmissionNo:feeReport.AdmissionNo, Class:feeReport.Class})
+    let student = await Student.findOne({AdmissionNo:feeReport.AdmissionNo, Class:feeReport.Class, SchoolCode:req.user.SchoolCode})
     console.log(feeReport);
     return res.render('fee_receipt',{feeReport, student});
 }

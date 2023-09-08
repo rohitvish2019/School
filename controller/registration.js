@@ -6,7 +6,7 @@ const FeeSchema = require('../modals/FeeSchema');
 const Result = require('../modals/Result');
 const TCRecords = require('../modals/TC_Records');
 module.exports.registrationUI = async function(req, res){
-    let last = await AdmissionNo.findOne({});
+    let last = await AdmissionNo.findOne({SchoolCode:req.user.SchoolCode});
     if(last){
         let year = +new Date().getFullYear();
         let past_year = year -1;
@@ -21,7 +21,6 @@ module.exports.registrationUI = async function(req, res){
 }
 
 module.exports.getPreview = function(req, res){
-    console.log(req.body)
     return res.render('RegistrationPreview', {data:req.body})
 }
 
@@ -31,7 +30,7 @@ module.exports.register = async function(req, res){
         student = await RegisteredStudent.create(req.body);
         lastRegistrationNumber = await AdmissionNo.findOne({});
         RN = lastRegistrationNumber.LastRegistration;
-        await student.updateOne({RegistrationNo:RN+1});
+        await student.updateOne({RegistrationNo:RN+1,SchoolCode:req.user.SchoolCode});
         await lastRegistrationNumber.updateOne({LastRegistration:+RN+1});
     }catch(err){
         if(student){
@@ -53,7 +52,7 @@ module.exports.delete = async function(req, res){
     }catch(err){
         console.log(err);
         return res.status(404).json({
-            message:'Request failed'
+            message:'request failed'
         })
     }
     
@@ -71,51 +70,56 @@ function getDate(){
     return currentDate
 }
 module.exports.admit = async function(req, res){
-    let student,fee, studentData,result_q,result_h,result_f;
+    let student,fee, studentData,result_q,result_h,result_f, fee_record;
     console.log(req.params);
     try{
-        student = await RegisteredStudent.findOne({RegistrationNo:req.params.id});
+        student = await RegisteredStudent.findOne({RegistrationNo:req.params.id, SchoolCode:req.user.SchoolCode});
         studentData = JSON.parse(JSON.stringify(student));
         delete studentData._id;
         //await RegisterdStudent.updateOne({student}, {$unset : {_id:1}});
         //student.delete('_id');
         let newStudent = await Student.create(studentData);
-        let adm = await AdmissionNo.findOne({});
+        let adm = await AdmissionNo.findOne({SchoolCode:req.user.SchoolCode});
         let lastAdmissionNo = +adm.LastAdmission;
-        await newStudent.update({AdmissionNo: lastAdmissionNo+1});
+        await newStudent.update({AdmissionNo: lastAdmissionNo+1, SchoolCode:req.user.SchoolCode});
         await adm.update({LastAdmission:lastAdmissionNo+1});
         adm.save();
-        fee = await FeeStructure.findOne({Class:studentData.Class});
+        fee = await FeeStructure.findOne({Class:studentData.Class,SchoolCode:req.user.SchoolCode});
         fee_record = await FeeSchema.create({
             AdmissionNo:lastAdmissionNo+1,
             Class:studentData.Class,
             Total:fee.Fees,
             Remaining: fee.Fees,
-            Paid:0
+            Paid:0,
+            SchoolCode:req.user.SchoolCode
         });
 
         result_q = await Result.create({
             AdmissionNo: lastAdmissionNo+1,
             Class:studentData.Class,
             Term: 'Quarterly',
+            SchoolCode:req.user.SchoolCode
         });
 
         result_h = await Result.create({
             AdmissionNo: lastAdmissionNo+1,
             Class:studentData.Class,
             Term: 'Half-Yearly',
+            SchoolCode:req.user.SchoolCode
         });
 
         result_f = await Result.create({
             AdmissionNo: lastAdmissionNo+1,
             Class:studentData.Class,
             Term: 'Final',
+            SchoolCode:req.user.SchoolCode
         });
         await RegisteredStudent.deleteOne(student);
         await TCRecords.create({
             AdmissionNo:lastAdmissionNo+1,
             AdmissionClass: studentData.Class,
-            AdmissionDate: getDate()
+            AdmissionDate: getDate(),
+            SchoolCode:req.user.SchoolCode
         })
         return res.status(200).json({
             message:'Student admitted'

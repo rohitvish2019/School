@@ -1,15 +1,4 @@
 const express = require('express');
-
-const fs =require('fs');
-const https = require('https');
-const hostname="localhost";
-const httpsPort = 443;
-const httpsOptions= {
-    cert:fs.readFileSync('E:\\SSL\\system.rohit.com.cer'),
-    key:fs.readFileSync('E:\\SSL\\system.rohit.com.key')
-}
-
-
 const cookieParser = require('cookie-parser');
 const app = express();
 const expressLayouts = require('express')
@@ -56,7 +45,7 @@ app.use(session({
     },
     store:MongoStore.create(
         {
-            mongoUrl: 'mongodb://localhost/school_user_sessions',
+            mongoUrl: 'mongodb://localhost/employee_reviews',
             autoRemove: 'disabled'
         
         },
@@ -77,9 +66,6 @@ app.use(passportLocal.setAuthenticatedUser);
 
 app.use('/', require('./routers/index'));
 
-const httpsServer = https.createServer(httpsOptions,app);
-httpsServer.listen(httpsPort, hostname);
-/*
 app.listen(port, function(err){
     if(err){
         console.log("Error starting server");
@@ -87,4 +73,3 @@ app.listen(port, function(err){
     }
     console.log("Server started on port "+port);
 });
-*/

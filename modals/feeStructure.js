@@ -7,7 +7,11 @@ const FeeStructure = new mongoose.Schema({
     },
     Fees :{
         type: Number
-    }
+    },
+    SchoolCode:{
+        
+        type:String
+    },
 },
 {
     timestamps:true

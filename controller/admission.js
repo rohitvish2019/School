@@ -18,7 +18,7 @@ const RegisterdStudent = require('../modals/RegistrationSchema');
 //Old code
 
 module.exports.addmission =async function(request, response){
-    let last = await AdmissionNo.findOne({});
+    let last = await AdmissionNo.findOne({SchoolCode:request.user.SchoolCode});
     if(last){
         let year = +new Date().getFullYear();
         let past_year = year -1;
@@ -37,18 +37,19 @@ module.exports.addStudent = async function(request, response){
     let student, lastAdmissionNumber, ADN, fee, newFee, result_q, result_h,result_f, fee_record;
     try{
         student = await Student.create(request.body);
-        lastAdmissionNumber = await AdmissionNo.findOne({});
+        lastAdmissionNumber = await AdmissionNo.findOne({SchoolCode:request.user.SchoolCode});
         ADN = lastAdmissionNumber.LastAdmission;
-        await student.updateOne({AdmissionNo:ADN+1});
+        await student.updateOne({AdmissionNo:ADN+1,SchoolCode:request.user.SchoolCode});
         
-        fee = await FeeStructure.findOne({Class:request.body.Class});
+        fee = await FeeStructure.findOne({SchoolCode:request.user.SchoolCode,Class:request.body.Class});
 
         fee_record = await FeeSchema.create({
             AdmissionNo:ADN+1,
             Class:request.body.Class,
             Total:fee.Fees,
             Remaining: fee.Fees,
-            Paid:0
+            Paid:0,
+            SchoolCode:request.user.SchoolCode
         });
 
         
@@ -56,18 +57,21 @@ module.exports.addStudent = async function(request, response){
             AdmissionNo: ADN+1,
             Class:request.body.Class,
             Term: 'Quarterly',
+            SchoolCode:request.user.SchoolCode
         });
 
         result_h = await Result.create({
             AdmissionNo: ADN+1,
             Class:request.body.Class,
             Term: 'Half-Yearly',
+            SchoolCode:request.user.SchoolCode
         });
 
         result_f = await Result.create({
             AdmissionNo: ADN+1,
             Class:request.body.Class,
             Term: 'Final',
+            SchoolCode:request.user.SchoolCode
         });
 
         await lastAdmissionNumber.updateOne({LastAdmission:ADN+1});
@@ -96,8 +100,11 @@ module.exports.addStudent = async function(request, response){
 
 module.exports.updateLastAdmission =async function(req, res){
     console.log(req.body);
-    await AdmissionNumber.create(req.body);
-    return res.redirect('/admissions')
+    await AdmissionNumber.create({
+        LastAdmission:req.body.LastAdmission,
+        SchoolCode:req.user.SchoolCode
+    });
+    return res.redirect('/registration/new')
 }
 
 
@@ -109,8 +116,7 @@ module.exports.getPreview = function(req, res){
 
 // To get the student profile details/n form download
 module.exports.getProfile = async function(req, res){
-    let student = await Student.findOne({AdmissionNo:req.params.id});
-    
+    let student = await Student.findOne({AdmissionNo:req.params.id,SchoolCode:request.user.SchoolCode});
     console.log(req.params.id);
     return res.render('StudentProfile', {data:student})
 }

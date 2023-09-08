@@ -12,6 +12,10 @@ const TCRecords = new mongoose.Schema({
     RelievingDate:{
         type:String,
     },
+    SchoolCode:{
+        
+        type:String
+    },
     AdmissionClass:String,
     ReleivingClass:String
 },

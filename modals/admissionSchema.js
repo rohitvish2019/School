@@ -41,6 +41,10 @@ const Students = new mongoose.Schema({
     halfYearlyGrade:String,
     finalGrade:String,
     TotalGrade:String,
+    SchoolCode:{
+        type:String,
+        default:'NA'
+    },
     isThisCurrentRecord:{
         type:Boolean,
         default:true

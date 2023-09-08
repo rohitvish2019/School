@@ -12,7 +12,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-
+    SchoolCode:{
+        type:String
+    },
     isAdmin:{
         type: Boolean,
         default : false

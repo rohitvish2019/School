@@ -22,6 +22,9 @@ const Fees = new mongoose.Schema({
     Remaining: {
         type:Number
     },
+    SchoolCode:{
+        type:String
+    },
     LastPaid: {
         type:String
     },

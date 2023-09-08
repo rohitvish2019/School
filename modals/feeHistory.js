@@ -24,6 +24,10 @@ const FeesHistory = new mongoose.Schema({
         type:Boolean,
         default:false
     },
+    SchoolCode:{
+    
+        type:String
+    },
     type:{
         type:String,
         enum:['Fees', 'Concession']

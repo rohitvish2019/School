@@ -13,14 +13,14 @@ module.exports.signUp = function(req, res){
 }
 
 module.exports.home = function(req, res){
-
+    console.log("Printing request")
+    console.log(req.user.SchoolCode);
     const pathToDirectory = '../School/assets/carousel-photos';
     fs.readdir(pathToDirectory, (error, files) => {
     if (error) {
         console.log(error);
     } else {
-        console.log(files);
-        console.log(files[0]);
+    
         if(req.isAuthenticated){
             return res.render('admin_home', {files});
         }else{
@@ -52,9 +52,11 @@ module.exports.logout = function(req, res){
 }
 
 module.exports.addNewUser = async function(req, res){
-    await UserSchema.create(
+    let user  = await UserSchema.create(
         req.body
     );
+    await user.update({SchoolCode:req.user.SchoolCode});
+    await user.save();
 
     return res.redirect('back');
 }

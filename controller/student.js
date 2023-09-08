@@ -14,6 +14,7 @@ const TCRecords = require('../modals/TC_Records');
 
 
 
+
 function numberToWordsInRange(number1) {
     let number = parseInt(number1.toString());
     
@@ -83,7 +84,7 @@ module.exports.getStudent = async function(req, res){
         }
         else if(req.query.action ==='result'){
             let result = await Result.find({AdmissionNo:req.params.adm_no, Class:req.query.Class});
-            return res.render('resultDetails',{result, student, quarterlyTotalMarks, halfYearlyTotalMarks, finalTotalMarks});
+            return res.render('resultDetails',{result, student, quarterlyTotalMarks:properties.get(req.user.SchoolCode+'_quarterly-total'), halfYearlyTotalMarks:properties.get(req.user.SchoolCode+'_half-yearly-total'), finalTotalMarks:properties.get(req.user.SchoolCode+'_final-total')});
         }
         else if(req.query.action ==='tc'){
             let tcData = await TCRecords.findOne({AdmissionNo:req.params.adm_no});
@@ -148,10 +149,10 @@ module.exports.getStudentsList = async function(req, res){
     console.log(req.query);
     let studentList;
     if(req.query.Action === 'admission'){
-        studentList = await RegisteredStudent.find({Class:req.query.Class})
+        studentList = await RegisteredStudent.find({Class:req.query.Class,SchoolCode:req.user.SchoolCode})
     }
     else{
-        studentList = await Student.find({Class:req.query.Class, isThisCurrentRecord:true})
+        studentList = await Student.find({Class:req.query.Class, isThisCurrentRecord:true,SchoolCode:req.user.SchoolCode})
     }
     
     return res.status(200).json({
@@ -179,11 +180,11 @@ function validateResultStatus(resultData){
     let maxMarks=0;
     for(let i=0;i<resultData.length;i++){
         if(i==0){
-            maxMarks = quarterlyTotalMarks
+            maxMarks = properties.get(req.user.SchoolCode+'_quarterly-total')
         }else if(i==1){
-            maxMarks = halfYearlyTotalMarks
+            maxMarks = properties.get(req.user.SchoolCode+'_half-yearly-total')
         }else if(i==2){
-            maxMarks = finalTotalMarks
+            maxMarks = properties.get(req.user.SchoolCode+'_final-total')
         }else{
             maxMarks=100
         }
@@ -197,11 +198,11 @@ function validateResultStatus(resultData){
     return true;
 }
 
-async function upgradeClassStudent(studentAdmissionNumber, studentClass){
-
+async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolCode){
+    console.log(SchoolCode);
     let last_class_details, newRecord, newClass, feeAmounttForClass, result_q, result_h, result_f
-    last_class_details = await Student.findOne({AdmissionNo:studentAdmissionNumber, Class:studentClass});
-    let lastResult = await Result.find({AdmissionNo:studentAdmissionNumber, Class:studentClass});
+    last_class_details = await Student.findOne({AdmissionNo:studentAdmissionNumber, Class:studentClass,SchoolCode:SchoolCode});
+    let lastResult = await Result.find({AdmissionNo:studentAdmissionNumber, Class:studentClass, SchoolCode:SchoolCode});
     let lastResultStatus = validateResultStatus(lastResult);
     if(!lastResultStatus){
        return 424;
@@ -222,7 +223,7 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass){
     }else{
         newClass=+last_class_details.Class + 1;
     }
-    let thisRecordExists = await Student.findOne({AdmissionNo:last_class_details.AdmissionNo, Class:newClass});
+    let thisRecordExists = await Student.findOne({AdmissionNo:last_class_details.AdmissionNo, Class:newClass, SchoolCode:SchoolCode});
     if(thisRecordExists){
         return 409;
         /*res.status(409).json({
@@ -264,7 +265,8 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass){
         LastPassingClass:last_class_details.LastPassingClass, 
         LastClassPassingYear:last_class_details.LastClassPassingYear, 
         LastClassGrade:last_class_details.LastClassGrade,
-        Session:+last_class_details.Session + 1
+        Session:+last_class_details.Session + 1,
+        SchoolCode:SchoolCode
     })
 
 
@@ -273,7 +275,7 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass){
     await last_class_details.save();
     await newRecord.save();
     console.log(newClass);
-    feeAmounttForClass = await FeeStructure.findOne({Class:newClass});
+    feeAmounttForClass = await FeeStructure.findOne({Class:newClass,SchoolCode:SchoolCode});
     console.log(feeAmounttForClass);
     
     await Fee.create({
@@ -281,17 +283,20 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass){
         Class: newClass,
         Total: feeAmounttForClass.Fees,
         Remaining:feeAmounttForClass.Fees,
+        SchoolCode:SchoolCode
     });
 
     result_q = await Result.create({
         AdmissionNo: newRecord.AdmissionNo,
         Class:newClass,
+        SchoolCode:SchoolCode,
         Term: 'Quarterly',
     });
 
     result_h = await Result.create({
         AdmissionNo: newRecord.AdmissionNo,
         Class:newClass,
+        SchoolCode:SchoolCode,
         Term: 'Half-Yearly',
     });
 
@@ -299,6 +304,7 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass){
         AdmissionNo: newRecord.AdmissionNo,
         Class:newClass,
         Term: 'Final',
+        SchoolCode:SchoolCode,
     });
     return 200;
 
@@ -306,7 +312,7 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass){
 
 module.exports.upgradeOneStudent = async function(req, res){
 
-    let status = await upgradeClassStudent(req.params.AdmissionNo, req.query.Class);
+    let status = await upgradeClassStudent(req.params.AdmissionNo, req.query.Class, req.user.SchoolCode);
     console.log(status);
     if(status==200){
         return res.status(200).json({
@@ -341,7 +347,7 @@ module.exports.upgradeClassBulk = function(req, res){
         studentList = req.body.studentList;
         studentClass = req.body.Class
         for(let i=0;i<studentList.length;i++){
-            upgradeClassStudent(studentList[i],studentClass)
+            upgradeClassStudent(studentList[i],studentClass,req.user.SchoolCode)
         }
         return res.status(200).json({
             message:'Markes students are updgraded to new class successfully.'
@@ -429,12 +435,12 @@ module.exports.getMarksheetUI = async function(req, res){
     for(let i=0;i<grades.length;i++){
         let t= 0;
         if(i==0){
-            totalsToTerm = quarterlyTotalMarks
+            totalsToTerm = properties.get(req.user.SchoolCode+'_quarterly-total')
         }else if(i==1){
-            totalsToTerm = halfYearlyTotalMarks
+            totalsToTerm = properties.get(req.user.SchoolCode+'_half-yearly-total')
         }
         else if(i=2){
-            totalsToTerm = finalTotalMarks
+            totalsToTerm = properties.get(req.user.SchoolCode+'_final-total')
         }
         else{
             totalsToTerm=100
@@ -451,11 +457,11 @@ module.exports.getMarksheetUI = async function(req, res){
     for(let i=0;i<3;i++){
         let fullMarks=0;
         if(i===0){
-            fullMarks = quarterlyTotalMarks
+            fullMarks = properties.get(req.user.SchoolCode+'_quarterly-total')
         }else if(i===1){
-            fullMarks = halfYearlyTotalMarks
+            fullMarks = properties.get(req.user.SchoolCode+'_half-yearly-total')
         }else if(i==2){
-            fullMarks = finalTotalMarks
+            fullMarks = properties.get(req.user.SchoolCode+'_final-total')
         }else{
             fullMarks = 600
         }
@@ -465,7 +471,7 @@ module.exports.getMarksheetUI = async function(req, res){
     await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{quarterlyGrade:totals[3]});
     await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{halfYearlyGrade:totals[4]});
     await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{finalGrade:totals[5]});   
-    await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{TotalGrade:calculateGrade(getPercentage(overAllMarks, (quarterlyTotalMarks+halfYearlyTotalMarks+finalTotalMarks)*6))});   
+    await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{TotalGrade:calculateGrade(getPercentage(overAllMarks, (properties.get(req.user.SchoolCode+'_quarterly-total')+properties.get(req.user.SchoolCode+'_half-yearly-total')+properties.get(req.user.SchoolCode+'_final-total'))*6))});   
 
     console.log("Result")
     console.log(totals);

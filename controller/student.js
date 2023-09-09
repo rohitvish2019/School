@@ -75,99 +75,134 @@ function convertDateFormat(thisDate){
 }
 
 module.exports.getStudent = async function(req, res){
-    console.log(req.query);
-    let student = await Student.findOne({AdmissionNo:req.params.adm_no, Class:req.query.Class});
-    try{
-        if(req.query.action === 'fee'){
-            let feesList = await Fee.find({AdmissionNo:req.params.adm_no});
-            return res.render('feeDetails',{feesList, student});
-        }
-        else if(req.query.action ==='result'){
-            let result = await Result.find({AdmissionNo:req.params.adm_no, Class:req.query.Class});
-            return res.render('resultDetails',{result, student, quarterlyTotalMarks:properties.get(req.user.SchoolCode+'_quarterly-total'), halfYearlyTotalMarks:properties.get(req.user.SchoolCode+'_half-yearly-total'), finalTotalMarks:properties.get(req.user.SchoolCode+'_final-total')});
-        }
-        else if(req.query.action ==='tc'){
-            let tcData = await TCRecords.findOne({AdmissionNo:req.params.adm_no});
-            console.log("TC Data")
-            console.log(tcData);
-            let err=''
-            let DOBInWords=getDOBInWords(student.DOB);
-            let DOBDate = convertDateFormat(student.DOB);
-
-            if(!tcData.ReleivingClass || !tcData.RelievingDate){
-                err = "TC not generated yet, Please discharge the student first and try again"
-                return res.render('TCDetails',{student,err,DOBInWords,DOBDate});            }
-            return res.render('TCDetails',{student,err ,tcData,DOBInWords,DOBDate});
-        }
-        else{
-            if(student){
-                console.log("Student found");
-                return res.render('student_details',{student:student});
-            }else{
-                console.log('Student not found')
-                return res.status(404).json({
-                    message:"No student found"
-                })
+    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
+        let student = await Student.findOne({AdmissionNo:req.params.adm_no, Class:req.query.Class});
+        try{
+            if(req.query.action === 'fee'){
+                let feesList = await Fee.find({AdmissionNo:req.params.adm_no});
+                return res.render('feeDetails',{feesList, student,role:req.user.role});
             }
-        }
-        
-    }catch(err){
-        console.log(err)
-        return res.status(500).json({
-            message:"Internal Server Error"
-        })
-    }
+            else if(req.query.action ==='result'){
+                let result = await Result.find({AdmissionNo:req.params.adm_no, Class:req.query.Class});
+                return res.render('resultDetails',{role:req.user.role, result, student, quarterlyTotalMarks:properties.get(req.user.SchoolCode+'_quarterly-total'), halfYearlyTotalMarks:properties.get(req.user.SchoolCode+'_half-yearly-total'), finalTotalMarks:properties.get(req.user.SchoolCode+'_final-total')});
+            }
+            else if(req.query.action ==='tc'){
+                let tcData = await TCRecords.findOne({AdmissionNo:req.params.adm_no});
+                console.log("TC Data")
+                console.log(tcData);
+                let err=''
+                let DOBInWords=getDOBInWords(student.DOB);
+                let DOBDate = convertDateFormat(student.DOB);
 
-    
+                if(!tcData.ReleivingClass || !tcData.RelievingDate){
+                    err = "TC not generated yet, Please discharge the student first and try again"
+                    return res.render('TCDetails',{student,err,DOBInWords,DOBDate});            }
+                return res.render('TCDetails',{role:req.user.role,student,err ,tcData,DOBInWords,DOBDate});
+            }
+            else{
+                if(student){
+                    console.log("Student found");
+                    return res.render('student_details',{role:req.user.role,student:student});
+                }else{
+                    console.log('Student not found')
+                    return res.status(404).json({
+                        message:"No student found"
+                    })
+                }
+            }
+            
+        }catch(err){
+            console.log(err)
+            return res.status(500).json({
+                message:"Internal Server Error"
+            })
+        }
+    }else{
+        return res.status(403).json({
+            message:'Unauthorized'
+        })   
+    }
 }
 
 module.exports.search = function(req, res){
-    return res.render('student_search',{admin:req.user.isAdmin});
+    return res.render('student_search',{admin:req.user.isAdmin,role:req.user.role});
 }
 
 module.exports.getStudentsByClassForm = function(req, res){
-    return res.render('studentListByClass',{action:'none',admin:req.user.isAdmin});
+    if(req.user.role == 'Admin'){
+        return res.render('studentListByClass',{action:'none',admin:req.user.isAdmin,role:req.user.role});
+    }else{
+        return res.render('Error_403')
+    }
+    
 }
 
 module.exports.getStudentsByClassFormFee = function(req, res){
-    return res.render('studentListByClass', {action:'fee',admin:req.user.isAdmin});
+    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
+        return res.render('studentListByClass', {action:'fee',admin:req.user.isAdmin,role:req.user.role});
+    }else{
+        return res.render("Error_403")
+    }
+    
 }
 
 module.exports.getStudentsByClassFormResult = function(req, res){
-    return res.render('studentListByClass', {action:'result',admin:req.user.isAdmin});
+    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
+        return res.render('studentListByClass', {action:'result',admin:req.user.isAdmin,role:req.user.role});
+    }else{
+        return res.render('Error_403')    
+    }
+    
 }
 
 module.exports.getStudentsByClassFormTC = function(req, res){
-    return res.render('studentListByClass', {action:'tc',admin:req.user.isAdmin});
+    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
+        return res.render('studentListByClass', {action:'tc',admin:req.user.isAdmin,role:req.user.role});
+    }else{
+        return res.render('Error_403')        
+    }
+    
 }
 
 module.exports.getStudentsByClassFormAdmission = function(req, res){
-    return res.render('studentListByClass', {action:'admission',admin:req.user.isAdmin});
+    if(req.user.role == 'Admin'){
+        return res.render('studentListByClass', {action:'admission',admin:req.user.isAdmin,role:req.user.role});
+    }else{
+        return res.render('Error_403')
+    }
 }
 
 module.exports.getStudentsList = async function(req, res){
-    console.log(req.query);
     let studentList;
-    if(req.query.Action === 'admission'){
-        studentList = await RegisteredStudent.find({Class:req.query.Class,SchoolCode:req.user.SchoolCode})
-    }
-    else{
-        studentList = await Student.find({Class:req.query.Class, isThisCurrentRecord:true,SchoolCode:req.user.SchoolCode})
-    }
-    
-    return res.status(200).json({
-        message:"Student list fetched successfully",
-        data: {studentList, action:req.query.Action}
-    })
+    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
+        if(req.query.Action === 'admission'){
+            studentList = await RegisteredStudent.find({Class:req.query.Class,SchoolCode:req.user.SchoolCode})
+        }
+        else{
+            studentList = await Student.find({Class:req.query.Class, isThisCurrentRecord:true,SchoolCode:req.user.SchoolCode})
+        }
+        return res.status(200).json({
+            message:"Student list fetched successfully",
+            data: {studentList, action:req.query.Action}
+        })
+    }else{
+        return res.status(403).json({
+            message:"Unauthorized"
+        })        
+    }  
 }
 
 module.exports.upgradeClassPage = function(req, res){
-
-    return res.render('upgradeClass', {admin:req.user.isAdmin});
+    if(req.user.role === 'Admin'){
+        return res.render('upgradeClass', {admin:req.user.isAdmin,role:req.user.role});
+    }else{
+        return res.render('Error_403')
+    }
+    
 }
 
 
-function validateResultStatus(resultData){
+function validateResultStatus(resultData, SchoolCode){
     let student_Class = resultData[0].Class;
     if(student_Class == '6' || student_Class=='7' || student_Class=='8'){
         subjects=['Hindi', 'English','Math', 'Science', 'Social_Science', 'Sanskrit']
@@ -180,11 +215,11 @@ function validateResultStatus(resultData){
     let maxMarks=0;
     for(let i=0;i<resultData.length;i++){
         if(i==0){
-            maxMarks = properties.get(req.user.SchoolCode+'_quarterly-total')
+            maxMarks = properties.get(SchoolCode+'_quarterly-total')
         }else if(i==1){
-            maxMarks = properties.get(req.user.SchoolCode+'_half-yearly-total')
+            maxMarks = properties.get(SchoolCode+'_half-yearly-total')
         }else if(i==2){
-            maxMarks = properties.get(req.user.SchoolCode+'_final-total')
+            maxMarks = properties.get(SchoolCode+'_final-total')
         }else{
             maxMarks=100
         }
@@ -203,7 +238,7 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
     let last_class_details, newRecord, newClass, feeAmounttForClass, result_q, result_h, result_f
     last_class_details = await Student.findOne({AdmissionNo:studentAdmissionNumber, Class:studentClass,SchoolCode:SchoolCode});
     let lastResult = await Result.find({AdmissionNo:studentAdmissionNumber, Class:studentClass, SchoolCode:SchoolCode});
-    let lastResultStatus = validateResultStatus(lastResult);
+    let lastResultStatus = validateResultStatus(lastResult, SchoolCode);
     if(!lastResultStatus){
        return 424;
     }
@@ -311,53 +346,64 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
 }
 
 module.exports.upgradeOneStudent = async function(req, res){
-
-    let status = await upgradeClassStudent(req.params.AdmissionNo, req.query.Class, req.user.SchoolCode);
-    console.log(status);
-    if(status==200){
-        return res.status(200).json({
-            message:'Student upgraded successfully'
-        });
-    }else if(status==400){
-        return res.status(400).json({
-            message:'Student can not be upgraded from class 8th as per school policy'
-        });
-    }else if(status==409){
-        return res.end('This student is already upgraded to next class');
+    if(req.user.role === 'Admin'){
+        let status = await upgradeClassStudent(req.params.AdmissionNo, req.query.Class, req.user.SchoolCode);
+        console.log(status);
+        if(status==200){
+            return res.status(200).json({
+                message:'Student upgraded successfully'
+            });
+        }else if(status==400){
+            return res.status(400).json({
+                message:'Student can not be upgraded from class 8th as per school policy'
+            });
+        }else if(status==409){
+            return res.end('This student is already upgraded to next class');
+        }
+        else if(status == 424){
+            return res.status(424).json({
+                message:"Result is not updated correctly, kindly update and try again"
+            })
+        }
+        else{
+            return res.end('error upgrading class');
+        }
+    }else{
+        return res.status(403).json({
+            message:"Unauthorized"
+        })        
     }
-    else if(status == 424){
-        return res.status(424).json({
-            message:"Result is not updated correctly, kindly update and try again"
-        })
-    }
-    else{
-        return res.end('error upgrading class');
-    }
-    
 }
 
 
 module.exports.upgradeClassBulk = function(req, res){
-    try{
-        if(req.body.Class==='8'){
-            return res.status(400).json({
-                message:'8th class can not be upgraded'
+    if(req.user.role === 'Admin'){
+        try{
+            if(req.body.Class==='8'){
+                return res.status(400).json({
+                    message:'8th class can not be upgraded'
+                })
+            }
+            studentList = req.body.studentList;
+            studentClass = req.body.Class
+            for(let i=0;i<studentList.length;i++){
+                upgradeClassStudent(studentList[i],studentClass,req.user.SchoolCode)
+            }
+            return res.status(200).json({
+                message:'Markes students are updgraded to new class successfully.'
+            });
+        }catch(err){
+            console.log(err);
+            return res.status(500).json({
+                message:'Internal server error'
             })
         }
-        studentList = req.body.studentList;
-        studentClass = req.body.Class
-        for(let i=0;i<studentList.length;i++){
-            upgradeClassStudent(studentList[i],studentClass,req.user.SchoolCode)
-        }
-        return res.status(200).json({
-            message:'Markes students are updgraded to new class successfully.'
-        });
-    }catch(err){
-        console.log(err);
-        return res.status(500).json({
-            message:'Internal server error'
-        })
+    }else{
+        return res.status(403).json({
+            message:"Unauthorized"
+        })        
     }
+    
 }
 
 function calculateGrade(value){
@@ -398,114 +444,112 @@ function getDate(){
 
 
 module.exports.getMarksheetUI = async function(req, res){
-    console.log(req.query);
-    console.log(req.params);
-    let result_q = await Result.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo, Term:'Quarterly'});
-    let result_h = await Result.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo, Term:'Half-Yearly'});
-    let result_f = await Result.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo, Term:'Final'});
-    let student = await Student.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo});
-    let subjects;
-    console.log(result_q['Hindi']);
-    let result = [];
-    result.push(result_q);
-    result.push(result_h);
-    result.push(result_f);
-    let resultStatus = validateResultStatus(result);
-    let error_message='';
-    if(!resultStatus){
-        error_message='Result is not updated correctly, kindly update the result and try again';
-    }
-    console.log(result[0].Hindi);
-    let q_grades={};
-    let h_grades={};
-    let f_grades={};
-    let grades = [];
-    let totals = [];
-    grades.push(q_grades);
-    grades.push(h_grades);
-    grades.push(f_grades);
-    
-    
-    if(student.Class == '6' || student.Class=='7' || student.Class=='8'){
-        subjects=['Hindi', 'English','Math', 'Science', 'Social_Science', 'Sanskrit']
-    }
-    else{
-        subjects=['Hindi', 'English','Math', 'Moral', 'Computer', 'Enviornment']
-    }
-    for(let i=0;i<grades.length;i++){
-        let t= 0;
-        if(i==0){
-            totalsToTerm = properties.get(req.user.SchoolCode+'_quarterly-total')
-        }else if(i==1){
-            totalsToTerm = properties.get(req.user.SchoolCode+'_half-yearly-total')
+    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
+        let result_q = await Result.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo, Term:'Quarterly'});
+        let result_h = await Result.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo, Term:'Half-Yearly'});
+        let result_f = await Result.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo, Term:'Final'});
+        let student = await Student.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo});
+        let subjects;
+        console.log(result_q['Hindi']);
+        let result = [];
+        result.push(result_q);
+        result.push(result_h);
+        result.push(result_f);
+        let resultStatus = validateResultStatus(result, req.user.SchoolCode);
+        let error_message='';
+        if(!resultStatus){
+            error_message='Result is not updated correctly, kindly update the result and try again';
         }
-        else if(i=2){
-            totalsToTerm = properties.get(req.user.SchoolCode+'_final-total')
+        console.log(result[0].Hindi);
+        let q_grades={};
+        let h_grades={};
+        let f_grades={};
+        let grades = [];
+        let totals = [];
+        grades.push(q_grades);
+        grades.push(h_grades);
+        grades.push(f_grades);
+        
+        
+        if(student.Class == '6' || student.Class=='7' || student.Class=='8'){
+            subjects=['Hindi', 'English','Math', 'Science', 'Social_Science', 'Sanskrit']
         }
         else{
-            totalsToTerm=100
+            subjects=['Hindi', 'English','Math', 'Moral', 'Computer', 'Enviornment']
         }
-        for(let j=0;j<subjects.length;j++){
-            let grade = calculateGrade(getPercentage(result[i][subjects[j]],totalsToTerm))
-            t = t+result[i][subjects[j]];
-            grades[i][subjects[j]] = grade;
+        for(let i=0;i<grades.length;i++){
+            let t= 0;
+            if(i==0){
+                totalsToTerm = properties.get(req.user.SchoolCode+'_quarterly-total')
+            }else if(i==1){
+                totalsToTerm = properties.get(req.user.SchoolCode+'_half-yearly-total')
+            }
+            else if(i=2){
+                totalsToTerm = properties.get(req.user.SchoolCode+'_final-total')
+            }
+            else{
+                totalsToTerm=100
+            }
+            for(let j=0;j<subjects.length;j++){
+                let grade = calculateGrade(getPercentage(result[i][subjects[j]],totalsToTerm))
+                t = t+result[i][subjects[j]];
+                grades[i][subjects[j]] = grade;
+            }
+            totals.push(t);
         }
-        totals.push(t);
-    }
-    let Terms = ['Quarterly','Half-Yearly','Final'];
-    let overAllMarks = 0;
-    for(let i=0;i<3;i++){
-        let fullMarks=0;
-        if(i===0){
-            fullMarks = properties.get(req.user.SchoolCode+'_quarterly-total')
-        }else if(i===1){
-            fullMarks = properties.get(req.user.SchoolCode+'_half-yearly-total')
-        }else if(i==2){
-            fullMarks = properties.get(req.user.SchoolCode+'_final-total')
-        }else{
-            fullMarks = 600
-        }
-        overAllMarks = overAllMarks + totals[i];
-        totals.push(calculateGrade(getPercentage(totals[i], fullMarks*6)));
-    } 
-    await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{quarterlyGrade:totals[3]});
-    await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{halfYearlyGrade:totals[4]});
-    await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{finalGrade:totals[5]});   
-    await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{TotalGrade:calculateGrade(getPercentage(overAllMarks, (properties.get(req.user.SchoolCode+'_quarterly-total')+properties.get(req.user.SchoolCode+'_half-yearly-total')+properties.get(req.user.SchoolCode+'_final-total'))*6))});   
-
-    console.log("Result")
-    console.log(totals);
-
+        let Terms = ['Quarterly','Half-Yearly','Final'];
+        let overAllMarks = 0;
+        for(let i=0;i<3;i++){
+            let fullMarks=0;
+            if(i===0){
+                fullMarks = properties.get(req.user.SchoolCode+'_quarterly-total')
+            }else if(i===1){
+                fullMarks = properties.get(req.user.SchoolCode+'_half-yearly-total')
+            }else if(i==2){
+                fullMarks = properties.get(req.user.SchoolCode+'_final-total')
+            }else{
+                fullMarks = 600
+            }
+            overAllMarks = overAllMarks + totals[i];
+            totals.push(calculateGrade(getPercentage(totals[i], fullMarks*6)));
+        } 
+        await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{quarterlyGrade:totals[3]});
+        await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{halfYearlyGrade:totals[4]});
+        await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{finalGrade:totals[5]});   
+        await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{TotalGrade:calculateGrade(getPercentage(overAllMarks, (properties.get(req.user.SchoolCode+'_quarterly-total')+properties.get(req.user.SchoolCode+'_half-yearly-total')+properties.get(req.user.SchoolCode+'_final-total'))*6))});   
+        return res.render('getMarksheet',{role:req.user.role,admin:req.user.isAdmin,error_message, result_q, result_h, result_f, student, subjects, grades, totals});
+    }else{
+        return res.render('Error_403')        
+    }	
     
-    
-    
-    
-    
-    return res.render('getMarksheet',{admin:req.user.isAdmin,error_message, result_q, result_h, result_f, student, subjects, grades, totals});
 }
 
 module.exports.dischargeStudent = async function(req, res){
-    console.log("admissionNo is "+req.params.AdmissionNo);
-    try{
-        let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo,isThisCurrentRecord:true})
-        console.log(student.TotalGrade)
-        if(!student.TotalGrade){
-            console.log("Result not updated")
+    if(req.user.role === 'Admin'){
+        try{
+            let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo,isThisCurrentRecord:true})
+            console.log(student.TotalGrade)
+            if(!student.TotalGrade){
+                console.log("Result not updated")
+                return res.status(500).json({
+                    message:"Result not updated correctly"
+                })
+            }
+            await Student.findOneAndUpdate({AdmissionNo:req.params.AdmissionNo,isThisCurrentRecord:true }, {isThisCurrentRecord:'false'});
+            await TCRecords.findOneAndUpdate({AdmissionNo:req.params.AdmissionNo}, {RelievingDate:getDate(), ReleivingClass:student.Class})
+            
+            return res.status(200).json({
+                message:"Student is updated as alumini now"
+            })
+        }catch(err){
+            console.log(err);
             return res.status(500).json({
-                message:"Result not updated correctly"
+                message:"Error discharging student, please try again later"
             })
         }
-        await Student.findOneAndUpdate({AdmissionNo:req.params.AdmissionNo,isThisCurrentRecord:true }, {isThisCurrentRecord:'false'});
-        await TCRecords.findOneAndUpdate({AdmissionNo:req.params.AdmissionNo}, {RelievingDate:getDate(), ReleivingClass:student.Class})
-        
-        return res.status(200).json({
-            message:"Student is updated as alumini now"
-        })
-    }catch(err){
-        console.log(err);
-        return res.status(500).json({
-            message:"Error discharging student, please try again later"
-        })
-    }
-    
+    }else{
+        return res.status(403).json({
+            message:"Unauthorized"
+        })        
+    }  
 }

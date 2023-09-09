@@ -119,6 +119,7 @@ function showStudentsList(data, action){
                 <label><b>Class</b></label>
                 <label><b>Father's Name</b></label>
                 <label><b>Mother's Name</b></label>
+                <label><b>Registered By</b></label>
                 <label><b>Actions</b></label>
                 
             </li>
@@ -137,6 +138,7 @@ function showStudentsList(data, action){
                 <label for="">${student.Class}</label>
                 <label for="">${student.FathersName}</label>
                 <label for="">${student.MothersName}</label>
+                <label for="">${student.RegisteredBy}</label>
                 <div class="dropdown" style='font-size:0.7rem'>
                     <a style='font-size:0.7rem' class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                         Actions

@@ -94,11 +94,11 @@ function submitFeeOrConcession(){
             },1000)
             
         },
-        error: function(data){
+        error: function(err){
             new Noty({
                 theme: 'relax',
-                text: data.message,
-                type: 'success',
+                text: JSON.parse(err.responseText).message,
+                type: 'error',
                 layout: 'topRight',
                 timeout: 1000
             }).show();

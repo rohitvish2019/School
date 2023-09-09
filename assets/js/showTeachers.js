@@ -78,4 +78,36 @@ function runListener(event){
             error: function(err){console.error.bind(err)}
         })
     }
+    else if(itemId.match(/delete.*/)){
+        removeTeacher(itemId.slice(7))
+    }
+}
+
+
+function addTeacher(){
+
+}
+
+function removeTeacher(recordId){
+    $.ajax({
+        type:'POST',
+        url:'/teachers/remove',
+        data:{
+            id:recordId,
+        },
+        success : function(data){
+            console.log(data);
+            new Noty({
+                theme: 'relax',
+                text: data.message,
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1000
+            }).show();
+            setTimeout(function(){
+                window.location.href='/teachers/home'
+            },800)
+        },
+        error: function(err){console.error.bind(err)}
+    })
 }

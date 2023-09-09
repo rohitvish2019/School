@@ -36,6 +36,7 @@ const RegisteredStudents = new mongoose.Schema({
     LastPassingClass:String, 
     LastClassPassingYear:String, 
     LastClassGrade:String,
+    RegisteredBy:String,
     SchoolCode:{
         
         type:String,

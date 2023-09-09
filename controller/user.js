@@ -20,9 +20,8 @@ module.exports.home = function(req, res){
     if (error) {
         console.log(error);
     } else {
-    
         if(req.isAuthenticated){
-            return res.render('admin_home', {files});
+            return res.render('admin_home', {files,role:req.user.role});
         }else{
             return re.redirect('/user/login')
         }
@@ -52,15 +51,22 @@ module.exports.logout = function(req, res){
 }
 
 module.exports.addNewUser = async function(req, res){
-    let user  = await UserSchema.create(
-        req.body
-    );
-    await user.update({SchoolCode:req.user.SchoolCode});
-    await user.save();
-
-    return res.redirect('back');
+    if(req.user.role === 'Admin'){
+        let user  = await UserSchema.create(
+            req.body
+        );
+        await user.update({SchoolCode:req.user.SchoolCode});
+        await user.save();
+        return res.redirect('back');
+    }else{
+        return res.render('Error_403');        
+    }
 }
 
 module.exports.addUserPage = function(req, res){
-    return res.render('addUser');
+    if(req.user.role === 'Admin'){
+        return res.render('addUser',{role:req.user.role});
+    }else{
+        return res.render('Error_403')
+    }
 }

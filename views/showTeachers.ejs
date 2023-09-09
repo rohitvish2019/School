@@ -36,10 +36,11 @@
                 <td><textarea readonly id="<%=teachers[i]._id%>_samagra" name="" id="" cols="12" rows="1"><%=teachers[i].Samagra%></textarea></td>
 
                 <td><input type="date" readonly id="<%=teachers[i]._id%>_dob" name="" id="" value="<%=teachers[i].DOB%>"></td>
-
+                               
                 <td>
                   <button id="edit_<%=teachers[i]._id%>" class="editTeacher btn btn-primary">Edit</button>
                   <button hidden id="update_<%=teachers[i]._id%>" class="btn btn-success">Update</button>
+                  <button id="delete_<%=teachers[i]._id%>" class="removeTeacher btn btn-danger">Remove</button>
                 </td>
               </tr>
             <%}%>

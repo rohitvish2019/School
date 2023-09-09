@@ -15,176 +15,224 @@ function convertDateFormat(thisDate){
 }
 // To get the fee details of individual student
 module.exports.getFeeDetails = async function(req, res){
-    try{
-        let student = await Student.findById(req.params.id);
-        feeData = await Fee.findOne({AdmissionNo:student.AdmissionNo,SchoolCode:req.user.SchoolCode});
-        return res.render('feeSubmit', {feeData:feeData, student:student});
-    }catch(err){
-        return res.redirect('back')
+    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
+        try{
+            let student = await Student.findById(req.params.id);
+            feeData = await Fee.findOne({AdmissionNo:student.AdmissionNo,SchoolCode:req.user.SchoolCode});
+            return res.render('feeSubmit', {feeData:feeData, student:student, role:req.user.role});
+        }catch(err){
+            return res.redirect('back')
+        }
+    }else{
+        return res.render('Error_403')
     }
-    
-    
 }
 
 //
 module.exports.getFee =async function(req, res){
-    try{
-        let fee = await Fee.find({AdmissionNo:req.query.AdmissionNo,SchoolCode:req.user.SchoolCode});
-        if(fee){
-            return res.status(200).json({
-                message:'Success',
-                data:fee
-            })
-        }else{
-            return res.status(404).json({
-                message:'No data found'
+    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
+        try{
+            let fee = await Fee.find({AdmissionNo:req.query.AdmissionNo,SchoolCode:req.user.SchoolCode});
+            if(fee){
+                return res.status(200).json({
+                    message:'Success',
+                    data:fee
+                })
+            }else{
+                return res.status(404).json({
+                    message:'No data found'
+                })
+            }
+        }catch(err){
+            return res.status(500).json({
+                message:"Internal Server Error"
             })
         }
-    }catch(err){
-        return res.status(500).json({
-            message:"Internal Server Error"
+    }else{
+        return res.status(403).json({
+            message:'You are not autorized for this action'
         })
     }
+    
     
     
 }
 
 module.exports.feeSubmission =async function(req, res){
-    console.log(req.body);
-    try{
-        let fee = await Fee.findOne({AdmissionNo:req.body.AdmissionNo, Class:req.body.Class,SchoolCode:req.user.SchoolCode});
-        let paidFee = fee.Paid;
-        let remainingFee = fee.Remaining;
-        if(paidFee == null){
-            paidFee = 0
+    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
+        try{
+            let fee = await Fee.findOne({AdmissionNo:req.body.AdmissionNo, Class:req.body.Class,SchoolCode:req.user.SchoolCode});
+            let paidFee = fee.Paid;
+            let remainingFee = fee.Remaining;
+            if(paidFee == null){
+                paidFee = 0
+            }
+    
+            if(remainingFee == null){
+                remainingFee = 0
+            }
+            await fee.update({Paid:fee.Paid + +req.body.Amount, Remaining: fee.Remaining - +req.body.Amount });
+            let lastFeeReceiptNumber = await admissionNoSchema.findOne({SchoolCode:req.user.SchoolCode});
+            await lastFeeReceiptNumber.update({LastFeeReceiptNo:lastFeeReceiptNumber.LastFeeReceiptNo+1});
+            lastFeeReceiptNumber.save();
+            console.log(lastFeeReceiptNumber);
+            await FeeHistory.create({
+                AdmissionNo:fee.AdmissionNo,
+                Class: fee.Class,
+                SchoolCode:req.user.SchoolCode,
+                Amount: req.body.Amount,
+                Payment_Date: convertDateFormat(req.body.Date.slice(0,10)),
+                Comment: req.body.Comment,
+                type:'Fees',
+                Receipt_No:lastFeeReceiptNumber.LastFeeReceiptNo,
+            });
+            return res.status(200).json({
+                message:'Fees record updated successfully'
+            })
+        }catch(err){
+            console.log(err)
+            return res.status(500).json({
+                message:'Internal server error'
+            })
         }
-
-        if(remainingFee == null){
-            remainingFee = 0
-        }
-        await fee.update({Paid:fee.Paid + +req.body.Amount, Remaining: fee.Remaining - +req.body.Amount });
-        let lastFeeReceiptNumber = await admissionNoSchema.findOne({SchoolCode:req.user.SchoolCode});
-        await lastFeeReceiptNumber.update({LastFeeReceiptNo:lastFeeReceiptNumber.LastFeeReceiptNo+1});
-        lastFeeReceiptNumber.save();
-        console.log(lastFeeReceiptNumber);
-        await FeeHistory.create({
-            AdmissionNo:fee.AdmissionNo,
-            Class: fee.Class,
-            SchoolCode:req.user.SchoolCode,
-            Amount: req.body.Amount,
-            Payment_Date: convertDateFormat(req.body.Date.slice(0,10)),
-            Comment: req.body.Comment,
-            type:'Fees',
-            Receipt_No:lastFeeReceiptNumber.LastFeeReceiptNo,
-        });
-        return res.status(200).json({
-            message:'Fees record updated successfully'
-        })
-    }catch(err){
-        console.log(err)
-        return res.status(500).json({
-            message:'Internal server error'
+    }else{
+        return res.status(403).json({
+            message:"Your are not authorized to perform this action"
         })
     }
 }
 
 module.exports.cancelFees = async function(req, res){
-    try{
-        let feeRecord = await FeeHistory.findById(req.params.id);
-        await feeRecord.update({isCancelled:true});
-        await feeRecord.save();
-
-        let oldFee = await Fee.findOne({AdmissionNo:feeRecord.AdmissionNo, Class:feeRecord.Class,SchoolCode:req.user.SchoolCode});
-        await Fee.findOneAndUpdate({AdmissionNo:feeRecord.AdmissionNo, Class:feeRecord.Class,SchoolCode:req.user.SchoolCode},{Paid:oldFee.Paid - feeRecord.Amount, Remaining:oldFee.Remaining + feeRecord.Amount});
-        return res.redirect('back');
-    }catch(err){
-        return res.redirect('back');
+    if(req.user.role === 'Admin'){
+        try{
+            let feeRecord = await FeeHistory.findById(req.params.id);
+            await feeRecord.update({isCancelled:true});
+            await feeRecord.save();
+    
+            let oldFee = await Fee.findOne({AdmissionNo:feeRecord.AdmissionNo, Class:feeRecord.Class,SchoolCode:req.user.SchoolCode});
+            await Fee.findOneAndUpdate({AdmissionNo:feeRecord.AdmissionNo, Class:feeRecord.Class,SchoolCode:req.user.SchoolCode},{Paid:oldFee.Paid - feeRecord.Amount, Remaining:oldFee.Remaining + feeRecord.Amount});
+            return res.redirect('back');
+        }catch(err){
+            return res.redirect('back');
+        }
+    }else{
+        return res.render('Error_403')
     }
 }
 
 module.exports.updateFeeForm = async function(req, res){
     let feesData = [];
-    try{
-        feesData = await FeeStructure.find({SchoolCode:req.user.SchoolCode});
-        console.log(feesData);
-    }catch(err){
-        console.log(err);
+    if(req.user.role === 'Admin'){
+        try{
+            feesData = await FeeStructure.find({SchoolCode:req.user.SchoolCode});
+            console.log(feesData);
+        }catch(err){
+            console.log(err);
+        }
+        return res.render('updateFeeForm', {feesData, role:req.user.role});
+    }else{
+        return res.render('Error_403')
     }
-    return res.render('updateFeeForm', {feesData});
+   
 }
 
 module.exports.updateFee = async function(req, res){
-    try{
-        let currentFee = await FeeStructure.findOne({Class:req.body.Class,SchoolCode:req.user.SchoolCode});
-        if(currentFee){
-            await currentFee.update({Fees: req.body.Fees});
-            currentFee.save();
+    if(req.user.role === 'Admin'){
+        try{
+            let currentFee = await FeeStructure.findOne({Class:req.body.Class,SchoolCode:req.user.SchoolCode});
+            if(currentFee){
+                await currentFee.update({Fees: req.body.Fees});
+                currentFee.save();
+            }
+            else{
+                await FeeStructure.create({
+                    Class:req.body.Class,
+                    Fees: req.body.Fees,
+                    SchoolCode:req.user.SchoolCode
+                });
+            }   
+            
+            return res.redirect('back');
+        }catch(err){
+            console.log(err);
+            return res.redirect('back')
         }
-        else{
-            await FeeStructure.create({
-                Class:req.body.Class,
-                Fees: req.body.Fees,
-                SchoolCode:req.user.SchoolCode
-            });
-        }   
-        
-        return res.redirect('back');
-    }catch(err){
-        console.log(err);
-        return res.redirect('back')
+    }else{
+        return res.render('Error_403')
     }
+    
 }
 
 module.exports.addConsession = async function(req, res){
-    try{
-        let fee = await Fee.findOne({AdmissionNo:req.body.AdmissionNo, Class:req.body.Class,SchoolCode:req.user.SchoolCode});
-        if(fee){
-            console.log("Entered in method");
-            let cnc = fee.Concession;
-            console.log(cnc);
-            await fee.update({Concession: fee.Concession + +req.body.Amount, Remaining: fee.Remaining - req.body.Amount});
-            fee.save();
-            await FeeHistory.create({
-                AdmissionNo:fee.AdmissionNo,
-                Class: fee.Class,
-                Amount: req.body.Amount,
-                Payment_Date: convertDateFormat(req.body.Date.slice(0,10)),
-                Comment: req.body.Comment,
-                type:'Concession',
-                SchoolCode:req.user.SchoolCode
-            });
+    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
+        try{
+            let fee = await Fee.findOne({AdmissionNo:req.body.AdmissionNo, Class:req.body.Class,SchoolCode:req.user.SchoolCode});
+            if(fee){
+                console.log("Entered in method");
+                let cnc = fee.Concession;
+                console.log(cnc);
+                await fee.update({Concession: fee.Concession + +req.body.Amount, Remaining: fee.Remaining - req.body.Amount});
+                fee.save();
+                await FeeHistory.create({
+                    AdmissionNo:fee.AdmissionNo,
+                    Class: fee.Class,
+                    Amount: req.body.Amount,
+                    Payment_Date: convertDateFormat(req.body.Date.slice(0,10)),
+                    Comment: req.body.Comment,
+                    type:'Concession',
+                    SchoolCode:req.user.SchoolCode
+                });
+            }
+            return res.status(200).json({
+                message:'Successfully added concession record'
+            })
+        }catch(err){
+            return res.status(500).json({
+                message:'Error adding concession :: Internal server error'
+            })
         }
-        return res.status(200).json({
-            message:'Successfully added concession record'
-        })
-    }catch(err){
-        return res.status(500).json({
-            message:'Error adding concession :: Internal server error'
+    }else{
+        return res.status(403).json({
+            message:"Unautorized"
         })
     }
+    
+    
 }
 
 
 module.exports.getFeeHistory = async function(req, res){
-    let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo,type:'Fees',isCancelled:false,SchoolCode:req.user.SchoolCode}).sort({Payment_Date:'descending'});
-    return res.status(200).json({
-        message:'History fetched successfully',
-        data: feeList
-    })
+    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
+        let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo,type:'Fees',isCancelled:false,SchoolCode:req.user.SchoolCode}).sort({Payment_Date:'descending'});
+        return res.status(200).json({
+            message:'History fetched successfully',
+            data: feeList
+        })
+    }else{
+        return res.status(403).json({
+            message:"Unautorized"
+        })
+    }
 }
 
 
 module.exports.getConcessionHistory = async function(req, res){
-    let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo, type:'Concession',SchoolCode:req.user.SchoolCode}).sort({Payment_Date:'descending'});
-    return res.status(200).json({
-        message:'History fetched successfully',
-        data: feeList
-    })
+    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
+        let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo, type:'Concession',SchoolCode:req.user.SchoolCode}).sort({Payment_Date:'descending'});
+        return res.status(200).json({
+            message:'History fetched successfully',
+            data: feeList
+        })
+    }else{
+        return res.status(403).json({
+            message:"Unautorized"
+        })
+    }
 }
 
 module.exports.getFeeReceipt = async function(req, res){
     let feeReport = await FeeHistory.findById(req.params.id);
     let student = await Student.findOne({AdmissionNo:feeReport.AdmissionNo, Class:feeReport.Class, SchoolCode:req.user.SchoolCode})
     console.log(feeReport);
-    return res.render('fee_receipt',{feeReport, student});
+    return res.render('fee_receipt',{feeReport, student, role:req.user.role});
 }

@@ -1,10 +1,13 @@
+html,body {
+    height: auto;
+ }
 body{
-    background: url('/images/background.jpg');
-    background-size: cover;
+    background: linear-gradient(180deg, #0a807c 6%, #ebe6e6 800%, #f1f1ec 900%);
+    background-size: contain;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+
     font-size: small;
 }
 

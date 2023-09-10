@@ -29,7 +29,7 @@ body{
 .left-side-panel{
     border-radius: 0.8rem;
     background-color: #d4e9e2;
-    width: 15%;
+    width: 20%;
     height: 100%;
     padding: 1%;
     margin-bottom: 2%;
@@ -37,56 +37,61 @@ body{
     border-top-right-radius:0 ;
     margin-top: -0.5%;
     margin-right: -0.5%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background-color: #c0e5ee;
 }
 
-.right-side-panel{
-    border-radius: 0.8rem;
-    background-color: #d4e9e2;
-    width: 15%;
-    height: 100%;
-    border-left:none ;
-    border-top-left-radius:0 ;
-    
-    margin-bottom: 2%;
-    
 
-}
+.left-side-panel::-webkit-scrollbar{
+    display: none;
+  }
 
 .center-body{
-    
-    width: 70%;
+    width: 80%;
     height: 100%;
     padding: 0;
     margin-left:-0.3% ;
+    
+    display: flex;
+    
 }
 
-.quick-links{
-    
-    height: 40%;
+.quick-links-section{
+    width: 40%;
+    height: 95%;
     display: flex;
     justify-content: space-around;
     flex-direction: column;
-    margin-left: 2%;
-    
-    margin-top: 4%;
-    
+    margin: 1%;
+
 }
 
+.crousal-section{
+    width: 60%;
+    height: 90%;
+    margin: 1%;
+    margin-right: 2%;
+}
+
+h3{
+    color: #0c1bcf;
+    font-weight: 600;
+}
+
+.btn-success{
+    color: #ffffff;
+    background-color: #25977cdb;
+    width: 40%;
+    margin-left: 5%;
+    font-weight: bold;
+}
 .contact-us{
     margin-top: 10%;
     height: 60%;
 }
 
-.quick-links .btn{
-    width: 175px;
-    min-width: 100px;
-    height: 30px;
-    font-size: medium;
-    vertical-align: middle;
-    margin: 1%;
-    border-radius: 1rem;
-    
-}
+
 .carousel{
     margin:1% ;
 }
@@ -136,4 +141,22 @@ form input, textarea{
 .news-date {
     font-size: 14px;
     color: #888;
+}
+
+.school-name-container{
+    height: 70px;
+    width: 100%;
+    margin: 0%;
+    padding: 0%;
+    text-align: center;
+}
+
+.school-name-container h2{
+    font-weight: bolder;
+    color: #157e4e;
+
+}
+
+.school-name-container h6{
+    color:#2c6bc9
 }

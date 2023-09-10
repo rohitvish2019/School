@@ -13,7 +13,7 @@
 #navbar1{
     position: fixed;
     top: 0%;
-    background-color: #0a5e5e;
+    background-color: #25977cdb;
     height: 10%;
     width: 100%;
     color: white;
@@ -22,6 +22,11 @@
 
 #navbar-items{
     color: white;
+}
+
+.dropdown-item{
+    font-size: small;
+    font-weight: bold;
 }
 
 

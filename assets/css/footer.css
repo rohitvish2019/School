@@ -1,8 +1,10 @@
 #footer{
-    background-color: aquamarine;
+    background-color: #25977cdb;
     position: fixed;
     bottom: 1%;
     width: 100%;
     text-align: center;
-    height: 10%;
+    height: 15%;
+    color: white;
+
 }

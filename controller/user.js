@@ -1,5 +1,7 @@
 const UserSchema = require('../modals/userSchema');
 const fs = require('fs')
+const PropertiesReader = require('properties-reader');
+const properties = PropertiesReader('../School/config/school.properties');
 
 module.exports.login = function(req, res){
     if(req.isAuthenticated()){
@@ -21,7 +23,9 @@ module.exports.home = function(req, res){
         console.log(error);
     } else {
         if(req.isAuthenticated){
-            return res.render('admin_home', {files,role:req.user.role});
+            console.log(req.user.School_Code+'_name');
+            let School_name = properties.get(req.user.SchoolCode+'_name');
+            return res.render('admin_home', {files,role:req.user.role, School_name});
         }else{
             return re.redirect('/user/login')
         }

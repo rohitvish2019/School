@@ -1,0 +1,9 @@
+1. How many students are registered in a specific date range.
+2. How many students are admitted in a specific date range.
+3. How much fees collected in a specific date range.
+4. How much fees collected by each user in a specific date range.
+5. How many TCs generated in a specific date range.
+6. How many results are not updated correctly yet for this year.
+7. How many students are there in school/ class for this year.
+8. Total how much fees is unpaid yet.
+9. Total how much fees is unpaid for this year.

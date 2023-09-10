@@ -13,20 +13,19 @@
 #navbar1{
     position: fixed;
     top: 0%;
-    background-color: #25977cdb;
+    background-color: transparent;
     height: 10%;
     width: 100%;
     color: white;
-    z-index: 500;
+    
+
 }
 
-#navbar-items{
-    color: white;
-}
 
 .dropdown-item{
     font-size: small;
     font-weight: bold;
+    
 }
 
 

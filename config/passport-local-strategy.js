@@ -6,29 +6,26 @@ const User = require('../modals/userSchema');
 
 // authentication using passport
 passport.use(new LocalStrategy({
-        usernameField: 'email'
+    usernameField: 'email'
     },
-    function(email, password, done){
+    async function(email, password, done){
         console.log('Authenticating the user')
-        // find a user and establish the identity
-        User.findOne({email: email}, function(err, user)  {
-            
-            if (err){
-                console.log('Error in finding user --> Passport');
-                return done(err);
-            }
-
+        try{
+            let user = await User.findOne({email: email});
             if (!user || user.password != password){
+                console.log(user.email);
                 console.log('Invalid Username/Password');
                 return done(null, false);
+            }else{
+                return done(null, user);
             }
-
-            return done(null, user);
-        });
+        }catch(err){
+            console.log('Error in finding user --> Passport');
+            return done(err)
+        }
     }
-
-
 ));
+
 
 
 // serializing the user to decide which key is to be kept in the cookies
@@ -39,16 +36,16 @@ passport.serializeUser(function(user, done){
 
 
 // deserializing the user from the key in the cookies
-passport.deserializeUser(function(id, done){
-    User.findById(id, function(err, user){
-        if(err){
-            console.log('Error in finding user --> Passport');
-            return done(err);
-        }
-
+passport.deserializeUser(async function(id, done){
+    try{
+        let user = await User.findById(id);
+        console.log("This is error");
         return done(null, user);
+    }catch(err){
+        console.log('Error in finding user --> Passport');
+        return done(err);
+        }
     });
-});
 
 
 

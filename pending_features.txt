@@ -1,2 +1,7 @@
 Generate Salary slip for teachers.
 Generate exp letter for teachers
+if user is superadmin. then adding user form will have input tag for schoolcode
+user profile settings
+remove user/ block school access
+
+Vikasjain@Tbsschool.Com : 123456

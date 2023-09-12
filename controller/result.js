@@ -116,43 +116,43 @@ module.exports.updateAllResults = async function(req, res){
             let result_f = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class, Term:'Final'});
             console.log(result_q);
     
-            await result_q.update({Hindi:+req.body.Hindi_q});
-            await result_q.update({English:+req.body.English_q});
-            await result_q.update({Math:+req.body.Math_q});
+            await result_q.updateOne({Hindi:+req.body.Hindi_q});
+            await result_q.updateOne({English:+req.body.English_q});
+            await result_q.updateOne({Math:+req.body.Math_q});
     
-            await result_h.update({Hindi:+req.body.Hindi_h});
-            await result_h.update({English:+req.body.English_h});
-            await result_h.update({Math:+req.body.Math_h});
+            await result_h.updateOne({Hindi:+req.body.Hindi_h});
+            await result_h.updateOne({English:+req.body.English_h});
+            await result_h.updateOne({Math:+req.body.Math_h});
     
-            await result_f.update({Hindi:+req.body.Hindi_f});
-            await result_f.update({English:+req.body.English_f});
-            await result_f.update({Math:+req.body.Math_f});
+            await result_f.updateOne({Hindi:+req.body.Hindi_f});
+            await result_f.updateOne({English:+req.body.English_f});
+            await result_f.updateOne({Math:+req.body.Math_f});
     
             if(req.query.Class === '6' || req.query.Class == '7' || req.query.Class == '8'){
-                await result_q.update({Science:+req.body.Science_q});
-                await result_q.update({Social_Science:+req.body.Social_Science_q});
-                await result_q.update({Sanskrit:+req.body.Sanskrit_q});
+                await result_q.updateOne({Science:+req.body.Science_q});
+                await result_q.updateOne({Social_Science:+req.body.Social_Science_q});
+                await result_q.updateOne({Sanskrit:+req.body.Sanskrit_q});
     
-                await result_h.update({Science:+req.body.Science_h});
-                await result_h.update({Social_Science:+req.body.Social_Science_h});
-                await result_h.update({Sanskrit:+req.body.Sanskrit_h});
+                await result_h.updateOne({Science:+req.body.Science_h});
+                await result_h.updateOne({Social_Science:+req.body.Social_Science_h});
+                await result_h.updateOne({Sanskrit:+req.body.Sanskrit_h});
     
-                await result_f.update({Science:+req.body.Science_f});
-                await result_f.update({Social_Science:+req.body.Social_Science_f});
-                await result_f.update({Sanskrit:+req.body.Sanskrit_f});
+                await result_f.updateOne({Science:+req.body.Science_f});
+                await result_f.updateOne({Social_Science:+req.body.Social_Science_f});
+                await result_f.updateOne({Sanskrit:+req.body.Sanskrit_f});
             }
             else{
-                await result_q.update({Enviornment:+req.body.Enviornment_q});
-                await result_q.update({Computer:+req.body.Computer_q});
-                await result_q.update({Moral:+req.body.Moral_q});
+                await result_q.updateOne({Enviornment:+req.body.Enviornment_q});
+                await result_q.updateOne({Computer:+req.body.Computer_q});
+                await result_q.updateOne({Moral:+req.body.Moral_q});
     
-                await result_h.update({Enviornment:+req.body.Enviornment_h});
-                await result_h.update({Computer:+req.body.Computer_h});
-                await result_h.update({Moral:+req.body.Moral_h});
+                await result_h.updateOne({Enviornment:+req.body.Enviornment_h});
+                await result_h.updateOne({Computer:+req.body.Computer_h});
+                await result_h.updateOne({Moral:+req.body.Moral_h});
     
-                await result_f.update({Enviornment:+req.body.Enviornment_f});
-                await result_f.update({Computer:+req.body.Computer_f});
-                await result_f.update({Moral:+req.body.Moral_f});
+                await result_f.updateOne({Enviornment:+req.body.Enviornment_f});
+                await result_f.updateOne({Computer:+req.body.Computer_f});
+                await result_f.updateOne({Moral:+req.body.Moral_f});
             }
             
             await result_q.save();

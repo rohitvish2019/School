@@ -39,7 +39,7 @@ module.exports.register = async function(req, res){
         await lastRegistrationNumber.updateOne({LastRegistration:+RN+1});
     }catch(err){
         if(student){
-            RegisteredStudent.remove(student)
+            RegisteredStudent.deleteOne(student)
         }
         console.log(err);
     }
@@ -96,8 +96,8 @@ module.exports.admit = async function(req, res){
             let newStudent = await Student.create(studentData);
             let adm = await AdmissionNo.findOne({SchoolCode:req.user.SchoolCode});
             let lastAdmissionNo = +adm.LastAdmission;
-            await newStudent.update({AdmissionNo: lastAdmissionNo+1, SchoolCode:req.user.SchoolCode});
-            await adm.update({LastAdmission:lastAdmissionNo+1});
+            await newStudent.updateOne({AdmissionNo: lastAdmissionNo+1, SchoolCode:req.user.SchoolCode});
+            await adm.updateOne({LastAdmission:lastAdmissionNo+1});
             adm.save();
             fee = await FeeStructure.findOne({Class:studentData.Class,SchoolCode:req.user.SchoolCode});
             fee_record = await FeeSchema.create({
@@ -142,19 +142,19 @@ module.exports.admit = async function(req, res){
 
         }catch(err){
             if(student){
-                Student.remove(student)
+                Student.deleteOne(student)
             }
             if(fee_record){
-                FeeStructure.remove(fee_record)
+                FeeStructure.deleteOne(fee_record)
             }
             if(result_q){
-                Result.remove(result_q);
+                Result.deleteOne(result_q);
             }
             if(result_h){
-                Result.remove(result_h);
+                Result.deleteOne(result_h);
             }
             if(result_f){
-                Result.remove(result_f);
+                Result.deleteOne(result_f);
             }
             console.log(err);
             return res.status(503).json({

@@ -305,7 +305,7 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
     })
 
 
-    await newRecord.update({Class:newClass,LastClassPassingYear:+last_class_details.LastClassPassingYear + 1, LastClassGrade:'need to add', LastSchoolName:'this school', LastPassingClass:last_class_details.Class});
+    await newRecord.updateOne({Class:newClass,LastClassPassingYear:+last_class_details.LastClassPassingYear + 1, LastClassGrade:'need to add', LastSchoolName:'this school', LastPassingClass:last_class_details.Class});
     await last_class_details.updateOne({isThisCurrentRecord:false});
     await last_class_details.save();
     await newRecord.save();
@@ -362,7 +362,7 @@ module.exports.upgradeOneStudent = async function(req, res){
         }
         else if(status == 424){
             return res.status(424).json({
-                message:"Result is not updated correctly, kindly update and try again"
+                message:"Result is not updated correctly, kindly updateOne and try again"
             })
         }
         else{
@@ -458,7 +458,7 @@ module.exports.getMarksheetUI = async function(req, res){
         let resultStatus = validateResultStatus(result, req.user.SchoolCode);
         let error_message='';
         if(!resultStatus){
-            error_message='Result is not updated correctly, kindly update the result and try again';
+            error_message='Result is not updated correctly, kindly updateOne the result and try again';
         }
         console.log(result[0].Hindi);
         let q_grades={};

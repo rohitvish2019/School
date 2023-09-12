@@ -71,9 +71,9 @@ module.exports.feeSubmission =async function(req, res){
             if(remainingFee == null){
                 remainingFee = 0
             }
-            await fee.update({Paid:fee.Paid + +req.body.Amount, Remaining: fee.Remaining - +req.body.Amount });
+            await fee.updateOne({Paid:fee.Paid + +req.body.Amount, Remaining: fee.Remaining - +req.body.Amount });
             let lastFeeReceiptNumber = await admissionNoSchema.findOne({SchoolCode:req.user.SchoolCode});
-            await lastFeeReceiptNumber.update({LastFeeReceiptNo:lastFeeReceiptNumber.LastFeeReceiptNo+1});
+            await lastFeeReceiptNumber.updateOne({LastFeeReceiptNo:lastFeeReceiptNumber.LastFeeReceiptNo+1});
             lastFeeReceiptNumber.save();
             console.log(lastFeeReceiptNumber);
             await FeeHistory.create({
@@ -106,7 +106,7 @@ module.exports.cancelFees = async function(req, res){
     if(req.user.role === 'Admin'){
         try{
             let feeRecord = await FeeHistory.findById(req.params.id);
-            await feeRecord.update({isCancelled:true});
+            await feeRecord.updateOne({isCancelled:true});
             await feeRecord.save();
     
             let oldFee = await Fee.findOne({AdmissionNo:feeRecord.AdmissionNo, Class:feeRecord.Class,SchoolCode:req.user.SchoolCode});
@@ -141,7 +141,7 @@ module.exports.updateFee = async function(req, res){
         try{
             let currentFee = await FeeStructure.findOne({Class:req.body.Class,SchoolCode:req.user.SchoolCode});
             if(currentFee){
-                await currentFee.update({Fees: req.body.Fees});
+                await currentFee.updateOne({Fees: req.body.Fees});
                 currentFee.save();
             }
             else{
@@ -171,7 +171,7 @@ module.exports.addConsession = async function(req, res){
                 console.log("Entered in method");
                 let cnc = fee.Concession;
                 console.log(cnc);
-                await fee.update({Concession: fee.Concession + +req.body.Amount, Remaining: fee.Remaining - req.body.Amount});
+                await fee.updateOne({Concession: fee.Concession + +req.body.Amount, Remaining: fee.Remaining - req.body.Amount});
                 fee.save();
                 await FeeHistory.create({
                     AdmissionNo:fee.AdmissionNo,

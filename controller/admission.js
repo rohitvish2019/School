@@ -82,26 +82,26 @@ module.exports.addStudent = async function(request, response){
         await lastAdmissionNumber.updateOne({LastAdmission:ADN+1});
     }catch(err){
         if(student){
-            Student.remove(student)
+            Student.deleteOne(student)
         }
         if(fee_record){
-            FeeStructure.remove(fee_record)
+            FeeStructure.deleteOne(fee_record)
         }
         if(result_q){
-            Result.remove(result_q);
+            Result.deleteOne(result_q);
         }
         if(result_h){
-            Result.remove(result_h);
+            Result.deleteOne(result_h);
         }
         if(result_f){
-            Result.remove(result_f);
+            Result.deleteOne(result_f);
         }
         console.log(err);
     }
     return response.redirect('/admissions')
 }
 
-// To update the last admission number in case of first startup of application
+// To updateOne the last admission number in case of first startup of application
 
 module.exports.updateLastAdmission =async function(req, res){
     console.log(req.body);

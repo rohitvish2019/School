@@ -5,3 +5,6 @@ user profile settings
 remove user/ block school access
 
 Vikasjain@Tbsschool.Com : 123456
+superadmin@tbs.com
+bparihar@Tbsschool.Com
+setpassro

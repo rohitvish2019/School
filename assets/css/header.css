@@ -21,6 +21,11 @@
 
 }
 
+.edit-profile{
+    height: 35px;
+    width: 35px;
+    margin-right: 3%;
+}
 
 .dropdown-item{
     font-size: small;

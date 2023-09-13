@@ -63,11 +63,32 @@
               </ul>
             </li>
             <%}%>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Message
+              </a>  
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item disabled" href="#">To individual</a></li>
+                <li><a class="dropdown-item disabled" href="#">To Class</a></li>
+                <li><a class="dropdown-item disabled" href="#">To School</a></li>
+              </ul>
+            </li>
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="/documents">Documents</a>
             </li>
             
           </ul>
+          
+          <div class="edit-profile">
+            <img height="100%" src="/images/edit-profile.png" alt="">
+            <span>Profile</span>
+          </div>
+          <select style="width: 15%; margin-right: 2%;" class="form-select form-select-sm" name="" id="">
+            School Code
+            <option value="" disabled selected>School Code</option>
+            <option value="SVVN">SVVN</option>
+            <option value="NCCA">NCCA</option>
+          </select>
           <a href="/user/logout" class="btn btn-warning">Logout</a>
         </div>
       </div>

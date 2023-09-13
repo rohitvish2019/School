@@ -96,6 +96,10 @@ background-color: #f2f2f2;
     cursor: pointer;
   }
 
+  td{
+    overflow: visible;
+  }
+
 
   .pop-up{
     border: 1px solid purple;

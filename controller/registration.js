@@ -5,15 +5,19 @@ const Student = require('../modals/admissionSchema');
 const FeeSchema = require('../modals/FeeSchema');
 const Result = require('../modals/Result');
 const TCRecords = require('../modals/TC_Records');
+const propertiesReader = require('properties-reader');
+let Schoolproperties = propertiesReader('../School/config/School.properties');
+
 module.exports.registrationUI = async function(req, res){
     let last = await AdmissionNo.findOne({SchoolCode:req.user.SchoolCode});
+    let School_name = Schoolproperties.get(req.user.SchoolCode+'_name')
     if(last){
         let year = +new Date().getFullYear();
         let past_year = year -1;
         let current_year = year;
         let next_year = year + 1;
         let RN = last.LastRegistration + 1
-        return res.render('./Registration', {ThisRegNumber:RN,past_year, current_year, next_year,role:req.user.role });
+        return res.render('./Registration', {ThisRegNumber:RN,past_year, current_year, next_year,role:req.user.role,School_name});
         
     }else{
         if(req.isAuthenticated && req.user.role === 'Admin'){

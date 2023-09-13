@@ -43,6 +43,7 @@ function runListener(event){
         //document.getElementById(itemId.slice(5)+'_documents').removeAttribute('readonly');
         document.getElementById('update_'+itemId.slice(5)).removeAttribute('hidden');
         document.getElementById(itemId).setAttribute('hidden', 'true')
+        document.getElementById('dropdownMenuButton1').setAttribute('hidden', 'true');
     }
     else if(itemId.match(/update.*/)){
         console.log('in update method')

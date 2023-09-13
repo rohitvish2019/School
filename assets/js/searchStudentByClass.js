@@ -1,5 +1,5 @@
-let mybtn = document.getElementById('showStudentsList');
-mybtn.addEventListener('click', getStudentsList)
+let mybtn = document.getElementById('ClassForSearch');
+mybtn.addEventListener('change', getStudentsList)
 
 // To get the students list classwise from server
 
@@ -54,6 +54,22 @@ function admitStudent(registration){
         url: '/registration/admit/'+registration,
         success: function(data){
             document.getElementById('item_'+registration).style.display='none';
+            new Noty({
+                theme: 'relax',
+                text: data.message,
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+        },
+        error: function(data){
+            new Noty({
+                theme: 'relax',
+                text: JSON.parse(err.responseText).message,
+                type: 'error',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
         }
     })
 }
@@ -63,6 +79,22 @@ function rejectStudent(registration){
         url:'/registration/delete/'+registration,
         success: function(data){
             document.getElementById('item_'+registration).style.display='none';
+            new Noty({
+                theme: 'relax',
+                text: data.message,
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+        },
+        error: function(err){
+            new Noty({
+                theme: 'relax',
+                text: JSON.parse(err.responseText).message,
+                type: 'error',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
         }
     })
     console.log('student at registration no '+registration + 'is deleted')

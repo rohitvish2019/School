@@ -30,9 +30,9 @@ body{
     
 }
 .news-container {
-    position: relative;
+    position: static;
     margin-right: 2%;
-    top: 12%;
+    margin-top:5%;
     max-width: 800px;
     padding: 20px;
     border-radius: 5px;

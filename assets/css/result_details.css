@@ -24,8 +24,7 @@ body{
 }
 
 .left-side-panel{
-    
-    width: 15%;
+    width: 25%;
     height: 100%;
 }
 
@@ -52,6 +51,18 @@ body{
     margin-left: 3%;
 }
 
+.news-container {
+    position: static;
+    margin-right: 2%;
+    margin-top:5%;
+    max-width: 800px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #c0e5ee;
+    height: 80%;
+    margin-bottom: 2%;
+}
 
 table{
     width: 99%;

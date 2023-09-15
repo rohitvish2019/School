@@ -130,7 +130,7 @@ function showStudentsList(data, action){
     
     `
     <a class="btn student-list">
-        <li style="background-color: #479b7e;color: #03420b; width: 100%;">
+        <li style="background-color: #0a807c;color: white; width: 100%;">
             <label><b>${id}</b></label>
             <label><b>Name</b></label>
             <label><b>Class</b></label>
@@ -145,7 +145,7 @@ function showStudentsList(data, action){
     
         `
         <a class="student-list" >
-            <li style="background-color: #479b7e;color: #03420b; width: 100%;">
+            <li style="background-color: #0a807c;color: white; width: 100%; margin-left:2%;">
                 <label><b>${id}</b></label>
                 <label><b>Name</b></label>
                 <label><b>Class</b></label>
@@ -172,13 +172,13 @@ function showStudentsList(data, action){
                 <label for="">${student.MothersName}</label>
                 <label for="">${student.RegisteredBy}</label>
                 <div class="dropdown" style='font-size:0.7rem'>
-                    <a style='font-size:0.7rem' class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a style='font-size:0.7rem' class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                         Actions
                     </a>
                     <ul style='font-size:0.7rem' class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                         <li><a class="dropdown-item btn btn-success" id='approve_${student.RegistrationNo}' onclick='admitStudent(${student.RegistrationNo})'>Approve</a></li>
                         <li><a class="dropdown-item btn btn-danger" id='reject_${student.RegistrationNo}' onclick='rejectStudent(${student.RegistrationNo})'>Reject</a></li>
-                        <li><a class="dropdown-item btn btn-primary" id='download_${student.RegistrationNo}' href='/registration/download/${student.RegistrationNo}'>Download</a></li>
+                        <li><a class="dropdown-item btn btn-primary" id='download_${student.RegistrationNo}' href='/registration/download/${student.RegistrationNo}'>Edit/View Form</a></li>
                     </ul>
                     
                 </div>

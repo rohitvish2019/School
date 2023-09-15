@@ -236,3 +236,18 @@ module.exports.getFeeReceipt = async function(req, res){
     console.log(feeReport);
     return res.render('fee_receipt',{feeReport, student, role:req.user.role});
 }
+
+module.exports.deleteAnnualFee = async function(req, res){
+    try{
+        await FeeStructure.findOneAndDelete({Class:req.params.Class, SchoolCode:req.user.SchoolCode});
+        return res.status(200).json({
+            message:'Record deleted successfully'
+        })
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:"Error deleting message, please try again later"
+        })
+    }
+    
+}

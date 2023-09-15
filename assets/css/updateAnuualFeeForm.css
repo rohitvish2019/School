@@ -55,7 +55,7 @@ body{
 }
 
 .center-body{
-  overflow-y: scroll;
+  
   width: 70%;
   height: 100%;
 }
@@ -68,8 +68,10 @@ body{
 }
 /* Add some basic styling to the table */
 table {
+  
+    overflow-y: scroll;
     border-collapse: collapse;
-    width: 50%;
+    width: 70%;
     border: 1px solid #ddd;
   }
   

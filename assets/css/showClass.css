@@ -65,6 +65,17 @@ input{
     
 }
 
+#classList .btn-light:hover{
+    background-color: #089f91;
+    color:white;
+    font-weight: bold;
+}
+
+#classList .btn-light{
+    margin: 0.1%;
+    font-weight: bold;
+}
+
 li{
     display: flex;
     justify-content: space-between;
@@ -74,6 +85,7 @@ li{
 label{
     width: 11%;
     min-width: 150px;
+    
 }
 .student-list{
     width: 100%;

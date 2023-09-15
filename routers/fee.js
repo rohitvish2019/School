@@ -13,5 +13,6 @@ router.get('/getHistory/:AdmissionNo', feeController.getFeeHistory);
 router.get('/getConcessionHistory/:AdmissionNo', feeController.getConcessionHistory)
 router.get('/receipt/:id',feeController.getFeeReceipt);
 router.get('/cancel/:id', feeController.cancelFees);
+router.delete('/delete/:Class', feeController.deleteAnnualFee);
 
 module.exports = router;

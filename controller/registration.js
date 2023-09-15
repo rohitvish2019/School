@@ -36,10 +36,11 @@ module.exports.getPreview = function(req, res){
 module.exports.register = async function(req, res){
     let student;
     try{
+        
         student = await RegisteredStudent.create(req.body);
         lastRegistrationNumber = await AdmissionNo.findOne({});
         RN = lastRegistrationNumber.LastRegistration;
-        await student.updateOne({RegistrationNo:RN+1,SchoolCode:req.user.SchoolCode,RegisteredBy:req.user.full_name});
+        await student.updateOne({RegistrationNo:RN+1,SchoolCode:req.user.SchoolCode,RegisteredBy:req.user.email});
         await lastRegistrationNumber.updateOne({LastRegistration:+RN+1});
     }catch(err){
         if(student){
@@ -50,7 +51,21 @@ module.exports.register = async function(req, res){
     return res.redirect('/registration/new');
 }
 
-
+module.exports.updateRegistration = async function(req, res){
+    try{
+        if(req.user.role === 'Teacher' || req.user.role === 'Admin'){
+            let student = await RegisteredStudent.findOne({RegistrationNo:req.body.RegistrationNo,SchoolCode:req.user.SchoolCode});
+            await student.deleteOne();
+            student = await RegisteredStudent.create(req.body);
+            await student.updateOne({SchoolCode:req.user.SchoolCode,RegisteredBy:req.user.email});
+            return res.redirect('/registration/new')
+        }
+    }catch(err){
+        console.log(err);
+        return res.redirect('/user/home')
+    }
+    
+}
 
 module.exports.delete = async function(req, res){
     if(req.user.role === 'Admin'){

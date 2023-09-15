@@ -25,10 +25,14 @@
                     <th>Actions</th>
                 </tr>
                 <% for (let i=0;i<feesData.length;i++){%>
-                <tr>
+                <tr id="<%=feesData[i].Class%>">
                     <td><b>Class <%=feesData[i].Class%></b></td>
                     <td><input readonly id="feesInput_<%=feesData[i].Class%>" type="text" value=<%=feesData[i].Fees%>></td>
-                    <td><button id="editFee_<%=feesData[i].Class%>" class="btn btn-primary">Edit</button> <button hidden id="updateFee_<%=feesData[i].Class%>" class="btn btn-success">Update</button></td>
+                    <td style="width: 30%;">
+                        <button id="editFee_<%=feesData[i].Class%>" class="btn btn-primary">Edit</button>
+                        <button hidden id="updateFee_<%=feesData[i].Class%>" class="btn btn-success">Update</button>
+                        <button id="deleteFee_<%=feesData[i].Class%>" class="btn btn-danger">Delete</button>
+                    </td>
                 </tr>
                 <%}%>
             </table>
@@ -37,8 +41,8 @@
             <div>
                 <h3>Add New Fees</h3>
                 <form class="addNewFee" action="/fee/updateFee" method="POST">
-                  <input type="text" name="Class" placeholder="Class">
-                  <input type="text" name="Fees" placeholder="Fees">
+                  <input type="text" required name="Class" placeholder="Class">
+                  <input type="text" required name="Fees" placeholder="Fees">
                   <button type="submit" class="btn btn-success">Add New Fee</button>
                 </form>
               </div>

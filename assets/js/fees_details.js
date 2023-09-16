@@ -59,8 +59,31 @@ function openPopup(data){
     
 }
 
-function getSelected(){
-
+function cancelFees(id){
+    $.ajax({
+        url : '/fee/cancel/'+id,
+        method: 'GET',
+        success: function(data){
+            document.getElementById(id).style.display = 'none'
+            new Noty({
+                theme: 'relax',
+                text: data.message,
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+        },
+        error: function(err){
+            console.log(err)
+            new Noty({
+                theme: 'relax',
+                text: JSON.parse(err.responseText).message,
+                type: 'error',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+        }
+    })
 }
 
 function submitFeeOrConcession(){
@@ -70,6 +93,16 @@ function submitFeeOrConcession(){
     let Amount = document.getElementById('Amount_fee').value;
     let purpose = document.getElementById('purpose').value
     let Comment = document.getElementById('comment_fee').value;
+    if(AdmissionNo == '' || Class == '' || Date == '' || Amount =='' || purpose == '' || Comment == ''){
+        new Noty({
+            theme: 'relax',
+            text: 'All fields are mandatory',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1000
+        }).show();
+        return;
+    }
     $.ajax({
         url:'/fee/'+purpose,
         type:'post',
@@ -89,9 +122,7 @@ function submitFeeOrConcession(){
                 layout: 'topRight',
                 timeout: 1000
             }).show();
-            setTimeout(function(){
-                window.location.href='/student/get/'+AdmissionNo+'?Class='+Class+'&action=fee'
-            },1000)
+            
             
         },
         error: function(err){
@@ -109,9 +140,7 @@ function submitFeeOrConcession(){
     })
 }
 
-function toggeller(){
-    
-}
+
 
 function getConcessionHistory(){
     let AdmissionNo = document.getElementById('AdmissionNo_fee').value;
@@ -142,6 +171,7 @@ function showConcessionHistory(data){
         <th>Amount</th>
         <th>Concession Date</th>
         <th>Comment</th>
+        <th>Concession By</th>
     `
     headerItem.style.width='100%'
     container.appendChild(headerItem);
@@ -155,6 +185,7 @@ function showConcessionHistory(data){
             <td>${data[i].Amount}</td>
             <td>${data[i].Payment_Date}</td>
             <td>${data[i].Comment}</td>
+            <td>${data[i].PaidTo}</td>
         `
         container.appendChild(item);
     }
@@ -181,13 +212,13 @@ function showFeesHistory(data){
     let headerItem = document.createElement('tr');
     headerItem.innerHTML=
     `
-        <th>AdmissionNo</th>
+        
         <th>Class</th>
         <th>Amount</th>
         <th>Payment Date</th>
         <th>Comment</th>
-        <th>Receipt</th>
-        <th>Cancel</th>
+        <th>Actions</th>
+        <th>Paid To</th>
     `
     headerItem.style.width='100%'
     container.appendChild(headerItem);
@@ -195,14 +226,26 @@ function showFeesHistory(data){
         let item = document.createElement('tr');
         item.innerHTML=
         `
-            <td>${data[i].AdmissionNo}</td>
+            
             <td>${data[i].Class}</td>
             <td>${data[i].Amount}</td>
             <td>${data[i].Payment_Date}</td>
             <td>${data[i].Comment}</td>
-            <td><a href='/fee/receipt/${data[i]._id}'>${data[i].Receipt_No}</a></td>
-            <td><a href='/fee/cancel/${data[i]._id}'>Cancel</a></td>
+            <td>
+                <div class="dropdown" style='font-size:0.7rem'>
+                    <a style='font-size:0.7rem' class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        Actions
+                    </a>
+                    <ul style='font-size:0.7rem' class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a href='/fee/receipt/${data[i]._id}' class="dropdown-item btn btn-success">Get Recipt</a></li>
+                        <li><a href='#' onclick=cancelFees('${data[i]._id}') class="dropdown-item btn btn-danger">Cancel</a></li>
+                        
+                    </ul>
+                </div>
+            </td>
+            <td><a>${data[i].PaidTo}</a></td>
         `
+        item.id = data[i]._id
         container.appendChild(item);
     }
 }
@@ -214,8 +257,11 @@ function openPaymentHistory(){
     let concessionHistory = document.getElementById('concession-history');
 
     document.getElementById('details-button').style.backgroundColor='transparent';
-    document.getElementById('history-button-pay').style.backgroundColor='#198754';
+    document.getElementById('details-button').style.color='black';
+    document.getElementById('history-button-pay').style.backgroundColor='#0a807c';
+    document.getElementById('history-button-pay').style.color='white';
     document.getElementById('history-button-con').style.backgroundColor='transparent';
+    document.getElementById('history-button-con').style.color='black';
 
     feeDetails.style.display='none';
     concessionHistory.style.display='none';
@@ -231,8 +277,11 @@ function openConcessionHistory(){
     let concessionHistory = document.getElementById('concession-history');
 
     document.getElementById('details-button').style.backgroundColor='transparent';
+    document.getElementById('details-button').style.color='black';
     document.getElementById('history-button-pay').style.backgroundColor='transparent';
-    document.getElementById('history-button-con').style.backgroundColor='#198754';
+    document.getElementById('history-button-pay').style.color='black';
+    document.getElementById('history-button-con').style.backgroundColor='#0a807c';
+    document.getElementById('history-button-con').style.color='white';
 
     feeDetails.style.display='none';
     concessionHistory.style.display='block';
@@ -245,9 +294,12 @@ function openFeeDetails(){
     let feeDetails = document.getElementById('fee-details');
     let concessionHistory = document.getElementById('concession-history');
 
-    document.getElementById('details-button').style.backgroundColor='#198754';
+    document.getElementById('details-button').style.backgroundColor='#0a807c';
+    document.getElementById('details-button').style.color='white';
     document.getElementById('history-button-pay').style.backgroundColor='transparent';
+    document.getElementById('history-button-pay').style.color='black';
     document.getElementById('history-button-con').style.backgroundColor='transparent';
+    document.getElementById('history-button-con').style.color='black';
 
     feeDetails.style.display='block';
     concessionHistory.style.display='none';

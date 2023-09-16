@@ -1,6 +1,4 @@
-.logo{
-    width: 15%;
-}
+
 header{
     display: flex;
     justify-content: center;
@@ -54,16 +52,7 @@ header{
 
 
 
-#navbar1{
-    position: fixed;
-    top: 0%;
-    background-color: transparent;
-    height: 10%;
-    width: 100%;
-    color: white;
-    
 
-}
 
 .edit-profile{
     height: 35px;
@@ -77,12 +66,8 @@ header{
     
 }
 
-li a{
-    color:red;
-}
-
-.dropdown-toggle:hover{
-    color: red;
+@media screen {
+    
 }
 
 

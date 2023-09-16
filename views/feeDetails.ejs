@@ -32,21 +32,21 @@
             </div>
         </div>
         <div class="center-body">
-            <h3 style="text-align: center;">Fees Submission</h3>
+            <h3 style="text-align: center;">Fees Submission & History</h3>
             <div id="toggler_button" class="toggeler">
-                <span class="fee-details" id="details-button"><h5>Fees Details</h5></span>
+                <span style="color: white;" class="fee-details" id="details-button"><h5>Fees Details</h5></span>
                 <span class="fee-history" id="history-button-pay"><h5>Payment History</h5></span>
                 <span class="fee-history" id="history-button-con"><h5>Concession History</h5></span>
             </div>
             <div id="fee-details" class="details-div">
                 <table>
-                    <tr style="width: 100%;">
+                    <tr>
                         <th>Class</th>
                         <th>Total</th>
                         <th>Concession</th>
                         <th>Paid</th>
                         <th>Remaining</th>
-                        <th colspan="2">Action</th>
+                        <th colspan="2">Actions</th>
                     </tr>
                     <% for(let i=0;i<feesList.length;i++){%>
                         <tr>
@@ -68,8 +68,7 @@
                                 </div>
                             </td>
                             
-                            <td></td>
-                            <td></td>
+                            
                         </tr>
                     <%}%>
                 </table>
@@ -78,11 +77,12 @@
             <div id="fee-history" style="display: none;" class="details-div">
                 <table id="fee-history-dynamic-container">
                     <tr style="width: 100%;">
-                        <th>AdmissionNo</th>
                         <th>Class</th>
                         <th>Amount</th>
                         <th>Payment_Date</th>
                         <th>Comment</th>
+                        <th>Actions</th>
+                        <th>Paid To</th>
                     </tr>
                 </table>
             </div>
@@ -93,8 +93,9 @@
                         <th>AdmissionNo</th>
                         <th>Class</th>
                         <th>Amount</th>
-                        <th>Payment_Date</th>
+                        <th>Concessioon Date</th>
                         <th>Comment</th>
+                        <th>Concession By</th>
                     </tr>
                     
                 </table>

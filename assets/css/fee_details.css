@@ -48,26 +48,6 @@ body{
     height: 100%;
 }
 
-table{
-    width: 100%;
-    
-}
-th{
-    width: 15%;
-    text-align: center;
-    padding-top: 3%;
-    
-}
-
-th{
-    border-bottom: 1px solid black;
-    padding-bottom: 2%;
-}
-
-td{
-    padding-top: 1%;
-}
-
 button{
     margin-left: 3%;
 }
@@ -107,19 +87,54 @@ button{
     width: 10%;
 }
 
+table{
+  
+    width: 100%;
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-top: 5%;
+    border-radius: 50%;
 
+}
+
+tr{
+    display: flex;
+    justify-content: space-around;
+    padding-left: 2%;
+    text-align: center;
+    
+}
+
+td, th{
+    width: 17%;
+    padding-top: 1%;
+    
+}
+th{
+    
+    background-color: #2b443b;
+    color: #c4ebeb;
+    padding-bottom: 0.7%;
+    
+}
+td{
+    background-color: #b8dfdb;
+    color: #0c2b32;
+    margin-top: 0.3%;
+    
+}
 
 
 .student-details{
     margin-bottom: 1%;
     margin-top: 5%;
-    margin-left: 3%;
+    margin-left: 2%;
 }
 
 .toggeler{
     height: 30px;
     width: 100%;
-    border: 1px solid green;
+    border: 1px solid #0a807c;
     display: flex;
     justify-content: space-around;
     text-align: center;
@@ -130,11 +145,11 @@ button{
 span{
     text-align: center;
     width: 50%;
-    border: 1px dotted #198754 ;
+    border: 1px dotted #0a807c ;
 }
 
 .fee-details{
-    background-color: #198754;
+    background-color: #0a807c;
     
 }
 
@@ -155,7 +170,7 @@ span{
 
 .details-div{
     height: 80%;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 input{

@@ -6,7 +6,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
-<header>
+<header id="big-screen" >
 
   <div class="logo-container">
     <a style="width: 5%; height: 5%; margin-left: 5%;" class="navbar-brand logo" href="/user/login">
@@ -61,7 +61,7 @@
       <%}%>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          Message
+          Notice
         </a>  
         <ul class="dropdown-menu">
           <li><a class="dropdown-item disabled" href="#">To individual</a></li>
@@ -74,6 +74,29 @@
       </li>
       
     </ul>
+  </div>
+
+  <div class="profile-container">
+    <div class="edit-profile">
+      <img height="100%" src="/images/edit-profile.png" alt="">
+      
+    </div>
+    <select class="form-select form-select-sm" name="" id="">
+      School Code
+      <option value="" disabled selected>School Code</option>
+      <option value="SVVN">SVVN</option>
+      <option value="NCCA">NCCA</option>
+    </select>
+    <a href="/user/logout" class="btn btn-warning">Logout</a>
+  </div>
+</header>
+
+<header hidden id="small-screen">
+
+  <div class="logo-container">
+    <a style="width: 5%; height: 5%; margin-left: 5%;" class="navbar-brand logo" href="/user/login">
+      <img style="margin: 2%; padding: 0%;" src="/images/school_logo.png" alt="Bootstrap" width="70%" height="100%">
+    </a>
   </div>
 
   <div class="profile-container">

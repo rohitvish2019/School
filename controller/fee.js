@@ -85,6 +85,7 @@ module.exports.feeSubmission =async function(req, res){
                 Comment: req.body.Comment,
                 type:'Fees',
                 Receipt_No:lastFeeReceiptNumber.LastFeeReceiptNo,
+                PaidTo:req.user.email
             });
             return res.status(200).json({
                 message:'Fees record updated successfully'
@@ -111,9 +112,14 @@ module.exports.cancelFees = async function(req, res){
     
             let oldFee = await Fee.findOne({AdmissionNo:feeRecord.AdmissionNo, Class:feeRecord.Class,SchoolCode:req.user.SchoolCode});
             await Fee.findOneAndUpdate({AdmissionNo:feeRecord.AdmissionNo, Class:feeRecord.Class,SchoolCode:req.user.SchoolCode},{Paid:oldFee.Paid - feeRecord.Amount, Remaining:oldFee.Remaining + feeRecord.Amount});
-            return res.redirect('back');
+            
+            return res.status(200).json({
+                message:'Fees cancelled'
+            });
         }catch(err){
-            return res.redirect('back');
+            return res.status(500).json({
+                message:'Unable to cancel, Please try again later'
+            });
         }
     }else{
         return res.render('Error_403')
@@ -180,7 +186,8 @@ module.exports.addConsession = async function(req, res){
                     Payment_Date: convertDateFormat(req.body.Date.slice(0,10)),
                     Comment: req.body.Comment,
                     type:'Concession',
-                    SchoolCode:req.user.SchoolCode
+                    SchoolCode:req.user.SchoolCode,
+                    PaidTo: req.user.email
                 });
             }
             return res.status(200).json({

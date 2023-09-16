@@ -28,6 +28,9 @@ const FeesHistory = new mongoose.Schema({
     
         type:String
     },
+    PaidTo:{
+        type:String,
+    },
     type:{
         type:String,
         enum:['Fees', 'Concession']

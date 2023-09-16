@@ -11,6 +11,10 @@
             <div class="student-details">
                 <h3 style="margin-bottom: 10%;">Student Details</h3>
                 <div>
+                    <label for=""><small>Admission No</small></label>
+                    <label for="" id="AdmissionNoFees"><b><%=student.AdmissionNo%></b></label>
+                </div>
+                <div>
                     <label for=""><small>Name</small></label>
                     <label for=""><b><%=student.FirstName%> <%=student.LastName%></b></label>
                 </div>
@@ -32,21 +36,21 @@
             </div>
         </div>
         <div class="center-body">
-            <h3 style="text-align: center;">Fees Submission & History</h3>
+            <h3 style="text-align: center; color: white; font-weight: bolder;">Fees Submission & History</h3>
             <div id="toggler_button" class="toggeler">
                 <span style="color: white;" class="fee-details" id="details-button"><h5>Fees Details</h5></span>
                 <span class="fee-history" id="history-button-pay"><h5>Payment History</h5></span>
                 <span class="fee-history" id="history-button-con"><h5>Concession History</h5></span>
             </div>
             <div id="fee-details" class="details-div">
-                <table>
+                <table id="fee-details-container">
                     <tr>
                         <th>Class</th>
                         <th>Total</th>
                         <th>Concession</th>
                         <th>Paid</th>
                         <th>Remaining</th>
-                        <th colspan="2">Actions</th>
+                        <th>Actions</th>
                     </tr>
                     <% for(let i=0;i<feesList.length;i++){%>
                         <tr>

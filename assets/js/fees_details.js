@@ -1,6 +1,6 @@
 // To get fees data from sever of a student
 function checkFees(){
-    let adm = document.getElementById('AdmissionNoFees').value;
+    let adm = document.getElementById('AdmissionNoFees').innerText;
     $.ajax({
         url: '/fee/getMyFee',
         type:'GET',
@@ -10,9 +10,51 @@ function checkFees(){
         success: function(data){showFees(data.data)},
         error: function(err){showNoFees()}
     });
-    getFeeHistory(adm)
+    
 }
 
+
+function showFees(data){
+    console.log(data.length);
+    let container = document.getElementById('fee-details-container');
+    container.innerHTML=``;
+    let header = document.createElement('tr');
+    header.innerHTML = 
+    `
+        <th>Class</th>
+        <th>Total</th>
+        <th>Concession</th>
+        <th>Paid</th>
+        <th>Remaining</th>
+        <th>Actions</th>
+    `
+    container.appendChild(header);
+    for(let i=0;i<data.length;i++){
+        let item = document.createElement('tr');
+        item.innerHTML = 
+        `
+        <td>${data[i].Class}</td>
+        <td>${data[i].Total}</td>
+        <td>${data[i].Concession}</td>
+        <td>${data[i].Paid}</td>
+        <td>${data[i].Remaining}</td>
+        <td>
+            <div class="dropdown" style='font-size:0.7rem'>
+                <a style='font-size:0.7rem' class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    Actions
+                </a>
+                <ul style='font-size:0.7rem' class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li><button class='dropdown-item btn btn-success' id='pay_${data[i].Class}_${data[i].AdmissionNo}' onclick="openPopup('${data[i].Class}_${data[i].AdmissionNo}_submit')">Pay</button></li>
+                    <li><button class='dropdown-item btn btn-success' id='concession_${data[i].Class}_${data[i].AdmissionNo}' onclick="openPopup('${data[i].Class}_${data[i].AdmissionNo}_con')">Concession</button></li> 
+                </ul>
+                
+            </div>
+        </td>
+        `
+        container.appendChild(item);
+    }
+    
+}
 // Invoke this function in case of no/error response received from checkFees to show no fees found
 
 function showNoFees(){
@@ -30,6 +72,7 @@ function showNoFees(){
     `
     document.getElementById('fee-submit-form').innerHTML=``
 }
+
 
 
 function closePopup(){
@@ -122,6 +165,7 @@ function submitFeeOrConcession(){
                 layout: 'topRight',
                 timeout: 1000
             }).show();
+            checkFees();
             
             
         },
@@ -304,6 +348,8 @@ function openFeeDetails(){
     feeDetails.style.display='block';
     concessionHistory.style.display='none';
     feeHistory.style.display='none'
+    checkFees();
+
 }
 
 document.getElementById('details-button').addEventListener('click', openFeeDetails);

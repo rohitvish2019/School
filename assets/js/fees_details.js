@@ -276,8 +276,8 @@ function showFeesHistory(data){
             <td>${data[i].Payment_Date}</td>
             <td>${data[i].Comment}</td>
             <td>
-                <div class="dropdown" style='font-size:0.7rem'>
-                    <a style='font-size:0.7rem' class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="dropdown" style='font-size:0.7rem;'>
+                    <a style='font-size:0.7rem;' class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                         Actions
                     </a>
                     <ul style='font-size:0.7rem' class="dropdown-menu" aria-labelledby="dropdownMenuLink">

@@ -50,6 +50,31 @@ header{
     font-size: medium;
 }
 
+.noty-icon{
+    height: 100%;
+    width: 16%;
+    margin-right: 4%;
+}
+
+.notifications{
+    position: fixed;
+    top: 10%;
+    z-index: 5;
+    left: 72%;
+    height: 60%;
+    width: 20%;
+    border: 1px solid red;
+}
+.noty-count{
+    position: relative;
+    bottom: 105%; 
+    left: 50%;
+    background-color: rgb(236, 31, 65);
+    text-align: center;
+    border-radius: 50%;
+    color: white;
+    width: 55%;
+}
 
 
 
@@ -66,9 +91,7 @@ header{
     
 }
 
-@media screen {
-    
-}
+
 
 
 

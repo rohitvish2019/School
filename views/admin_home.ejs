@@ -13,26 +13,16 @@
     <div class="body-container">
         
         <div class="left-side-panel news-container">
-            <div class="news-item">
-                <h2 class="news-title">Breaking News</h2>
-                <p class="news-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget urna velit.</p>
-                <span class="news-date">September 1, 2023</span>
-            </div>
-            <div class="news-item">
-                <h2 class="news-title">New Feature Announcement</h2>
-                <p class="news-content">Check out our latest feature that will enhance your experience on our website.</p>
-                <span class="news-date">August 28, 2023</span>
-            </div>
-            <div class="news-item">
-              <h2 class="news-title">New Feature Announcement</h2>
-              <p class="news-content">Check out our latest feature that will enhance your experience on our website.</p>
-              <span class="news-date">August 28, 2023</span>
+            <h5 style="text-align: center; font-weight: bolder; border-bottom: 1px solid black;margin-bottom: 10%;">Notice & Information</h5>
+          <% for(let i=0;i<messages.length;i++){ %>
+            <div class="news-item" id="<%=messages[i]._id%>">
+              <h2 class="news-title"><%=messages[i].Heading%></h2>
+              <p class="news-content"><%=messages[i].Message%></p>
+              <span class="news-date"><%=messages[i].createdAt%></span>
           </div>
-          <div class="news-item">
-            <h2 class="news-title">New Feature Announcement</h2>
-            <p class="news-content">Check out our latest feature that will enhance your experience on our website.</p>
-            <span class="news-date">August 28, 2023</span>
-        </div>
+          <%}%>
+            
+            
         </div>
 
 

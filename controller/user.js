@@ -2,6 +2,7 @@ const UserSchema = require('../modals/userSchema');
 const fs = require('fs')
 const PropertiesReader = require('properties-reader');
 const properties = PropertiesReader('../School/config/school.properties');
+const Messages = require('../modals/messages');
 
 module.exports.login = function(req, res){
     if(req.isAuthenticated()){
@@ -14,9 +15,9 @@ module.exports.signUp = function(req, res){
     return res.render('sign-up');
 }
 
-module.exports.home = function(req, res){
-    console.log("Printing request")
-    console.log(req.user.SchoolCode);
+module.exports.home = async function(req, res){
+    let messages = await Messages.find({SchoolCode:req.user.SchoolCode, Category:'School'})
+    console.log(req.user.messages);
     const pathToDirectory = '../School/assets/carousel-photos';
     fs.readdir(pathToDirectory, (error, files) => {
     if (error) {
@@ -25,7 +26,7 @@ module.exports.home = function(req, res){
         if(req.isAuthenticated){
             console.log(req.user.School_Code+'_name');
             let School_name = properties.get(req.user.SchoolCode+'_name');
-            return res.render('admin_home', {files,role:req.user.role, School_name});
+            return res.render('admin_home', {files,role:req.user.role, School_name, messages});
         }else{
             return re.redirect('/user/login')
         }

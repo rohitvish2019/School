@@ -34,7 +34,7 @@ const Students = new mongoose.Schema({
     FathersAnnualIncome:String, 
     MothersAnnualIncome:String, 
     LastSchoolName:String, 
-    LastPassingClass:String, 
+    LastPassingClass:String,
     LastClassPassingYear:String, 
     LastClassGrade:String,
     quarterlyGrade:String,

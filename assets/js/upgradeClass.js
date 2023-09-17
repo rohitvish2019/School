@@ -141,15 +141,8 @@ function showStudentsList(data){
         item.setAttribute('id','item_'+student.AdmissionNo);
         listDiv.appendChild(item);
     }
-    let controlsSection = document.getElementById('controlsSection')
-    let controls = document.createElement('div');
-    controls.innerHTML=
-    `
-        <button hidden class='btn btn-success' id='upgradeClassList' onclick=upgradeClassList() >Upgrade selected</button>
-        <button class='btn btn-success'>De-select</button>
-    `
-    controlsSection.appendChild(controls);
-    console.log(data);
+   
+    
 }
 
 // Invoke when no/error response received from getStudentsList
@@ -166,5 +159,5 @@ function showNoRecord(err){
     }).show();
     console.log(err);
 }
-document.getElementById('getClassBtn').addEventListener('click', getClassList);
+document.getElementById('selectClass').addEventListener('change', getClassList);
 //document.getElementById('upgradeClassList').addEventListener();

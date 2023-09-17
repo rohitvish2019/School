@@ -117,7 +117,7 @@ form input, textarea{
 /* Style for individual news items */
 .news-item {
     margin-bottom: 20px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #0a0a0a;
     padding-bottom: 10px;
 }
 

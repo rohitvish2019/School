@@ -130,13 +130,16 @@ function cancelFees(id){
 }
 
 function submitFeeOrConcession(){
+    let Date;
     let AdmissionNo = document.getElementById('AdmissionNo_fee').value;
     let Class = document.getElementById('Class_fee').value;
-    let Date = document.getElementById('date_fee').value;
+    if(document.getElementById('date_fee')){
+        Date = document.getElementById('date_fee').value;
+    }
     let Amount = document.getElementById('Amount_fee').value;
     let purpose = document.getElementById('purpose').value
     let Comment = document.getElementById('comment_fee').value;
-    if(AdmissionNo == '' || Class == '' || Date == '' || Amount =='' || purpose == '' || Comment == ''){
+    if(AdmissionNo == '' || Class == '' || Amount =='' || purpose == '' || Comment == ''){
         new Noty({
             theme: 'relax',
             text: 'All fields are mandatory',

@@ -1,5 +1,6 @@
 const Student = require('../modals/admissionSchema');
-
+const FeesHistory = require('../modals/feeHistory');
+const moment = require('moment')
 module.exports.home = function(req, res){
     return res.render('reports_home',{error:"", role:req.user.role});
 }
@@ -27,8 +28,69 @@ module.exports.getClassList = async function(req, res){
 }
 
 
-module.exports.getAdmittedStudentsReport = function(req, res){
-    let startDate = Date.parse(req.body.start_date);
-    let endDate = Date.parse(req.body.end_date);
-    let studentsList = Student.find({AdmissionDatestartDate})
+
+module.exports.getAdmittedStudentsReport = async function(req, res){
+    try{
+        let startDate = Date.parse(moment(req.query.start_date,'YYYYMMDD').format('ll'));
+        let endDate = Date.parse(moment(req.query.end_date,'YYYYMMDD').format('ll'));
+        let studentsList = await Student.find({SchoolCode:req.user.SchoolCode,AdmissionDate:{$gte:startDate}, AdmissionDate:{$lte:endDate}});
+        return res.status(200).json({
+            studentsList
+        });
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to fetch data'
+        })
+    }
 }
+
+
+module.exports.getFeesReport = async function(req, res){
+    try{
+        let startDate = Date.parse(moment(req.query.start_date,'YYYYMMDD').format('ll'));
+        let endDate = Date.parse(moment(req.query.end_date,'YYYYMMDD').format('ll'));
+        let feesHistory = await FeesHistory.find({SchoolCode:req.user.SchoolCode,Payment_Date:{$gte:startDate}, Payment_Date:{$lt:endDate}});
+        return res.status(200).json({
+            feesHistory
+        });
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to fetch data'
+        })
+    }
+}
+
+module.exports.getFeesReportByUser = async function(req, res){
+    try{
+        let startDate = Date.parse(moment(req.query.start_date,'YYYYMMDD').format('ll'));
+        let endDate = Date.parse(moment(req.query.end_date,'YYYYMMDD').format('ll'));
+        let feesHistory = await FeesHistory.find({SchoolCode:req.user.SchoolCode, PaidTo:req.body.email,Payment_Date:{$gte:startDate}, Payment_Date:{$lt:endDate}});
+        return res.status(200).json({
+            feesHistory
+        });
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to fetch data'
+        })
+    }
+}
+
+module.exports.getActiveStudentsList = async function(req, res){
+    try{
+        let students = await Student.find({SchoolCode:req.user.SchoolCode,isThisCurrentRecord:true});
+        return res.status(200).json({
+            students
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:'Internal Server Error'
+        })
+    }
+    
+}
+
+
+module.exports.bulkReportsHome = function(req, res){
+    return res.render('reports');
+}
+

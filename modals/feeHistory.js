@@ -1,6 +1,7 @@
 //This schema will store the history of fees for each student
 const mongoose = require('mongoose');
 const db = require('../config/dbConnection');
+const moment = require('moment');
 const FeesHistory = new mongoose.Schema({
     AdmissionNo : {
         type: String,
@@ -13,6 +14,7 @@ const FeesHistory = new mongoose.Schema({
     },
     Payment_Date:{
         type:String,
+        default: moment().format('LL')
     },
     Comment:{
         type:String

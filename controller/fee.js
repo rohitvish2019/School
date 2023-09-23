@@ -81,7 +81,7 @@ module.exports.feeSubmission =async function(req, res){
                 Class: fee.Class,
                 SchoolCode:req.user.SchoolCode,
                 Amount: req.body.Amount,
-                Payment_Date: convertDateFormat(req.body.Date.slice(0,10)),
+                Payment_Date: Date.now(),
                 Comment: req.body.Comment,
                 type:'Fees',
                 Receipt_No:lastFeeReceiptNumber.LastFeeReceiptNo,

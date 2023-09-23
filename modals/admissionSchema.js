@@ -1,10 +1,15 @@
 //Basic student details will be stored in this schema
 const mongoose = require('mongoose');
 const db = require('../config/dbConnection');
+const moment = require('moment');
+
 const Students = new mongoose.Schema({
     RegistrationNo:String,
     AdmissionNo:String,
-    AdmissionDate:String,
+    AdmissionDate:{
+        type:String,
+        default: Date.now()
+    },
     Session:Number,
     FirstName:String,
     LastName: String,

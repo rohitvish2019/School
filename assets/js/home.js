@@ -9,28 +9,32 @@ function runListener(id){
 }
 
 function deleteMessage(messageId){
-    $.ajax({
-        url:'/message/delete/'+messageId,
-        type:'delete',
-        success: function(data){
-            console.log(data.message);
-            document.getElementById(data.id).style.display='none';
-            new Noty({
-                theme: 'relax',
-                text: data.message,
-                type: 'success',
-                layout: 'topRight',
-                timeout: 1500
-            }).show(); 
-        },
-        error: function(err){
-            new Noty({
-                theme: 'relax',
-                text: JSON.parse(err.responseText.message),
-                type: 'error',
-                layout: 'topRight',
-                timeout: 1500
-            }).show(); 
-        }
-    })
+    let response = window.confirm('Selected global notification will be deleted permanently, Please confirm !');
+    
+    if(response){
+        $.ajax({
+            url:'/message/delete/'+messageId,
+            type:'delete',
+            success: function(data){
+                console.log(data.message);
+                document.getElementById(data.id).style.display='none';
+                new Noty({
+                    theme: 'relax',
+                    text: data.message,
+                    type: 'success',
+                    layout: 'topRight',
+                    timeout: 1500
+                }).show(); 
+            },
+            error: function(err){
+                new Noty({
+                    theme: 'relax',
+                    text: JSON.parse(err.responseText.message),
+                    type: 'error',
+                    layout: 'topRight',
+                    timeout: 1500
+                }).show(); 
+            }
+        })
+    }
 }

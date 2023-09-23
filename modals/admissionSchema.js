@@ -4,6 +4,7 @@ const db = require('../config/dbConnection');
 const Students = new mongoose.Schema({
     RegistrationNo:String,
     AdmissionNo:String,
+    AdmissionDate:String,
     Session:Number,
     FirstName:String,
     LastName: String,

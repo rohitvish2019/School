@@ -66,14 +66,26 @@ function runListener(id){
 
 
 function sendNewMessage(Category, Value){
+    let Heading = document.getElementById('heading').value;
+    let Message = document.getElementById('Message').value;
+    if(Heading == '' || Message == '' || Category == ''){
+        new Noty({
+            theme: 'relax',
+            text: 'Mandatory Values are empty',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1000
+        }).show();
+        return;
+    }
     $.ajax({
         type:'POST',
         url:'/message/addNew',
         data:{
-            Heading: document.getElementById('heading').value,
-            Message: document.getElementById('Message').value,
-            Category: Category,
-            Value: Value
+            Heading,
+            Message,
+            Category,
+            Value
         },
         success: function(data){
             console.log(data)
@@ -84,7 +96,10 @@ function sendNewMessage(Category, Value){
                 layout: 'topRight',
                 timeout: 1000
             }).show();
-            checkFees();
+            document.getElementById('heading').value='';
+            document.getElementById('Message').value='';
+
+            
         },
         error: function(err){
             console.log(JSON.parse(err.responseText).message)

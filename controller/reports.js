@@ -25,3 +25,10 @@ module.exports.getClassList = async function(req, res){
         })
     }
 }
+
+
+module.exports.getAdmittedStudentsReport = function(req, res){
+    let startDate = Date.parse(req.body.start_date);
+    let endDate = Date.parse(req.body.end_date);
+    let studentsList = Student.find({AdmissionDatestartDate})
+}

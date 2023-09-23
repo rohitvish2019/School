@@ -16,13 +16,17 @@
             <h5 style="text-align: center; font-weight: bolder; border-bottom: 1px solid black;margin-bottom: 10%;">Notice & Information</h5>
           <% for(let i=0;i<messages.length;i++){ %>
             <div class="news-item" id="<%=messages[i]._id%>">
-              <h2 class="news-title"><%=messages[i].Heading%></h2>
+              <div style="display: flex; justify-content: space-between;">
+                <h2 class="news-title"><%=messages[i].Heading%></h2>
+                <% if(role === 'Admin'){%>
+                  <div class="delete-icon"><img class="btn" id="delete-news-<%=messages[i]._id%>" height="100%" src="/images/delete.png" alt=""></div>
+                <%}%>
+                
+              </div>
               <p class="news-content"><%=messages[i].Message%></p>
               <span class="news-date"><%=messages[i].createdAt%></span>
-          </div>
+            </div>
           <%}%>
-            
-            
         </div>
 
 
@@ -63,4 +67,5 @@
     <div class="footer-container">
       <%- include('_footer'); %>
     </div>
+    <script src="/js/home.js"></script>
 </body>

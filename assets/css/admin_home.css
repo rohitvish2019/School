@@ -126,6 +126,7 @@ form input, textarea{
     font-size: 16px;
     margin-bottom: 10px;
     color: #333;
+    display: inline;
 }
 
 /* Content of the news item */
@@ -157,4 +158,10 @@ form input, textarea{
 
 .school-name-container h6{
     color:#2c6bc9
+}
+
+.delete-icon{
+    height: 30px;
+    width: 30px;
+    display: inline-block;
 }

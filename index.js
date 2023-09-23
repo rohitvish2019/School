@@ -5,8 +5,8 @@ const https = require('https');
 const hostname="localhost";
 const httpsPort = 443;
 const httpsOptions= {
-    cert:fs.readFileSync('../SSL/turbusolutions.in.cer'),
-    key:fs.readFileSync('../SSL/turbusolutions.in.pem')
+    cert:fs.readFileSync('../SSL/digital_bharat_solutions.in_R3_.cer'),
+    key:fs.readFileSync('../SSL/privkey.pem')
 }
 
 
@@ -76,6 +76,7 @@ app.use(passportLocal.setAuthenticatedUser);
 
 
 app.use('/', require('./routers/index'));
+
 
 const httpsServer = https.createServer(httpsOptions,app);
 httpsServer.listen(httpsPort, hostname);

@@ -4,6 +4,11 @@ const PropertiesReader = require('properties-reader');
 const properties = PropertiesReader('../School/config/school.properties');
 const Messages = require('../modals/messages');
 
+
+module.exports.mainHome = function(req,res){
+    return res.redirect('/user/login');
+}
+
 module.exports.login = function(req, res){
     if(req.isAuthenticated()){
         return res.redirect('/user/home')
@@ -56,7 +61,7 @@ module.exports.logout = function(req, res){
 }
 
 module.exports.addNewUser = async function(req, res){
-    if(req.body.key ==='iamveryrandomkey' || req.user.role === 'Admin'){
+    if(req.user.role === 'Admin'){
         let user  = await UserSchema.create(
             req.body
         );

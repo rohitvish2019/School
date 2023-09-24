@@ -276,7 +276,7 @@ function showFeesHistory(data){
             
             <td>${data[i].Class}</td>
             <td>${data[i].Amount}</td>
-            <td>${data[i].Payment_Date}</td>
+            <td>${data[i].Payment_Date.slice(0,10)}</td>
             <td>${data[i].Comment}</td>
             <td>
                 <div class="dropdown" style='font-size:0.7rem;'>

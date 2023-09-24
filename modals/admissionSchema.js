@@ -8,7 +8,7 @@ const Students = new mongoose.Schema({
     AdmissionNo:String,
     AdmissionDate:{
         type:String,
-        default: Date.now()
+        default: new Date().toISOString()
     },
     Session:Number,
     FirstName:String,

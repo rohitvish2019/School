@@ -14,7 +14,7 @@ const FeesHistory = new mongoose.Schema({
     },
     Payment_Date:{
         type:String,
-        default: moment().format('LL')
+        default: new Date().toISOString()
     },
     Comment:{
         type:String

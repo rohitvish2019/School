@@ -3,19 +3,54 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="/css/report.css">
+
 <body>
-    <form action="/reports/allReports">
-        <select name="purpose" id="purpose">
-            <option value="feesReport">Fees Report</option>
-            <option value="admittedStudents">Admitted Students</option>
-            <option value="usersCollection">Collection report by users</option>
-            <option value="currentActiveStudents">Active Students report</option>
-        </select>
-        <input type="text" name="email" id="email" hidden>
-        <input type="date" name="start_date" id="start_date" placeholder="startDate">
-        <input type="date" name="end_date" id="end_date" placeholder="endDate">
-        <input type="submit" value="Get">
-        <input id="getExcel" type="button" value="Get in excel">
-    </form>
+    <div class="header-container">
+        <%- include('_header'); %>
+    </div>
+    <div class="body-container">
+        
+        <div class="center-body">
+            <h1>Transaction Report</h1>
+    
+            <!-- Filter form -->
+            <div class="filter-container">
+                <select name="purpose" id="purpose">
+                    <option value="feesReport">Fees Report</option>
+                    <option value="admittedStudents">Admitted Students</option>
+                    <option value="usersCollection" disabled>Collection report by users</option>
+                    <option value="currentActiveStudents" >Active Students report</option>
+                </select>
+                <label for="email" id="email-label">User</label>
+                <input type="text" name="email" id="email">
+                <label for="start-date">Start Date</label>
+                <input type="text" value="20-09-2023" id="start-date" name="start-date" pattern="\d{2}-\d{2}-\d{4}" placeholder="DD-MM-YYYY" required>
+
+                <label for="end-date">End Date</label>
+                <input type="text" value="26-09-2023" id="end-date" name="end-date" pattern="\d{2}-\d{2}-\d{4}" placeholder="DD-MM-YYYY" required>
+                <button onclick="filterTransactions()">Filter</button>
+                
+                <input id="getExcel" type="button" value="Get in excel">
+            </div>
+
+            <table id="table-body">
+                <thead>
+                    <tr>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Sample transaction rows; replace with your actual data -->
+                    
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="footer-container">
+        <label for="">Total Fees received : <span id="total"></span></label>
+    </div>
 </body>
-<script src="/js/reports.js" type="module"></script>
+<script src="/js/reports.js"></script>
+

@@ -1,7 +1,7 @@
 const Student = require('../modals/admissionSchema');
 const FeesHistory = require('../modals/feeHistory');
 const moment = require('moment');
-const fs = require('fs');
+const xlsx = require('json-as-xlsx')
 module.exports.home = function(req, res){
     return res.render('reports_home',{error:"", role:req.user.role});
 }
@@ -47,14 +47,14 @@ module.exports.getReports = async function(req, res){
             })
         }else{
             return res.status(200).json({
-                count:response.length,
                 response,
-                
+                purpose:req.query.purpose
             })
         }
     }catch(err){
+        console.log(err)
         return res.status(500).json({
-            message:'Internal Server Error'
+            message:'Internal Server Error2'
         })
     }
 
@@ -77,14 +77,15 @@ async function getAdmittedStudentsReport(start_date, end_date, activeUser){
 
 async function getFeesReport(start_date, end_date, activeUser){
     try{
-        let startDate = new Date(Date.parse(start_date)).toISOString();
+        console.log(start_date);
+        let startDate = new Date(start_date).toISOString();
+        console.log(startDate);
         let endDate = new Date(Date.parse(end_date)).toISOString();
         console.log("Start Date : "+startDate+' end date : '+endDate)
-        
         let feesHistory = await FeesHistory.find({SchoolCode:activeUser.SchoolCode,Payment_Date:{$gt:startDate, $lte:endDate}});
         return feesHistory
-        
     }catch(err){
+        console.log(err);
         return 500
         
     }
@@ -114,7 +115,7 @@ async function getCurrentActiveStudentsList(start_date, end_date, activeUser){
 
 
 module.exports.getCSV = async function(req, res){
-    let response;
+    let response = [];
     console.log(req.query.purpose)
     if(req.query.purpose === 'feesReport'){
         response = await getFeesReport(req.query.start_date, req.query.end_date, req.user)
@@ -126,41 +127,38 @@ module.exports.getCSV = async function(req, res){
         response = await getCurrentActiveStudentsList(req.query.start_date, req.query.end_date, req.user)
     }
     console.log(response.length);
-    if(!(response === 500) && response.length > 0){
-        saveCSV(response, req.query.purpose);
-    }
+    
+    saveCSV(response);
+    
 }
 
-function saveCSV(reportArray, purpose){
+function saveCSV(reportArray){
     console.log('Genratting report');
-    fs.open('../School/assets/reports/sample.csv', 'w', function (err, file) {
-        if (err) throw err;
-        console.log('Saved!');
-      });
-    let filename = '../School/assets/reports/sample.csv'
-    let data;
-    for(let i=0;i<reportArray.length;i++){
-        item = reportArray[i];
-        let data = JSON.stringify(item).split(',');
-        let text = '';
-        for(let i=1;i<data.length;i++){
-            let value = data[i].split(':')
-            console.log("Value is " +value[1] +' done');
-            text = text + value[1]+',';
-        }
-        console.log("New line "+text);
-        fs.appendFile(filename, text.slice(0,-2)+'\n', function(err){
-            if(err){
-                console.log(err)
-            }else{
-                console.log('Written')
-            }
-        });
-    }
-    return 200
+    let d = reportArray;
+    console.log(d);
+    let data = [{
+        sheet: "Adults",
+        columns: [
+          { label: "User", value: "user" }, // Top level data
+          { label: "Age", value: (row) => row.age + " years" }, // Custom format
+          { label: "Phone", value: (row) => (row.more ? row.more.phone || "" : "") }, // Run functions
+        ],
+        content: [
+             
+        ],
+      }]
+    console.log(data);
+      let settings = {
+        fileName: "../School/assets/reports/MySpreadsheet", // Name of the resulting spreadsheet
+        extraLength: 3, // A bigger number means that columns will be wider
+        writeMode: "writeFile", // The available parameters are 'WriteFile' and 'write'. This setting is optional. Useful in such cases https://docs.sheetjs.com/docs/solutions/output#example-remote-file
+        writeOptions: {}, // Style options from https://docs.sheetjs.com/docs/api/write-options
+        RTL: true, // Display the columns from right-to-left (the default value is false)
+      }
+      xlsx(d, settings)
 }
 
 module.exports.bulkReportsHome = function(req, res){
-    return res.render('reports');
+    return res.render('reports',{role:req.user.role});
 }
 

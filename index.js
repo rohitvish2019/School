@@ -2,7 +2,7 @@ const express = require('express');
 
 const fs =require('fs');
 const https = require('https');
-const hostname="localhost";
+const hostname="0.0.0.0";
 const httpsPort = 443;
 const httpsOptions= {
     cert:fs.readFileSync('../SSL/digital_bharat_solutions.in_R3_.cer'),

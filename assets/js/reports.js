@@ -23,6 +23,10 @@ function updateForm(){
 
 
 function getCSV(){
+    const startDateSplitted = startDateInput.value.split('-');
+    let startDate = startDateSplitted[1]+'-'+startDateSplitted[0]+'-'+startDateSplitted[2]
+    const endDateSplitted = endDateInput.value.split('-');
+    let endDate = endDateSplitted[1]+'-'+endDateSplitted[0]+'-'+endDateSplitted[2]
     console.log()
     $.ajax({
         url:'/reports/getExcel',
@@ -30,10 +34,19 @@ function getCSV(){
         data:{
             purpose : document.getElementById('purpose').value,
             email:document.getElementById('email').value,
-            start_date : document.getElementById('start_date').value,
-            end_date : document.getElementById('end_date').value
+            start_date : startDate,
+            end_date : endDate
         },
-        success: function(data){}
+        success: function(data){
+            window.location.href = '/reports/'+data.filename+'.xlsx'
+            new Noty({
+                theme: 'relax',
+                text: data.message,
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+        }
     })
 }
 

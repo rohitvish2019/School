@@ -1,31 +1,39 @@
 const Student = require('../modals/admissionSchema');
 const FeesHistory = require('../modals/feeHistory');
 const moment = require('moment');
-const xlsx = require('json-as-xlsx')
+const fs = require('fs');
+var json2xls = require('json2xls');
 module.exports.home = function(req, res){
     return res.render('reports_home',{error:"", role:req.user.role});
 }
 
 
 module.exports.getClassList = async function(req, res){
-    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
-        let studentsList = await Student.find({Class:req.query.Class, Session:+req.query.Admission_year});
-        if(studentsList.length > 0){
-            return res.status(200).json({
-                message:'Success',
-                data: studentsList
+    try{
+        if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
+            let studentsList = await Student.find({Class:req.query.Class, Session:+req.query.Admission_year});
+            if(studentsList.length > 0){
+                return res.status(200).json({
+                    message:'Success',
+                    data: studentsList
+                })
+            }
+            else if(studentsList.length <= 0){
+                return res.status(412).json({
+                    message: 'Empty result received from server'
+                })
+            }
+        }else{
+            return res.status(403).json({
+                message:'Unautorized'
             })
         }
-        else if(studentsList.length <= 0){
-            return res.status(412).json({
-                message: 'Empty result received from server'
-            })
-        }
-    }else{
-        return res.status(403).json({
-            message:'Unautorized'
+    }catch(err){
+        return res.status(500).json({
+            message: 'Internal Server Error'
         })
     }
+    
 }
 
 module.exports.getReports = async function(req, res){
@@ -65,7 +73,7 @@ async function getAdmittedStudentsReport(start_date, end_date, activeUser){
         let startDate = new Date(Date.parse(start_date)).toISOString();
         let endDate = new Date(moment(end_date).add(1,'days')).toISOString();
         
-        let studentsList = await Student.find({SchoolCode:activeUser.SchoolCode,AdmissionDate:{$gte:startDate,$lte:endDate}});
+        let studentsList = await Student.find({SchoolCode:activeUser.SchoolCode,AdmissionDate:{$gte:startDate,$lte:endDate}}).lean();
         return studentsList
     }catch(err){
         console.log("getting error")
@@ -82,8 +90,9 @@ async function getFeesReport(start_date, end_date, activeUser){
         console.log(startDate);
         let endDate = new Date(Date.parse(end_date)).toISOString();
         console.log("Start Date : "+startDate+' end date : '+endDate)
-        let feesHistory = await FeesHistory.find({SchoolCode:activeUser.SchoolCode,Payment_Date:{$gt:startDate, $lte:endDate}});
-        return feesHistory
+        let feesHistory = await FeesHistory.find({SchoolCode:activeUser.SchoolCode,Payment_Date:{$gt:startDate, $lte:endDate}}).select('-_id -__v').lean();
+        
+        return feesHistory;
     }catch(err){
         console.log(err);
         return 500
@@ -95,7 +104,7 @@ async function getFeesReportByUser(start_date, end_date, activeUser, userToSearc
     try{
         let startDate = new Date(Date.parse(start_date)).toISOString();
         let endDate = new Date(moment(end_date).add(1,'days')).toISOString();
-        let feesHistory = await FeesHistory.find({SchoolCode:activeUser.SchoolCode, PaidTo:req.body.email,Payment_Date:{$gt:startDate, $lte:endDate}});
+        let feesHistory = await FeesHistory.find({SchoolCode:activeUser.SchoolCode, PaidTo:req.body.email,Payment_Date:{$gt:startDate, $lte:endDate}}).lean();
         return feesHistory
         
     }catch(err){
@@ -105,7 +114,7 @@ async function getFeesReportByUser(start_date, end_date, activeUser, userToSearc
 
 async function getCurrentActiveStudentsList(start_date, end_date, activeUser){
     try{
-        let students = await Student.find({SchoolCode:activeUser.SchoolCode,isThisCurrentRecord:true});
+        let students = await Student.find({SchoolCode:activeUser.SchoolCode,isThisCurrentRecord:true}).lean();
         return students
     }catch(err){
         return 500
@@ -115,47 +124,44 @@ async function getCurrentActiveStudentsList(start_date, end_date, activeUser){
 
 
 module.exports.getCSV = async function(req, res){
-    let response = [];
-    console.log(req.query.purpose)
-    if(req.query.purpose === 'feesReport'){
-        response = await getFeesReport(req.query.start_date, req.query.end_date, req.user)
-    }else if(req.query.purpose === 'admittedStudents'){
-        response = await getAdmittedStudentsReport(req.query.start_date, req.query.end_date, req.user)
-    }else if(req.query.purpose === 'usersCollection'){
-        response = await getFeesReportByUser(req.query.start_date, req.query.end_date, req.user, req.query.email)
-    }else if(req.query.purpose === 'currentActiveStudents'){
-        response = await getCurrentActiveStudentsList(req.query.start_date, req.query.end_date, req.user)
+    try{
+        let response = [];
+        if(req.query.purpose === 'feesReport'){
+            response = await getFeesReport(req.query.start_date, req.query.end_date, req.user)
+        }else if(req.query.purpose === 'admittedStudents'){
+            response = await getAdmittedStudentsReport(req.query.start_date, req.query.end_date, req.user)
+        }else if(req.query.purpose === 'usersCollection'){
+            response = await getFeesReportByUser(req.query.start_date, req.query.end_date, req.user, req.query.email)
+        }else if(req.query.purpose === 'currentActiveStudents'){
+            response = await getCurrentActiveStudentsList(req.query.start_date, req.query.end_date, req.user)
+        }
+        let filename = saveCSV(response,req.query.start_date+"to"+req.query.end_date+'_'+req.query.purpose);
+        if(filename == 500){
+            return res.status(500).json({
+                message:'Unable to create Excel'
+            })
+        }
+        return res.status(200).json({
+            message:'Downloading report',
+            filename
+        })
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Internal Server Error'
+        })
     }
-    console.log(response.length);
-    
-    saveCSV(response);
-    
 }
 
-function saveCSV(reportArray){
-    console.log('Genratting report');
-    let d = reportArray;
-    console.log(d);
-    let data = [{
-        sheet: "Adults",
-        columns: [
-          { label: "User", value: "user" }, // Top level data
-          { label: "Age", value: (row) => row.age + " years" }, // Custom format
-          { label: "Phone", value: (row) => (row.more ? row.more.phone || "" : "") }, // Run functions
-        ],
-        content: [
-             
-        ],
-      }]
-    console.log(data);
-      let settings = {
-        fileName: "../School/assets/reports/MySpreadsheet", // Name of the resulting spreadsheet
-        extraLength: 3, // A bigger number means that columns will be wider
-        writeMode: "writeFile", // The available parameters are 'WriteFile' and 'write'. This setting is optional. Useful in such cases https://docs.sheetjs.com/docs/solutions/output#example-remote-file
-        writeOptions: {}, // Style options from https://docs.sheetjs.com/docs/api/write-options
-        RTL: true, // Display the columns from right-to-left (the default value is false)
-      }
-      xlsx(d, settings)
+function saveCSV(reportArray, filename){
+    try{
+        json = reportArray
+        let xls = json2xls(json);
+        fs.writeFileSync('../School/assets/reports/'+filename+'.xlsx', xls, 'binary');
+        return filename
+    }catch(err){
+        return 500;
+    }
 }
 
 module.exports.bulkReportsHome = function(req, res){

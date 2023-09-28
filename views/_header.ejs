@@ -9,12 +9,12 @@
 <header id="big-screen" >
 
   <div class="logo-container">
-    <a style="width: 5%; height: 5%; margin-left: 5%;" class="navbar-brand logo" href="/user/login">
+    <a class="navbar-brand logo" href="/user/login">
       <img style="margin: 2%; padding: 0%;" src="/images/school_logo.png" alt="Bootstrap" width="70%" height="100%">
     </a>
   </div>
 
-  <div class="options-container">
+  <div class="options-container" id="header-list">
     <ul class="horizontal-list me-auto mb-2 mb-lg-0">
             
       <li class="nav-item dropdown">
@@ -87,7 +87,7 @@
       <img height="100%" src="/images/edit-profile.png" alt="">
     </div>
 
-    <select class="form-select form-select-sm" name="" id="">
+    <select class="form-select form-select-sm" name="" id="select-school">
       School Code
       <option value="" disabled selected>School Code</option>
       <option value="SVVN">SVVN</option>
@@ -100,7 +100,8 @@
       </div>
       
     </div>
-    <a href="/user/logout" class="btn btn-warning">Logout</a>
+    <a href="/user/logout" id="logout" class="btn btn-warning">Logout</a>
+    <a id="options"><img height="100%" width="100%" src="/images/options.png" alt=""></a>
 
   </div>
 

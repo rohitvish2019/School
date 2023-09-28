@@ -165,3 +165,36 @@ form input, textarea{
     width: 30px;
     display: inline-block;
 }
+
+
+@media screen and  (max-width: 360px){
+    #school-name{
+        margin-top: 2%;
+        font-size: 1.1rem;
+    }
+    #mono{
+        font-size: 0.6rem;
+    }
+    .crousal-section{
+        display: none;
+    }
+    .left-side-panel{
+        width: 100%;
+    }
+    .center-body{
+        width: 100%;
+    }
+
+    .body-container{
+        width: 100%;
+    }
+    .quick-links-section .btn-success{
+        color: #ffffff;
+        width: 200%;
+        font-weight: bold;
+        background-color: #0a807c;
+    }
+    .quick-links-section{
+        margin-left: 10%;
+    }
+}

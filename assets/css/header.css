@@ -9,6 +9,7 @@ header{
     width: 8%;
 }
 
+
 .options-container{
     width: 58%;
 }
@@ -91,8 +92,69 @@ header{
     
 }
 
+#options{
+    display: none;
+}
 
 
+@media screen and  (max-width: 360px) {
+    .options-container{
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 20%;
+        border: 1px solid red;
+        width: 35%;
+        right: 2%;
+        z-index: 2;
+        display: none;
+    }
+    .logo-container{
+        width: 20%;
+        margin-left: 0%;
+        padding-left: 0%;
+    }
+    header{
+        display: flex;
+        justify-content: space-between;
+        height: 100%;
+    }
+    .edit-profile{
+        display: none;
+    }
+    #select-school{
+        display:  none;
+    }
+    .noty-icon{
+        margin-top: 6%;
+        height: 90%;
+        width: 40%;
+        margin-right: 4%;
+    }
+    #logout{
+        width: 30%;
+        height: 60%;
+        font-size: 0.9rem;
+        margin-top: 8%;
+        padding-right: 15%;
+    }
+    #options{
+        height: 60%;
+        width: 40%;
+        margin-top: 8%;
+        display: inline;
+    }
+
+    .profile-container{
+        width: 64%;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1%;
+        margin-left: 20%;
+        margin-right: 1%;
+    }
+    
+}
 
 
 

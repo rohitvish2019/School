@@ -7,3 +7,9 @@
     color: rgb(29, 182, 174);
 
 }
+
+@media screen and  (max-width: 360px){
+    #footer{
+        font-size: 0.6rem;
+    }
+}

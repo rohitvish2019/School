@@ -167,7 +167,7 @@ form input, textarea{
 }
 
 
-@media screen and  (max-width: 360px){
+@media screen and  (max-width: 560px){
     #school-name{
         margin-top: 2%;
         font-size: 1.1rem;
@@ -198,3 +198,4 @@ form input, textarea{
         margin-left: 10%;
     }
 }
+

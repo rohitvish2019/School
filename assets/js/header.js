@@ -8,3 +8,16 @@ function notyPanelToggller(){
         container.style.display = 'none'
     }
 }
+
+
+document.getElementById('options').addEventListener('click', toggleHeader);
+
+function toggleHeader(){
+    console.log('Coreect')
+    let header = document.getElementById('header-list');
+    if(header && header.style.display === 'flex'){
+        header.style.display = 'none'
+    }else{
+        header.style.display = 'flex'
+    }
+}

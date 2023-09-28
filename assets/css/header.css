@@ -77,9 +77,6 @@ header{
     width: 55%;
 }
 
-
-
-
 .edit-profile{
     height: 35px;
     width: 35px;
@@ -99,15 +96,22 @@ header{
 
 @media screen and  (max-width: 560px) {
     .options-container{
-        display: flex;
+        display: none;
         flex-direction: column;
         position: fixed;
-        top: 20%;
-        border: 1px solid red;
-        width: 35%;
+        top: 24%;
+        width: 45%;
         right: 2%;
         z-index: 2;
-        display: none;
+        height: 55%;
+        font-size: 1.5rem;
+        background-color: rgb(30, 187, 187);
+        border-radius: 1.5rem;
+        padding-left: 5%;
+    }
+    .options-container li{
+        display: block;
+        font-size: 1.5rem;
     }
     .logo-container{
         width: 20%;

@@ -52,17 +52,17 @@ input{
 }
 
 #classList .btn-light{
-    margin: 0.1%;
+    
     font-weight: bold;
     width: 100%;
-    font-size: 0.5rem;
+    font-size: 1rem;
+    margin: 0;
 }
 
 li{
     display: flex;
     justify-content: space-between;
     
-
 }
 label{
     width: 11%;
@@ -70,7 +70,7 @@ label{
     
 }
 .student-list{
-    width: 50%;
+    width: 100%;
     border-bottom: 0.5px dotted green;
     text-align: center;
     margin-top: 1%;
@@ -82,8 +82,8 @@ input{
 
 @media screen and  (max-width: 560px){
     label {
-        width: 35%;
-        min-width: 30px;
+        width: 15%;
+        min-width: 25px;
         font-size: 0.5rem;
         padding: 0;
         margin: 0;
@@ -96,9 +96,16 @@ input{
     }
     .btn-danger{
         width: 20%;
-        height: 20px;
+        height: 20      px;
         text-align: center;
         font-size: 0.5rem !important;
 
+    }
+
+    #classList .btn-light {
+        font-weight: bold;
+        width: 98%;
+        font-size: 0.5rem;
+        margin-top: 1%;
     }
 }

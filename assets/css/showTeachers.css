@@ -24,33 +24,23 @@ body{
 
 .center-body{
     border: 1px solid blue;
-    width: 80%;
-    height: 100%;
+    width: 97%;
+    border: 1px solid salmon;
+    margin: 2%;
 }
 
-.left-side-panel{
-    border-radius: 0.8rem;
-    background-color: #d4e9e2;
-    width: 20%;
-    height: 85%;
-    padding: 1%;
-    margin-bottom: 2%;
-    border-right: none;
-    border-top-right-radius:0 ;
-    margin-right: -0.5%;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    background-color: #c0e5ee;
-    margin-top: 1.3% !important;
+table th{
+    background-color: #0a807c;
+    color: white;
 }
-
-.left-side-panel::-webkit-scrollbar{
-    display: none;
+table tr{
+    border: 1px solid #0a807c;
 }
 
 th, td textarea{
     font-size: 0.8rem;
     font-weight: bold;
+    
 }
 
 td textarea{
@@ -59,14 +49,43 @@ td textarea{
     background-color: transparent;
     font-size: small;
     resize: none;
-    
+    margin-top: 1%;
+    padding: 1%;
 }
 
-.left-side-panel button{
-    display: block;
-    width: 80%;
-    margin-left: 5%;
-    margin-top: 2%;
-    background-color: #0a807c;
-    border: #0a807c;
+#pop-up-box{
+    border: 2px solid black;
+    padding: 2%;
+    margin:2%
 }
+
+.form-data{
+    
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.form-group,label{
+    width: 25%;
+    height: 5%;
+    margin: 1%;
+}
+
+label{
+    font-weight: bold;
+}
+
+#addTeacherButton{
+    position: relative;
+    left: 35%;
+    width: 10%;
+}
+
+#cancelButton{
+    position: relative;
+    left: 45%;
+    width: 10%;
+}
+
+

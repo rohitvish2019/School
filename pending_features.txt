@@ -9,3 +9,9 @@ Vikasjain@Tbsschool.Com : 123456
 superadmin@tbs.com
 bparihar@Tbsschool.Com
 setpassro
+
+
+
+Bugs:
+
+Admission approval page design in mobile view

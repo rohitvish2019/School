@@ -1,16 +1,17 @@
 //const TeachersDetails = require("../../modals/TeachersDetails");
-
+document.getElementById('pop-up-box').setAttribute('hidden','true')
 document.addEventListener('click', runListener);
-
+document.getElementById()
 function runListener(event){
     console.log(event.target.id.slice(4,));
     itemId = event.target.id;
     itemFirstClass = event.target.classList[0];
+    
     if(itemId === 'AddNewTeacher'){
         document.getElementById('pop-up-box').removeAttribute('hidden');
         document.getElementById('teachersDetails').setAttribute('hidden','true');
     }
-    else if(itemId === 'closeButton'){
+    else if(itemId === 'cancelButton'){
         document.getElementById('pop-up-box').setAttribute('hidden','true');
         document.getElementById('teachersDetails').removeAttribute('hidden');
     }
@@ -86,8 +87,44 @@ function runListener(event){
 
 
 function addTeacher(){
-
+    $.ajax({
+        url:'/teachers/addNew',
+        data:{
+            Name:document.getElementById('teacherName').value,
+            Education:document.getElementById('teacherEducation').value,
+            Salary:document.getElementById('teacherSalary').value,
+            Address:document.getElementById('teacherAddress').value,
+            Mobile:document.getElementById('teacherMobile').value,
+            Aadhar:document.getElementById('teacherAadhar').value,
+            DOB:document.getElementById('teacherDob').value,
+            Samagra:document.getElementById('teacherSssmId').value,
+            DOJ:document.getElementById('teacherJoiningDate').value,
+            AccountNo:document.getElementById('teacherAccountNo').value,
+        },
+        type:'POST',
+        success:function(data){
+            window.location.href='/teachers/home',
+            new Noty({
+                theme: 'relax',
+                text: data.message,
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1000
+            }).show();
+        },
+        error: function(err){
+            console.log(err.responseText);
+            new Noty({
+                theme: 'relax',
+                text: err.responseText,
+                type: 'error',
+                layout: 'topRight',
+                timeout: 1000
+            }).show();
+        }
+    })
 }
+
 
 function removeTeacher(recordId){
     $.ajax({

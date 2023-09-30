@@ -80,6 +80,7 @@ table {
     text-align: left;
     border-bottom: 1px solid #ddd;
     width: 10%;
+    min-width: 105px;
   }
  
   th {

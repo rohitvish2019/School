@@ -26,7 +26,7 @@ function runListener(event){
         console.log('feesInput_'+actionClass.slice(8))
         document.getElementById('feesInput_'+actionClass.slice(8)).removeAttribute('readonly');
         document.getElementById('feesInput_'+actionClass.slice(8)).style.border='1px solid black';
-        document.getElementById(actionClass).setAttribute('hidden','true')
+        document.getElementById('actions_'+actionClass.slice(8)).setAttribute('hidden','true')
     }
     else if(actionClass.match(/deleteFee.*/)){
         console.log("In delete flow  ID is "+actionClass.slice(10))

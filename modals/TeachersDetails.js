@@ -23,6 +23,12 @@ const TeachersDetails = new mongoose.Schema({
     DOB:{
         type:String
     },
+    DOJ:{
+        type:String
+    },
+    AccountNo:{
+        type:String
+    },
     Samagra:{
         type:String
     },

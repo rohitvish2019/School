@@ -1,10 +1,10 @@
-const Student = require('../modals/admissionSchema');
+//const Student = require('../modals/admissionSchema');
 const AdmissionNo = require('../modals/admission_no');
-const FeeStructure = require('../modals/feeStructure');
-const FeeSchema = require('../modals/FeeSchema');
-const Result = require('../modals/Result');
+//const FeeStructure = require('../modals/feeStructure');
+//const FeeSchema = require('../modals/FeeSchema');
+//const Result = require('../modals/Result');
 const AdmissionNumber = require('../modals/admission_no');
-const RegisterdStudent = require('../modals/RegistrationSchema');
+//const RegisterdStudent = require('../modals/RegistrationSchema');
 
 // To render the admission form page
 
@@ -38,6 +38,7 @@ module.exports.addmission =async function(request, response){
 }
 
 //To add new student in record with dependencies 
+/*
 module.exports.addStudent = async function(request, response){
     let student, lastAdmissionNumber, ADN, fee, newFee, result_q, result_h,result_f, fee_record;
     try{
@@ -101,6 +102,7 @@ module.exports.addStudent = async function(request, response){
     return response.redirect('/admissions')
 }
 
+*/
 // To updateOne the last admission number in case of first startup of application
 
 module.exports.updateLastAdmission =async function(req, res){
@@ -114,14 +116,17 @@ module.exports.updateLastAdmission =async function(req, res){
 
 
 // To render the preview before submitting the adission form
+/*
 module.exports.getPreview = function(req, res){
     console.log(req.body)
     return res.render('AdmissionPreview', {data:req.body, role:req.user.role})
 }
-
+*/
 // To get the student profile details/n form download
+/*
 module.exports.getProfile = async function(req, res){
     let student = await Student.findOne({AdmissionNo:req.params.id,SchoolCode:request.user.SchoolCode});
     console.log(req.params.id);
     return res.render('StudentProfile', {data:student, role:req.user.role})
 }
+*/

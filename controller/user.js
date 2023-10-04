@@ -61,13 +61,21 @@ module.exports.logout = function(req, res){
 }
 
 module.exports.addNewUser = async function(req, res){
+    console.log(req.body)
     if(req.user.role === 'Admin'){
         let user  = await UserSchema.create(
             req.body
         );
+        if(req.user.isAdmin == true){
+            if(req.body.makesuperadmin === 'on'){
+                await user.updateOne({isAdmin:true});
+                await user.save();
+            }
+            return res.redirect('back');
+        }
         await user.updateOne({SchoolCode:req.user.SchoolCode});
         await user.save();
-        return res.redirect('back');
+        return res.redirect('back');   
     }else{
         return res.render('Error_403');        
     }
@@ -75,7 +83,7 @@ module.exports.addNewUser = async function(req, res){
 
 module.exports.addUserPage = function(req, res){
     if(req.user.role === 'Admin'){
-        return res.render('addUser',{role:req.user.role});
+        return res.render('addUser',{role:req.user.role, isAdmin:req.user.isAdmin});
     }else{
         return res.render('Error_403')
     }

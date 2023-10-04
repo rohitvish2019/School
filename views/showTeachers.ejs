@@ -9,11 +9,15 @@
     <div class="header-container">
         <%- include('_header'); %>
     </div>
-    <div id="AddNewTeacher" style="display: flex; flex-direction: row-reverse; width: 99.2%; margin-top: 1%;">
+    
+    
+    <table id="teachersDetails" class="center-body">
+      <div id="AddNewTeacher" style="display: flex; flex-direction: row-reverse; width: 99.2%; margin-top: 1%;">
         <button style="width: 5.8%; font-size: 0.8rem;" class="btn btn-primary" id="AddNewTeacher">Add New</button>
     </div>
-
-    <table id="teachersDetails" class="center-body">
+    <div style="margin-left: 5%;">
+      <input id="inactivateToggeler" type="checkbox" onchange="getInActiveTeachers()"><span><b>Show Inactive</b></span> 
+    </div>
       <thead>
           <tr>
               <th>Name</th>
@@ -29,41 +33,40 @@
               <th>Actions</th>
           </tr>
       </thead>
-      <tbody>
+      <tbody id="table-body">
         <%for(let i=0;i<teachers.length;i++){%>
-          <tr>
-            <td><textarea readonly id="<%=teachers[i]._id%>_name" rows="1"><%=teachers[i].Name%></textarea></td>
-            <td><textarea readonly id="<%=teachers[i]._id%>_education" rows="1"><%=teachers[i].Education%></textarea></td>
-            <td><textarea readonly id="<%=teachers[i]._id%>_salary" rows="1"><%=teachers[i].Salary%></textarea></td>
-            <td><textarea readonly id="<%=teachers[i]._id%>_address" rows="1"><%=teachers[i].Address%></textarea></td>
-            <td><textarea readonly id="<%=teachers[i]._id%>_mobile" name="" id="" rows="1"><%=teachers[i].Mobile%></textarea></td>
-            <td><textarea readonly id="<%=teachers[i]._id%>_aadhar" name="" id="" rows="1"><%=teachers[i].Aadhar%></textarea></td>
-            <td><textarea readonly id="<%=teachers[i]._id%>_dob" name="" id=""  rows="1"><%=teachers[i].DOB%></textarea></td>
-            <td><textarea readonly id="<%=teachers[i]._id%>_samagra" name="" id=""  rows="1"><%=teachers[i].Samagra%></textarea></td>
-            <td><textarea readonly id="<%=teachers[i]._id%>_doj" name="" id=""  rows="1"><%=teachers[i].DOJ%></textarea></td>
-            <td><textarea readonly id="<%=teachers[i]._id%>_account" name="" id="" rows="1"><%=teachers[i].AccountNo%></textarea></td>
-            
-
-            
-            
-            <td>
-              
-              <div class="dropdown">
-                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                  Actions
-                </button>
-                <button hidden id="update_<%=teachers[i]._id%>" class="btn btn-success">Update</button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                  <li><a class="editTeacher dropdown-item" id="edit_<%=teachers[i]._id%>">Edit</a></li>
-                  <li><a class="dropdown-item" href="">Generate payslip</a></li>
-                  <li><a class="dropdown-item" href="">Mark Inactive</a></li>
-                  <li><a class="dropdown-item" href="">Mark Active</a></li>
-                  <li><a class="dropdown-item" href="">Generate Exp letter</a></li>
-                  <li><a class="dropdown-item" id="delete_<%=teachers[i]._id%>">Delete</a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
+          <%if(teachers[i].isActive === true){%>
+            <tr>
+              <td><textarea readonly id="<%=teachers[i]._id%>_name" rows="1"><%=teachers[i].Name%></textarea></td>
+              <td><textarea readonly id="<%=teachers[i]._id%>_education" rows="1"><%=teachers[i].Education%></textarea></td>
+              <td><textarea readonly id="<%=teachers[i]._id%>_salary" rows="1"><%=teachers[i].Salary%></textarea></td>
+              <td><textarea readonly id="<%=teachers[i]._id%>_address" rows="1"><%=teachers[i].Address%></textarea></td>
+              <td><textarea readonly id="<%=teachers[i]._id%>_mobile" name="" id="" rows="1"><%=teachers[i].Mobile%></textarea></td>
+              <td><textarea readonly id="<%=teachers[i]._id%>_aadhar" name="" id="" rows="1"><%=teachers[i].Aadhar%></textarea></td>
+              <td><textarea readonly id="<%=teachers[i]._id%>_dob" name="" id=""  rows="1"><%=teachers[i].DOB%></textarea></td>
+              <td><textarea readonly id="<%=teachers[i]._id%>_samagra" name="" id=""  rows="1"><%=teachers[i].Samagra%></textarea></td>
+              <td><textarea readonly id="<%=teachers[i]._id%>_doj" name="" id=""  rows="1"><%=teachers[i].DOJ%></textarea></td>
+              <td><textarea readonly id="<%=teachers[i]._id%>_account" name="" id="" rows="1"><%=teachers[i].AccountNo%></textarea></td>
+              <td>
+                
+                <div class="dropdown">
+                  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Actions
+                  </button>
+                  <button hidden id="update_<%=teachers[i]._id%>" class="btn btn-success">Update</button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="editTeacher dropdown-item" id="edit_<%=teachers[i]._id%>">Edit</a></li>
+                    <li><a class="dropdown-item" href="">Generate payslip</a></li>
+                    <li><a class="dropdown-item" href="/teachers/deactivate/<%=teachers[i]._id%>">Mark Inactive</a></li>
+                    
+                    <li><a class="dropdown-item" href="">Generate Exp letter</a></li>
+                    <li><a class="dropdown-item" id="delete_<%=teachers[i]._id%>">Delete</a></li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          <%}%>
+          
         <%}%>
       </tbody>
   </table>
@@ -111,10 +114,12 @@
             <label for="teacherJoiningDate">Joining Date:</label>
             <input type="date" id="teacherJoiningDate" required>
         </div>
-        </div>
-        <button type="button" id="addTeacherButton" onclick="addTeacher()">Add Teacher</button>
-        <button type="button" id="cancelButton" >Cancel</button>
-        
+      </div>
+
+      <div>
+        <button class="btn btn-success" type="button" id="addTeacherButton" onclick="addTeacher()">Add Teacher</button>
+        <button class="btn btn-danger" type="button" id="cancelButton" >Cancel</button>
+      </div>
     
     </div>
 </body>

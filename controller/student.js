@@ -75,21 +75,45 @@ function convertDateFormat(thisDate){
 }
 
 module.exports.getStudent = async function(req, res){
-    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
+    console.log('Request received')
+    console.log(req.params)
+    console.log(req.query)
+    try{
         let student = await Student.findOne({AdmissionNo:req.params.adm_no, Class:req.query.Class});
-        try{
-            if(req.query.action === 'fee'){
+        if(req.query.action === 'fee'){
+            if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
                 let feesList = await Fee.find({AdmissionNo:req.params.adm_no});
                 return res.render('feeDetails',{feesList, student,role:req.user.role});
+            }else if(req.user.role === 'Student'){
+                let student = await Student.findOne({AdmissionNo:req.params.adm_no, isThisCurrentRecord:true, Mob:req.user.email});
+                console.log(student);
+                if(student){
+                    let feesList = await Fee.find({AdmissionNo:req.params.adm_no});
+                    return res.render('feeDetails',{feesList, student,role:req.user.role});
+                }else{
+                    return res.render('Error_403')
+                }
             }
-            else if(req.query.action ==='result'){
+        }else if(req.query.action ==='result'){
+            console.log(req.query);
+            console.log(req.params);
+            if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
                 let result = await Result.find({AdmissionNo:req.params.adm_no, Class:req.query.Class});
                 return res.render('resultDetails',{role:req.user.role, result, student, quarterlyTotalMarks:properties.get(req.user.SchoolCode+'_quarterly-total'), halfYearlyTotalMarks:properties.get(req.user.SchoolCode+'_half-yearly-total'), finalTotalMarks:properties.get(req.user.SchoolCode+'_final-total')});
             }
-            else if(req.query.action ==='tc'){
+            else if(req.user.role === 'Student'){
+                let student = await Student.findOne({AdmissionNo:req.params.adm_no, isThisCurrentRecord:true, Mob:req.user.email});
+                if(student){
+                    let result = await Result.find({AdmissionNo:req.params.adm_no, Class:req.query.Class});
+                    return res.render('resultDetails',{role:req.user.role, result, student, quarterlyTotalMarks:properties.get(req.user.SchoolCode+'_quarterly-total'), halfYearlyTotalMarks:properties.get(req.user.SchoolCode+'_half-yearly-total'), finalTotalMarks:properties.get(req.user.SchoolCode+'_final-total')});
+                }else{
+                    return res.render('Error_403')
+                }
+            }
+        }else if(req.query.action ==='tc'){
+            
+            if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
                 let tcData = await TCRecords.findOne({AdmissionNo:req.params.adm_no});
-                console.log("TC Data")
-                console.log(tcData);
                 let err=''
                 let DOBInWords=getDOBInWords(student.DOB);
                 let DOBDate = convertDateFormat(student.DOB);
@@ -98,6 +122,19 @@ module.exports.getStudent = async function(req, res){
                     err = "TC not generated yet, Please discharge the student first and try again"
                     return res.render('TCDetails',{student,err,DOBInWords,DOBDate});            }
                 return res.render('TCDetails',{role:req.user.role,student,err ,tcData,DOBInWords,DOBDate});
+            }else if(req.user.role === 'Student'){
+                let student = await Student.findOne({AdmissionNo:req.params.adm_no, isThisCurrentRecord:true, Mob:req.user.email});
+                if(student){
+                    let tcData = await TCRecords.findOne({AdmissionNo:req.params.adm_no});
+                    let err=''
+                    let DOBInWords=getDOBInWords(student.DOB);
+                    let DOBDate = convertDateFormat(student.DOB);
+
+                    if(!tcData.ReleivingClass || !tcData.RelievingDate){
+                        err = "TC not generated yet, Please discharge the student first and try again"
+                        return res.render('TCDetails',{student,err,DOBInWords,DOBDate});
+                    }
+                }
             }
             else{
                 if(student){
@@ -110,17 +147,27 @@ module.exports.getStudent = async function(req, res){
                     })
                 }
             }
-            
-        }catch(err){
-            console.log(err)
-            return res.status(500).json({
-                message:"Internal Server Error"
-            })
         }
-    }else{
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+    
+    
+module.exports.getMe = async function(req, res){
+    try{
+        let studentList = await Student.find({Mob:req.user.email,SchoolCode:req.user.SchoolCode, isThisCurrentRecord:true});
+        return res.status(200).json({
+            message:"Student list fetched successfully",
+            data: {studentList, action:req.query.Action}
+        })
+    }catch(err){
         return res.status(403).json({
-            message:'Unauthorized'
-        })   
+            message:"Unauthorized"
+        }) 
     }
 }
 
@@ -138,7 +185,7 @@ module.exports.getStudentsByClassForm = function(req, res){
 }
 
 module.exports.getStudentsByClassFormFee = function(req, res){
-    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
+    if(req.user.role === 'Admin' || req.user.role === 'Teacher' || req.user.role === 'Student'){
         return res.render('studentListByClass', {action:'fee',admin:req.user.isAdmin,role:req.user.role});
     }else{
         return res.render("Error_403")
@@ -147,7 +194,7 @@ module.exports.getStudentsByClassFormFee = function(req, res){
 }
 
 module.exports.getStudentsByClassFormResult = function(req, res){
-    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
+    if(req.user.role === 'Admin' || req.user.role === 'Teacher' || req.user.role === 'Student'){
         return res.render('studentListByClass', {action:'result',admin:req.user.isAdmin,role:req.user.role});
     }else{
         return res.render('Error_403')    
@@ -444,83 +491,96 @@ function getDate(){
 
 
 module.exports.getMarksheetUI = async function(req, res){
-    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
-        let result_q = await Result.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo, Term:'Quarterly'});
-        let result_h = await Result.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo, Term:'Half-Yearly'});
-        let result_f = await Result.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo, Term:'Final'});
-        let student = await Student.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo});
-        let subjects;
-        console.log(result_q['Hindi']);
-        let result = [];
-        result.push(result_q);
-        result.push(result_h);
-        result.push(result_f);
-        let resultStatus = validateResultStatus(result, req.user.SchoolCode);
-        let error_message='';
-        if(!resultStatus){
-            error_message='Result is not updated correctly, kindly updateOne the result and try again';
-        }
-        console.log(result[0].Hindi);
-        let q_grades={};
-        let h_grades={};
-        let f_grades={};
-        let grades = [];
-        let totals = [];
-        grades.push(q_grades);
-        grades.push(h_grades);
-        grades.push(f_grades);
-        
-        
-        if(student.Class == '6' || student.Class=='7' || student.Class=='8'){
-            subjects=['Hindi', 'English','Math', 'Science', 'Social_Science', 'Sanskrit']
-        }
-        else{
-            subjects=['Hindi', 'English','Math', 'Moral', 'Computer', 'Enviornment']
-        }
-        for(let i=0;i<grades.length;i++){
-            let t= 0;
-            if(i==0){
-                totalsToTerm = properties.get(req.user.SchoolCode+'_quarterly-total')
-            }else if(i==1){
-                totalsToTerm = properties.get(req.user.SchoolCode+'_half-yearly-total')
+    try{
+        if(req.user.role === 'Student'){
+            console.log(req.query);
+            console.log(req.params);
+            console.log(req.user);
+            let student = await Student.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo, Mob:req.user.email});
+            if(!student){
+                return res.render('Error_403')
             }
-            else if(i=2){
-                totalsToTerm = properties.get(req.user.SchoolCode+'_final-total')
+        }
+        if(req.user.role === 'Admin' || req.user.role === 'Teacher' || req.user.role === 'Student'){
+            let result_q = await Result.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo, Term:'Quarterly'});
+            let result_h = await Result.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo, Term:'Half-Yearly'});
+            let result_f = await Result.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo, Term:'Final'});
+            let student = await Student.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo});
+            let subjects;
+            console.log(result_q['Hindi']);
+            let result = [];
+            result.push(result_q);
+            result.push(result_h);
+            result.push(result_f);
+            let resultStatus = validateResultStatus(result, req.user.SchoolCode);
+            let error_message='';
+            if(!resultStatus){
+                error_message='Result is not updated correctly, kindly update the result and try again';
+            }
+            console.log(result[0].Hindi);
+            let q_grades={};
+            let h_grades={};
+            let f_grades={};
+            let grades = [];
+            let totals = [];
+            grades.push(q_grades);
+            grades.push(h_grades);
+            grades.push(f_grades);
+            
+            
+            if(student.Class == '6' || student.Class=='7' || student.Class=='8'){
+                subjects=['Hindi', 'English','Math', 'Science', 'Social_Science', 'Sanskrit']
             }
             else{
-                totalsToTerm=100
+                subjects=['Hindi', 'English','Math', 'Moral', 'Computer', 'Enviornment']
             }
-            for(let j=0;j<subjects.length;j++){
-                let grade = calculateGrade(getPercentage(result[i][subjects[j]],totalsToTerm))
-                t = t+result[i][subjects[j]];
-                grades[i][subjects[j]] = grade;
+            for(let i=0;i<grades.length;i++){
+                let t= 0;
+                if(i==0){
+                    totalsToTerm = properties.get(req.user.SchoolCode+'_quarterly-total')
+                }else if(i==1){
+                    totalsToTerm = properties.get(req.user.SchoolCode+'_half-yearly-total')
+                }
+                else if(i=2){
+                    totalsToTerm = properties.get(req.user.SchoolCode+'_final-total')
+                }
+                else{
+                    totalsToTerm=100
+                }
+                for(let j=0;j<subjects.length;j++){
+                    let grade = calculateGrade(getPercentage(result[i][subjects[j]],totalsToTerm))
+                    t = t+result[i][subjects[j]];
+                    grades[i][subjects[j]] = grade;
+                }
+                totals.push(t);
             }
-            totals.push(t);
+            let Terms = ['Quarterly','Half-Yearly','Final'];
+            let overAllMarks = 0;
+            for(let i=0;i<3;i++){
+                let fullMarks=0;
+                if(i===0){
+                    fullMarks = properties.get(req.user.SchoolCode+'_quarterly-total')
+                }else if(i===1){
+                    fullMarks = properties.get(req.user.SchoolCode+'_half-yearly-total')
+                }else if(i==2){
+                    fullMarks = properties.get(req.user.SchoolCode+'_final-total')
+                }else{
+                    fullMarks = 600
+                }
+                overAllMarks = overAllMarks + totals[i];
+                totals.push(calculateGrade(getPercentage(totals[i], fullMarks*6)));
+            } 
+            await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{quarterlyGrade:totals[3]});
+            await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{halfYearlyGrade:totals[4]});
+            await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{finalGrade:totals[5]});   
+            await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{TotalGrade:calculateGrade(getPercentage(overAllMarks, (properties.get(req.user.SchoolCode+'_quarterly-total')+properties.get(req.user.SchoolCode+'_half-yearly-total')+properties.get(req.user.SchoolCode+'_final-total'))*6))});   
+            return res.render('getMarksheet',{role:req.user.role,admin:req.user.isAdmin,error_message, result_q, result_h, result_f, student, subjects, grades, totals});
         }
-        let Terms = ['Quarterly','Half-Yearly','Final'];
-        let overAllMarks = 0;
-        for(let i=0;i<3;i++){
-            let fullMarks=0;
-            if(i===0){
-                fullMarks = properties.get(req.user.SchoolCode+'_quarterly-total')
-            }else if(i===1){
-                fullMarks = properties.get(req.user.SchoolCode+'_half-yearly-total')
-            }else if(i==2){
-                fullMarks = properties.get(req.user.SchoolCode+'_final-total')
-            }else{
-                fullMarks = 600
-            }
-            overAllMarks = overAllMarks + totals[i];
-            totals.push(calculateGrade(getPercentage(totals[i], fullMarks*6)));
-        } 
-        await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{quarterlyGrade:totals[3]});
-        await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{halfYearlyGrade:totals[4]});
-        await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{finalGrade:totals[5]});   
-        await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{TotalGrade:calculateGrade(getPercentage(overAllMarks, (properties.get(req.user.SchoolCode+'_quarterly-total')+properties.get(req.user.SchoolCode+'_half-yearly-total')+properties.get(req.user.SchoolCode+'_final-total'))*6))});   
-        return res.render('getMarksheet',{role:req.user.role,admin:req.user.isAdmin,error_message, result_q, result_h, result_f, student, subjects, grades, totals});
-    }else{
-        return res.render('Error_403')        
-    }	
+    }catch(err){
+        console.log(err);
+        return res.redirect('back');
+    }
+    	
     
 }
 

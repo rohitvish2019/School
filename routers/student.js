@@ -17,4 +17,5 @@ router.get('/upgrade/:AdmissionNo', studentController.upgradeOneStudent);
 router.post('/upgradeClassBulk', studentController.upgradeClassBulk);
 router.get('/getMarksheet/:AdmissionNo', studentController.getMarksheetUI);
 router.post('/discharge/:AdmissionNo', studentController.dischargeStudent);
+router.get('/getMe', studentController.getMe);
 module.exports = router;

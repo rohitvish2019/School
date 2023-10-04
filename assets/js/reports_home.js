@@ -65,14 +65,14 @@ function showClassList(data){
         <label class='record-item'>${data[i].MothersName}</label>
         <label class='record-item'>${data[i].Aadhar}</label>
         <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Actions
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/student/get/${data[i].AdmissionNo}?Class=${data[i].Class}&action=result">Marksheet</a></li>
-            <li><a class="dropdown-item" href="/student/get/${data[i].AdmissionNo}?Class=${data[i].Class}&action=tc">TC</a></li>
-            <li><a class="dropdown-item" href="/student/get/${data[i].AdmissionNo}?Class=${data[i].Class}&action=fee">Fees</a></li>
-        </ul>
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Actions
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/student/get/${data[i].AdmissionNo}?Class=${data[i].Class}&action=result">Marksheet</a></li>
+                <li><a class="dropdown-item" href="/student/get/${data[i].AdmissionNo}?Class=${data[i].Class}&action=tc">TC</a></li>
+                <li><a class="dropdown-item" href="/student/get/${data[i].AdmissionNo}?Class=${data[i].Class}&action=fee">Fees</a></li>
+            </ul>
         </div>
         
         `;

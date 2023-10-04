@@ -1,7 +1,27 @@
 let mybtn = document.getElementById('ClassForSearch');
 mybtn.addEventListener('change', getStudentsList)
-
+roleRendering()
+function roleRendering(){
+    if(document.getElementById('role').value === 'Student'){
+        getMyData();
+    }
+    
+}
 // To get the students list classwise from server
+
+function getMyData(){
+    console.log('calling get me')
+    $.ajax({
+        url:'/student/getMe',
+        type:'GET',
+        data:{
+            Action : action.value
+        },
+        success: function(data){showStudentsList(data.data.studentList, data.data.action)},
+        error: function(err){showNoRecord(err)}
+    })
+}
+
 
 function getStudentsList(){
     $.ajax({
@@ -112,6 +132,7 @@ function downloadForm(registration){
  // Show students list on UI 
 
 function showStudentsList(data, action){
+    console.log('Inside show UI')
     if(data.length<=0){
         showNoRecord('No record found');
         return;

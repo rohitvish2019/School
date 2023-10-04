@@ -1,4 +1,5 @@
-const Messages = require('../modals/messages')
+const Messages = require('../modals/messages');
+const Students = require('../modals/admissionSchema')
 module.exports.newMessage = function(req, res){
     return res.render('message', {role:req.user.role});
 }
@@ -59,8 +60,32 @@ module.exports.deleteMessage = async function(req, res){
     
 }
 
-module.exports.getNotifications = function(req, res){
-    let messages = Messages.find({Class:req.body.Class, SchoolCode: req.user.SchoolCode,})
+module.exports.getNotifications = async function(req, res){
+    let students = await Students.find({Mob:req.user.email, isThisCurrentRecord:true});
+    let messageToShow = [];
+    let neededClasses = new Set();
+    classesToGet=[]
+    for(let i=0;i<students.length;i++){
+        neededClasses.add(students[i].Class)
+        console.log(students[i].Class)
+        
+    }
+    console.log(neededClasses.forEach(function(data){
+        console.log("data"+data);
+        classesToGet.push(data);
+    }));
+    for(let i=0;i<classesToGet.length;i++){
+        let messages = await Messages.find({Category:'Class',Value:classesToGet[i], SchoolCode: req.user.SchoolCode});
+        for(let i=0;i<messages.length;i++){
+            console.log(messages[i].Message)
+            messageToShow.push(messages[i].Message);
+        }
+    }
+    
+    return res.status(200).json({
+        message:"Notifications fetched",
+        data:messageToShow
+    })
 }
 
 module.exports.deleteMessageSchool = async function(req, res){

@@ -64,7 +64,11 @@ header{
     left: 72%;
     height: 60%;
     width: 20%;
-    border: 1px solid red;
+    background-color: #27918b;
+    color: white;
+    font-weight: 600;
+    overflow: scroll;
+    
 }
 .noty-count{
     position: relative;
@@ -75,7 +79,10 @@ header{
     border-radius: 50%;
     color: white;
     width: 55%;
+    border-radius: 1.5rem;
+    
 }
+
 
 .edit-profile{
     height: 35px;

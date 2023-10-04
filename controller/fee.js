@@ -15,16 +15,21 @@ function convertDateFormat(thisDate){
 }
 // To get the fee details of individual student
 module.exports.getFeeDetails = async function(req, res){
-    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
-        try{
+    try{    
+        if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
             let student = await Student.findById(req.params.id);
             feeData = await Fee.findOne({AdmissionNo:student.AdmissionNo,SchoolCode:req.user.SchoolCode});
             return res.render('feeSubmit', {feeData:feeData, student:student, role:req.user.role});
-        }catch(err){
-            return res.redirect('back')
+        }else if(req.user.role === 'Student'){
+            let student = await Student.findOne({_id:req.params.id, Mob:req.user.email});
+            feeData = await Fee.findOne({AdmissionNo:student.AdmissionNo,SchoolCode:req.user.SchoolCode});
+            return res.render('feeSubmit', {feeData:feeData, student:student, role:req.user.role});
         }
-    }else{
-        return res.render('Error_403')
+        else{
+            return res.render('Error_403')
+        }
+    }catch(err){
+        return res.redirect('back')
     }
 }
 
@@ -209,15 +214,31 @@ module.exports.addConsession = async function(req, res){
 
 
 module.exports.getFeeHistory = async function(req, res){
-    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
-        let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo,type:'Fees',isCancelled:false,SchoolCode:req.user.SchoolCode}).sort({Payment_Date:'descending'});
-        return res.status(200).json({
-            message:'History fetched successfully',
-            data: feeList
-        })
-    }else{
-        return res.status(403).json({
-            message:"Unautorized"
+    try{
+        if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
+            let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo,type:'Fees',isCancelled:false,SchoolCode:req.user.SchoolCode}).sort({Payment_Date:'descending'});
+            return res.status(200).json({
+                message:'History fetched successfully',
+                data: feeList
+            })
+        }else if(req.user.role === 'Student'){
+            let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo, Mob:req.user.email,isThisCurrentRecord:true});
+            if(student){
+                let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo,type:'Fees',isCancelled:false,SchoolCode:req.user.SchoolCode}).sort({Payment_Date:'descending'});
+                return res.status(200).json({
+                    message:'History fetched successfully',
+                    data: feeList
+                })
+            }else{
+                return res.status(403).json({
+                    message:"Unautorized"
+                })
+            }
+            
+        }
+    }catch(err){
+        return res.status(500).json({
+            message:'Internal Server Error'
         })
     }
 }

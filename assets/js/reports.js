@@ -71,10 +71,12 @@ function addHyphens(event) {
 
 
 function filterTransactions() {
+    document.getElementById('loader').style.display='block'
     const startDateSplitted = startDateInput.value.split('-');
     let startDate = startDateSplitted[1]+'-'+startDateSplitted[0]+'-'+startDateSplitted[2]
     const endDateSplitted = endDateInput.value.split('-');
     let endDate = endDateSplitted[1]+'-'+endDateSplitted[0]+'-'+endDateSplitted[2]
+
     $.ajax({
         url:'/reports/allReports',
         type:'GET',
@@ -130,6 +132,7 @@ function showFessTransactions(data, purpose){
         total += data[i].Amount
     }
     document.getElementById('total').innerText= '₹'+total
+    document.getElementById('loader').style.display='none'
 }
 
 
@@ -178,6 +181,7 @@ function showAdmittedStudents(data){
         tbody.appendChild(row);
         total += data[i].Amount
     }
+    document.getElementById('loader').style.display='none'
 }
 function showFeesByUser(){}
 function showActiveStudents(data){
@@ -223,6 +227,7 @@ function showActiveStudents(data){
         tbody.appendChild(row);
         total += data[i].Amount
     }
+    document.getElementById('loader').style.display='none'
 }
 function isDateInRange(dateString, startDate, endDate) {
     const dateParts = dateString.split('-');

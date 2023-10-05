@@ -3,6 +3,7 @@ const fs = require('fs')
 const PropertiesReader = require('properties-reader');
 const properties = PropertiesReader('../School/config/school.properties');
 const Messages = require('../modals/messages');
+const Students = require('../modals/admissionSchema')
 
 
 module.exports.mainHome = function(req,res){
@@ -31,7 +32,10 @@ module.exports.home = async function(req, res){
         if(req.isAuthenticated){
             console.log(req.user.School_Code+'_name');
             let School_name = properties.get(req.user.SchoolCode+'_name');
+            
             return res.render('admin_home', {files,role:req.user.role, School_name, messages});
+            
+            
         }else{
             return re.redirect('/user/login')
         }
@@ -86,5 +90,28 @@ module.exports.addUserPage = function(req, res){
         return res.render('addUser',{role:req.user.role, isAdmin:req.user.isAdmin});
     }else{
         return res.render('Error_403')
+    }
+}
+
+module.exports.addStudentUser = async function(req, res){
+    try{
+        let student = await Students.findOne({AdmissionNo:req.body.AdmissionNo, isThisCurrentRecord:true, Mob:req.body.email, SchoolCode: req.body.SchoolCode});
+        if(student){
+            await UserSchema.create({
+                full_name:req.body.full_name,
+                email:req.body.email,
+                SchoolCode: req.body.SchoolCode,
+                password: req.body.password,
+                role:'Student'
+            });
+            console.log('User reigstered')
+            return res.redirect('/user/login')
+        }else{
+            console.log('No student registered with given information')
+            return res.redirect('back')
+        }
+    }catch(err){
+        console.log(err);
+        return res.redirect('back')
     }
 }

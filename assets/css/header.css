@@ -70,6 +70,11 @@ header{
     overflow: scroll;
     
 }
+
+.noti-item{
+    width: 96%;
+    margin: 2%;
+}
 .noty-count{
     position: relative;
     bottom: 105%; 

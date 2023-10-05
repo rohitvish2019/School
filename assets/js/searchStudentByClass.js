@@ -24,6 +24,18 @@ function getMyData(){
 
 
 function getStudentsList(){
+    let listDiv = document.getElementById('classList')
+    listDiv.innerHTML=
+    `
+    <figure id="loader" style="display:none">
+        <div class="dot white"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </figure>
+    `;
+    document.getElementById('loader').style.display='block'
     $.ajax({
         url:'/student/getStudentList',
         type:'GET',
@@ -31,7 +43,12 @@ function getStudentsList(){
             Class: ClassForSearch.value,
             Action : action.value
         },
-        success: function(data){showStudentsList(data.data.studentList, data.data.action)},
+        success: function(data){
+            setTimeout( () =>{
+                showStudentsList(data.data.studentList, data.data.action)
+                
+            }, 2000)
+        },
         error: function(err){showNoRecord(err)}
     })
 }
@@ -150,6 +167,13 @@ function showStudentsList(data, action){
     listDiv.innerHTML=
     
     `
+    <figure id="loader" style="display:none">
+        <div class="dot white"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </figure>
     <a class="btn student-list">
         <li style="background-color: #0a807c;color: white; width: 100%;">
             <label><b>${id}</b></label>

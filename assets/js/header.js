@@ -29,7 +29,11 @@ function showNotifications(data){
     container.innerText='';
     for(let i=0;i<data.length;i++){
         let item = document.createElement('li');
-        item.innerText=data[i];
+        item.innerHTML=
+        `
+        <button class='noti-item'>${data[i]}</button>
+        `
+        //item.innerText=data[i];
         container.appendChild(item)
     }
 }

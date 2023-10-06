@@ -74,6 +74,29 @@ function convertDateFormat(thisDate){
     return day+"-"+month+"-"+year;
 }
 
+module.exports.getActiveStudents = async function(req, res){
+    console.log('Collecting...')
+    try{
+        let students = await Student.find({SchoolCode:req.user.SchoolCode, isThisCurrentRecord:true});
+        if(students.length > 0){
+            return res.status(200).json({
+                students,
+                message:'Students list fetched'
+            })
+        }else{
+            return res. status(200).json({
+                message:'Server returned empty set'
+            })
+        }
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:'Internal server error'
+        })
+    }
+
+}
+
 module.exports.getStudent = async function(req, res){
     console.log('Request received')
     console.log(req.params)
@@ -156,6 +179,11 @@ module.exports.getStudent = async function(req, res){
     }
 }
     
+
+module.exports.getProfile = async function(req, res){
+    let student = await Student.findById(req.params.id);
+    return res.render('StudentProfile',{data:student})
+}
     
 module.exports.getMe = async function(req, res){
     try{
@@ -612,4 +640,17 @@ module.exports.dischargeStudent = async function(req, res){
             message:"Unauthorized"
         })        
     }  
+}
+
+module.exports.updateProfile = async function(req, res){
+    try{
+        let student = await Student.findById(req.body.id);
+        await student.deleteOne();
+        let newStudent = await Student.create(req.body);
+        await newStudent.updateOne({SchoolCode:req.user.SchoolCode});
+    }catch(err){
+        console.log(err)
+    }
+    
+    return res.redirect('back')
 }

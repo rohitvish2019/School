@@ -50,4 +50,15 @@ function toggleHeader(){
     }
 }
 
+document.getElementById('search').addEventListener('click', searchButton)
+function searchButton(){
+    let listContainer = document.getElementById('studnets-list');
+    if(listContainer.style.display === 'block'){
+        listContainer.style.display='none'
+    }else{
+        listContainer.style.display='block'
+    }
+}
+
+
 

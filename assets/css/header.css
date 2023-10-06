@@ -104,7 +104,30 @@ header{
 #options{
     display: none;
 }
+.studnets-list{
+    display: none;
+    position: relative;
+    z-index: 1;
+    overflow-y: scroll;
+    list-style: none;
+    background-color: #0b413e;
+    width: 200%;
+    height: 300%;
+    padding: 0;
+    padding-left: 1%;
+}
 
+.studnets-list a{
+    color: white;
+    text-transform: none;
+    margin-top: 1%;
+    margin-left: 0;
+}
+
+.studnets-list a:hover{
+    font-weight: bold;
+    color: white;
+}
 
 @media screen and  (max-width: 560px) {
     .options-container{

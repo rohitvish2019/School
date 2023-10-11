@@ -1,4 +1,45 @@
 body{
+    background: linear-gradient(180deg, #0a807c 1%, #ebe6e6 30%, #f1f1ec 105%);
+	height: 1700px;
+}
+
+.header-container{
+
+    width: 100%;
+    height: 4%;
+}
+
+.body-container{
+
+    width: 100%;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+}
+
+
+.right-side-panel{
+	display: flex;
+	padding: 1%;
+	justify-content:space-between;
+	flex-direction: column;
+    width: 15%;
+	margin-top: 9.6%;
+    height: 22%;
+	background-color: #125a58;
+	padding-bottom: 13%;
+}
+.right-side-panel a{
+	width: 100%;
+}
+
+.center-body{
+
+    width: 85%;
+    height: 100%;
+}
+
+body{
 	background-color: white;
 	color: black;
 }
@@ -10,7 +51,7 @@ label{
 	display: block;
 }
 .gen-info{
-	width: 15%;
+	width: 20%;
 	min-width: 150px;
 	margin-top: 2%;
 	margin-bottom: 2%;
@@ -23,11 +64,31 @@ input{
 }
 textarea{
 	border: none;
+	margin-left: -5%;
 }
-.par-info{
-	width: 40%;
-	min-width: 250px;
-	margin-top: 2%;
-	margin-bottom: 2%;
-	margin-left: 2%;
+
+.showHideInfo,h5{
+	display: inline;
+	margin: 2%;
 }
+
+h5{
+	padding-top: 2.5%;
+}
+
+.item-headings{
+	display: flex;
+	justify-content: space-between;
+	border-bottom: 1px solid green ;
+}
+
+
+
+#General-info, #Parents-Information{
+	display: flex;
+	flex-wrap: wrap; 
+	justify-content: space-between; 
+	align-items: flex-start;
+	border-bottom: 1px solid black;
+}
+

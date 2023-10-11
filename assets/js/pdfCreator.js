@@ -19,6 +19,10 @@ if(button3 != null){
 
 // To generate the pdf of admission form
 function generatePDFAdmissionForm() {   
+    document.getElementById('General-info').style.display = 'flex'
+    document.getElementById('Parents-Information').style.display = 'flex'
+    document.getElementById('Last-School-Record').style.display = 'flex'
+    document.getElementById('Bank-Information').style.display = 'flex'
     new Noty({
         theme: 'relax',
         text: 'Admission form is downloading',
@@ -43,6 +47,7 @@ function generatePDFAdmissionForm() {
     html2pdf(element, opt);
     console.log(element);
     html2pdf().set(opt).from(element).save();
+    window.location.href='/student/'+document.getElementById('id').value
     
 }
 

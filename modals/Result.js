@@ -6,7 +6,7 @@ const ResultSchema = new mongoose.Schema({
         type: String,
     },
     AdmissionNo :{
-        type: Number
+        type: String
     },
     Term:{
         type:String,

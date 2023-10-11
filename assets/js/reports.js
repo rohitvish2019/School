@@ -212,8 +212,9 @@ function showActiveStudents(data){
         row.innerHTML=
         `
             <td>${data[i].AdmissionNo}</td>
-            <td>Class ${data[i].Class}</td>
-            <td>${data[i].FirstName} ${data.LastName}</td>
+            <td>${data[i].Class}</td>
+            <td>${data[i].AdmissionDate}</td>
+            <td>${data[i].FirstName} ${data[i].LastName}</td>
             <td>${data[i].FathersName}</td>
             <td>${data[i].MothersName}</td>
             <td>${data[i].SSSM}</td>

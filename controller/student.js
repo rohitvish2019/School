@@ -182,7 +182,7 @@ module.exports.getStudent = async function(req, res){
 
 module.exports.getProfile = async function(req, res){
     let student = await Student.findById(req.params.id);
-    return res.render('StudentProfile',{data:student})
+    return res.render('StudentProfile',{data:student, role:req.user.role})
 }
     
 module.exports.getMe = async function(req, res){

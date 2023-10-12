@@ -32,8 +32,8 @@ module.exports.home = async function(req, res){
         if(req.isAuthenticated){
             console.log(req.user.School_Code+'_name');
             let School_name = properties.get(req.user.SchoolCode+'_name');
-            
-            return res.render('admin_home', {files,role:req.user.role, School_name, messages});
+            console.log(req.user)
+            return res.render('admin_home', {files,role:req.user.role, School_name, messages, user:{name:req.user.full_name, Mobile:req.user.mobile_number, username:req.user.email, address: req.user.address,SchoolCode:req.user.SchoolCode }});
             
             
         }else{

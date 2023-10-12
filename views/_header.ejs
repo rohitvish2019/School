@@ -91,8 +91,22 @@
   </div>
 
   <div class="profile-container">
-    <div class="edit-profile">
+    <div class="edit-profile" id="profile-toggle">
       <img height="100%" src="/images/edit-profile.png" alt="">
+    </div>
+    <div class="profile-details" id="profile-details">
+      <div class="profile-card">
+        <h1>John Doe</h1>
+        <div class="profile-info">
+            <p><strong>Name:</strong> <%=user.name%></p>
+            <p><strong>Mobile:</strong> <%=user.Mobile%></p>
+            <p><strong>Username:</strong> <%=user.username%></p>
+            <p><strong>School Code:</strong> <%=user.SchoolCode%></p>
+            <p><strong>Role:</strong> <%=role%></p>
+            <p><strong>Address:</strong> <%=user.address%></p>
+        </div>
+        <button class="change-password-button" onclick="changePassword()">Change Password</button>
+      </div>
     </div>
 
     <div class="noty-icon" id="noti-button">

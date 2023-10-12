@@ -1,8 +1,10 @@
 
 
 document.getElementById('noti-button').addEventListener('click', notyPanelToggller);
+document.getElementById('profile-toggle').addEventListener('click', profileToggeler)
 function notyPanelToggller(){
     console.log('in function')
+    document.getElementById('profile-details').style.display='none'
     let container = document.getElementById('notifications')
     if(container.style.display === 'none'){
         container.style.display = 'block'
@@ -62,3 +64,13 @@ function searchButton(){
 
 
 
+function profileToggeler(){
+    console.log('Caling...')
+    document.getElementById('notifications').style.display='none'
+    let element = document.getElementById('profile-details');
+    if(element.style.display === 'block'){
+        element.style.display = 'none'
+    }else{
+        element.style.display='block'
+    }
+}

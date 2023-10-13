@@ -166,13 +166,23 @@ p {
     text-align: left;
     margin-top: 20px;
 }
-.change-password-button {
+.profile-button {
     background-color: #3498db;
     color: #fff;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+#change-password-div{
+    display: none;
+    padding-bottom: 12%;
+    margin-bottom: 4%;
+}
+
+#change-password-div input{
+    margin-top: 4%;
 }
 @media screen and  (max-width: 560px) {
     .options-container{

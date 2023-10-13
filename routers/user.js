@@ -12,6 +12,7 @@ router.get('/new',passport.checkAuthentication, userController.addUserPage);
 router.post('/addNew',passport.checkAuthentication, userController.addNewUser);
 router.get('/home', passport.checkAuthentication, userController.home);
 router.post('/studentUser', userController.addStudentUser);
+router.post('/updatePassword', userController.updatePassword)
 
 router.post('/authenticate', passport.authenticate(
     'local',

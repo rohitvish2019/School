@@ -115,3 +115,29 @@ module.exports.addStudentUser = async function(req, res){
         return res.redirect('back')
     }
 }
+
+
+module.exports.updatePassword = async function(req, res){
+    try{
+        let user = await UserSchema.findOne(req.user);
+        console.log(user.password.toString());
+        console.log(req.body.oldPassword.toString());
+        if(user.password.toString() === req.body.oldPassword.toString()){
+            console.log('changing now')
+            await user.updateOne({password:req.body.newPassword});
+            user.save();
+            return res.status(200).json({
+                message:'Password updated'
+            })
+        }else{
+            return res.status(403).json({
+                message:'Incorrect old password'
+            })
+        }
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:'Internal server error'
+        })
+    }
+}

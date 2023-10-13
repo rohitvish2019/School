@@ -95,19 +95,32 @@
       <img height="100%" src="/images/edit-profile.png" alt="">
     </div>
     <div class="profile-details" id="profile-details">
-      <div class="profile-card">
+      <div class="profile-card" id="profile-data">
         <h1><%=user.name%></h1>
         <div class="profile-info">
-
             <p><strong>Mobile:</strong> <%=user.Mobile%></p>
             <p><strong>Username:</strong> <%=user.username%></p>
             <p><strong>School Code:</strong> <%=user.SchoolCode%></p>
             <p><strong>Role:</strong> <%=role%></p>
             <p><strong>Address:</strong> <%=user.address%></p>
         </div>
-        <button class="change-password-button" onclick="changePassword()">Change Password</button>
+        <button class="profile-button" id="change-password">Change Password</button>
+        <button class="profile-button">Edit</button>
       </div>
-    </div>
+      <div id="change-password-div">
+        <h4 style="text-align: center;border-bottom: 1px solid;">Change password</h4>
+        <h5>Old Password</h5>
+        <input type="text" name="" id="oldpass" placeholder="Old Password">
+        <br/>
+        <h5>New Password</h5>
+        <input type="text" name="" id="newpass" placeholder="New Password">
+        <input type="text" name="" id="confpass" placeholder="Confirm Password">
+        <input class="profile-button" type="button" value="Change Now" id="update-password-button">
+      </div>
+      
+    </div>  
+    
+    
 
     <div class="noty-icon" id="noti-button">
       <img src="/images/noty.webp" height="100%" width="100%" alt="">

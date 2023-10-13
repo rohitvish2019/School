@@ -1,7 +1,9 @@
 
 
 document.getElementById('noti-button').addEventListener('click', notyPanelToggller);
-document.getElementById('profile-toggle').addEventListener('click', profileToggeler)
+document.getElementById('profile-toggle').addEventListener('click', profileToggeler);
+document.getElementById('change-password').addEventListener('click', openChangePasswordForm);
+document.getElementById('update-password-button').addEventListener('click', updatePassword)
 function notyPanelToggller(){
     console.log('in function')
     document.getElementById('profile-details').style.display='none'
@@ -73,4 +75,54 @@ function profileToggeler(){
     }else{
         element.style.display='block'
     }
+}
+
+
+function openChangePasswordForm(){
+    
+    document.getElementById('profile-data').style.display='none'
+    document.getElementById('change-password-div').style.display='block'
+}
+
+
+function updatePassword(){
+    let newPass1 = document.getElementById('newpass').value;
+    let newPass2 = document.getElementById('confpass').value;
+    if(newPass1 != newPass2){
+        new Noty({
+            theme: 'relax',
+            text: 'New password and confirm password does not match',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1000
+        }).show();
+        return;
+    }
+    $.ajax({
+        url:'/user/updatePassword',
+        type:'POST',
+        data:{
+            oldPassword: document.getElementById('oldpass').value,
+            newPassword : newPass1
+        },
+        success: function(data){
+            new Noty({
+                theme: 'relax',
+                text: data.message,
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1000
+            }).show();
+            document.getElementById('profile-details').style.display='none'
+        },
+        error: function(err){
+            new Noty({
+                theme: 'relax',
+                text: err.responseText,
+                type: 'error',
+                layout: 'topRight',
+                timeout: 1000
+            }).show();
+        }
+    })
 }

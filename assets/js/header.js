@@ -4,6 +4,20 @@ document.getElementById('noti-button').addEventListener('click', notyPanelToggll
 document.getElementById('profile-toggle').addEventListener('click', profileToggeler);
 document.getElementById('change-password').addEventListener('click', openChangePasswordForm);
 document.getElementById('update-password-button').addEventListener('click', updatePassword)
+
+/*
+document.addEventListener('click', function(event){
+    let notyContainer = document.getElementById('notifications');
+    let profileContainer = document.getElementById('profile-details');
+    if(profileContainer.style.display = 'block'){
+        profileContainer.style.display='none';
+    }
+    if(notyContainer.style.display == 'block'){
+        notyContainer.style.display='none'
+    }
+    
+})
+*/
 function notyPanelToggller(){
     console.log('in function')
     document.getElementById('profile-details').style.display='none'
@@ -88,7 +102,7 @@ function openChangePasswordForm(){
 function updatePassword(){
     let newPass1 = document.getElementById('newpass').value;
     let newPass2 = document.getElementById('confpass').value;
-    if(newPass1 != newPass2){
+    if(newPass1 === '' || newPass2 === ''|| newPass1 != newPass2){
         new Noty({
             theme: 'relax',
             text: 'New password and confirm password does not match',
@@ -125,4 +139,10 @@ function updatePassword(){
             }).show();
         }
     })
+}
+
+
+function cancelPasswordChange(){
+    document.getElementById('profile-data').style.display='block'
+    document.getElementById('change-password-div').style.display='none'
 }

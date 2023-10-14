@@ -14,6 +14,7 @@
     "noty": "^3.2.0-beta-deprecated",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
-    "properties-reader": "^2.3.0"
+    "properties-reader": "^2.3.0",
+    "winston": "^3.11.0"
   }
 }

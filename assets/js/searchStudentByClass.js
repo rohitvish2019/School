@@ -47,7 +47,7 @@ function getStudentsList(){
             setTimeout( () =>{
                 showStudentsList(data.data.studentList, data.data.action)
                 
-            }, 2000)
+            }, 0)
         },
         error: function(err){showNoRecord(err)}
     })
@@ -175,7 +175,7 @@ function showStudentsList(data, action){
         <div class="dot"></div>
     </figure>
     <a class="btn student-list">
-        <li style="background-color: #0a807c;color: white; width: 100%;">
+        <li style="background-color: #0a807c;color: white; width: 100%;position:sticky;top:0%;z-index:2">
             <label><b>${id}</b></label>
             <label><b>Name</b></label>
             <label><b>Class</b></label>
@@ -190,7 +190,7 @@ function showStudentsList(data, action){
     
         `
         <a class="student-list" >
-            <li style="background-color: #0a807c;color: white; width: 100%; margin-left:2%;">
+            <li style="background-color: #0a807c;color: white; width: 100%; position:sticky;top:0%;z-index:2">
                 <label><b>${id}</b></label>
                 <label><b>Name</b></label>
                 <label><b>Class</b></label>

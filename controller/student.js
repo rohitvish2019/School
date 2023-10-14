@@ -11,8 +11,19 @@ const quarterlyTotalMarks = properties.get('quarterly-total');
 const halfYearlyTotalMarks = properties.get('half-yearly-total');
 const finalTotalMarks = properties.get('final-total');
 const TCRecords = require('../modals/TC_Records');
-
-
+const winston = require("winston");
+const dateToday = new Date().getDate().toString()+'-'+ new Date().getMonth().toString() + '-'+ new Date().getFullYear().toString();
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
+  transports: [
+    new winston.transports.File({ filename: "logs/error_"+dateToday+'.log', level: "warn" }),
+    new winston.transports.File({ filename: "logs/app_"+dateToday+".log" }),
+  ],
+});
 
 
 function numberToWordsInRange(number1) {
@@ -75,21 +86,25 @@ function convertDateFormat(thisDate){
 }
 
 module.exports.getActiveStudents = async function(req, res){
-    console.log('Collecting...')
+    logger.info('Collecting active students report')
     try{
         let students = await Student.find({SchoolCode:req.user.SchoolCode, isThisCurrentRecord:true});
         if(students.length > 0){
+            logger.info('Returning list of '+students.length+ ' students')
             return res.status(200).json({
                 students,
                 message:'Students list fetched'
             })
+            
         }else{
+            logger.info('Returning empty list')
             return res. status(200).json({
                 message:'Server returned empty set'
             })
         }
     }catch(err){
         console.log(err)
+        logger.error(err.toString())
         return res.status(500).json({
             message:'Internal server error'
         })
@@ -98,28 +113,26 @@ module.exports.getActiveStudents = async function(req, res){
 }
 
 module.exports.getStudent = async function(req, res){
-    console.log('Request received')
-    console.log(req.params)
-    console.log(req.query)
     try{
         let student = await Student.findOne({AdmissionNo:req.params.adm_no, Class:req.query.Class});
         if(req.query.action === 'fee'){
             if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
                 let feesList = await Fee.find({AdmissionNo:req.params.adm_no});
+                logger.info('Get student request received from fee module')
                 return res.render('feeDetails',{feesList, student,role:req.user.role});
             }else if(req.user.role === 'Student'){
                 let student = await Student.findOne({AdmissionNo:req.params.adm_no, isThisCurrentRecord:true, Mob:req.user.email});
-                console.log(student);
                 if(student){
+                    logger.info('Get student request received from fee module')
                     let feesList = await Fee.find({AdmissionNo:req.params.adm_no});
                     return res.render('feeDetails',{feesList, student,role:req.user.role});
                 }else{
+                    logger.error('Unautorized request, User '+req.user.email+' is not authorized')
                     return res.render('Error_403')
                 }
             }
         }else if(req.query.action ==='result'){
-            console.log(req.query);
-            console.log(req.params);
+            logger.info('Get student request received from Result module')
             if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
                 let result = await Result.find({AdmissionNo:req.params.adm_no, Class:req.query.Class});
                 return res.render('resultDetails',{role:req.user.role, result, student, quarterlyTotalMarks:properties.get(req.user.SchoolCode+'_quarterly-total'), halfYearlyTotalMarks:properties.get(req.user.SchoolCode+'_half-yearly-total'), finalTotalMarks:properties.get(req.user.SchoolCode+'_final-total')});
@@ -130,11 +143,12 @@ module.exports.getStudent = async function(req, res){
                     let result = await Result.find({AdmissionNo:req.params.adm_no, Class:req.query.Class});
                     return res.render('resultDetails',{role:req.user.role, result, student, quarterlyTotalMarks:properties.get(req.user.SchoolCode+'_quarterly-total'), halfYearlyTotalMarks:properties.get(req.user.SchoolCode+'_half-yearly-total'), finalTotalMarks:properties.get(req.user.SchoolCode+'_final-total')});
                 }else{
+                    logger.error('Unautorized request, User '+req.user.email+' is not authorized')
                     return res.render('Error_403')
                 }
             }
         }else if(req.query.action ==='tc'){
-            
+            logger.info('Get student request received from Result module')
             if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
                 let tcData = await TCRecords.findOne({AdmissionNo:req.params.adm_no});
                 let err=''
@@ -143,6 +157,7 @@ module.exports.getStudent = async function(req, res){
 
                 if(!tcData.ReleivingClass || !tcData.RelievingDate){
                     err = "TC not generated yet, Please discharge the student first and try again"
+                    logger.info(err)
                     return res.render('TCDetails',{student,err,DOBInWords,DOBDate});            }
                 return res.render('TCDetails',{role:req.user.role,student,err ,tcData,DOBInWords,DOBDate});
             }else if(req.user.role === 'Student'){
@@ -154,14 +169,15 @@ module.exports.getStudent = async function(req, res){
                     let DOBDate = convertDateFormat(student.DOB);
 
                     if(!tcData.ReleivingClass || !tcData.RelievingDate){
+                        
                         err = "TC not generated yet, Please discharge the student first and try again"
+                        logger.info(err)
                         return res.render('TCDetails',{student,err,DOBInWords,DOBDate});
                     }
                 }
             }
             else{
                 if(student){
-                    console.log("Student found");
                     return res.render('student_details',{role:req.user.role,student:student});
                 }else{
                     console.log('Student not found')
@@ -172,7 +188,8 @@ module.exports.getStudent = async function(req, res){
             }
         }
     }catch(err){
-        console.log(err)
+        logger.error('Error while fetching student details');
+        logger.error(err.toString());
         return res.status(500).json({
             message:"Internal Server Error"
         })
@@ -181,18 +198,30 @@ module.exports.getStudent = async function(req, res){
     
 
 module.exports.getProfile = async function(req, res){
-    let student = await Student.findById(req.params.id);
-    return res.render('StudentProfile',{data:student, role:req.user.role})
+    try{
+        let student = await Student.findById(req.params.id);
+        return res.render('StudentProfile',{data:student, role:req.user.role})
+    }catch(err){
+        logger.error('Error fetching student profile : ')
+        logger.error(err.toString());
+        return res.redirect('back')
+    }
+    
 }
     
 module.exports.getMe = async function(req, res){
     try{
         let studentList = await Student.find({Mob:req.user.email,SchoolCode:req.user.SchoolCode, isThisCurrentRecord:true});
+        logger.info('fetching students ...')
+        logger.info('Returning students list');
+        logger.info(studentList);
         return res.status(200).json({
             message:"Student list fetched successfully",
             data: {studentList, action:req.query.Action}
         })
     }catch(err){
+        logger.error('Error received while fetching students list')
+        logger.error(err.toString())
         return res.status(403).json({
             message:"Unauthorized"
         }) 
@@ -249,11 +278,14 @@ module.exports.getStudentsByClassFormAdmission = function(req, res){
 
 module.exports.getStudentsList = async function(req, res){
     let studentList;
+    logger.info('request received for getting students list');
     if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
         if(req.query.Action === 'admission'){
+            logger.info('Finding registered students')
             studentList = await RegisteredStudent.find({Class:req.query.Class,SchoolCode:req.user.SchoolCode})
         }
         else{
+            logger.info('Finding admitted students')
             studentList = await Student.find({Class:req.query.Class, isThisCurrentRecord:true,SchoolCode:req.user.SchoolCode})
         }
         return res.status(200).json({

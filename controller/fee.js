@@ -4,6 +4,20 @@ const FeeStructure = require('../modals/feeStructure');
 const FeeHistory = require('../modals/feeHistory');
 const admissionNoSchema = require('../modals/admission_no')
 
+const winston = require("winston");
+const dateToday = new Date().getDate().toString()+'-'+ new Date().getMonth().toString() + '-'+ new Date().getFullYear().toString();
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
+  transports: [
+    new winston.transports.File({ filename: "logs/error_"+dateToday+'.log', level: "warn" }),
+    new winston.transports.File({ filename: "logs/app_"+dateToday+".log" }),
+  ],
+});
+
 
 function convertDateFormat(thisDate){
 
@@ -188,7 +202,7 @@ module.exports.addConsession = async function(req, res){
                     AdmissionNo:fee.AdmissionNo,
                     Class: fee.Class,
                     Amount: req.body.Amount,
-                    Payment_Date: convertDateFormat(req.body.Date.slice(0,10)),
+                    Payment_Date: new Date().toISOString(),
                     Comment: req.body.Comment,
                     type:'Concession',
                     SchoolCode:req.user.SchoolCode,
@@ -199,6 +213,8 @@ module.exports.addConsession = async function(req, res){
                 message:'Successfully added concession record'
             })
         }catch(err){
+            console.log(err);
+            logger.error(err.toString());
             return res.status(500).json({
                 message:'Error adding concession :: Internal server error'
             })

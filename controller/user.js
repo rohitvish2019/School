@@ -5,6 +5,19 @@ const properties = PropertiesReader('../School/config/school.properties');
 const Messages = require('../modals/messages');
 const Students = require('../modals/admissionSchema')
 
+const winston = require("winston");
+const dateToday = new Date().getDate().toString()+'-'+ new Date().getMonth().toString() + '-'+ new Date().getFullYear().toString();
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
+  transports: [
+    new winston.transports.File({ filename: "logs/error_"+dateToday+'.log', level: "warn" }),
+    new winston.transports.File({ filename: "logs/app_"+dateToday+".log" }),
+  ],
+});
 
 module.exports.mainHome = function(req,res){
     return res.redirect('/user/login');
@@ -138,6 +151,41 @@ module.exports.updatePassword = async function(req, res){
         console.log(err)
         return res.status(500).json({
             message:'Internal server error'
+        })
+    }
+}
+
+module.exports.showUsersUI = async function(req, res){
+    try{
+        if(req.user.role === 'Admin'){
+            return res.render('showAppUsers',{role:req.user.role})
+        }else{
+            logger.error('Unautorized user : '+req.user.email)
+            return res.render('Error_403');
+        }
+    }catch(err){
+        logger.error('Error fetching users list from DB : ')
+        logger.error(err.toString());
+    }
+}
+
+module.exports.getUsers = async function(req, res){
+    try{
+        if(req.user.role === 'Admin'){
+            logger.info('Finding users ...')
+            let users = await UserSchema.find({SchoolCode:req.user.SchoolCode},'full_name email role mobile address');
+            return res.status(200).json({
+                message:'Users fetched',
+                users
+            })
+        }else{
+            return res.render('Error_403')
+        }
+    }catch(err){
+        logger.error('Unable to fetch users from DB');
+        logger.error(err.toString());
+        return res.status(500).json({
+            message:'Unable to fetch users from DB'
         })
     }
 }

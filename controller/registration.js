@@ -11,13 +11,14 @@ let Schoolproperties = propertiesReader('../School/config/School.properties');
 module.exports.registrationUI = async function(req, res){
     let last = await AdmissionNo.findOne({SchoolCode:req.user.SchoolCode});
     let School_name = Schoolproperties.get(req.user.SchoolCode+'_name')
+    let imgdir = Schoolproperties.get(req.user.SchoolCode+'_IMAGES')
     if(last){
         let year = +new Date().getFullYear();
         let past_year = year -1;
         let current_year = year;
         let next_year = year + 1;
         let RN = last.LastRegistration + 1
-        return res.render('./Registration', {ThisRegNumber:RN,past_year, current_year, next_year,role:req.user.role,School_name});
+        return res.render('./Registration', {ThisRegNumber:RN,past_year, current_year, next_year,role:req.user.role,School_name,imgdir});
         
     }else{
         if(req.isAuthenticated && req.user.role === 'Admin'){

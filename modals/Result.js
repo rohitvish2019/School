@@ -6,11 +6,10 @@ const ResultSchema = new mongoose.Schema({
         type: String,
     },
     AdmissionNo :{
-        type: String
+        type: String,
     },
     Term:{
         type:String,
-        enum: ['Quarterly','Half-Yearly','Final']
     },
     Hindi:{
         type:Number,
@@ -49,12 +48,19 @@ const ResultSchema = new mongoose.Schema({
         default: -1
     },
     SchoolCode:{
-        
         type:String
     },
     Drawing:{
         type:Number,
         default: -1
+    },
+    Java:{
+        type:Number,
+        default: -1
+    },
+    CPP:{
+        type:Number,
+        default:-1
     }
     
 },

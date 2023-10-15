@@ -18,6 +18,13 @@ document.addEventListener('click', function(event){
     
 })
 */
+
+function setLogo(){
+    $.ajax({
+        url:'get',
+        type:'get'
+    })
+}
 function notyPanelToggller(){
     console.log('in function')
     document.getElementById('profile-details').style.display='none'
@@ -146,3 +153,4 @@ function cancelPasswordChange(){
     document.getElementById('profile-data').style.display='block'
     document.getElementById('change-password-div').style.display='none'
 }
+

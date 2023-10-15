@@ -15,7 +15,8 @@ router.post('/studentUser', userController.addStudentUser);
 router.post('/updatePassword', userController.updatePassword);
 router.get('/showAll', userController.showUsersUI)
 router.get('/getAll', userController.getUsers);
-
+router.get('/getProperties', userController.getSchoolProperties)
+router.get('/getClassList', userController.getClassList)
 router.post('/authenticate', passport.authenticate(
     'local',
     {failureRedirect: '/user/login'},

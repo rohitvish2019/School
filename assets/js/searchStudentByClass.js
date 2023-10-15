@@ -323,3 +323,27 @@ function showNoRecord(err){
     }).show(); 
     console.log(err);
 }
+
+function getClassList(){
+    $.ajax({
+        url:'/user/getClassList',
+        type:'Get',
+        success:function(data){
+            classes= data.classes;
+            console.log(classes[0]);
+            let selectContainer = document.getElementById('ClassForSearch');
+            selectContainer.innerHTML=
+            `
+            <option disabled selected>Select Class</option>
+            `;
+            for(let i=0;i<classes.length;i++){
+                let item = document.createElement('option');
+                item.innerText=classes[i];
+                item.value=classes[i];
+                selectContainer.appendChild(item);
+            }
+        }
+    })
+}
+
+getClassList()

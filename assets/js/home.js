@@ -99,3 +99,21 @@ function showStudents(){
         container.appendChild(item);
     }
 }
+
+
+function getSchoolProperties(){
+    $.ajax({
+        url:'/user/getProperties',
+        type:'GET',
+        success:function(data){putPropertiesonUI(data.schoolProperties)},
+        error:function(err){console.log(err.responseText)}
+    })
+}
+
+function putPropertiesonUI(properties){
+    document.getElementById('school-name').innerText=properties.school_name;
+    document.getElementById('mono').innerText = properties.mono;
+    document.getElementById('logo').setAttribute('src',properties.imgdir+'/logo.png')
+}
+
+getSchoolProperties();

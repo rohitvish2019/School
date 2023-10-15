@@ -10,7 +10,7 @@
             <img style="margin-top: 5%; margin-bottom: 3%;" src="/images/school-header.png" alt="school logo" srcset="" width="82%">
         </div>
         <div class="error-text">
-            <%=error_message%>
+            
         </div>
         
         <div class="student-info">
@@ -49,51 +49,26 @@
         </div>
         <div class="result-section">
             <h4>Academic performace details</h4>
+            <%=marks%>
             <table>
-                <tr>
-                    <th>Subject</th>
-                    <th>Quarterly</th>
-                    <th>Half-Yearly</th>
-                    <th>Final</th>
-                </tr>
-                <%for(let i=0;i<subjects.length;i++){%>
+                <thead>
                     <tr>
-                        <td style="text-align: left; padding-left: 10%;"><%=subjects[i]%></td>
-                        
-                        
-                        <td><%=grades[0][subjects[i]]%></td>
-
-                        
-                        
-                        <td><%=grades[1][subjects[i]]%></td>
-
-                        
-                        
-                        
-                        <td><%=grades[2][subjects[i]]%></td>
-
+                        <th>Subjects</th>
+                        <%for(let i=0;i<terms.length;i++){%>
+                            <th><%=terms[i]%></th>
+                        <%}%>
                     </tr>
-                <%}%>
-				
-                <!-- Add rows for subjects and scores -->
-            </table>
-            <!-- Additional activities table -->
-            <h4>Additional activities details</h4>
-            <table>
-                <tr>
-                    <th>Subject</th>
-                    <th>Score</th>
-                </tr>
-                <tr>
-                    <td>Games</td>
-                    <td>A+</td>
-                </tr>
-                <tr>
-                    <td>Cultural activities</td>
-                    <td>A</td>
-                    
-                </tr>
-                <!-- Rows for additional activities -->
+                </thead>
+                <tbody>
+                    <%for(let i=0;i<sub_list.length;i++){%>
+                        <tr>
+                            <td><%=sub_list[i]%></td>
+                            <%for(let j=0;j<terms.length;j++){%>
+                                <td><%=marks[terms[j]][sub_list[i]]*100/total_marks[j]%></td>
+                            <%}%>
+                        </tr>
+                    <%}%>
+                </tbody>
             </table>
         </div>
         <div class="official-section">
@@ -122,6 +97,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.2/jquery.min.js" integrity="sha512-tWHlutFnuG0C6nQRlpvrEhE4QpkG1nn2MOUMWmUeRePl4e3Aki0VB6W1v3oLjFtd0hVOtRQ9PHpSfN6u6/QXkQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.0/html2pdf.bundle.min.js" integrity="sha512-w3u9q/DeneCSwUDjhiMNibTRh/1i/gScBVp2imNVAMCt6cUHIw6xzhzcPFIaL3Q1EbI2l+nu17q2aLJJLo4ZYg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="/js/pdfCreator.js"></script>
+<script src="/js/getMarksheet.js"></script>
 
 
 

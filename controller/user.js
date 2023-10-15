@@ -36,8 +36,10 @@ module.exports.signUp = function(req, res){
 
 module.exports.home = async function(req, res){
     let messages = await Messages.find({SchoolCode:req.user.SchoolCode, Category:'School'})
-    console.log(req.user.messages);
     const pathToDirectory = '../School/assets/carousel-photos';
+    let mono = properties.get(req.user.SchoolCode+'_MONO');
+    let imgdir = properties.get(req.user.SchoolCode+'_IMAGES')
+    console.log(mono);
     fs.readdir(pathToDirectory, (error, files) => {
     if (error) {
         console.log(error);
@@ -45,8 +47,8 @@ module.exports.home = async function(req, res){
         if(req.isAuthenticated){
             console.log(req.user.School_Code+'_name');
             let School_name = properties.get(req.user.SchoolCode+'_name');
-            console.log(req.user)
-            return res.render('admin_home', {files,role:req.user.role, School_name, messages, user:{name:req.user.full_name, Mobile:req.user.mobile_number, username:req.user.email, address: req.user.address,SchoolCode:req.user.SchoolCode }});
+            console.log(files)
+            return res.render('admin_home', {files,role:req.user.role, School_name, messages, user:{name:req.user.full_name, Mobile:req.user.mobile_number, username:req.user.email, address: req.user.address,SchoolCode:req.user.SchoolCode}, mono,imgdir});
             
             
         }else{
@@ -186,6 +188,43 @@ module.exports.getUsers = async function(req, res){
         logger.error(err.toString());
         return res.status(500).json({
             message:'Unable to fetch users from DB'
+        })
+    }
+}
+
+
+module.exports.getSchoolProperties = function(req, res){
+    try{
+        let schoolProperties = new Object()
+        let code = req.user.SchoolCode;
+        school_name = properties.get(code+'.NAME');
+        mono = properties.get(code+'.MONO');
+        imgdir = properties.get(code+'.IMAGES');
+        address = properties.get(code+'.ADDRESS');
+        schoolProperties={school_name,mono,imgdir,address}
+        return res.status(200).json({
+            schoolProperties,
+            message:'Properties fetched'
+        })
+    }catch(err){
+        logger.error(err)
+        return res.status(500).json({
+            message:'Unable to get properties'
+        })
+    }
+}
+
+
+module.exports.getClassList = function(req, res){
+    try{
+        let classes = properties.get(req.user.SchoolCode+'.CLASSES_LIST').split(',');
+        return res.status(200).json({
+            classes
+        })
+    }catch(err){
+        logger.error(err)
+        return res.status(500).json({
+            message:'Unable to fetch class list'
         })
     }
 }

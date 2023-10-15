@@ -551,96 +551,24 @@ function getDate(){
 
 
 module.exports.getMarksheetUI = async function(req, res){
-    try{
-        if(req.user.role === 'Student'){
-            console.log(req.query);
-            console.log(req.params);
-            console.log(req.user);
-            let student = await Student.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo, Mob:req.user.email});
-            if(!student){
-                return res.render('Error_403')
-            }
-        }
-        if(req.user.role === 'Admin' || req.user.role === 'Teacher' || req.user.role === 'Student'){
-            let result_q = await Result.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo, Term:'Quarterly'});
-            let result_h = await Result.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo, Term:'Half-Yearly'});
-            let result_f = await Result.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo, Term:'Final'});
-            let student = await Student.findOne({Class:req.query.Class, AdmissionNo:req.params.AdmissionNo});
-            let subjects;
-            console.log(result_q['Hindi']);
-            let result = [];
-            result.push(result_q);
-            result.push(result_h);
-            result.push(result_f);
-            let resultStatus = validateResultStatus(result, req.user.SchoolCode);
-            let error_message='';
-            if(!resultStatus){
-                error_message='Result is not updated correctly, kindly update the result and try again';
-            }
-            console.log(result[0].Hindi);
-            let q_grades={};
-            let h_grades={};
-            let f_grades={};
-            let grades = [];
-            let totals = [];
-            grades.push(q_grades);
-            grades.push(h_grades);
-            grades.push(f_grades);
-            
-            
-            if(student.Class == '6' || student.Class=='7' || student.Class=='8'){
-                subjects=['Hindi', 'English','Math', 'Science', 'Social_Science', 'Sanskrit']
-            }
-            else{
-                subjects=['Hindi', 'English','Math', 'Moral', 'Computer', 'Enviornment']
-            }
-            for(let i=0;i<grades.length;i++){
-                let t= 0;
-                if(i==0){
-                    totalsToTerm = properties.get(req.user.SchoolCode+'_quarterly-total')
-                }else if(i==1){
-                    totalsToTerm = properties.get(req.user.SchoolCode+'_half-yearly-total')
-                }
-                else if(i=2){
-                    totalsToTerm = properties.get(req.user.SchoolCode+'_final-total')
-                }
-                else{
-                    totalsToTerm=100
-                }
-                for(let j=0;j<subjects.length;j++){
-                    let grade = calculateGrade(getPercentage(result[i][subjects[j]],totalsToTerm))
-                    t = t+result[i][subjects[j]];
-                    grades[i][subjects[j]] = grade;
-                }
-                totals.push(t);
-            }
-            let Terms = ['Quarterly','Half-Yearly','Final'];
-            let overAllMarks = 0;
-            for(let i=0;i<3;i++){
-                let fullMarks=0;
-                if(i===0){
-                    fullMarks = properties.get(req.user.SchoolCode+'_quarterly-total')
-                }else if(i===1){
-                    fullMarks = properties.get(req.user.SchoolCode+'_half-yearly-total')
-                }else if(i==2){
-                    fullMarks = properties.get(req.user.SchoolCode+'_final-total')
-                }else{
-                    fullMarks = 600
-                }
-                overAllMarks = overAllMarks + totals[i];
-                totals.push(calculateGrade(getPercentage(totals[i], fullMarks*6)));
-            } 
-            await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{quarterlyGrade:totals[3]});
-            await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{halfYearlyGrade:totals[4]});
-            await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{finalGrade:totals[5]});   
-            await Student.findOneAndUpdate({Class:student.Class, AdmissionNo:student.AdmissionNo},{TotalGrade:calculateGrade(getPercentage(overAllMarks, (properties.get(req.user.SchoolCode+'_quarterly-total')+properties.get(req.user.SchoolCode+'_half-yearly-total')+properties.get(req.user.SchoolCode+'_final-total'))*6))});   
-            return res.render('getMarksheet',{role:req.user.role,admin:req.user.isAdmin,error_message, result_q, result_h, result_f, student, subjects, grades, totals});
-        }
-    }catch(err){
-        console.log(err);
-        return res.redirect('back');
+    console.log(req.query);
+    console.log(req.params);
+    let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class})
+    let subjects = properties.get(req.user.SchoolCode+'.SUBJECTS_'+req.query.Class);
+    let sub_list = subjects.split(',');
+    let terms = properties.get(req.user.SchoolCode+'.EXAM_SESSIONS').split(',');
+    let marks = new Object();
+    let total_marks = new Array();
+    for(let i=0;i<terms.length;i++){
+        console.log(req.user.SchoolCode+'.'+terms[i]+'_TOTAL')
+        total_marks.push(properties.get(req.user.SchoolCode+'.'+terms[i]+'_TOTAL'))
     }
-    	
+    console.log(total_marks);
+    for(let i=0;i<terms.length;i++){
+        marks[terms[i]] = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class,Term:terms[i]},subjects.replaceAll(',',' ')+' Term')
+    }
+    console.log(marks);
+    return res.render('getMarksheet',{student, marks, sub_list, terms, total_marks})
     
 }
 

@@ -1,5 +1,23 @@
 const Result = require('../modals/Result');
 const Student = require('../modals/admissionSchema')
+const propertiesReader = require('properties-reader');
+let properties = propertiesReader('../School/config/School.properties');
+
+const winston = require("winston");
+const dateToday = new Date().getDate().toString()+'-'+ new Date().getMonth().toString() + '-'+ new Date().getFullYear().toString();
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
+  transports: [
+    new winston.transports.File({ filename: "logs/error_"+dateToday+'.log', level: "warn" }),
+    new winston.transports.File({ filename: "logs/app_"+dateToday+".log" }),
+  ],
+});
+
+
 module.exports.getResult = async function(req, res){
     if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
         try{
@@ -29,7 +47,7 @@ module.exports.getResult = async function(req, res){
     
 }
 
-
+/*
 module.exports.addUpdateResult = async function(req, res){
     if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
         try{
@@ -47,8 +65,29 @@ module.exports.addUpdateResult = async function(req, res){
         }
     }else{
         return res.render('Error_403');
+    } 
+}
+*/
+
+module.exports.updateResult = async  function(req, res){
+    try{
+        console.log('Updating result');
+        console.log(req.body.marks);
+        let resultRecord = await Result.findOne({Class:req.body.Class, AdmissionNo:req.body.AdmissionNo,Term:req.body.Term});
+        let newRecord = await Result.create(req.body.marks);
+        await newRecord.updateOne({SchoolCode:req.user.SchoolCode, Class:req.body.Class, AdmissionNo:req.body.AdmissionNo,Term:req.body.Term});
+        newRecord.save();
+        resultRecord.deleteOne();
+        return res.status(200).json({
+            message:'Result updated successfully'
+        });
+    }catch(err){
+        logger.error(err.toString());
+        return res.status(500).json({
+            message:'Unable to update result'
+        })
     }
-    
+
     
 }
 
@@ -168,3 +207,53 @@ module.exports.updateAllResults = async function(req, res){
     }
     
 }
+
+
+module.exports.getSubjectsListWithMarks = async function(req, res){
+    try{
+        let classValue = req.query.classValue;
+        let updatedClassValue = classValue;
+        if(classValue == 'kg-1'){
+            updatedClassValue = 'KG1'
+        }else if(classValue == 'kg-2'){
+            updatedClassValue = 'KG2'
+        }
+    
+        let subjectsData = properties.get(req.user.SchoolCode+'.SUBJECTS_'+updatedClassValue);
+        console.log(subjectsData.replaceAll(',',' '));
+        let subjects = subjectsData.split(',');
+        let obtainedMarks = await Result.findOne({Class:req.query.classValue, AdmissionNo:req.query.admissionNo, Term:req.query.Term},subjectsData.replaceAll(',',' '));
+        let totalMarks = properties.get(req.user.SchoolCode+'.'+req.query.Term+'_TOTAL');
+        console.log(obtainedMarks);
+        console.log(subjects);
+        console.log(totalMarks);
+        return res.status(200).json({
+            subjects,
+            obtainedMarks,
+            totalMarks
+        })
+    }catch(err){
+        logger.error(err.toString())
+        return res.status(500).json({
+            message:'Unable to fetch subjects and marks'
+        })
+    }
+}
+
+
+module.exports.getTerms = function(req, res){
+    try{
+        let terms = properties.get(req.user.SchoolCode+'.EXAM_SESSIONS').split(',')
+        return res.status(200).json({
+            terms
+        })
+    }catch(err){
+        logger.error(err.toString());
+        return res.status(500).json({
+            message:'Unable to fetch exam terms'
+        })
+    }
+}
+
+
+

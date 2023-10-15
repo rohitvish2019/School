@@ -128,27 +128,16 @@ module.exports.admit = async function(req, res){
                 Paid:0,
                 SchoolCode:req.user.SchoolCode
             });
-
-            result_q = await Result.create({
-                AdmissionNo: lastAdmissionNo+1,
-                Class:studentData.Class,
-                Term: 'Quarterly',
-                SchoolCode:req.user.SchoolCode
-            });
-
-            result_h = await Result.create({
-                AdmissionNo: lastAdmissionNo+1,
-                Class:studentData.Class,
-                Term: 'Half-Yearly',
-                SchoolCode:req.user.SchoolCode
-            });
-
-            result_f = await Result.create({
-                AdmissionNo: lastAdmissionNo+1,
-                Class:studentData.Class,
-                Term: 'Final',
-                SchoolCode:req.user.SchoolCode
-            });
+            let terms = Schoolproperties.get(req.user.SchoolCode+'.EXAM_SESSIONS').split(',');
+            for(let i=0;i<terms.length;i++){
+                await Result.create({
+                    AdmissionNo: lastAdmissionNo+1,
+                    Class:studentData.Class,
+                    Term: terms[i],
+                    SchoolCode:req.user.SchoolCode
+                });
+            }
+            
             await RegisteredStudent.deleteOne(student);
             await TCRecords.create({
                 AdmissionNo:lastAdmissionNo+1,

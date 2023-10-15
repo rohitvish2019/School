@@ -428,26 +428,15 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
         SchoolCode:SchoolCode
     });
 
-    result_q = await Result.create({
-        AdmissionNo: newRecord.AdmissionNo,
-        Class:newClass,
-        SchoolCode:SchoolCode,
-        Term: 'Quarterly',
-    });
-
-    result_h = await Result.create({
-        AdmissionNo: newRecord.AdmissionNo,
-        Class:newClass,
-        SchoolCode:SchoolCode,
-        Term: 'Half-Yearly',
-    });
-
-    result_f = await Result.create({
-        AdmissionNo: newRecord.AdmissionNo,
-        Class:newClass,
-        Term: 'Final',
-        SchoolCode:SchoolCode,
-    });
+    let terms = properties.get(req.user.SchoolCode+'.EXAM_SESSIONS').split(',');
+    for(let i=0;i<terms.length;i++){
+        await Result.create({
+            AdmissionNo: lastAdmissionNo+1,
+            Class:studentData.Class,
+            Term: terms[i],
+            SchoolCode:req.user.SchoolCode
+        });
+    }
     return 200;
 
 }

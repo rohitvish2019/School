@@ -540,32 +540,37 @@ function getDate(){
 
 
 module.exports.getMarksheetUI = async function(req, res){
-    console.log(req.query);
-    console.log(req.params);
-    let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class})
-    let classValue = req.query.Class;
-    let updatedClassValue = classValue;
-    if(classValue == 'kg-1'){
-        updatedClassValue = 'KG1'
+    try{
+        let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class})
+        let classValue = req.query.Class;
+        let updatedClassValue = classValue;
+        if(classValue == 'kg-1'){
+            updatedClassValue = 'KG1'
+        }
+        if(classValue == 'kg-2'){
+            updatedClassValue = 'KG2'
+        }
+        let subjects = properties.get(req.user.SchoolCode+'.SUBJECTS_'+updatedClassValue);
+        let sub_list = subjects.split(',');
+        let terms = properties.get(req.user.SchoolCode+'.EXAM_SESSIONS').split(',');
+        let marks = new Object();
+        let total_marks = new Array();
+        for(let i=0;i<terms.length;i++){
+            console.log(req.user.SchoolCode+'.'+terms[i]+'_TOTAL')
+            total_marks.push(properties.get(req.user.SchoolCode+'.'+terms[i]+'_TOTAL'))
+        }
+        console.log(total_marks);
+        for(let i=0;i<terms.length;i++){
+            marks[terms[i]] = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class,Term:terms[i]},subjects.replaceAll(',',' ')+' Term')
+        }
+        return res.render('getMarksheet',{student, marks, sub_list, terms, total_marks})
+    }catch(err){
+        logger.error(err)
+        return res.redirect('back')
     }
-    if(classValue == 'kg-2'){
-        updatedClassValue = 'KG2'
-    }
-    let subjects = properties.get(req.user.SchoolCode+'.SUBJECTS_'+updatedClassValue);
-    let sub_list = subjects.split(',');
-    let terms = properties.get(req.user.SchoolCode+'.EXAM_SESSIONS').split(',');
-    let marks = new Object();
-    let total_marks = new Array();
-    for(let i=0;i<terms.length;i++){
-        console.log(req.user.SchoolCode+'.'+terms[i]+'_TOTAL')
-        total_marks.push(properties.get(req.user.SchoolCode+'.'+terms[i]+'_TOTAL'))
-    }
-    console.log(total_marks);
-    for(let i=0;i<terms.length;i++){
-        marks[terms[i]] = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class,Term:terms[i]},subjects.replaceAll(',',' ')+' Term')
-    }
-    console.log(marks);
-    return res.render('getMarksheet',{student, marks, sub_list, terms, total_marks})
+
+    
+    
     
 }
 

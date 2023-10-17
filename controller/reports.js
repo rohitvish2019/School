@@ -88,7 +88,7 @@ async function getFeesReport(start_date, end_date, activeUser){
         console.log(start_date);
         let startDate = new Date(start_date).toISOString();
         console.log(startDate);
-        let endDate = new Date(Date.parse(end_date)).toISOString();
+        let endDate = new Date(moment(end_date).add(1,'days')).toISOString();
         console.log("Start Date : "+startDate+' end date : '+endDate)
         let feesHistory = await FeesHistory.find({SchoolCode:activeUser.SchoolCode,Payment_Date:{$gt:startDate, $lte:endDate}}).select('-_id -__v').lean();
         

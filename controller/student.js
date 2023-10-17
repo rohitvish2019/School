@@ -543,7 +543,15 @@ module.exports.getMarksheetUI = async function(req, res){
     console.log(req.query);
     console.log(req.params);
     let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class})
-    let subjects = properties.get(req.user.SchoolCode+'.SUBJECTS_'+req.query.Class);
+    let classValue = req.query.Class;
+    let updatedClassValue = classValue;
+    if(classValue == 'kg-1'){
+        updatedClassValue = 'KG1'
+    }
+    if(classValue == 'kg-2'){
+        updatedClassValue = 'KG2'
+    }
+    let subjects = properties.get(req.user.SchoolCode+'.SUBJECTS_'+updatedClassValue);
     let sub_list = subjects.split(',');
     let terms = properties.get(req.user.SchoolCode+'.EXAM_SESSIONS').split(',');
     let marks = new Object();

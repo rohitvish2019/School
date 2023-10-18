@@ -40,7 +40,7 @@ function deleteMessage(messageId){
         })
     }
 }
-
+/*
 let studentsList=[]
 function setStudentsListLocal(){
     console.log('Getting...')
@@ -100,7 +100,7 @@ function showStudents(){
     }
 }
 
-
+*/
 function getSchoolProperties(){
     $.ajax({
         url:'/user/getProperties',

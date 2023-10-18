@@ -28,6 +28,8 @@ body{
     height: 22%;
 	background-color: #125a58;
 	padding-bottom: 13%;
+	border-radius: 1.5rem;
+	margin-right: 1%;
 }
 .right-side-panel a{
 	width: 100%;

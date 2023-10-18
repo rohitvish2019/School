@@ -99,7 +99,7 @@ function admitStudent(registration){
                 timeout: 1500
             }).show();
         },
-        error: function(data){
+        error: function(err){
             new Noty({
                 theme: 'relax',
                 text: JSON.parse(err.responseText).message,
@@ -268,7 +268,7 @@ function showStudentsList(data, action){
                 <label for="">${student.Class}</label>
                 <label for="">${student.FathersName}</label>
                 <label for="">${student.MothersName}</label>
-                <a style="margin-bottom:1%" class="btn btn-danger" id='terminate_${student.AdmissionNo}' onclick='dischargeStudent(${student.AdmissionNo})'>Terminate</a>
+                <a style="margin-bottom:1%" class="btn btn-danger" id='terminate_${student.AdmissionNo}' onclick='dischargeStudent(${student.AdmissionNo})'>Discharge</a>
                 
                 <div>
                     

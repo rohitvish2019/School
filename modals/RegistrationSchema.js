@@ -3,6 +3,12 @@ const mongoose = require('mongoose');
 const db = require('../config/dbConnection');
 const RegisteredStudents = new mongoose.Schema({
     RegistrationNo:String,
+    AdmissionNo:String,
+    AdmissionDate:{
+        type:String,
+        default: new Date().toISOString()
+    },
+    OldFee:Number,
     Session:Number,
     FirstName:String,
     LastName: String,

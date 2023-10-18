@@ -113,25 +113,48 @@ module.exports.admit = async function(req, res){
             delete studentData._id;
             //await RegisterdStudent.updateOne({student}, {$unset : {_id:1}});
             //student.delete('_id');
+            let findExistingRecord = await Student.findOne({AdmissionNo:studentData.AdmissionNo});
+            if(findExistingRecord){
+                return res.status(400).json({
+                    message:'Duplicate admission No'
+                })
+            }
             let newStudent = await Student.create(studentData);
-            let adm = await AdmissionNo.findOne({SchoolCode:req.user.SchoolCode});
-            let lastAdmissionNo = +adm.LastAdmission;
-            await newStudent.updateOne({AdmissionNo: lastAdmissionNo+1, SchoolCode:req.user.SchoolCode});
-            await adm.updateOne({LastAdmission:lastAdmissionNo+1});
-            adm.save();
+            let definedAdmissionNo = studentData.AdmissionNo;
+            if(studentData.AdmissionNo){
+                await newStudent.updateOne({SchoolCode:req.user.SchoolCode});
+            }else{
+                let adm = await AdmissionNo.findOne({SchoolCode:req.user.SchoolCode});
+                let lastAdmissionNo = +adm.LastAdmission;
+                await newStudent.updateOne({AdmissionNo: lastAdmissionNo+1, SchoolCode:req.user.SchoolCode});
+                await adm.updateOne({LastAdmission:lastAdmissionNo+1});
+                definedAdmissionNo = lastAdmissionNo+1;
+                adm.save();
+            }
+            
             fee = await FeeStructure.findOne({Class:studentData.Class,SchoolCode:req.user.SchoolCode});
             fee_record = await FeeSchema.create({
-                AdmissionNo:lastAdmissionNo+1,
+                AdmissionNo:definedAdmissionNo,
                 Class:studentData.Class,
                 Total:fee.Fees,
                 Remaining: fee.Fees,
                 Paid:0,
                 SchoolCode:req.user.SchoolCode
             });
+            if(studentData.OldFee){
+                await FeeSchema.create({
+                    AdmissionNo:definedAdmissionNo,
+                    Class:'Old Fees',
+                    Total:studentData.OldFee,
+                    Remaining: studentData.OldFee,
+                    Paid:0,
+                    SchoolCode:req.user.SchoolCode
+                });
+            }
             let terms = Schoolproperties.get(req.user.SchoolCode+'.EXAM_SESSIONS').split(',');
             for(let i=0;i<terms.length;i++){
                 await Result.create({
-                    AdmissionNo: lastAdmissionNo+1,
+                    AdmissionNo: definedAdmissionNo,
                     Class:studentData.Class,
                     Term: terms[i],
                     SchoolCode:req.user.SchoolCode
@@ -140,7 +163,7 @@ module.exports.admit = async function(req, res){
             
             await RegisteredStudent.deleteOne(student);
             await TCRecords.create({
-                AdmissionNo:lastAdmissionNo+1,
+                AdmissionNo:definedAdmissionNo,
                 AdmissionClass: studentData.Class,
                 AdmissionDate: getDate(),
                 SchoolCode:req.user.SchoolCode

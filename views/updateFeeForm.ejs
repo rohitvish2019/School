@@ -15,8 +15,8 @@
     <div class="body-container">
         
         <div class="center-body">
-            <table class="">
-                <h3 style="margin-left: 20%; color: white;">Update Anuual Fees</h3>
+            <h3 style="margin-left: 20%; color: white;">Update Anuual Fees</h3>
+            <table>
                 <tr>
                     <th>Class</th>
                     <th>Annual Fees</th>
@@ -54,6 +54,17 @@
                 </form>
               </div>
         </div>
+
+        
+    </div>
+    <div class="footer-container">
+        <h3>Add New Fees</h3>
+                <form class="addNewFee" action="/fee/updateFee" method="POST">
+                  <input type="text" required name="Class" placeholder="Class">
+                  <input type="text" required name="Fees" placeholder="Fees">
+                  <button type="submit" class="btn btn-success">Add New Fee</button>
+                </form>
+              </div>
     </div>
     
 </body>

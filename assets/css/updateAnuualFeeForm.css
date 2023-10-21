@@ -93,9 +93,46 @@ table {
     
   }
 
-
+  .footer-container{
+    display: none;
+  }
 
   input:focus-visible{
     outline: none;
   }
-  
+  @media screen and  (max-width: 560px){
+      .right-side-panel{
+        display: none;
+      }
+      .left-side-panel{
+        display: none;
+      }
+      .body-container{
+        height: 70%;
+      }
+      .center-body{
+        width: 100% !important;
+        height: 100%;
+        overflow-y: scroll;
+        
+      }
+      table{
+        width: 80%;
+        height: 50%;
+      }
+      input{
+        width: 70%;
+      }
+      tr{
+        
+        width: auto;
+      }
+      td, th{
+        
+        width: 30%;
+        max-width: 20px;
+      }
+      .footer-container{
+        height: 20%;
+      }
+  }

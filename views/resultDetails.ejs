@@ -7,6 +7,34 @@
     <div class="header-container">
         <%- include('_header'); %>
     </div>
+    <div class="upper-center">
+        <h3 style="margin-bottom: 1%;">Student Details</h3>
+        <div class="student-details-mob">
+            <div class="std-item">
+                <label for=""><small>Admission No</small></label>
+                <label for="" id="AdmissionNoFees"><b><%=student.AdmissionNo%></b></label>
+            </div>
+            <div class="std-item">
+                <label for=""><small>Name</small></label>
+                <label for=""><b><%=student.FirstName%> <%=student.LastName%></b></label>
+            </div>
+            <br>
+            <div class="std-item"> 
+                <label for=""><small>Class</small></label>
+                <label for=""><b><%=student.Class%></b></label>
+            </div>
+            <br>
+            <div class="std-item">
+                <label for=""><small>Father's Name</small></label>
+                <label for=""><b><%=student.FathersName%></b></label>
+            </div>
+            <br>
+            <div class="std-item">
+                <label for=""><small>Mother's Name</small></label>
+                <label for=""><b><%=student.MothersName%></b></label>
+            </div>
+        </div>
+    </div>
     <div class="body-container">
         <div class="left-side-panel">
             <div class="student-details news-container">

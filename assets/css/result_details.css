@@ -129,6 +129,9 @@ input{
     text-transform: capitalize;
     
 }
+.upper-center{
+    display: none;
+}
 figure { 
     display: none;
     position: absolute;
@@ -176,4 +179,51 @@ figure {
     55%{ opacity: .6; border-radius: 100%; }
     66%{ opacity: 0; }
   }
+
+  @media screen and  (max-width: 560px){
+    .upper-center{
+        display: block;
+        width: 100%;
+        height: 30%;
+        background-color: #b8dfdb;
+        border-radius: 1.5rem;
+        padding: 1%;
+        padding-left: 3%;
+    }
+    .student-details-mob{
+        display: flex;
+        flex-wrap: wrap;
+        
+    }
+    .student-details-mob .std-item{
+       display: block;
+       width: 50%;
+    }
+    .student-details-mob label{
+        display: block;
+    }
+
+    .left-side-panel{
+        display: none;
+    }
+    h5{
+        font-size: 0.8rem !important;
+    }
+    th{
+        font-size: 0.7rem;
+    }
+    #popup{
+        height: 360px;
+        width: 90%;
+        border: 1px solid purple;
+        background-color: antiquewhite;
+        position: fixed;
+        top: 15%;
+        left: 5%;
+    }
+    .h3-head{
+        color: rgb(19, 139, 133) !important;
+    }
+
+}
 

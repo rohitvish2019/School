@@ -10,6 +10,11 @@
     </div>
     <div class="body-container">
         
+        <div class="upper-center">
+            <h5>Quick Actions</h5>
+            <a href="/student/get/<%=data.AdmissionNo%>?Class=<%=data.Class%>&action=fee" class="btn btn-success">Fees Details</a>
+            <a href="/student/get/<%=data.AdmissionNo%>?Class=<%=data.Class%>&action=result" class="btn btn-success">Result Details</a>
+        </div>
         <div class="center-body">
             <form action="/student/updateProfile" method="POST" class="container" id="admissionForm" onsubmit="generatePDF()">
                 <div id="toPDF">
@@ -202,23 +207,22 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="mx-2 my-4" style="display: flex; justify-content: space-around;">
-                        <input class="btn btn-success" id="download-button" value="Download as PDF">
+                    <div style="display: flex; justify-content: center;">
                         <button hidden id="submit-form" type="submit" value="Submit" class="btn btn-success" >Submit</button>
-                        <input class="btn btn-success" id="edit-profile" value="Edit">
                     </div>
+                
+                    
                 </div>
             </form>
         </div>
-        <div class="right-side-panel">
-            <div class="item-headings">
-                <h5 style="color: white;">Quick Actions</h5>
-                
+        
+        <div class="footer-container">
+            <div style="display: flex; justify-content: space-around;">
+                <input class="btn btn-success" id="download-button" value="Download as PDF">
+                <input class="btn btn-success" id="edit-profile" value="Edit">
             </div>
-            <a href="/student/get/<%=data.AdmissionNo%>?Class=<%=data.Class%>&action=fee" class="btn btn-success">Fees Details</a>
-            <a href="/student/get/<%=data.AdmissionNo%>?Class=<%=data.Class%>&action=result" class="btn btn-success">Result Details</a>
         </div>
+        
     </div>
    
 </body>

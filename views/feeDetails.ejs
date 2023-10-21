@@ -8,6 +8,34 @@
     <div class="header-container">
         <%- include('_header'); %>
     </div>
+    <div class="upper-center">
+        <h3 style="margin-bottom: 1%;">Student Details</h3>
+        <div class="student-details-mob">
+            <div class="std-item">
+                <label for=""><small>Admission No</small></label>
+                <label for="" id="AdmissionNoFees"><b><%=student.AdmissionNo%></b></label>
+            </div>
+            <div class="std-item">
+                <label for=""><small>Name</small></label>
+                <label for=""><b><%=student.FirstName%> <%=student.LastName%></b></label>
+            </div>
+            <br>
+            <div class="std-item"> 
+                <label for=""><small>Class</small></label>
+                <label for=""><b><%=student.Class%></b></label>
+            </div>
+            <br>
+            <div class="std-item">
+                <label for=""><small>Father's Name</small></label>
+                <label for=""><b><%=student.FathersName%></b></label>
+            </div>
+            <br>
+            <div class="std-item">
+                <label for=""><small>Mother's Name</small></label>
+                <label for=""><b><%=student.MothersName%></b></label>
+            </div>
+        </div>
+    </div>
     <div class="body-container">
         <div class="left-side-panel news-container">
             <div class="student-details">
@@ -38,7 +66,7 @@
             </div>
         </div>
         <div class="center-body">
-            <h3 style="text-align: center; color: white; font-weight: bolder;">Fees Submission & History</h3>
+            <h3 class="h3-head" style="text-align: center; color: white; font-weight: bolder;">Fees Submission & History</h3>
             <div id="toggler_button" class="toggeler">
                 <span style="color: white;" class="fee-details" id="details-button"><h5>Fees Details</h5></span>
                 <span class="fee-history" id="history-button-pay"><h5>Payment History</h5></span>

@@ -1,42 +1,58 @@
 
 header{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     height: 100%;
 }
-
-.logo-container{
-    width: 8%;
+.dropdown-menu.show {
+    display: flex !important;
+    flex-direction: column !important;
 }
-
+.logo-container{
+    width: 5%;
+    margin-right: 2%;
+}
 
 .options-container{
-    width: 58%;
-}
-
-.profile-container{
-    width: 34%;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1%;
-    margin-left: 20%;
-    margin-right: 1%;
-}
-
-.profile-container .btn{
-    width: 20%;
-    height: 80%;
-}
-
-.profile-container select{
     width: 50%;
-    height: 80%;
+}
+
+.options-container ul{
+    width: 100%;
+}
+.options-container ul li{
+    width: 12%;
+}
+
+#search{
+    width: 30%;
+    margin-top: 1%; 
+    margin-left: -10%;
+}
+
+#search input{
+    width: 100%;
 }
 
 .horizontal-list {
     list-style: none;
-    padding-left: 0px;
+    padding: 0px;
     margin: 0px;
+}
+.profile-container{
+    width: 5%;
+    margin-top: 1%;
+    display: flex;
+    justify-content: center;
+}
+.noty-icon{
+    margin-top: 1%;
+    width: 5%;
+}
+.logout{
+    width: 5%;
+    margin-top: 1%;
+    margin-left: 2%;
 }
 
 .horizontal-list li {
@@ -51,11 +67,7 @@ header{
     font-size: medium;
 }
 
-.noty-icon{
-    height: 100%;
-    width: 16%;
-    margin-right: 4%;
-}
+
 
 .notifications{
     position: fixed;
@@ -184,72 +196,86 @@ p {
 #change-password-div input{
     margin-top: 4%;
 }
+.options-container-mobile{
+    display: none;
+}
 @media screen and  (max-width: 560px) {
-    .options-container{
-        display: none;
-        flex-direction: column;
-        position: fixed;
-        top: 24%;
-        width: 45%;
-        right: 2%;
-        z-index: 2;
-        height: 55%;
-        font-size: 1.5rem;
-        background-color: rgb(30, 187, 187);
-        border-radius: 1.5rem;
-        padding-left: 5%;
-    }
-    .options-container li{
-        display: block;
-        font-size: 1.5rem;
-    }
-    .logo-container{
-        width: 20%;
-        margin-left: 0%;
-        padding-left: 0%;
-    }
     header{
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         height: 100%;
     }
-    .edit-profile{
+    
+    .logo-container{
+        width: 15%;
+        margin-right: 2%;
+    }
+    
+    .options-container{
         display: none;
+        width: 50%;
     }
-    #select-school{
-        display:  none;
+    
+    #search{
+        width: 60%;
+        margin-top: 5%; 
+        margin-left: 5%;
     }
-    .noty-icon{
-        margin-top: 6%;
-        height: 90%;
-        width: 40%;
-        margin-right: 4%;
+    
+    #search input{
+        width: 100%;
     }
-    #logout{
-        width: 30%;
-        height: 60%;
-        font-size: 0.9rem;
-        margin-top: 8%;
-        padding-right: 15%;
+    
+    .profile-container{
+        display: none;
+
     }
     #options{
-        height: 60%;
-        width: 40%;
-        margin-top: 8%;
-        display: inline;
+        display: block;
+        height: 70%;
+        margin-top: 35%;
+        margin-left: 55%;
+        width: 100%;
     }
-
-    .profile-container{
-        width: 64%;
-        display: flex;
-        justify-content: space-between;
+    .noty-icon{
+        display: none;
+    }
+    .logout{
+        display: none;
+        width: 5%;
         margin-top: 1%;
-        margin-left: 20%;
-        margin-right: 1%;
+        margin-left: 2%;
+    }
+    .options-container-mobile{
+        top: 11%;
+        position: fixed;
+        height: 80%;
+        width: 100%;
+        background-color: #9fb9b9;
+        z-index: 3;
+    }
+    .verticle-list{
+        margin-top: 2%;
+        color: rgb(15, 82, 82);
+        font-weight: bold;
+        list-style: none;
+        font-size: 1.3rem;
+    }
+    .verticle-list li{
+        margin-top: 8%;
+        width: 25%;
+    }
+    #header-list-mobile{
+        display: none;
+    }
+    #header-list{
+        display: none;
+    }
+    .dropdown-item{
+        width: auto !important;
     }
     
 }
-
 
 
 

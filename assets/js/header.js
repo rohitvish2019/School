@@ -67,7 +67,7 @@ document.getElementById('options').addEventListener('click', toggleHeader);
 
 function toggleHeader(){
     console.log('Coreect')
-    let header = document.getElementById('header-list');
+    let header = document.getElementById('header-list-mobile');
     if(header && header.style.display === 'flex'){
         header.style.display = 'none'
     }else{
@@ -192,6 +192,7 @@ document.getElementById('search').addEventListener('keydown', filterStudents);
 
 function showStudents(){
     console.log("Displaying...")
+    document.addEventListener('click', closeSearchBox)
     let container = document.getElementById('studnets-list');
     container.style.display='block';
     container.innerHTML=``;
@@ -207,4 +208,11 @@ function showStudents(){
         item.id=studentsList[i]._id
         container.appendChild(item);
     }
+}
+
+
+function closeSearchBox(){
+    document.getElementById('studnets-list').style.display = 'none';
+    document.getElementById('search').value=''
+    document.removeEventListener('click', closeSearchBox);
 }

@@ -55,4 +55,76 @@ body{
     height: 3rem;
     width: 100%;
 }
+.right-body{
+    width: 100%; 
+    display: flex; 
+    justify-content: flex-start; 
+    height: 18%;
+}
+.logo{
+    width: 30%;
+}
+@media screen and  (max-width: 560px){
+    .left-side-panel{
+        width: 5%;
+        height: 10%;
+        background-size: cover
+    }
+    
+    .right-side-panel{
+        width: 95%;
+        height: 100%;
+        padding: 2%;
+    
+    }
+    .logo{
+        border: 2px solid red;
+        width: 200%;
+        height: 80%;
+        margin-left: -15%;
+        
+    }
+}
 
+
+@media screen and  (max-width: 900px){
+    .left-side-panel{
+        width: 25%;
+        height: 100%;
+        background-size: cover
+    }
+    
+    .right-side-panel{
+        width: 75%;
+        height: 100%;
+        padding: 2%;
+    
+    }
+    .logo{
+        width: 20%;
+        height: 80%;
+        margin-left: -25%;
+    }
+}
+
+
+
+@media screen and  (max-width: 1300px){
+    .left-side-panel{
+        width: 20%;
+        height: 100%;
+        background-size: cover
+    }
+    
+    .right-side-panel{
+        width: 80%;
+        height: 100%;
+        padding: 2%;
+    
+    }
+    .logo{
+        height: 80%;
+        margin-left: -25%;
+        width: 15%;
+    }
+}

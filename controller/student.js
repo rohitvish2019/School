@@ -344,8 +344,9 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
     console.log(SchoolCode);
     let last_class_details, newRecord, newClass, feeAmounttForClass, result_q, result_h, result_f
     last_class_details = await Student.findOne({AdmissionNo:studentAdmissionNumber, Class:studentClass,SchoolCode:SchoolCode});
-    let lastResult = await Result.find({AdmissionNo:studentAdmissionNumber, Class:studentClass, SchoolCode:SchoolCode});
-    let lastResultStatus = validateResultStatus(lastResult, SchoolCode);
+    let lastResult = await Student.findOne({AdmissionNo:studentAdmissionNumber, Class:studentClass, SchoolCode:SchoolCode});
+    let lastResultStatus = lastResult.TotalGrade =='' ? false:true;
+    console.log(lastResult.TotalGrade);
     if(!lastResultStatus){
        return 424;
     }
@@ -428,7 +429,7 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
         SchoolCode:SchoolCode
     });
 
-    let terms = properties.get(req.user.SchoolCode+'.EXAM_SESSIONS').split(',');
+    let terms = properties.get(SchoolCode+'.EXAM_SESSIONS').split(',');
     for(let i=0;i<terms.length;i++){
         await Result.create({
             AdmissionNo: lastAdmissionNo+1,

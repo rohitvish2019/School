@@ -35,28 +35,32 @@ module.exports.signUp = function(req, res){
 }
 
 module.exports.home = async function(req, res){
-    let messages = await Messages.find({SchoolCode:req.user.SchoolCode, Category:'School'})
-    const pathToDirectory = '../School/assets/carousel-photos';
-    let mono = properties.get(req.user.SchoolCode+'_MONO');
-    let imgdir = properties.get(req.user.SchoolCode+'_IMAGES')
-    console.log(mono);
-    fs.readdir(pathToDirectory, (error, files) => {
-    if (error) {
-        console.log(error);
-    } else {
-        if(req.isAuthenticated){
-            console.log(req.user.School_Code+'_name');
-            let School_name = properties.get(req.user.SchoolCode+'_name');
-            console.log(files)
-            return res.render('admin_home', {files,role:req.user.role, School_name, messages, user:{name:req.user.full_name, Mobile:req.user.mobile_number, username:req.user.email, address: req.user.address,SchoolCode:req.user.SchoolCode}, mono,imgdir});
-            
-            
-        }else{
-            return re.redirect('/user/login')
+    try{
+        let messages = await Messages.find({SchoolCode:req.user.SchoolCode, Category:'School'})
+        const pathToDirectory = '../School/assets/carousel-photos';
+        let mono = properties.get(req.user.SchoolCode+'_MONO');
+        let imgdir = properties.get(req.user.SchoolCode+'_IMAGES')
+        console.log(mono);
+        fs.readdir(pathToDirectory, (error, files) => {
+        if (error) {
+            console.log(error);
+        } else {
+            if(req.isAuthenticated){
+                console.log(req.user.School_Code+'_name');
+                let School_name = properties.get(req.user.SchoolCode+'_name');
+                console.log(files)
+                return res.render('admin_home', {files,role:req.user.role, School_name, messages, user:{name:req.user.full_name, Mobile:req.user.mobile_number, username:req.user.email, address: req.user.address,SchoolCode:req.user.SchoolCode}, mono,imgdir});
+                
+                
+            }else{
+                return re.redirect('/user/login')
+            }
         }
+        });
+    }catch(err){
+        logger.error(err.toString());
+        return res.redirect('back')
     }
-    });
-    
 }
 
 module.exports.createSession = function(req, res){
@@ -80,24 +84,30 @@ module.exports.logout = function(req, res){
 }
 
 module.exports.addNewUser = async function(req, res){
-    console.log(req.body)
-    if(req.user.role === 'Admin'){
-        let user  = await UserSchema.create(
-            req.body
-        );
-        if(req.user.isAdmin == true){
-            if(req.body.makesuperadmin === 'on'){
-                await user.updateOne({isAdmin:true});
-                await user.save();
+    try{
+        if(req.user.role === 'Admin'){
+            let user  = await UserSchema.create(
+                req.body
+            );
+            if(req.user.isAdmin == true){
+                if(req.body.makesuperadmin === 'on'){
+                    await user.updateOne({isAdmin:true});
+                    await user.save();
+                }
+                return res.redirect('back');
             }
-            return res.redirect('back');
+            await user.updateOne({SchoolCode:req.user.SchoolCode});
+            await user.save();
+            return res.redirect('back');   
+        }else{
+            return res.render('Error_403');        
         }
-        await user.updateOne({SchoolCode:req.user.SchoolCode});
-        await user.save();
-        return res.redirect('back');   
-    }else{
-        return res.render('Error_403');        
+    }catch(err){
+        logger.error(err.toString());
+        return res.redirect('back')
     }
+
+    
 }
 
 module.exports.addUserPage = function(req, res){

@@ -27,52 +27,60 @@ const logger = winston.createLogger({
 
 
 function numberToWordsInRange(number1) {
-    let number = parseInt(number1.toString());
-    
-    const units = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
-    const teens = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
-    const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+    try{
+        let number = parseInt(number1.toString());
+        const units = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+        const teens = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+        const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
 
-    if (number < 0 || number > 99) {
-        return 'Number out of range';
-    }
+        if (number < 0 || number > 99) {
+            return 'Number out of range';
+        }
 
-    if (number < 10) {
-        return units[number];
-    } else if (number < 20) {
-        return teens[number - 10];
-    } else {
-        const tensDigit = Math.floor(number / 10);
-        console.log("Tens")
-        const unitsDigit = number % 10;
-        console.log("Units"+unitsDigit)
-        return tens[tensDigit] + (unitsDigit !== 0 ? ' ' + units[unitsDigit] : '');
-    }
+        if (number < 10) {
+            return units[number];
+        } else if (number < 20) {
+            return teens[number - 10];
+        } else {
+            const tensDigit = Math.floor(number / 10);
+            console.log("Tens")
+            const unitsDigit = number % 10;
+            console.log("Units"+unitsDigit)
+            return tens[tensDigit] + (unitsDigit !== 0 ? ' ' + units[unitsDigit] : '');
+        }
+    }catch(err){
+        logger.error(err.toString());
+        return "";
+    } 
 }
 
 function getDOBInWords(thisDate){
-    
-    let year = parseInt(thisDate.toString().slice(0,4));
-    let month= parseInt(thisDate.toString().slice(5,7));
-    let date = parseInt(thisDate.toString().slice(8,10));
-    console.log(date+"%"+month+"%"+year)
-    const numbersInWords = [
-        "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
-        "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen",
-        "Twenty", "Twenty One", "Twenty Two", "Twenty Three", "Twenty Four", "Twenty Five", "Twenty Six", "Twenty Seven", "Twenty Eight", "Twenty Nine",
-        "Thirty", "Thirty One"
-    ];
-    
-    const monthsInWords = [
-        "", "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-    ];
+    try{
+        let year = parseInt(thisDate.toString().slice(0,4));
+        let month= parseInt(thisDate.toString().slice(5,7));
+        let date = parseInt(thisDate.toString().slice(8,10));
+        console.log(date+"%"+month+"%"+year)
+        const numbersInWords = [
+            "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
+            "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen",
+            "Twenty", "Twenty One", "Twenty Two", "Twenty Three", "Twenty Four", "Twenty Five", "Twenty Six", "Twenty Seven", "Twenty Eight", "Twenty Nine",
+            "Thirty", "Thirty One"
+        ];
+        
+        const monthsInWords = [
+            "", "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
 
-    let dateInWords  = numbersInWords[date];
-    let monthInWords = monthsInWords[month]
-    let year1 = numberToWordsInRange(year.toString().substring(2));
-    console.log(numberToWordsInRange(year.toString().substring(2)))
-    return dateInWords +" "+monthInWords+" two thousands "+year1;
+        let dateInWords  = numbersInWords[date];
+        let monthInWords = monthsInWords[month]
+        let year1 = numberToWordsInRange(year.toString().substring(2));
+        return dateInWords +" "+monthInWords+" two thousands "+year1;
+        }catch(err){
+            logger.error(err.toString());
+            return ""
+        }
+    
     
 }
 
@@ -229,51 +237,80 @@ module.exports.getMe = async function(req, res){
 }
 
 module.exports.search = function(req, res){
-    return res.render('student_search',{admin:req.user.isAdmin,role:req.user.role});
+    try{
+        return res.render('student_search',{admin:req.user.isAdmin,role:req.user.role});
+    }catch(err){
+        logger.error(err.toString())
+        return res.redirect('back')
+    }
 }
 
 module.exports.getStudentsByClassForm = function(req, res){
-    if(req.user.role == 'Admin'){
-        return res.render('studentListByClass',{action:'none',admin:req.user.isAdmin,role:req.user.role});
-    }else{
-        return res.render('Error_403')
+    try{
+        if(req.user.role == 'Admin'){
+            return res.render('studentListByClass',{action:'none',admin:req.user.isAdmin,role:req.user.role});
+        }else{
+            return res.render('Error_403')
+        }
+    }catch(err){
+        logger.error(err.toString());
+        return res.redirect('back')
     }
+    
     
 }
 
 module.exports.getStudentsByClassFormFee = function(req, res){
-    if(req.user.role === 'Admin' || req.user.role === 'Teacher' || req.user.role === 'Student'){
-        return res.render('studentListByClass', {action:'fee',admin:req.user.isAdmin,role:req.user.role});
-    }else{
-        return res.render("Error_403")
+    try{
+        if(req.user.role === 'Admin' || req.user.role === 'Teacher' || req.user.role === 'Student'){
+            return res.render('studentListByClass', {action:'fee',admin:req.user.isAdmin,role:req.user.role});
+        }else{
+            return res.render("Error_403")
+        }
+    }catch(err){
+        logger.error(err.toString())
+        return res.redirect('back')
     }
-    
 }
 
 module.exports.getStudentsByClassFormResult = function(req, res){
-    if(req.user.role === 'Admin' || req.user.role === 'Teacher' || req.user.role === 'Student'){
-        return res.render('studentListByClass', {action:'result',admin:req.user.isAdmin,role:req.user.role});
-    }else{
-        return res.render('Error_403')    
+    try{
+        if(req.user.role === 'Admin' || req.user.role === 'Teacher' || req.user.role === 'Student'){
+            return res.render('studentListByClass', {action:'result',admin:req.user.isAdmin,role:req.user.role});
+        }else{
+            return res.render('Error_403')    
+        }
+    }catch(err){
+        logger.error(err.toString());
+        return res.redirect('back')
     }
-    
 }
 
 module.exports.getStudentsByClassFormTC = function(req, res){
-    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
-        return res.render('studentListByClass', {action:'tc',admin:req.user.isAdmin,role:req.user.role});
-    }else{
-        return res.render('Error_403')        
+    try{
+        if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
+            return res.render('studentListByClass', {action:'tc',admin:req.user.isAdmin,role:req.user.role});
+        }else{
+            return res.render('Error_403')        
+        }
+    }catch(err){
+        logger.error(err.toString());
+        return res.redirect('back')
     }
-    
 }
 
 module.exports.getStudentsByClassFormAdmission = function(req, res){
-    if(req.user.role == 'Admin'){
-        return res.render('studentListByClass', {action:'admission',admin:req.user.isAdmin,role:req.user.role});
-    }else{
-        return res.render('Error_403')
+    try{
+        if(req.user.role == 'Admin'){
+            return res.render('studentListByClass', {action:'admission',admin:req.user.isAdmin,role:req.user.role});
+        }else{
+            return res.render('Error_403')
+        }
+    }catch(err){
+        logger.error(err.toString())
+        return res.redirect('back')
     }
+    
 }
 
 module.exports.getStudentsList = async function(req, res){
@@ -300,15 +337,19 @@ module.exports.getStudentsList = async function(req, res){
 }
 
 module.exports.upgradeClassPage = function(req, res){
-    if(req.user.role === 'Admin'){
-        return res.render('upgradeClass', {admin:req.user.isAdmin,role:req.user.role});
-    }else{
-        return res.render('Error_403')
+    try{
+        if(req.user.role === 'Admin'){
+            return res.render('upgradeClass', {admin:req.user.isAdmin,role:req.user.role});
+        }else{
+            return res.render('Error_403')
+        }
+    }catch(err){
+        logger.error(err.toString())
+        return res.redirect('back')
     }
-    
 }
 
-
+/*
 function validateResultStatus(resultData, SchoolCode){
     let student_Class = resultData[0].Class;
     if(student_Class == '6' || student_Class=='7' || student_Class=='8'){
@@ -339,13 +380,15 @@ function validateResultStatus(resultData, SchoolCode){
     console.log(subjects);
     return true;
 }
-
+*/
+let AdmissionNumber = '';
 async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolCode){
     console.log(SchoolCode);
     let last_class_details, newRecord, newClass, feeAmounttForClass, result_q, result_h, result_f
     last_class_details = await Student.findOne({AdmissionNo:studentAdmissionNumber, Class:studentClass,SchoolCode:SchoolCode});
     let lastResult = await Student.findOne({AdmissionNo:studentAdmissionNumber, Class:studentClass, SchoolCode:SchoolCode});
     let lastResultStatus = lastResult.TotalGrade =='' ? false:true;
+    AdmissionNumber = lastResult.AdmissionNo;
     console.log(lastResult.TotalGrade);
     if(!lastResultStatus){
        return 424;
@@ -432,7 +475,7 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
     let terms = properties.get(SchoolCode+'.EXAM_SESSIONS').split(',');
     for(let i=0;i<terms.length;i++){
         await Result.create({
-            AdmissionNo: lastAdmissionNo+1,
+            AdmissionNo: AdmissionNumber,
             Class:studentData.Class,
             Term: terms[i],
             SchoolCode:req.user.SchoolCode
@@ -443,33 +486,40 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
 }
 
 module.exports.upgradeOneStudent = async function(req, res){
-    if(req.user.role === 'Admin'){
-        let status = await upgradeClassStudent(req.params.AdmissionNo, req.query.Class, req.user.SchoolCode);
-        console.log(status);
-        if(status==200){
-            return res.status(200).json({
-                message:'Student upgraded successfully'
-            });
-        }else if(status==400){
-            return res.status(400).json({
-                message:'Student can not be upgraded from class 8th as per school policy'
-            });
-        }else if(status==409){
-            return res.end('This student is already upgraded to next class');
+    try{
+        if(req.user.role === 'Admin'){
+            let status = await upgradeClassStudent(req.params.AdmissionNo, req.query.Class, req.user.SchoolCode);
+            console.log(status);
+            if(status==200){
+                return res.status(200).json({
+                    message:'Student upgraded successfully'
+                });
+            }else if(status==400){
+                return res.status(400).json({
+                    message:'Student can not be upgraded from class 8th as per school policy'
+                });
+            }else if(status==409){
+                return res.end('This student is already upgraded to next class');
+            }
+            else if(status == 424){
+                return res.status(424).json({
+                    message:"Result is not updated correctly, kindly updateOne and try again"
+                })
+            }
+            else{
+                return res.end('error upgrading class');
+            }
+        }else{
+            return res.status(403).json({
+                message:"Unauthorized"
+            })        
         }
-        else if(status == 424){
-            return res.status(424).json({
-                message:"Result is not updated correctly, kindly updateOne and try again"
-            })
-        }
-        else{
-            return res.end('error upgrading class');
-        }
-    }else{
-        return res.status(403).json({
-            message:"Unauthorized"
-        })        
+    }catch(err){
+        return res.status(500).json({
+            message:'Internal server error'
+        })
     }
+    
 }
 
 
@@ -529,14 +579,20 @@ function getPercentage(marks, total){
 }
 
 function getDate(){
-    const date = new Date();
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
-    // This arrangement can be altered based on how we want the date's format to appear.
-    let currentDate = `${day}-${month}-${year}`;
-    console.log(currentDate); 
-    return currentDate
+    try{
+        const date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+        // This arrangement can be altered based on how we want the date's format to appear.
+        let currentDate = `${day}-${month}-${year}`;
+        console.log(currentDate); 
+        return currentDate
+    }catch(err){
+        logger.error(err.toString())
+        return "";
+    }
+    
 }
 
 
@@ -569,10 +625,6 @@ module.exports.getMarksheetUI = async function(req, res){
         logger.error(err)
         return res.redirect('back')
     }
-
-    
-    
-    
 }
 
 module.exports.dischargeStudent = async function(req, res){

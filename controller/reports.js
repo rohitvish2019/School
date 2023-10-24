@@ -3,8 +3,26 @@ const FeesHistory = require('../modals/feeHistory');
 const moment = require('moment');
 const fs = require('fs');
 var json2xls = require('json2xls');
+const winston = require("winston");
+const dateToday = new Date().getDate().toString()+'-'+ new Date().getMonth().toString() + '-'+ new Date().getFullYear().toString();
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
+  transports: [
+    new winston.transports.File({ filename: "logs/error_"+dateToday+'.log', level: "warn" }),
+    new winston.transports.File({ filename: "logs/app_"+dateToday+".log" }),
+  ],
+});
+
 module.exports.home = function(req, res){
-    return res.render('reports_home',{error:"", role:req.user.role});
+    try{
+        return res.render('reports_home',{error:"", role:req.user.role});
+    }catch(err){
+        return res.redirect('back');
+    }
 }
 
 
@@ -37,7 +55,6 @@ module.exports.getClassList = async function(req, res){
 }
 
 module.exports.getReports = async function(req, res){
-    console.log(req.query);
     try{
         
         if(req.query.purpose === 'feesReport'){
@@ -65,7 +82,6 @@ module.exports.getReports = async function(req, res){
             message:'Internal Server Error2'
         })
     }
-
 }
 
 async function getAdmittedStudentsReport(start_date, end_date, activeUser){
@@ -165,6 +181,11 @@ function saveCSV(reportArray, filename){
 }
 
 module.exports.bulkReportsHome = function(req, res){
-    return res.render('reports',{role:req.user.role});
+    try{
+        return res.render('reports',{role:req.user.role});
+    }catch(err){
+        logger.error(err.toString())
+        return res.redirect('back')
+    }
 }
 

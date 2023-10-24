@@ -7,37 +7,58 @@ const Result = require('../modals/Result');
 const TCRecords = require('../modals/TC_Records');
 const propertiesReader = require('properties-reader');
 let Schoolproperties = propertiesReader('../School/config/School.properties');
+const winston = require("winston");
+const dateToday = new Date().getDate().toString()+'-'+ new Date().getMonth().toString() + '-'+ new Date().getFullYear().toString();
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
+  transports: [
+    new winston.transports.File({ filename: "logs/error_"+dateToday+'.log', level: "warn" }),
+    new winston.transports.File({ filename: "logs/app_"+dateToday+".log" }),
+  ],
+});
 
 module.exports.registrationUI = async function(req, res){
-    let last = await AdmissionNo.findOne({SchoolCode:req.user.SchoolCode});
-    let School_name = Schoolproperties.get(req.user.SchoolCode+'_name')
-    let imgdir = Schoolproperties.get(req.user.SchoolCode+'_IMAGES')
-    if(last){
-        let year = +new Date().getFullYear();
-        let past_year = year -1;
-        let current_year = year;
-        let next_year = year + 1;
-        let RN = last.LastRegistration + 1
-        return res.render('./Registration', {ThisRegNumber:RN,past_year, current_year, next_year,role:req.user.role,School_name,imgdir});
-        
-    }else{
-        if(req.isAuthenticated && req.user.role === 'Admin'){
-            return res.render('startup',{role:req.user.role})
+    try{
+        let last = await AdmissionNo.findOne({SchoolCode:req.user.SchoolCode});
+        let School_name = Schoolproperties.get(req.user.SchoolCode+'_name')
+        let imgdir = Schoolproperties.get(req.user.SchoolCode+'_IMAGES')
+        if(last){
+            let year = +new Date().getFullYear();
+            let past_year = year -1;
+            let current_year = year;
+            let next_year = year + 1;
+            let RN = last.LastRegistration + 1
+            return res.render('./Registration', {ThisRegNumber:RN,past_year, current_year, next_year,role:req.user.role,School_name,imgdir});
         }else{
-            return res.render('Error_403')
+            if(req.isAuthenticated && req.user.role === 'Admin'){
+                return res.render('startup',{role:req.user.role})
+            }else{
+                return res.render('Error_403')
+            }
+            
         }
-        
+    }catch(err){
+        logger.error(err.toString())
+        return res.redirect('back');
     }
 }
 
 module.exports.getPreview = function(req, res){
-    return res.render('RegistrationPreview', {data:req.body, role:req.user.role})
+    try{
+        return res.render('RegistrationPreview', {data:req.body, role:req.user.role})
+    }catch(err){
+        logger.error(err.toString())
+        return res.redirect('back')
+    }
 }
 
 module.exports.register = async function(req, res){
     let student;
     try{
-        
         student = await RegisteredStudent.create(req.body);
         lastRegistrationNumber = await AdmissionNo.findOne({});
         RN = lastRegistrationNumber.LastRegistration;
@@ -92,14 +113,18 @@ module.exports.delete = async function(req, res){
 
 
 function getDate(){
-    const date = new Date();
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
-    // This arrangement can be altered based on how we want the date's format to appear.
-    let currentDate = `${day}-${month}-${year}`;
-    console.log(currentDate); 
-    return currentDate
+    try{
+        const date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+        let currentDate = `${day}-${month}-${year}`;
+        console.log(currentDate); 
+        return currentDate
+    }catch(err){
+        logger.error(err.toString());
+    }
+    
 }
 
 
@@ -203,11 +228,15 @@ module.exports.admit = async function(req, res){
 
 
 module.exports.download = async function(req, res){
-    if(req.user.role === 'Admin'){
-        let data = await RegisteredStudent.findOne({RegistrationNo:req.params.id});
-        return res.render('RegistrationForm', {data, role:req.user.role});
-    }else{
-        return res.render('Error_403')
-    }
-    
+    try{
+        if(req.user.role === 'Admin'){
+            let data = await RegisteredStudent.findOne({RegistrationNo:req.params.id});
+            return res.render('RegistrationForm', {data, role:req.user.role});
+        }else{
+            return res.render('Error_403')
+        }
+    }catch(err){
+        logger.error(err.toString())
+        return res.redirect('back')
+    }   
 }

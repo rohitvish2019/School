@@ -20,12 +20,15 @@ const logger = winston.createLogger({
 
 
 function convertDateFormat(thisDate){
-
-    let year = thisDate.toString().slice(0,4);
-    let month= thisDate.toString().slice(5,7);
-    let day = thisDate.toString().slice(8,10);
-    console.log( day+"-"+month+"-"+year)
-    return day+"-"+month+"-"+year;
+    try{
+        let year = thisDate.toString().slice(0,4);
+        let month= thisDate.toString().slice(5,7);
+        let day = thisDate.toString().slice(8,10);
+        console.log( day+"-"+month+"-"+year)
+        return day+"-"+month+"-"+year;
+    }catch(err){
+        return '';    
+    }
 }
 // To get the fee details of individual student
 module.exports.getFeeDetails = async function(req, res){
@@ -146,18 +149,24 @@ module.exports.cancelFees = async function(req, res){
 }
 
 module.exports.updateFeeForm = async function(req, res){
-    let feesData = [];
-    if(req.user.role === 'Admin'){
-        try{
-            feesData = await FeeStructure.find({SchoolCode:req.user.SchoolCode});
-            console.log(feesData);
-        }catch(err){
-            console.log(err);
+    try{
+        let feesData = [];
+        if(req.user.role === 'Admin'){
+            try{
+                feesData = await FeeStructure.find({SchoolCode:req.user.SchoolCode});
+                console.log(feesData);
+            }catch(err){
+                console.log(err);
+            }
+            return res.render('updateFeeForm', {feesData, role:req.user.role});
+        }else{
+            return res.render('Error_403')
         }
-        return res.render('updateFeeForm', {feesData, role:req.user.role});
-    }else{
-        return res.render('Error_403')
+    }catch(err){
+        logger.error(err.toString())
+        return res.redirect('back')
     }
+    
    
 }
 
@@ -261,24 +270,38 @@ module.exports.getFeeHistory = async function(req, res){
 
 
 module.exports.getConcessionHistory = async function(req, res){
-    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
-        let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo, type:'Concession',SchoolCode:req.user.SchoolCode}).sort({Payment_Date:'descending'});
-        return res.status(200).json({
-            message:'History fetched successfully',
-            data: feeList
-        })
-    }else{
-        return res.status(403).json({
-            message:"Unautorized"
+    try{
+        if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
+            let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo, type:'Concession',SchoolCode:req.user.SchoolCode}).sort({Payment_Date:'descending'});
+            return res.status(200).json({
+                message:'History fetched successfully',
+                data: feeList
+            })
+        }else{
+            return res.status(403).json({
+                message:"Unautorized"
+            })
+        }
+    }catch(err){
+        logger.error(err.toString())
+        return res.status(500).json({
+            message:'Unable to fetch history'
         })
     }
+    
 }
 
 module.exports.getFeeReceipt = async function(req, res){
-    let feeReport = await FeeHistory.findById(req.params.id);
-    let student = await Student.findOne({AdmissionNo:feeReport.AdmissionNo, Class:feeReport.Class, SchoolCode:req.user.SchoolCode})
-    console.log(feeReport);
-    return res.render('fee_receipt',{feeReport, student, role:req.user.role});
+    try{
+        let feeReport = await FeeHistory.findById(req.params.id);
+        let student = await Student.findOne({AdmissionNo:feeReport.AdmissionNo, Class:feeReport.Class, SchoolCode:req.user.SchoolCode})
+        console.log(feeReport);
+        return res.render('fee_receipt',{feeReport, student, role:req.user.role});
+    }catch(err){
+        logger.error(err.toString())
+        return res.redirect('back')
+    }
+    
 }
 
 module.exports.deleteAnnualFee = async function(req, res){

@@ -49,7 +49,19 @@ th {
 .filter-container {
     margin-top: 20px;
 }
+.action-button{
+  background-color: #0a807c;
+  color: white;
+  border-radius: 1.3rem;
+}
 
+.action-button:hover{
+  background-color: #99afb7;
+}
+
+input, select{
+  border-radius: 1.3rem;
+}
 figure { 
     display: none;
     position: absolute;

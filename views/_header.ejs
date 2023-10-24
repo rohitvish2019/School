@@ -35,7 +35,7 @@
         </a>  
         <ul class="dropdown-menu">
           <li><a class="dropdown-item" href="/teachers/home">Show all</a></li>
-          <li><a class="dropdown-item" href="#">Update salary</a></li>
+          <li><a class="dropdown-item" href="#">Student Attendance</a></li>
         </ul>
       </li>
       <%}%>
@@ -80,8 +80,8 @@
     </ul>
   </div>
 
-  <div id="search" >
-    <input type="search"  placeholder="Search student">
+  <div id="Search">
+    <input id="searchBox" placeholder="Search student">
     <ul id="studnets-list" class="studnets-list">
     </ul>
   </div>
@@ -139,7 +139,7 @@
           </a>  
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/teachers/home">Show all</a></li>
-            <li><a class="dropdown-item" href="#">Update salary</a></li>
+            <li><a class="dropdown-item" href="#">Student Attendance</a></li>
           </ul>
         </li>
         <%}%>
@@ -186,11 +186,12 @@
   <div class="noty-icon" id="noti-button">
     <img src="/images/noty.webp" height="100%" width="100%" alt="">
     <div class="noty-count">
-      712
+      
     </div>
     <div style="display: none;" id="notifications" class="notifications">
+      <h3 style="text-align: center;">Notifications</h3>
       <ul id="notification-list">
-  
+        <li><h6>No new items</h6></li>
       </ul>
     </div>
   </div>

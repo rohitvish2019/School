@@ -210,9 +210,7 @@ input{
     h5{
         font-size: 0.8rem !important;
     }
-    th{
-        font-size: 0.7rem;
-    }
+    
     #popup{
         height: 360px;
         width: 90%;
@@ -225,6 +223,11 @@ input{
     .h3-head{
         color: rgb(19, 139, 133) !important;
     }
+    th, td{
+        font-size: 0.6rem;
+        font-weight: bold;
+    }
+    
     
     
 

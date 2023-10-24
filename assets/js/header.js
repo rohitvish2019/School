@@ -75,13 +75,17 @@ function toggleHeader(){
     }
 }
 
-document.getElementById('search').addEventListener('click', searchButton)
+document.getElementById('searchBox').addEventListener('click', searchButton)
 function searchButton(){
+    document.addEventListener('click', closeSearchBox)
     let listContainer = document.getElementById('studnets-list');
     if(listContainer.style.display === 'block'){
         listContainer.style.display='none'
+
+
     }else{
         listContainer.style.display='block'
+
     }
 }
 
@@ -173,10 +177,12 @@ function setStudentsListLocal(){
 }
 
 setStudentsListLocal();
+document.getElementById('searchBox').addEventListener('keydown', filterStudents);
 
 function filterStudents(){
     showStudents();
-    let pattern = document.getElementById('search').value.toLowerCase();
+    console.log('Filtering students')
+    let pattern = document.getElementById('searchBox').value.toLowerCase();
     for(let i=0;i<studentsList.length;i++){
         let fullPattern = (studentsList[i].FirstName + studentsList.LastName).toLowerCase();
         if(!(fullPattern.match(pattern))){
@@ -186,7 +192,7 @@ function filterStudents(){
     }
 }
 
-document.getElementById('search').addEventListener('keydown', filterStudents);
+
 
 
 
@@ -200,7 +206,7 @@ function showStudents(){
         let item = document.createElement('li');
         item.innerHTML=
         `
-        <a href='/student/${studentsList[i]._id}' style='width:100%'>
+        <a href='/student/${studentsList[i]._id}' style='width:100%; '>
         <label style='display:inline'>${studentsList[i].FirstName} ${studentsList[i].LastName},Class:${studentsList[i].Class}, Father: ${studentsList[i].FathersName}</label>
         </a>
         `
@@ -213,6 +219,6 @@ function showStudents(){
 
 function closeSearchBox(){
     document.getElementById('studnets-list').style.display = 'none';
-    document.getElementById('search').value=''
+    document.getElementById('searchBox').value=''
     document.removeEventListener('click', closeSearchBox);
 }

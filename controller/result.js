@@ -69,26 +69,58 @@ module.exports.addUpdateResult = async function(req, res){
 }
 */
 
+
+async function updateFinalGrade(AdmissionNo, Class, Term, SchoolCode){
+    try{
+        let subjects = properties.get(SchoolCode+'.SUBJECTS_'+Class);
+        let resultRecord = await Result.findOne({AdmissionNo:AdmissionNo,Class:Class,Term:Term, SchoolCode:SchoolCode}, subjects.toString().replaceAll(',',' '));
+        let subjectList = subjects.split(',');
+        let marksObtained = 0;
+        let marksTotal =0;
+        for(let i=0;i<subjectList.length;i++){
+            marksObtained= marksObtained + resultRecord[subjectList[i]];
+        }   
+        marksTotal = +properties.get(SchoolCode+'.Final_TOTAL') * subjectList.length;
+        let FinalGrade = calculateGrade(marksObtained*100/marksTotal);
+        await Student.findOneAndUpdate({AdmissionNo:AdmissionNo,Class:Class,SchoolCode:SchoolCode},{TotalGrade:FinalGrade});
+        return true;
+    }catch(err){
+        logger.error(err);
+        return false;
+    }
+    
+}
 module.exports.updateResult = async  function(req, res){
     try{
-        console.log('Updating result');
-        console.log(req.body.marks);
         let resultRecord = await Result.findOne({Class:req.body.Class, AdmissionNo:req.body.AdmissionNo,Term:req.body.Term});
         let newRecord = await Result.create(req.body.marks);
         await newRecord.updateOne({SchoolCode:req.user.SchoolCode, Class:req.body.Class, AdmissionNo:req.body.AdmissionNo,Term:req.body.Term});
         newRecord.save();
         resultRecord.deleteOne();
-        return res.status(200).json({
-            message:'Result updated successfully'
-        });
+        if(req.body.Term ==='Final'){
+            let gradeUpdated = updateFinalGrade(req.body.AdmissionNo, req.body.Class, req.body.Term, req.user.SchoolCode);
+            if(gradeUpdated){
+                console.log("Grade updated")
+                return res.status(200).json({
+                    message:'Result updated successfully'
+                });
+            }else{
+                return res.status(200).json({
+                    message:'Final grade update failed, session result updated'
+                });
+            }
+        }else{
+            return res.status(200).json({
+                message:'Result updated successfully'
+            });
+        }
+        
     }catch(err){
         logger.error(err.toString());
         return res.status(500).json({
             message:'Unable to update result'
         })
     }
-
-    
 }
 
 module.exports.searchResult = async function(req, res){

@@ -315,6 +315,7 @@ module.exports.getStudentsByClassFormAdmission = function(req, res){
 
 module.exports.getStudentsList = async function(req, res){
     let studentList;
+    console.log(req.query);
     logger.info('request received for getting students list');
     if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
         if(req.query.Action === 'admission'){

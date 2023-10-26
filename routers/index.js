@@ -14,6 +14,7 @@ router.use('/reports', passport.checkAuthentication, require('./reports'));
 router.use('/teachers', passport.checkAuthentication, require('./Teachers'));
 router.use('/message', passport.checkAuthentication, require('./message'));
 router.use('/user', require('./user'));
+router.use('/attendance', passport.checkAuthentication, require('./Attendance'));
 router.get('/', userController.mainHome);
 
 

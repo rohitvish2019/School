@@ -110,8 +110,10 @@ tr{
 td, th{
     width: 17%;
     padding-top: 1%;
+    padding: auto;
     
 }
+
 th{
     
     background-color: #2b443b;
@@ -155,10 +157,17 @@ span{
     
 }
 
+.dropdown .btn{
+    font-size:1rem;
+    padding:auto;
+    height: 90%;
+}
+
 .fee-history{
     background-color: transparent;
     
 }
+
 
 #fees-history{
     width: 100%;
@@ -228,7 +237,9 @@ input{
         font-weight: bold;
     }
     
+    .dropdown .btn{
+        font-size:0.6rem;
+        padding:0
+    }
     
-    
-
 }

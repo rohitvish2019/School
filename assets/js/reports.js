@@ -12,10 +12,27 @@ if(EmailLabel){
 document.getElementById('purpose').addEventListener('change', updateForm);
 document.getElementById('getExcel').addEventListener('click', getCSV)
 function updateForm(){
-    if(document.getElementById('purpose').value === 'usersCollection'){
+    let element = document.getElementById('purpose');
+    if(element.value === 'usersCollection'){
         document.getElementById('email').style.display = 'inline'
         document.getElementById('email-label').style.display = 'inline'
-    }else{
+    }else if(element.value === 'feesReport' || element.value === 'admittedStudents' || element.value === 'usersCollection'){
+        document.getElementById('start-date').style.display = 'inline'
+        document.getElementById('end-date').style.display = 'inline'
+        document.getElementById('start-date-label').style.display = 'inline'
+        document.getElementById('end-date-label').style.display = 'inline'
+        document.getElementById('email').style.display = 'none'
+        document.getElementById('email-label').style.display = 'none'
+    }else if(element.value == 'currentActiveStudents' || element.value == 'feesDuesClass' || element.value == 'feesDuesTotal' || element.value === 'incompleteResult'){
+        document.getElementById('start-date').style.display = 'none'
+        document.getElementById('end-date').style.display = 'none'
+        document.getElementById('start-date-label').style.display = 'none'
+        document.getElementById('end-date-label').style.display = 'none'
+        document.getElementById('email').style.display = 'none'
+        document.getElementById('email-label').style.display = 'none'
+    }
+    
+    else{
         document.getElementById('email').style.display = 'none'
         document.getElementById('email-label').style.display = 'none'
     }
@@ -95,6 +112,15 @@ function filterTransactions() {
 
             }else if(data.purpose === 'currentActiveStudents'){
                 showActiveStudents(data.response)
+            }else if(data.purpose === 'feesDuesTotal'){
+                showFeesDues(data.response);
+            }
+            else if(data.purpose === 'incompleteResult'){
+                console.log(data.response);
+                showIncompleteResult(data.response, data.classList);
+            }
+            else if(data.purpose === 'feesDuesClass'){
+                showFeesDuesByClass();
             }
         },
         error:function(err){console.log(err.responseText)}
@@ -131,6 +157,7 @@ function showFessTransactions(data, purpose){
         tbody.appendChild(row);
         total += data[i].Amount
     }
+    document.getElementById('count').innerText='Total Fees Received :'
     document.getElementById('total').innerText= '₹'+total
     document.getElementById('loader').style.display='none'
 }
@@ -180,8 +207,9 @@ function showAdmittedStudents(data){
             <td>${data[i].Gender}</td>
         `
         tbody.appendChild(row);
-        total += data[i].Amount
     }
+    document.getElementById('count').innerText='Count :'
+    document.getElementById('total').innerText= data.length
     document.getElementById('loader').style.display='none'
 }
 function showFeesByUser(){}
@@ -229,7 +257,79 @@ function showActiveStudents(data){
         tbody.appendChild(row);
         total += data[i].Amount
     }
+    document.getElementById('count').innerText='Count :'
+    document.getElementById('total').innerText= data.length
     document.getElementById('loader').style.display='none'
+}
+
+function showFeesDues(data){
+    let total = 0;
+    
+    let tbody = document.getElementById('table-body');
+    let thead = document.createElement('tr');
+    thead.innerHTML=
+    `
+        <th>Admission No</th>
+        <th>Class</th>
+        <th>Total</th>
+        <th>Remaining</th>
+    `
+    tbody.innerHTML=``;
+    tbody.appendChild(thead)
+    for(let i=0;i<data.length;i++){
+        let row = document.createElement('tr');
+        row.innerHTML=
+        `
+            <td>${data[i].AdmissionNo}</td>
+            <td>Class ${data[i].Class}</td>
+            <td>₹${data[i].Total}</td>
+            <td>${data[i].Remaining}</td>
+            
+        `
+        tbody.appendChild(row);
+        total += data[i].Remaining
+    }
+    document.getElementById('count').innerText='Due Fees :'
+    document.getElementById('total').innerText= '₹'+total
+    document.getElementById('loader').style.display='none'
+}
+
+
+function showIncompleteResult(data, classList){
+    let dict = {};
+    let total = 0
+    for(let i=0;i<data.length;i++){
+        if(dict[data[i].Class] && dict[data[i].Class] >= 1){
+            dict[data[i].Class] = dict[data[i].Class] + 1;
+        }else{
+            dict[data[i].Class] = 1;
+        }
+    }
+    let tbody = document.getElementById('table-body');
+    let thead = document.createElement('tr');
+    thead.innerHTML=
+    `
+        <th>Class</th>
+        <th>Pending</th>
+    `
+    tbody.innerHTML=``;
+    tbody.appendChild(thead);
+    for(let key in dict) {
+        console.log(key + " : " + dict[key]);
+        let row = document.createElement('tr');
+        row.innerHTML=
+        `
+            <td>Class ${key}</td>
+            <td>${dict[key]}</td>
+            
+        `
+        tbody.appendChild(row);
+        total += dict[key]
+     }
+    document.getElementById('count').innerText='Pending Results :'
+    document.getElementById('total').innerText=total
+    document.getElementById('loader').style.display='none'
+    
 }
 function isDateInRange(dateString, startDate, endDate) {
     const dateParts = dateString.split('-');

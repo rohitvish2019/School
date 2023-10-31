@@ -121,8 +121,11 @@ module.exports.getActiveStudents = async function(req, res){
 }
 
 module.exports.getStudent = async function(req, res){
+    console.log(req.params);
+    console.log(req.query);
     try{
         let student = await Student.findOne({AdmissionNo:req.params.adm_no, Class:req.query.Class});
+        
         if(req.query.action === 'fee'){
             if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
                 let feesList = await Fee.find({AdmissionNo:req.params.adm_no});
@@ -140,9 +143,12 @@ module.exports.getStudent = async function(req, res){
                 }
             }
         }else if(req.query.action ==='result'){
-            logger.info('Get student request received from Result module')
+            logger.info('Get student request received from Result module');
+            
             if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
+                
                 let result = await Result.find({AdmissionNo:req.params.adm_no, Class:req.query.Class});
+                console.log(result);
                 return res.render('resultDetails',{role:req.user.role, result, student, quarterlyTotalMarks:properties.get(req.user.SchoolCode+'_quarterly-total'), halfYearlyTotalMarks:properties.get(req.user.SchoolCode+'_half-yearly-total'), finalTotalMarks:properties.get(req.user.SchoolCode+'_final-total')});
             }
             else if(req.user.role === 'Student'){
@@ -215,6 +221,33 @@ module.exports.getProfile = async function(req, res){
         return res.redirect('back')
     }
     
+}
+
+
+module.exports.getProfileBySamagra = async function(req, res){
+    console.log("Outer connection");
+    console.log(req.query);
+    try{
+        let student = await Student.findOne({SSSM:req.query.SSSM});
+        console.log(student);
+        if(student){
+            res.header('Access-Control-Allow-Origin', '*');
+            res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+            return res.status(200).json({
+                student,
+                message:'Success'
+            })
+        }else{
+            return res.status(401).json({
+                message:'No data found'
+            })
+        }
+        
+    }catch(err){
+        return res.status(500).json({
+            message:'Internal server error'
+        })
+    }
 }
     
 module.exports.getMe = async function(req, res){
@@ -621,7 +654,7 @@ module.exports.getMarksheetUI = async function(req, res){
         for(let i=0;i<terms.length;i++){
             marks[terms[i]] = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class,Term:terms[i]},subjects.replaceAll(',',' ')+' Term')
         }
-        return res.render('getMarksheet',{student, marks, sub_list, terms, total_marks})
+        return res.render('getMarksheet',{student, marks, sub_list, terms, total_marks,SchoolCode:req.user.SchoolCode})
     }catch(err){
         logger.error(err)
         return res.redirect('back')
@@ -661,8 +694,12 @@ module.exports.dischargeStudent = async function(req, res){
 module.exports.updateProfile = async function(req, res){
     try{
         let student = await Student.findById(req.body.id);
+        let AdmissionDate = student.AdmissionDate;
         await student.deleteOne();
         let newStudent = await Student.create(req.body);
+        if(req.body.AdmissionDate == '' || req.body.AdmissionDate == null){
+            await newStudent.updateOne({AdmissionDate:AdmissionDate});
+        }
         await newStudent.updateOne({SchoolCode:req.user.SchoolCode});
     }catch(err){
         console.log(err)

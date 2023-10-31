@@ -26,15 +26,20 @@
                 <select name="purpose" id="purpose">
                     <option value="feesReport">Fees Report</option>
                     <option value="admittedStudents">Admitted Students</option>
-                    <option value="usersCollection" disabled>Collection report by users</option>
+                    <option value="usersCollection">Collection report by users</option>
                     <option value="currentActiveStudents" >Active Students report</option>
+                    <option value="feesDuesClass" >Fees Dues(By Class)</option>
+                    <option value="feesDuesTotal" >Fees Dues(Total)</option>
+                    <option value="incompleteResult" >Incomplete Result</option>
+                    
+
                 </select>
                 <label for="email" id="email-label">User</label>
                 <input type="text" name="email" id="email">
-                <label for="start-date">Start Date</label>
+                <label id="start-date-label">Start Date</label>
                 <input type="text" value="20-09-2023" id="start-date" name="start-date" pattern="\d{2}-\d{2}-\d{4}" placeholder="DD-MM-YYYY" required>
 
-                <label for="end-date">End Date</label>
+                <label id="end-date-label">End Date</label>
                 <input type="text" value="26-09-2023" id="end-date" name="end-date" pattern="\d{2}-\d{2}-\d{4}" placeholder="DD-MM-YYYY" required>
                 <button class="action-button" onclick="filterTransactions()">Filter</button>
                 
@@ -58,7 +63,7 @@
         </div>
     </div>
     <div class="footer-container">
-        <b><label for="">Total Fees received : <span id="total"></span></label></b>
+        <b><label for="" id="count">Total Fees received : </label><span id="total"></span></b>
         
     </div>
 </body>

@@ -10,6 +10,7 @@ const RegisteredStudents = new mongoose.Schema({
     },
     OldFee:Number,
     Session:Number,
+    SiblingsCount:String,
     FirstName:String,
     LastName: String,
     FathersName:String,

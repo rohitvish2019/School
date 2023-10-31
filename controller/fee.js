@@ -93,17 +93,23 @@ module.exports.feeSubmission =async function(req, res){
             if(remainingFee == null){
                 remainingFee = 0
             }
+            if(remainingFee < req.body.Amount){
+                return res.status(400).json({
+                    message:'Amount limit exceeding'
+                })
+            }
             await fee.updateOne({Paid:fee.Paid + +req.body.Amount, Remaining: fee.Remaining - +req.body.Amount });
             let lastFeeReceiptNumber = await admissionNoSchema.findOne({SchoolCode:req.user.SchoolCode});
             await lastFeeReceiptNumber.updateOne({LastFeeReceiptNo:lastFeeReceiptNumber.LastFeeReceiptNo+1});
             lastFeeReceiptNumber.save();
             console.log(lastFeeReceiptNumber);
+            let today = new Date().getDate() +'-'+ (new Date().getMonth() + 1)+ '-'+new Date().getFullYear();
             await FeeHistory.create({
                 AdmissionNo:fee.AdmissionNo,
                 Class: fee.Class,
                 SchoolCode:req.user.SchoolCode,
                 Amount: req.body.Amount,
-                Payment_Date: new Date().toISOString(),
+                Payment_Date: today,
                 Comment: req.body.Comment,
                 type:'Fees',
                 Receipt_No:lastFeeReceiptNumber.LastFeeReceiptNo,
@@ -205,13 +211,20 @@ module.exports.addConsession = async function(req, res){
                 console.log("Entered in method");
                 let cnc = fee.Concession;
                 console.log(cnc);
+                if(fee.Remaining < req.body.Amount){
+                    return res.status(400).json({
+                        message:'Amount limit exceeding'
+                    })
+                }
                 await fee.updateOne({Concession: fee.Concession + +req.body.Amount, Remaining: fee.Remaining - req.body.Amount});
                 fee.save();
+                let today = new Date().getDate() +'-'+ (new Date().getMonth() + 1)+ '-'+new Date().getFullYear();
+                
                 await FeeHistory.create({
                     AdmissionNo:fee.AdmissionNo,
                     Class: fee.Class,
                     Amount: req.body.Amount,
-                    Payment_Date: new Date().toISOString(),
+                    Payment_Date: today,
                     Comment: req.body.Comment,
                     type:'Concession',
                     SchoolCode:req.user.SchoolCode,
@@ -296,7 +309,7 @@ module.exports.getFeeReceipt = async function(req, res){
         let feeReport = await FeeHistory.findById(req.params.id);
         let student = await Student.findOne({AdmissionNo:feeReport.AdmissionNo, Class:feeReport.Class, SchoolCode:req.user.SchoolCode})
         console.log(feeReport);
-        return res.render('fee_receipt',{feeReport, student, role:req.user.role});
+        return res.render('fee_receipt',{feeReport, student, role:req.user.role,SchoolCode:req.user.SchoolCode});
     }catch(err){
         logger.error(err.toString())
         return res.redirect('back')

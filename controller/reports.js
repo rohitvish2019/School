@@ -1,7 +1,10 @@
 const Student = require('../modals/admissionSchema');
 const FeesHistory = require('../modals/feeHistory');
+const Fee = require('../modals/FeeSchema');
 const moment = require('moment');
 const fs = require('fs');
+const propertiesReader = require('properties-reader');
+let properties = propertiesReader('../School/config/School.properties');
 var json2xls = require('json2xls');
 const winston = require("winston");
 const dateToday = new Date().getDate().toString()+'-'+ new Date().getMonth().toString() + '-'+ new Date().getFullYear().toString();
@@ -55,8 +58,8 @@ module.exports.getClassList = async function(req, res){
 }
 
 module.exports.getReports = async function(req, res){
+    classList = null;
     try{
-        
         if(req.query.purpose === 'feesReport'){
             response = await getFeesReport(req.query.start_date, req.query.end_date, req.user)
         }else if(req.query.purpose === 'admittedStudents'){
@@ -65,6 +68,13 @@ module.exports.getReports = async function(req, res){
             response = await getFeesReportByUser(req.query.start_date, req.query.end_date, req.user, req.query.email)
         }else if(req.query.purpose === 'currentActiveStudents'){
             response = await getCurrentActiveStudentsList(req.query.start_date, req.query.end_date, req.user)
+        }else if(req.query.purpose === 'feesDuesTotal'){
+            response = await getFeesDuesTotal(req.user)
+        }else if(req.query.purpose === 'feesDuesClass'){
+            response = await getFeesDuesByClass(req.user,req.query.Class);
+        }else if( req.query.purpose === 'incompleteResult'){
+            classList = properties.get(req.user.SchoolCode+'.CLASSES_LIST').split(',');;
+            response = await getIncompleteResultsByClass(req.user);
         }
         if(response == 500){
             return res.status(500).json({
@@ -72,6 +82,7 @@ module.exports.getReports = async function(req, res){
             })
         }else{
             return res.status(200).json({
+                classList,
                 response,
                 purpose:req.query.purpose
             })
@@ -86,9 +97,10 @@ module.exports.getReports = async function(req, res){
 
 async function getAdmittedStudentsReport(start_date, end_date, activeUser){
     try{
+
         let startDate = new Date(Date.parse(start_date)).toISOString();
         let endDate = new Date(moment(end_date).add(1,'days')).toISOString();
-        
+        console.log("Start date is : "+startDate);
         let studentsList = await Student.find({SchoolCode:activeUser.SchoolCode,AdmissionDate:{$gte:startDate,$lte:endDate}}).lean();
         return studentsList
     }catch(err){
@@ -112,9 +124,30 @@ async function getFeesReport(start_date, end_date, activeUser){
     }catch(err){
         console.log(err);
         return 500
-        
     }
 }
+
+
+async function getCurrentActiveStudentsList(start_date, end_date, activeUser){
+    try{
+        let students = await Student.find({SchoolCode:activeUser.SchoolCode,isThisCurrentRecord:true}).lean();
+        return students
+    }catch(err){
+        return 500
+    }
+    
+}
+async function getFeesDuesTotal(user){
+    try{
+        let records = await Fee.find({SchoolCode:user.SchoolCode,Remaining:{$gt:0}});
+        return records
+    }catch(err){
+        logger.error(err.toString());
+        return null
+    }
+}
+
+//Functions not live yet
 
 async function getFeesReportByUser(start_date, end_date, activeUser, userToSearch){
     try{
@@ -128,14 +161,25 @@ async function getFeesReportByUser(start_date, end_date, activeUser, userToSearc
     }
 }
 
-async function getCurrentActiveStudentsList(start_date, end_date, activeUser){
+
+async function getFeesDuesByClass(user, Class){
     try{
-        let students = await Student.find({SchoolCode:activeUser.SchoolCode,isThisCurrentRecord:true}).lean();
-        return students
+        let records = await Fee.find({Class:Class,SchoolCode:user.SchoolCode,Remaining:{$gt:0}});
+        return records
     }catch(err){
-        return 500
+        logger.error(err.toString());
+        return null
     }
-    
+}
+
+async function getIncompleteResultsByClass(user){
+    try{
+        let records = await Student.find({TotalGrade:null, SchoolCode:user.SchoolCode},'Class');
+        return records
+    }catch(err){
+        logger.error(err.toString());
+        return null
+    }
 }
 
 
@@ -150,6 +194,13 @@ module.exports.getCSV = async function(req, res){
             response = await getFeesReportByUser(req.query.start_date, req.query.end_date, req.user, req.query.email)
         }else if(req.query.purpose === 'currentActiveStudents'){
             response = await getCurrentActiveStudentsList(req.query.start_date, req.query.end_date, req.user)
+        }else if(req.query.purpose === 'feesDuesTotal'){
+            response = await getFeesDuesTotal(req.user)
+        }else if(req.query.purpose === 'feesDuesClass'){
+            response = await getFeesDuesByClass(req.user,req.query.Class);
+        }else if( req.query.purpose === 'incompleteResult'){
+            classList = properties.get(req.user.SchoolCode+'.CLASSES_LIST').split(',');;
+            response = await getIncompleteResultsByClass(req.user);
         }
         let filename = saveCSV(response,req.query.start_date+"to"+req.query.end_date+'_'+req.query.purpose);
         if(filename == 500){
@@ -188,4 +239,6 @@ module.exports.bulkReportsHome = function(req, res){
         return res.redirect('back')
     }
 }
+
+
 

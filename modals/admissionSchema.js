@@ -11,6 +11,7 @@ const Students = new mongoose.Schema({
         default: new Date().toISOString()
     },
     Session:Number,
+    SiblingsCount:String,
     FirstName:String,
     LastName: String,
     FathersName:String,

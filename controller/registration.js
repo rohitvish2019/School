@@ -133,11 +133,16 @@ module.exports.admit = async function(req, res){
         let student,fee, studentData,result_q,result_h,result_f, fee_record;
         console.log(req.params);
         try{
+            
             student = await RegisteredStudent.findOne({RegistrationNo:req.params.id, SchoolCode:req.user.SchoolCode});
             studentData = JSON.parse(JSON.stringify(student));
             delete studentData._id;
-            //await RegisterdStudent.updateOne({student}, {$unset : {_id:1}});
-            //student.delete('_id');
+            fee = await FeeStructure.findOne({Class:studentData.Class,SchoolCode:req.user.SchoolCode});
+            if(!fee){
+                return res.status(503).json({
+                    message:'No annual fee found'
+                })
+            }
             let findExistingRecord = await Student.findOne({AdmissionNo:studentData.AdmissionNo});
             if(findExistingRecord){
                 return res.status(400).json({
@@ -157,7 +162,7 @@ module.exports.admit = async function(req, res){
                 adm.save();
             }
             
-            fee = await FeeStructure.findOne({Class:studentData.Class,SchoolCode:req.user.SchoolCode});
+            //fee = await FeeStructure.findOne({Class:studentData.Class,SchoolCode:req.user.SchoolCode});
             fee_record = await FeeSchema.create({
                 AdmissionNo:definedAdmissionNo,
                 Class:studentData.Class,

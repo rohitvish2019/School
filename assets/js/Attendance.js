@@ -168,6 +168,8 @@ function updateAttendance(){
             year
         },
         success:function(data){
+            let container = document.getElementById('students-list');
+            container.innerHTML=``;
             new Noty({
                 theme: 'relax',
                 text: "Updated records successfully",

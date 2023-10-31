@@ -39,8 +39,8 @@ function showFees(data){
         <td>${data[i].Paid}</td>
         <td>${data[i].Remaining}</td>
         <td>
-            <div class="dropdown" style='font-size:0.7rem'>
-                <a style='font-size:0.6rem;padding:0' class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="dropdown">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                     Actions
                 </a>
                 <ul style='font-size:0.7rem' class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -280,7 +280,7 @@ function showFeesHistory(data){
             <td>${data[i].Comment}</td>
             <td>
                 <div class="dropdown" style='font-size:0.7rem;'>
-                    <a style='font-size:0.6rem;padding:0' class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                         Actions
                     </a>
                     <ul style='font-size:0.7rem' class="dropdown-menu" aria-labelledby="dropdownMenuLink">

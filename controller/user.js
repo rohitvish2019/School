@@ -37,7 +37,7 @@ module.exports.signUp = function(req, res){
 module.exports.home = async function(req, res){
     try{
         let messages = await Messages.find({SchoolCode:req.user.SchoolCode, Category:'School'})
-        const pathToDirectory = '../School/assets/carousel-photos';
+        const pathToDirectory = '../School/assets/schools/'+req.user.SchoolCode+'/carousel-photos';
         let mono = properties.get(req.user.SchoolCode+'_MONO');
         let imgdir = properties.get(req.user.SchoolCode+'_IMAGES')
         console.log(mono);

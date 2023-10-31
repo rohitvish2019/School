@@ -139,7 +139,7 @@ async function getCurrentActiveStudentsList(start_date, end_date, activeUser){
 }
 async function getFeesDuesTotal(user){
     try{
-        let records = await Fee.find({SchoolCode:user.SchoolCode,Remaining:{$gt:0}});
+        let records = await Fee.find({SchoolCode:user.SchoolCode,Remaining:{$gt:0}}).lean();
         return records
     }catch(err){
         logger.error(err.toString());
@@ -164,7 +164,7 @@ async function getFeesReportByUser(start_date, end_date, activeUser, userToSearc
 
 async function getFeesDuesByClass(user, Class){
     try{
-        let records = await Fee.find({Class:Class,SchoolCode:user.SchoolCode,Remaining:{$gt:0}});
+        let records = await Fee.find({Class:Class,SchoolCode:user.SchoolCode,Remaining:{$gt:0}}).lean();
         return records
     }catch(err){
         logger.error(err.toString());
@@ -174,7 +174,7 @@ async function getFeesDuesByClass(user, Class){
 
 async function getIncompleteResultsByClass(user){
     try{
-        let records = await Student.find({TotalGrade:null, SchoolCode:user.SchoolCode},'Class');
+        let records = await Student.find({TotalGrade:null, SchoolCode:user.SchoolCode},'Class').lean();
         return records
     }catch(err){
         logger.error(err.toString());

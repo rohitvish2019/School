@@ -64,6 +64,8 @@ module.exports.register = async function(req, res){
         RN = lastRegistrationNumber.LastRegistration;
         await student.updateOne({RegistrationNo:RN+1,SchoolCode:req.user.SchoolCode,RegisteredBy:req.user.email});
         await lastRegistrationNumber.updateOne({LastRegistration:+RN+1});
+        await lastRegistrationNumber.save();
+        console.log(lastRegistrationNumber.LastRegistration);
     }catch(err){
         if(student){
             RegisteredStudent.deleteOne(student)

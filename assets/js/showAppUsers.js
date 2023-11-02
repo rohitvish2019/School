@@ -17,6 +17,7 @@ function showUsers(data){
         <th>Username</th>
         <th>Role</th>
         <th>Address</th>
+        <th>Actions</th>
     </tr>
     `
     
@@ -28,8 +29,31 @@ function showUsers(data){
             <td>${data[i].email}</td>
             <td>${data[i].role}</td>
             <td>${data[i].address}</td>
+            <td>
+                <button onclick=deleteUser('${data[i]._id}') class = 'btn btn-danger'>Delete</button>
+            </td>
         `
+        item.id=data[i]._id
         container.appendChild(item);
     }
 }
 getAllUsers();
+
+function deleteUser(user_id){
+    $.ajax({
+        url:'/user/delete/'+user_id,
+        type:'Delete',
+        success:function(data){
+            document.getElementById(user_id).remove();
+        },
+        error:function(err){
+            new Noty({
+                theme: 'relax',
+                text: err.responseText,
+                type: 'error',
+                layout: 'topRight',
+                timeout: 1000
+            }).show();
+        }
+    })
+}

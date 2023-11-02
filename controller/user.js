@@ -6,6 +6,7 @@ const Messages = require('../modals/messages');
 const Students = require('../modals/admissionSchema')
 
 const winston = require("winston");
+const User = require('../modals/userSchema');
 const dateToday = new Date().getDate().toString()+'-'+ new Date().getMonth().toString() + '-'+ new Date().getFullYear().toString();
 const logger = winston.createLogger({
   level: "info",
@@ -235,6 +236,20 @@ module.exports.getClassList = function(req, res){
         logger.error(err)
         return res.status(500).json({
             message:'Unable to fetch class list'
+        })
+    }
+}
+
+
+module.exports.deleteUser = async function(req, res){
+    try{
+        await User.findByIdAndDelete(req.params.user_id);
+        return res.status(200).json({
+            message:'User deleted'
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:'Error deleting user'
         })
     }
 }

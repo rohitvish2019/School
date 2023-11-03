@@ -372,8 +372,9 @@ module.exports.getStudentsList = async function(req, res){
 
 module.exports.upgradeClassPage = function(req, res){
     try{
+        let classList = properties.get(req.user.SchoolCode+'.CLASSES_LIST').split(',')
         if(req.user.role === 'Admin'){
-            return res.render('upgradeClass', {admin:req.user.isAdmin,role:req.user.role});
+            return res.render('upgradeClass', {admin:req.user.isAdmin,role:req.user.role,classList});
         }else{
             return res.render('Error_403')
         }

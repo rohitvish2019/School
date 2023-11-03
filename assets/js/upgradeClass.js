@@ -5,7 +5,8 @@ function getClassList(){
         data:{
             Class: ClassForSearch.value
         },
-        success: function(data){showStudentsList(data.data.studentList)},
+        success: function(data){console.log(data.data.studentList) 
+            showStudentsList(data.data.studentList)},
         error: function(err){showNoRecord(err)}
     })
 }
@@ -109,12 +110,12 @@ function showStudentsList(data){
     `
     <a class="btn student-list">
     <tr>
-        <th>Select</th>
-        <th>Student ID</th>
+        
+        <th class='big-screen'>Student ID</th>
         <th>Name</th>
         <th>Class</th>
         <th>Father's Name</th>
-        <th>Mother's Name</th>
+        <th class='big-screen'>Mother's Name</th>
         <th>Last Result</th>
         <th>Actions</th>
     </tr>
@@ -125,14 +126,13 @@ function showStudentsList(data){
         let item = document.createElement('tr');
         item.innerHTML = 
         `
-            <th><input type=checkbox id=${student.AdmissionNo}_checkbox onchange='toggleCheck(${student.AdmissionNo})'></th>
-            <th>${student.AdmissionNo}</th>
-            <th>${student.FirstName} ${student.LastName}</th>
-            <th>${student.Class}</th>
-            <th>${student.FathersName}</th>
-            <th>${student.MothersName}</th>
-            <th>${student.LastClassGrade}</th>
-            <th><button onclick='upgradeStudent(${student.AdmissionNo},${student.Class})' href='upgrade/${student.AdmissionNo}?Class=${student.Class}' class='btn btn-success'>Upgrade</button></th>   
+            <td class='big-screen'>${student.AdmissionNo}</td>
+            <td>${student.FirstName} ${student.LastName}</td>
+            <td>${student.Class}</td>
+            <td>${student.FathersName}</td>
+            <td class='big-screen'>${student.MothersName}</td>
+            <td>${student.LastClassGrade}</td>
+            <td><button onclick='upgradeStudent(${student.AdmissionNo},${student.Class})' href='upgrade/${student.AdmissionNo}?Class=${student.Class}' class='btn btn-success'>Upgrade</button></td>   
         `
         
         //item.classList.add('btn');
@@ -159,5 +159,5 @@ function showNoRecord(err){
     }).show();
     console.log(err);
 }
-document.getElementById('selectClass').addEventListener('change', getClassList);
+document.getElementById('ClassForSearch').addEventListener('change', getClassList);
 //document.getElementById('upgradeClassList').addEventListener();

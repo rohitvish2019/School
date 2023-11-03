@@ -23,7 +23,7 @@
     
             <!-- Filter form -->
             <div class="filter-container">
-                <select name="purpose" id="purpose">
+                <select name="purpose" id="purpose" class="filter-input">
                     <option value="feesReport">Fees Report</option>
                     <option value="admittedStudents">Admitted Students</option>
                     <option value="usersCollection">Collection report by users</option>
@@ -31,19 +31,28 @@
                     <option value="feesDuesClass" >Fees Dues(By Class)</option>
                     <option value="feesDuesTotal" >Fees Dues(Total)</option>
                     <option value="incompleteResult" >Incomplete Result</option>
-                    
-
                 </select>
-                <label for="email" id="email-label">User</label>
-                <input type="text" name="email" id="email">
-                <label id="start-date-label">Start Date</label>
-                <input type="text" value="20-09-2023" id="start-date" name="start-date" pattern="\d{2}-\d{2}-\d{4}" placeholder="DD-MM-YYYY" required>
-
-                <label id="end-date-label">End Date</label>
-                <input type="text" value="26-09-2023" id="end-date" name="end-date" pattern="\d{2}-\d{2}-\d{4}" placeholder="DD-MM-YYYY" required>
-                <button class="action-button" onclick="filterTransactions()">Filter</button>
+                <div class="filter-input">
+                    <label for="email" id="email-label">User</label>
+                    <input type="text" name="email" id="email">
+                </div>
+                <div class="filter-input">
+                    <div style="display: inline;">
+                        <label id="start-date-label" style="display:inline;">Start Date</label>
+                        <input type="text" value="20-09-2023" id="start-date" name="start-date" pattern="\d{2}-\d{2}-\d{4}" placeholder="DD-MM-YYYY" required>
+                    </div>
+                    
+                    <div style="display:inline;">
+                        <label id="end-date-label" style="display:inline;">End Date</label>
+                        <input type="text" value="03-11-2023" id="end-date" name="end-date" pattern="\d{2}-\d{2}-\d{4}" placeholder="DD-MM-YYYY" required>
+                    </div>
+                </div>
                 
-                <input class="action-button" id="getExcel" type="button" value="Get in excel">
+                <div class="filter-input mob-button">
+                    <button style="margin-right: 5%;" class="action-button" onclick="filterTransactions()">Filter</button>
+                    <input class="action-button" id="getExcel" type="button" value="Get in excel">
+                </div>
+                
             </div>
             <div class="table-container">
                 <table id="table-body">

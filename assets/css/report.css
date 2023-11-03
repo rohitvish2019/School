@@ -114,3 +114,32 @@ figure {
     height: 80%;
     overflow: scroll;
   }
+
+  .filter-input{
+    display: inline;
+  }
+
+  @media screen and  (max-width: 560px){
+    .filter-input{
+      display: block;
+      width: 100% !important;
+      margin-top: 2%;
+    }
+
+    
+    #start-date-label, #end-date-label{
+      font-size: .7rem;
+      width: 50%;
+      display: inline !important;
+    }
+    #end-date, #start-date{
+      width: 30%;
+    }
+    td,th{
+      font-size: 0.7rem;
+    }
+    .mob-button{
+      display: flex;
+      justify-content: flex-start;
+    }
+  }

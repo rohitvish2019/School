@@ -447,6 +447,7 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
         LastPassingClass:last_class_details.Class,
         LastClassPassingYear:last_class_details.Session,
         LastClassGrade:last_class_details.TotalGrade,
+        isThisCurrentRecord:true,
         LastSchoolName:properties.get(SchoolCode+'.NAME')
     });
     await upgradedStudent.save();

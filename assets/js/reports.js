@@ -151,7 +151,7 @@ function showFessTransactions(data, purpose){
             <td>${data[i].AdmissionNo}</td>
             <td>Class ${data[i].Class}</td>
             <td>₹${data[i].Amount}</td>
-            <td>${data[i].Payment_Date}</td>
+            <td>${data[i].Payment_Date.slice(0,10)}</td>
             <td>${data[i].PaidTo}</td>
         `
         tbody.appendChild(row);

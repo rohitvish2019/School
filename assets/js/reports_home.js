@@ -21,10 +21,8 @@ function showNoRecord(){
     header.innerHTML=
     `
     <div class="list-header">
-        <h6>Admission No</h6> 
         <h6>Student Name</h6>
         <h6>Father's Name</h6>
-        <h6>Mother's Name</h6>
         <h6>Aadhar</h6>
         <h6 style="width: 9.8%;">Actions</h6>
     </div>
@@ -46,10 +44,8 @@ function showClassList(data){
     header.innerHTML=
     `
     <div class="list-header">
-        <h6>Admission No</h6> 
         <h6>Student Name</h6>
         <h6>Father's Name</h6>
-        <h6>Mother's Name</h6>
         <h6>Aadhar</h6>
         <h6 style="width: 9.8%;">Actions</h6>
     </div>
@@ -59,11 +55,9 @@ function showClassList(data){
         let record = document.createElement('div');
         record.innerHTML=
         `
-        <label class='record-item'>${data[i].AdmissionNo}</label>
         <label class='record-item'>${data[i].FirstName} ${data[i].LastName}</label>
-        <label class='record-item'>${data[i].Fathersname}</label>
-        <label class='record-item'>${data[i].MothersName}</label>
-        <label class='record-item'>${data[i].Aadhar}</label>
+        <label class='record-item'>${data[i].FathersName}</label>
+        <label class='record-item'>${data[i].AadharNumber}</label>
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Actions

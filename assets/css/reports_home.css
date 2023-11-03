@@ -54,3 +54,19 @@ body{
     height: 15%;
 }
 
+@media screen and  (max-width: 560px){
+    .list-header h6{
+        font-size: 0.7rem;
+    }
+    .list-container h6, label{
+        display: inline-block;
+        width: 25%;
+        margin-top: 1%;
+    }
+    .list-container button{
+        font-size: 0.6rem;
+    }
+    .record-item{
+        font-size: 0.7rem;
+    }
+}

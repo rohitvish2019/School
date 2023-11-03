@@ -384,52 +384,31 @@ module.exports.upgradeClassPage = function(req, res){
     }
 }
 
-/*
-function validateResultStatus(resultData, SchoolCode){
-    let student_Class = resultData[0].Class;
-    if(student_Class == '6' || student_Class=='7' || student_Class=='8'){
-        subjects=['Hindi', 'English','Math', 'Science', 'Social_Science', 'Sanskrit']
-    }
-    else{
-        subjects=['Hindi', 'English','Math', 'Moral', 'Computer', 'Enviornment']
-    }
 
-    
-    let maxMarks=0;
-    for(let i=0;i<resultData.length;i++){
-        if(i==0){
-            maxMarks = properties.get(SchoolCode+'_quarterly-total')
-        }else if(i==1){
-            maxMarks = properties.get(SchoolCode+'_half-yearly-total')
-        }else if(i==2){
-            maxMarks = properties.get(SchoolCode+'_final-total')
-        }else{
-            maxMarks=100
-        }
-        for(let j=0;j<subjects.length;j++){
-            if(resultData[i][subjects[j]] == -1 || resultData[i][subjects[j]] > maxMarks){
-                return false;
-            }
-        }
-    }
-    console.log(subjects);
-    return true;
-}
-*/
 let AdmissionNumber = '';
 async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolCode){
-    console.log(SchoolCode);
-    let last_class_details, newRecord, newClass, feeAmounttForClass, result_q, result_h, result_f
+    let last_class_details, lastResultStatus,finalClass
     last_class_details = await Student.findOne({AdmissionNo:studentAdmissionNumber, Class:studentClass,SchoolCode:SchoolCode});
-    let lastResult = await Student.findOne({AdmissionNo:studentAdmissionNumber, Class:studentClass, SchoolCode:SchoolCode});
-    let lastResultStatus = lastResult.TotalGrade =='' ? false:true;
-    AdmissionNumber = lastResult.AdmissionNo;
-    console.log(lastResult.TotalGrade);
-    if(!lastResultStatus){
-       return 424;
+    
+    if(last_class_details.TotalGrade == '' || last_class_details.TotalGrade == null){
+        lastResultStatus = false
+    }else{
+        lastResultStatus = true
     }
-
-    if(last_class_details.Class=='8'){
+    AdmissionNumber = last_class_details.AdmissionNo;
+    if(!lastResultStatus){
+        return 424;
+    }
+    if(last_class_details.TotalGrade =='F' ){
+        return 414;
+    }
+    finalClass = properties.get(SchoolCode+'.CLASSES_LIST').split(',');
+    console.log();
+    
+    console.log("Last Class is for school is"+finalClass);
+    console.log("Student Class is "+last_class_details.Class);
+    if(last_class_details.Class == finalClass[finalClass.length-1]){
+        console.log("Condition is matching");
         return 400;
         /*res.status(400).json({
             message:'Class can not be upgraded from top class 8'
@@ -439,7 +418,10 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
     newClass='';
     if(last_class_details.Class=='kg-1'){
         newClass='kg-2'
-    }else if(last_class_details.Class=='kg-2'){
+    }else if(last_class_details.Class == 'lkg'){
+        newClass='ukg'
+    }
+    else if(last_class_details.Class=='kg-2' || last_class_details.Class == 'ukg'){
         newClass='1'
     }else{
         newClass=+last_class_details.Class + 1;
@@ -451,76 +433,49 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
             message:'This student is already upgraded to new class'
         })
         */
+        
     }
-    newRecord = await Student.create({
-        AdmissionNo:last_class_details.AdmissionNo,
-        FirstName:last_class_details.FirstName,
-        LastName: last_class_details.LastName,
-        FathersName:last_class_details.FathersName,
-        MothersName: last_class_details.MothersName,
-        Class:null,
-        AadharNumber:last_class_details.AadharNumber,
-        SSSM:last_class_details.SSSM,
-        Mob: last_class_details.Mob,
-        DOB:last_class_details.DOB,
-        Caste:last_class_details.Caste,
-        FullAddress:last_class_details.FullAddress,
-        BankName:last_class_details.BankName,
-        Branch:last_class_details.Branch,
-        AccountNo:last_class_details.AccountNo,
-        IFSC:last_class_details.IFSC,
-        Medium: last_class_details.Medium,
-        Category: last_class_details.Category,
-        Religion:last_class_details.Religion,
-        isHandicapped: last_class_details.isHandicapped,
-        Gender: last_class_details.Gender,
-        FathersEducation:last_class_details.FathersEducation,
-        MothersEducation:last_class_details.MothersEducation, 
-        FathersOccupation:last_class_details.FathersOccupation, 
-        MothersOccupation:last_class_details.MothersOccupation, 
-        FathersWorkPlace:last_class_details.FathersWorkPlace, 
-        MothersWorkPlace:last_class_details.MothersWorkPlace, 
-        FathersAnnualIncome:last_class_details.FathersAnnualIncome, 
-        MothersAnnualIncome:last_class_details.MothersAnnualIncome, 
-        LastSchoolName:last_class_details.LastSchoolName, 
-        LastPassingClass:last_class_details.LastPassingClass, 
-        LastClassPassingYear:last_class_details.LastClassPassingYear, 
-        LastClassGrade:last_class_details.LastClassGrade,
-        Session:+last_class_details.Session + 1,
-        SchoolCode:SchoolCode
-    })
+    feeAmounttForClass = await FeeStructure.findOne({Class:newClass,SchoolCode:SchoolCode});
+    if(!feeAmounttForClass){
+        return 404
+    }
 
-
-    await newRecord.updateOne({Class:newClass,LastClassPassingYear:+last_class_details.LastClassPassingYear + 1, LastClassGrade:'need to add', LastSchoolName:'this school', LastPassingClass:last_class_details.Class});
+    let upgradedStudent = await Student.create(last_class_details);
+    await upgradedStudent.updateOne({
+        Class:newClass, 
+        Session:+last_class_details.Session + 1, 
+        LastPassingClass:last_class_details.Class,
+        LastClassPassingYear:last_class_details.Session,
+        LastClassGrade:last_class_details.TotalGrade,
+        LastSchoolName:properties.get(SchoolCode+'.NAME')
+    });
+    await upgradedStudent.save();
     await last_class_details.updateOne({isThisCurrentRecord:false});
     await last_class_details.save();
-    await newRecord.save();
-    console.log(newClass);
-    feeAmounttForClass = await FeeStructure.findOne({Class:newClass,SchoolCode:SchoolCode});
-    console.log(feeAmounttForClass);
-    
+
     await Fee.create({
-        AdmissionNo: newRecord.AdmissionNo,
+        AdmissionNo: upgradedStudent.AdmissionNo,
         Class: newClass,
         Total: feeAmounttForClass.Fees,
         Remaining:feeAmounttForClass.Fees,
         SchoolCode:SchoolCode
     });
-
     let terms = properties.get(SchoolCode+'.EXAM_SESSIONS').split(',');
     for(let i=0;i<terms.length;i++){
         await Result.create({
             AdmissionNo: AdmissionNumber,
-            Class:studentData.Class,
+            Class:newClass,
             Term: terms[i],
-            SchoolCode:req.user.SchoolCode
+            SchoolCode:SchoolCode
         });
     }
+    
     return 200;
 
 }
 
 module.exports.upgradeOneStudent = async function(req, res){
+    console.log('Upgrading rtudent')
     try{
         if(req.user.role === 'Admin'){
             let status = await upgradeClassStudent(req.params.AdmissionNo, req.query.Class, req.user.SchoolCode);
@@ -531,14 +486,24 @@ module.exports.upgradeOneStudent = async function(req, res){
                 });
             }else if(status==400){
                 return res.status(400).json({
-                    message:'Student can not be upgraded from class 8th as per school policy'
+                    message:'Student can not be upgraded from final Class as per school policy'
                 });
             }else if(status==409){
                 return res.end('This student is already upgraded to next class');
             }
             else if(status == 424){
                 return res.status(424).json({
-                    message:"Result is not updated correctly, kindly updateOne and try again"
+                    message:"Result is not updated correctly, kindly update and try again"
+                })
+            }
+            else if(status == 404){
+                return res.status(424).json({
+                    message:"Annual fees not updated"
+                })
+            }
+            else if(status == 414){
+                return res.status(400).json({
+                    message:'Student final grade is F, Can not upgrade'
                 })
             }
             else{
@@ -550,6 +515,7 @@ module.exports.upgradeOneStudent = async function(req, res){
             })        
         }
     }catch(err){
+        console.log(err);
         return res.status(500).json({
             message:'Internal server error'
         })

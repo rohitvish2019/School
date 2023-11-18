@@ -5,11 +5,8 @@ const Result = require('../modals/Result');
 const Noty = require('noty');
 const path = require('path');
 const RegisteredStudent = require('../modals/RegistrationSchema');
-const PropertiesReader = require('properties-reader');
-const properties = PropertiesReader('../School/config/school.properties');
-const quarterlyTotalMarks = properties.get('quarterly-total');
-const halfYearlyTotalMarks = properties.get('half-yearly-total');
-const finalTotalMarks = properties.get('final-total');
+const propertiesReader = require('properties-reader');
+
 const TCRecords = require('../modals/TC_Records');
 const winston = require("winston");
 const dateToday = new Date().getDate().toString()+'-'+ new Date().getMonth().toString() + '-'+ new Date().getFullYear().toString();
@@ -121,8 +118,7 @@ module.exports.getActiveStudents = async function(req, res){
 }
 
 module.exports.getStudent = async function(req, res){
-    console.log(req.params);
-    console.log(req.query);
+    let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
     try{
         let student = await Student.findOne({AdmissionNo:req.params.adm_no, Class:req.query.Class});
         
@@ -371,6 +367,7 @@ module.exports.getStudentsList = async function(req, res){
 }
 
 module.exports.upgradeClassPage = function(req, res){
+    let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
     try{
         let classList = properties.get(req.user.SchoolCode+'.CLASSES_LIST').split(',')
         if(req.user.role === 'Admin'){
@@ -387,14 +384,16 @@ module.exports.upgradeClassPage = function(req, res){
 
 let AdmissionNumber = '';
 async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolCode){
+    let properties = propertiesReader('../School/config/properties/'+SchoolCode+'.properties');
     let last_class_details, lastResultStatus,finalClass
     last_class_details = await Student.findOne({AdmissionNo:studentAdmissionNumber, Class:studentClass,SchoolCode:SchoolCode});
-    
-    if(last_class_details.TotalGrade == '' || last_class_details.TotalGrade == null){
+    //console.log("Last Class result "+last_class_details.TotalGrade.toString())
+    if(last_class_details.TotalGrade == '' || last_class_details.TotalGrade == null || last_class_details.TotalGrade === 'NA'){
         lastResultStatus = false
     }else{
         lastResultStatus = true
     }
+    console
     AdmissionNumber = last_class_details.AdmissionNo;
     if(!lastResultStatus){
         return 424;
@@ -440,16 +439,53 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
         return 404
     }
 
-    let upgradedStudent = await Student.create(last_class_details);
-    await upgradedStudent.updateOne({
-        Class:newClass, 
-        Session:+last_class_details.Session + 1, 
-        LastPassingClass:last_class_details.Class,
-        LastClassPassingYear:last_class_details.Session,
+    let upgradedStudent = await Student.create({
+        RegistrationNo:last_class_details.RegistrationNo,
+        AdmissionNo:last_class_details.AdmissionNo,
+        AdmissionDate:last_class_details.AdmissionDate,
+        Session:+last_class_details.Session + 1,
+        SiblingsCount:last_class_details.SiblingsCount,
+        FirstName:last_class_details.FirstName,
+        LastName:last_class_details.LastName,
+        FathersName:last_class_details.FathersName,
+        MothersName:last_class_details.MothersName,
+        Class:newClass,
+        AadharNumber:last_class_details.AadharNumber,
+        SSSM:last_class_details.SSSM,
+        Mob:last_class_details.Mob,
+        DOB:last_class_details.DOB,
+        Caste:last_class_details.Caste,
+        FullAddress:last_class_details.FullAddress,
+        BankName:last_class_details.BankName,
+        Branch:last_class_details.Branch,
+        AccountNo:last_class_details.AccountNo,
+        IFSC:last_class_details.IFSC,
+        Medium:last_class_details.Medium,
+        Category:last_class_details.Category,
+        Religion:last_class_details.Religion,
+        isHandicapped:last_class_details.isHandicapped,
+        Gender:last_class_details.Gender,
+        FathersEducation:last_class_details.FathersEducation,
+        MothersEducation:last_class_details.MothersEducation, 
+        FathersOccupation:last_class_details.FathersOccupation, 
+        MothersOccupation:last_class_details.MothersOccupation, 
+        FathersWorkPlace:last_class_details.FathersWorkPlace, 
+        MothersWorkPlace:last_class_details.MothersWorkPlace, 
+        FathersAnnualIncome:last_class_details.FathersAnnualIncome, 
+        MothersAnnualIncome:last_class_details.MothersAnnualIncome, 
+        LastSchoolName:last_class_details.LastSchoolName, 
+        LastPassingClass:last_class_details.Session,
+        LastClassPassingYear:last_class_details.LastClassPassingYear, 
         LastClassGrade:last_class_details.TotalGrade,
+        quarterlyGrade:'NA',
+        halfYearlyGrade:'NA',
+        finalGrade:'NA',
+        TotalGrade:'NA',
+        loginEmail:last_class_details.loginEmail,
+        SchoolCode:last_class_details.SchoolCode,
         isThisCurrentRecord:true,
-        LastSchoolName:properties.get(SchoolCode+'.NAME')
     });
+    
     await upgradedStudent.save();
     await last_class_details.updateOne({isThisCurrentRecord:false});
     await last_class_details.save();
@@ -599,6 +635,7 @@ function getDate(){
 
 
 module.exports.getMarksheetUI = async function(req, res){
+    let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
     try{
         let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class})
         let classValue = req.query.Class;
@@ -622,6 +659,13 @@ module.exports.getMarksheetUI = async function(req, res){
         for(let i=0;i<terms.length;i++){
             marks[terms[i]] = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class,Term:terms[i]},subjects.replaceAll(',',' ')+' Term')
         }
+        console.log("Logger started")
+        console.log(student)
+        console.log(marks)
+        console.log(sub_list)
+        console.log(terms)
+        console.log(total_marks)
+        console.log('Logger ended')
         return res.render('getMarksheet',{student, marks, sub_list, terms, total_marks,SchoolCode:req.user.SchoolCode})
     }catch(err){
         logger.error(err)

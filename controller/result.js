@@ -1,7 +1,7 @@
 const Result = require('../modals/Result');
 const Student = require('../modals/admissionSchema')
 const propertiesReader = require('properties-reader');
-let properties = propertiesReader('../School/config/School.properties');
+
 
 const winston = require("winston");
 const dateToday = new Date().getDate().toString()+'-'+ new Date().getMonth().toString() + '-'+ new Date().getFullYear().toString();
@@ -71,6 +71,7 @@ module.exports.addUpdateResult = async function(req, res){
 
 
 async function updateFinalGrade(AdmissionNo, Class, Term, SchoolCode){
+    let properties = propertiesReader('../School/config/properties/'+SchoolCode+'.properties');
     try{
         let subjects = properties.get(SchoolCode+'.SUBJECTS_'+Class);
         let resultRecord = await Result.findOne({AdmissionNo:AdmissionNo,Class:Class,Term:Term, SchoolCode:SchoolCode}, subjects.toString().replaceAll(',',' '));
@@ -242,6 +243,7 @@ module.exports.updateAllResults = async function(req, res){
 
 
 module.exports.getSubjectsListWithMarks = async function(req, res){
+    let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
     try{
         let classValue = req.query.classValue;
         let updatedClassValue = classValue;
@@ -274,7 +276,8 @@ module.exports.getSubjectsListWithMarks = async function(req, res){
 
 
 module.exports.getTerms = function(req, res){
-    try{
+    let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
+    try{    
         let terms = properties.get(req.user.SchoolCode+'.EXAM_SESSIONS').split(',')
         return res.status(200).json({
             terms

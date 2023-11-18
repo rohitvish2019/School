@@ -63,7 +63,7 @@ function showClassList(data){
                 Actions
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/student/get/${data[i].AdmissionNo}?Class=${data[i].Class}&action=result">Marksheet</a></li>
+                <li><a class="dropdown-item" href="/student/getMarksheet/${data[i].AdmissionNo}?Class=${data[i].Class}">Marksheet</a></li>
                 <li><a class="dropdown-item" href="/student/get/${data[i].AdmissionNo}?Class=${data[i].Class}&action=tc">TC</a></li>
                 <li><a class="dropdown-item" href="/student/get/${data[i].AdmissionNo}?Class=${data[i].Class}&action=fee">Fees</a></li>
             </ul>

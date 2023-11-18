@@ -1,7 +1,7 @@
 const UserSchema = require('../modals/userSchema');
 const fs = require('fs')
-const PropertiesReader = require('properties-reader');
-const properties = PropertiesReader('../School/config/school.properties');
+const propertiesReader = require('properties-reader');
+
 const Messages = require('../modals/messages');
 const Students = require('../modals/admissionSchema')
 
@@ -36,6 +36,7 @@ module.exports.signUp = function(req, res){
 }
 
 module.exports.home = async function(req, res){
+    let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
     try{
         let messages = await Messages.find({SchoolCode:req.user.SchoolCode, Category:'School'})
         const pathToDirectory = '../School/assets/schools/'+req.user.SchoolCode+'/carousel-photos';
@@ -205,6 +206,7 @@ module.exports.getUsers = async function(req, res){
 
 
 module.exports.getSchoolProperties = function(req, res){
+    let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
     try{
         let schoolProperties = new Object()
         let code = req.user.SchoolCode;
@@ -227,6 +229,7 @@ module.exports.getSchoolProperties = function(req, res){
 
 
 module.exports.getClassList = function(req, res){
+    let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
     try{
         let classes = properties.get(req.user.SchoolCode+'.CLASSES_LIST').split(',');
         return res.status(200).json({

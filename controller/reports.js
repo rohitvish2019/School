@@ -4,7 +4,8 @@ const Fee = require('../modals/FeeSchema');
 const moment = require('moment');
 const fs = require('fs');
 const propertiesReader = require('properties-reader');
-let properties = propertiesReader('../School/config/School.properties');
+
+
 var json2xls = require('json2xls');
 const winston = require("winston");
 const dateToday = new Date().getDate().toString()+'-'+ new Date().getMonth().toString() + '-'+ new Date().getFullYear().toString();
@@ -60,6 +61,7 @@ module.exports.getClassList = async function(req, res){
 }
 
 module.exports.getReports = async function(req, res){
+    let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
     classList = null;
     try{
         if(req.query.purpose === 'feesReport'){

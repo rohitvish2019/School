@@ -1,23 +1,8 @@
-
-
 document.getElementById('noti-button').addEventListener('click', notyPanelToggller);
 document.getElementById('profile-toggle').addEventListener('click', profileToggeler);
 document.getElementById('change-password').addEventListener('click', openChangePasswordForm);
 document.getElementById('update-password-button').addEventListener('click', updatePassword)
 
-/*
-document.addEventListener('click', function(event){
-    let notyContainer = document.getElementById('notifications');
-    let profileContainer = document.getElementById('profile-details');
-    if(profileContainer.style.display = 'block'){
-        profileContainer.style.display='none';
-    }
-    if(notyContainer.style.display == 'block'){
-        notyContainer.style.display='none'
-    }
-    
-})
-*/
 
 function setLogo(){
     $.ajax({
@@ -92,6 +77,7 @@ function searchButton(){
 
 
 function profileToggeler(){
+    
     console.log('Caling...')
     document.getElementById('notifications').style.display='none'
     let element = document.getElementById('profile-details');
@@ -100,6 +86,7 @@ function profileToggeler(){
     }else{
         element.style.display='block'
     }
+    
 }
 
 
@@ -212,7 +199,7 @@ function showStudents(){
         `
         item.style.marginLeft='0'
         item.id=studentsList[i]._id
-        container.appendChild(item);
+        container.appendChild(item); 
     }
 }
 
@@ -220,5 +207,7 @@ function showStudents(){
 function closeSearchBox(){
     document.getElementById('studnets-list').style.display = 'none';
     document.getElementById('searchBox').value=''
+    document.getElementById('profile-details').style.display='none'
     document.removeEventListener('click', closeSearchBox);
+    
 }

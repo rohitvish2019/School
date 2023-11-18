@@ -131,7 +131,7 @@ function showStudentsList(data){
             <td>${student.Class}</td>
             <td>${student.FathersName}</td>
             <td class='big-screen'>${student.MothersName}</td>
-            <td>${student.LastClassGrade}</td>
+            <td>${student.TotalGrade}</td>
             <td><button onclick='upgradeStudent(${student.AdmissionNo},${student.Class})' href='upgrade/${student.AdmissionNo}?Class=${student.Class}' class='btn btn-success'>Upgrade</button></td>   
         `
         

@@ -35,7 +35,11 @@ body{
 }
 
 .center-body{
-    
+    margin-top: 5%;
     width: 70%;
     height: 100%;
+}
+
+label{
+    font-weight: bold;
 }

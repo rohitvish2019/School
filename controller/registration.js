@@ -6,7 +6,7 @@ const FeeSchema = require('../modals/FeeSchema');
 const Result = require('../modals/Result');
 const TCRecords = require('../modals/TC_Records');
 const propertiesReader = require('properties-reader');
-let Schoolproperties = propertiesReader('../School/config/School.properties');
+
 const winston = require("winston");
 const dateToday = new Date().getDate().toString()+'-'+ new Date().getMonth().toString() + '-'+ new Date().getFullYear().toString();
 const logger = winston.createLogger({
@@ -22,6 +22,7 @@ const logger = winston.createLogger({
 });
 
 module.exports.registrationUI = async function(req, res){
+    let Schoolproperties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
     try{
         let last = await AdmissionNo.findOne({SchoolCode:req.user.SchoolCode});
         let School_name = Schoolproperties.get(req.user.SchoolCode+'_name')
@@ -131,6 +132,7 @@ function getDate(){
 
 
 module.exports.admit = async function(req, res){
+    let Schoolproperties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
     if(req.user.role === 'Admin'){
         let student,fee, studentData,result_q,result_h,result_f, fee_record;
         console.log(req.params);

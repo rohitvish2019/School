@@ -1,4 +1,4 @@
 /node_modules
 /assets/reports
 /logs
-/config
+/config/properties

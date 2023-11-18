@@ -104,7 +104,14 @@ select{
     margin-bottom: 2%;
     margin-left: 2%;
 }
-
+.par-info select{
+    width: 40%;
+    min-width: 250px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: 2%;
+    display: block;
+}
 input, select{
     text-transform: capitalize;
     border: none;

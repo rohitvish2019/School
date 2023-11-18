@@ -76,15 +76,15 @@
                         
                         <div class="gen-info">
                             <label>Aadhar No</label>
-                            <input  name="AadharNumber" type="text" placeholder="none">
+                            <input  name="AadharNumber" type="text" placeholder="none" maxlength="12">
                         </div>
                         <div class="gen-info">
                             <label>Samagra ID</label>
-                            <input name="SSSM" type="text" placeholder="none">
+                            <input name="SSSM" type="text" placeholder="none" maxlength="9">
                         </div>
                         <div class="gen-info">
                             <label>Mob No<span class="mandate">*</span></label>
-                            <input required type="tel" placeholder="none" name="Mob" minlength="10">
+                            <input required type="tel" placeholder="none" name="Mob" maxlength="10">
                         </div>
                         <div class="gen-info" >
                             <label style="width: 30%;">Date of Birth<span class="mandate">*</span></label>
@@ -144,8 +144,9 @@
                         </div>
                         <div class="gen-info">
                             <label >Gender</label>
-                            <input type="radio" name="Gender" value="male"> Male
-                            <input type="radio" name="Gender" value="female"> Female
+                            <div><input type="radio" name="Gender" value="male"> Male</div>
+                            <div><input type="radio" name="Gender" value="female"> Female</div>
+                            
                         </div>
                     </div>
             
@@ -161,42 +162,45 @@
                             <label>Mother's Education</label>
                             <input type="text" name="MothersEducation">
                         </div>
-                        <div class="par-info">
-                            <label>Father's Occupation</label>
-                            <select required name="FathersOccupation">
-                                <option value="" selected disabled>--Select--</option>
-                                <option value="MPBSK">म.प्र.भवन एवं संनिर्माण कर्मकार</option>
-                                <option value="Farmer">किसान</option>
-                                <option value="MHT">मंडी हम्माल तुलावटी</option>
-                                <option value="Retired">मृत/ अपंग/ सेवानिवृत्त शासकीय कर्मचारी</option>
-                                <option value="GovtJob">सरकारी सेवा</option>
-                                <option value="PvtJob">निजी सेवा</option>
-                                <option value="Business">व्यापार</option>
-                                <option value="Labour">मजदूरी</option>
-                                <option value="Housewife">गृहणी</option>
-                                <option value="Unheiginic">अस्वच्छ धंधा</option>
-                                <option value="Other">अन्य</option>
-                            </select>
-                            
+                        <div>
+                            <div class="par-info">
+                                <label>Father's Occupation<span class="mandate">*</span></label>
+                                <select required name="FathersOccupation">
+                                    <option value="" selected disabled>--Select--</option>
+                                    <option value="MPBSK">म.प्र.भवन एवं संनिर्माण कर्मकार</option>
+                                    <option value="Farmer">किसान</option>
+                                    <option value="MHT">मंडी हम्माल तुलावटी</option>
+                                    <option value="Retired">मृत/ अपंग/ सेवानिवृत्त शासकीय कर्मचारी</option>
+                                    <option value="GovtJob">सरकारी सेवा</option>
+                                    <option value="PvtJob">निजी सेवा</option>
+                                    <option value="Business">व्यापार</option>
+                                    <option value="Labour">मजदूरी</option>
+                                    <option value="Housewife">गृहणी</option>
+                                    <option value="Unheiginic">अस्वच्छ धंधा</option>
+                                    <option value="Other">अन्य</option>
+                                </select>
+                                
+                            </div>
+                
+                            <div class="par-info">
+                                <label>Mother's Occupation<span class="mandate">*</span></label>
+                                <select required name="MothersOccupation">
+                                    <option value="" selected disabled>--Select--</option>
+                                    <option value="MPBSK">म.प्र.भवन एवं संनिर्माण कर्मकार</option>
+                                    <option value="Farmer">किसान</option>
+                                    <option value="MHT">मंडी हम्माल तुलावटी</option>
+                                    <option value="Retired">मृत/ अपंग/ सेवानिवृत्त शासकीय कर्मचारी</option>
+                                    <option value="GovtJob">सरकारी सेवा</option>
+                                    <option value="PvtJob">निजी सेवा</option>
+                                    <option value="Business">व्यापार</option>
+                                    <option value="Labour">मजदूरी</option>
+                                    <option value="Housewife">गृहणी</option>
+                                    <option value="Unheiginic">अस्वच्छ धंधा</option>
+                                    <option value="Other">अन्य</option>
+                                </select>
+                            </div>
                         </div>
-            
-                        <div class="par-info">
-                            <label class="par-info">Mother's Occupation</label>
-                            <select required name="MothersOccupation">
-                                <option value="" selected disabled>--Select--</option>
-                                <option value="MPBSK">म.प्र.भवन एवं संनिर्माण कर्मकार</option>
-                                <option value="Farmer">किसान</option>
-                                <option value="MHT">मंडी हम्माल तुलावटी</option>
-                                <option value="Retired">मृत/ अपंग/ सेवानिवृत्त शासकीय कर्मचारी</option>
-                                <option value="GovtJob">सरकारी सेवा</option>
-                                <option value="PvtJob">निजी सेवा</option>
-                                <option value="Business">व्यापार</option>
-                                <option value="Labour">मजदूरी</option>
-                                <option value="Housewife">गृहणी</option>
-                                <option value="Unheiginic">अस्वच्छ धंधा</option>
-                                <option value="Other">अन्य</option>
-                            </select>
-                        </div>
+                        
                         <div class="par-info"> 
                             <label>Father's Work place</label>
                             <input type="text" name="FathersWorkPlace">

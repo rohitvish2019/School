@@ -66,9 +66,13 @@ td textarea{
     flex-wrap: wrap;
 }
 
-.form-group,label{
-    width: 25%;
+.form-group label{
+    width: 20%;
     height: 5%;
+    margin: 1%;
+}
+
+.form-group input{
     margin: 1%;
 }
 

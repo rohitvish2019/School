@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="/css/login.css">
 </head>
 
-
 <body>
     <div class="body-container">
         <div class="left-side-panel"></div>
@@ -26,10 +25,20 @@
             <div class="login-form-elements">
                 <h2 style="color: azure;">Login to your orgnization</h2>
                 <form action="/user/authenticate" method="POST">
+                    <div class="form-element">
+                        <input type="text" name="email" id="" placeholder="Username" >
+                    </div>
                     
-                    <input type="text" name="email" id="" placeholder="Username" >
-                    <input type="password" name="password" id="" placeholder="Password" >
-                    <input type="Submit" value="Login" class="btn btn-warning" >
+                    <div class="form-element">
+                        <input type="password" name="password" id="password" placeholder="Password">
+                    </div>
+                    <div class="form-element" style="display: flex !important;justify-content:flex-start !important">
+                        <input onchange="showHidePassword()" style="width: 8%; height: 100%; margin-right: 0;" type="checkbox" name="" id="showHide" placeholder="" > <span style="color: white; font-size: 1rem;margin-left: 0%;">Show Password</span>
+                    </div>
+                    <div class="form-element">
+                        <input type="Submit" value="Login" class="btn btn-warning" >
+                    </div>
+                    
                 </form>
             </div>
             
@@ -41,6 +50,7 @@
     </div>
     
 </body>
+<script src="/js/login.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 

@@ -16,9 +16,15 @@ const logger = winston.createLogger({
 
 
 module.exports.home = function(req, res){
+  try{
     let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
     let imgdir = properties.get(req.user.SchoolCode+'_IMAGES')
     return res.render('ebooks',{imgdir,role:req.user.role, user:{SchoolCode:req.user.SchoolCode}});
+  }catch(err){
+    logger.error(err.toString())
+    return res.redirect('back')
+  }
+    
 }
 
 module.exports.getEbooks = async function(req, res){

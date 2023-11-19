@@ -38,8 +38,11 @@
             
                 <a class="btn btn-success" href="/registration/new">Registration</a>
                 <a class="btn btn-success" href="/student/showByClass/fee">Fees</a>
+                <%if(role === 'Admin'){%>
+                  <a class="btn btn-success" href="/reports/bulk/home">Reports</a>
+                <%}%>
                 <a class="btn btn-success" href="/student/showByClass/result">Result</a>
-                <a class="btn btn-success" href="/reports/bulk/home">Reports</a>
+                
                 <a class="btn btn-success" href="/ebooks/home">E-Books</a>
           </div>
 

@@ -22,16 +22,21 @@ const logger = winston.createLogger({
 });
 
 module.exports.home = function(req, res){
-    try{
-        return res.render('reports_home',{error:"", role:req.user.role});
-    }catch(err){
-        return res.redirect('back');
+    if(req.user.role == 'Admin'){
+        try{
+            return res.render('reports_home',{error:"", role:req.user.role});
+        }catch(err){
+            return res.redirect('back');
+        }
+    }else{
+        return res.render('Error_403')
     }
+    
 }
 
 
 module.exports.getClassList = async function(req, res){
-    console.log(req.query)
+    
     try{
         if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
             let studentsList = await Student.find({Class:req.query.Class, Session:req.query.Admission_year});
@@ -61,42 +66,47 @@ module.exports.getClassList = async function(req, res){
 }
 
 module.exports.getReports = async function(req, res){
-    let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
-    classList = null;
-    try{
-        if(req.query.purpose === 'feesReport'){
-            response = await getFeesReport(req.query.start_date, req.query.end_date, req.user)
-        }else if(req.query.purpose === 'admittedStudents'){
-            response = await getAdmittedStudentsReport(req.query.start_date, req.query.end_date, req.user)
-        }else if(req.query.purpose === 'usersCollection'){
-            response = await getFeesReportByUser(req.query.start_date, req.query.end_date, req.user, req.query.email)
-        }else if(req.query.purpose === 'currentActiveStudents'){
-            response = await getCurrentActiveStudentsList(req.query.start_date, req.query.end_date, req.user)
-        }else if(req.query.purpose === 'feesDuesTotal'){
-            response = await getFeesDuesTotal(req.user)
-        }else if(req.query.purpose === 'feesDuesClass'){
-            response = await getFeesDuesByClass(req.user,req.query.Class);
-        }else if( req.query.purpose === 'incompleteResult'){
-            classList = properties.get(req.user.SchoolCode+'.CLASSES_LIST').split(',');;
-            response = await getIncompleteResultsByClass(req.user);
-        }
-        if(response == 500){
+    if(req.user.role == 'Admin'){
+        let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
+        classList = null;
+        try{
+            if(req.query.purpose === 'feesReport'){
+                response = await getFeesReport(req.query.start_date, req.query.end_date, req.user)
+            }else if(req.query.purpose === 'admittedStudents'){
+                response = await getAdmittedStudentsReport(req.query.start_date, req.query.end_date, req.user)
+            }else if(req.query.purpose === 'usersCollection'){
+                response = await getFeesReportByUser(req.query.start_date, req.query.end_date, req.user, req.query.email)
+            }else if(req.query.purpose === 'currentActiveStudents'){
+                response = await getCurrentActiveStudentsList(req.query.start_date, req.query.end_date, req.user)
+            }else if(req.query.purpose === 'feesDuesTotal'){
+                response = await getFeesDuesTotal(req.user)
+            }else if(req.query.purpose === 'feesDuesClass'){
+                response = await getFeesDuesByClass(req.user,req.query.Class);
+            }else if( req.query.purpose === 'incompleteResult'){
+                classList = properties.get(req.user.SchoolCode+'.CLASSES_LIST').split(',');;
+                response = await getIncompleteResultsByClass(req.user);
+            }
+            if(response == 500){
+                return res.status(500).json({
+                    message:'Unable to fetch report'
+                })
+            }else{
+                return res.status(200).json({
+                    classList,
+                    response,
+                    purpose:req.query.purpose
+                })
+            }
+        }catch(err){
+            console.log(err)
             return res.status(500).json({
-                message:'Unable to fetch report'
-            })
-        }else{
-            return res.status(200).json({
-                classList,
-                response,
-                purpose:req.query.purpose
+                message:'Internal Server Error2'
             })
         }
-    }catch(err){
-        console.log(err)
-        return res.status(500).json({
-            message:'Internal Server Error2'
-        })
+    }else{
+        return res.render('Error_403')
     }
+    
 }
 
 async function getAdmittedStudentsReport(start_date, end_date, activeUser){
@@ -188,40 +198,45 @@ async function getIncompleteResultsByClass(user){
 
 
 module.exports.getCSV = async function(req, res){
-    try{
-        let response = [];
-        if(req.query.purpose === 'feesReport'){
-            response = await getFeesReport(req.query.start_date, req.query.end_date, req.user)
-        }else if(req.query.purpose === 'admittedStudents'){
-            response = await getAdmittedStudentsReport(req.query.start_date, req.query.end_date, req.user)
-        }else if(req.query.purpose === 'usersCollection'){
-            response = await getFeesReportByUser(req.query.start_date, req.query.end_date, req.user, req.query.email)
-        }else if(req.query.purpose === 'currentActiveStudents'){
-            response = await getCurrentActiveStudentsList(req.query.start_date, req.query.end_date, req.user)
-        }else if(req.query.purpose === 'feesDuesTotal'){
-            response = await getFeesDuesTotal(req.user)
-        }else if(req.query.purpose === 'feesDuesClass'){
-            response = await getFeesDuesByClass(req.user,req.query.Class);
-        }else if( req.query.purpose === 'incompleteResult'){
-            classList = properties.get(req.user.SchoolCode+'.CLASSES_LIST').split(',');;
-            response = await getIncompleteResultsByClass(req.user);
-        }
-        let filename = saveCSV(response,req.query.start_date+"to"+req.query.end_date+'_'+req.query.purpose);
-        if(filename == 500){
+    if(req.user.role == 'Admin'){
+        try{
+            let response = [];
+            if(req.query.purpose === 'feesReport'){
+                response = await getFeesReport(req.query.start_date, req.query.end_date, req.user)
+            }else if(req.query.purpose === 'admittedStudents'){
+                response = await getAdmittedStudentsReport(req.query.start_date, req.query.end_date, req.user)
+            }else if(req.query.purpose === 'usersCollection'){
+                response = await getFeesReportByUser(req.query.start_date, req.query.end_date, req.user, req.query.email)
+            }else if(req.query.purpose === 'currentActiveStudents'){
+                response = await getCurrentActiveStudentsList(req.query.start_date, req.query.end_date, req.user)
+            }else if(req.query.purpose === 'feesDuesTotal'){
+                response = await getFeesDuesTotal(req.user)
+            }else if(req.query.purpose === 'feesDuesClass'){
+                response = await getFeesDuesByClass(req.user,req.query.Class);
+            }else if( req.query.purpose === 'incompleteResult'){
+                classList = properties.get(req.user.SchoolCode+'.CLASSES_LIST').split(',');;
+                response = await getIncompleteResultsByClass(req.user);
+            }
+            let filename = saveCSV(response,req.query.start_date+"to"+req.query.end_date+'_'+req.query.purpose);
+            if(filename == 500){
+                return res.status(500).json({
+                    message:'Unable to create Excel'
+                })
+            }
+            return res.status(200).json({
+                message:'Downloading report',
+                filename
+            })
+        }catch(err){
+            console.log(err);
             return res.status(500).json({
-                message:'Unable to create Excel'
+                message:'Internal Server Error'
             })
         }
-        return res.status(200).json({
-            message:'Downloading report',
-            filename
-        })
-    }catch(err){
-        console.log(err);
-        return res.status(500).json({
-            message:'Internal Server Error'
-        })
+    }else{
+        return res.render('Error_403')
     }
+    
 }
 
 function saveCSV(reportArray, filename){
@@ -236,12 +251,17 @@ function saveCSV(reportArray, filename){
 }
 
 module.exports.bulkReportsHome = function(req, res){
-    try{
-        return res.render('reports',{role:req.user.role});
-    }catch(err){
-        logger.error(err.toString())
-        return res.redirect('back')
+    if(req.user.role == 'Admin'){
+        try{
+            return res.render('reports',{role:req.user.role});
+        }catch(err){
+            logger.error(err.toString())
+            return res.redirect('back')
+        }
+    }else{
+        return res.render('Error_403')
     }
+    
 }
 
 

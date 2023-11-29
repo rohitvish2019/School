@@ -15,7 +15,7 @@ const AdmissionNo = new mongoose.Schema({
         default:1
     },
     SchoolCode:{
-        
+        unique:true,
         type:String
     }
 },

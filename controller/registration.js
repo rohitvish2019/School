@@ -61,9 +61,10 @@ module.exports.register = async function(req, res){
     let student;
     try{
         student = await RegisteredStudent.create(req.body);
-        lastRegistrationNumber = await AdmissionNo.findOne({});
+        lastRegistrationNumber = await AdmissionNo.findOne({SchoolCode:req.user.SchoolCode});
         RN = lastRegistrationNumber.LastRegistration;
-        await student.updateOne({RegistrationNo:RN+1,SchoolCode:req.user.SchoolCode,RegisteredBy:req.user.email});
+        await student.updateOne({RegistrationNo:RN+1,SchoolCode:req.user.SchoolCode,RegisteredBy:req.user.email})
+        await student.save();
         await lastRegistrationNumber.updateOne({LastRegistration:+RN+1});
         await lastRegistrationNumber.save();
         console.log(lastRegistrationNumber.LastRegistration);
@@ -95,7 +96,7 @@ module.exports.updateRegistration = async function(req, res){
 module.exports.delete = async function(req, res){
     if(req.user.role === 'Admin'){
         try{
-            await RegisteredStudent.findOneAndDelete({RegistrationNo:req.params.id});
+            await RegisteredStudent.findOneAndRemove({RegistrationNo:req.params.id, SchoolCode:req.user.SchoolCode});
             return res.status(200).json({
                 message:'Student deleted successfully'
             })

@@ -95,7 +95,7 @@ module.exports.updateRegistration = async function(req, res){
 module.exports.delete = async function(req, res){
     if(req.user.role === 'Admin'){
         try{
-            await RegisteredStudent.findOneAndDelete(req.params.id);
+            await RegisteredStudent.findOneAndDelete({RegistrationNo:req.params.id});
             return res.status(200).json({
                 message:'Student deleted successfully'
             })

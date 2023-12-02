@@ -21,7 +21,7 @@ const logger = winston.createLogger({
 });
 
 module.exports.mainHome = function(req,res){
-    return res.redirect('/user/login');
+    return res.render('./home/index');
 }
 
 module.exports.login = function(req, res){

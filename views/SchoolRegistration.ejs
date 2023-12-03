@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School Registration Form</title>
+  <link rel="stylesheet" href="/css/SchoolRegistration.css">
+</head>
+<body>
+    <div>
+        <h1 style="color: white;">SchoolWise : Registration</h1>
+        <form id="registrationForm" method="post" action="/user/register/school">
+            <label for="SchoolName">School Name:</label>
+            <input type="text" id="schoolName" name="SchoolName" required>
+        
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="Address" required>
+        
+            <label for="adminEmail">Admin Email:</label>
+            <input type="email" id="adminEmail" name="AdminEmail" required>
+        
+            <label for="adminMobile">Admin Mobile Number:</label>
+            <input type="tel" id="adminMobile" name="AdminMobile" pattern="[0-9]{10}" required>
+            <small>Format: 1234567890</small>
+        
+            <label for="numberOfStudents">Number of Students:</label>
+            <input type="number" id="numberOfStudents" name="StudentsCount" required>
+        
+            <button type="submit">Register</button>
+          </form>
+    </div>
+
+  
+
+  <script src="/js/SchoolRegistration.js"></script>
+</body>
+</html>

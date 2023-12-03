@@ -221,9 +221,10 @@ function showStudentsList(data, action){
                         Actions
                     </a>
                     <ul style='font-size:0.7rem' class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a class="dropdown-item btn btn-primary" id='download_${student.RegistrationNo}' href='/registration/download/${student.RegistrationNo}'>View Form</a></li>
                         <li><a class="dropdown-item btn btn-success" id='approve_${student.RegistrationNo}' onclick='admitStudent(${student.RegistrationNo})'>Approve</a></li>
                         <li><a class="dropdown-item btn btn-primary" id='reject_${student.RegistrationNo}' onclick='rejectStudent(${student.RegistrationNo})'>Reject</a></li>
-                        <li><a class="dropdown-item btn btn-primary" id='download_${student.RegistrationNo}' href='/registration/download/${student.RegistrationNo}'>View Form</a></li>
+                        
                     </ul>
                     
                 </div>

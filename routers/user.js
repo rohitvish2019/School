@@ -17,7 +17,8 @@ router.get('/showAll', userController.showUsersUI)
 router.get('/getAll', userController.getUsers);
 router.get('/getProperties', userController.getSchoolProperties)
 router.delete('/delete/:user_id', userController.deleteUser)
-router.get('/getClassList', userController.getClassList)
+router.get('/getClassList', userController.getClassList);
+router.post('/register/school', userController.registerSchool)
 router.post('/authenticate', passport.authenticate(
     'local',
     {failureRedirect: '/user/login'},

@@ -1,5 +1,5 @@
 document.getElementById('cancel').addEventListener('click', cancelButton)
 
 function cancelButton(){
-    window.location.href='/'
+    window.location.href='/user/home'
 }

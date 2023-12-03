@@ -4,6 +4,7 @@ const propertiesReader = require('properties-reader');
 
 const Messages = require('../modals/messages');
 const Students = require('../modals/admissionSchema')
+const RegisteredSchools = require('../modals/registeredSchools');
 
 const winston = require("winston");
 const User = require('../modals/userSchema');
@@ -32,7 +33,7 @@ module.exports.login = function(req, res){
 }
 
 module.exports.signUp = function(req, res){
-    return res.render('sign-up');
+    return res.render('SchoolRegistration');
 }
 
 module.exports.home = async function(req, res){
@@ -254,5 +255,15 @@ module.exports.deleteUser = async function(req, res){
         return res.status(500).json({
             message:'Error deleting user'
         })
+    }
+}
+
+
+module.exports.registerSchool = async function(req, res){
+    try{
+        await RegisteredSchools.create(req.body);
+        return res.redirect('/')
+    }catch(err){
+        return res.render('Error_403')
     }
 }

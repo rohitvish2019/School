@@ -56,32 +56,38 @@ function getStudentsList(){
 
 
 function dischargeStudent(AdmissionNo){
+    let confirmation  = window.confirm("Student will be discharged permanently, Please confirm !!!")
     console.log(AdmissionNo);
-    $.ajax({
-        type:'POST',
-        url:'/student/discharge/'+AdmissionNo,
-        success:function(data){
-            document.getElementById('terminated_'+AdmissionNo).remove();
-            new Noty({
-                theme: 'relax',
-                text: 'Action Completed',
-                type: 'success',
-                layout: 'topRight',
-                timeout: 1500
-            }).show();
-        },
-        error: function(err){
-            console.log();
-            console.error.bind(err);
-            new Noty({
-                theme: 'relax',
-                text: JSON.parse(err.responseText).message,
-                type: 'error',
-                layout: 'topRight',
-                timeout: 1500
-            }).show();
-        }
-    })
+    if(confirmation){
+        $.ajax({
+            type:'POST',
+            url:'/student/discharge/'+AdmissionNo,
+            success:function(data){
+                document.getElementById('terminated_'+AdmissionNo).remove();
+                new Noty({
+                    theme: 'relax',
+                    text: 'Action Completed',
+                    type: 'success',
+                    layout: 'topRight',
+                    timeout: 1500
+                }).show();
+            },
+            error: function(err){
+                console.log();
+                console.error.bind(err);
+                new Noty({
+                    theme: 'relax',
+                    text: JSON.parse(err.responseText).message,
+                    type: 'error',
+                    layout: 'topRight',
+                    timeout: 1500
+                }).show();
+            }
+        })
+    }else{
+        return;
+    }
+    
 }
 
 function admitStudent(registration){

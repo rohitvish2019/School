@@ -40,20 +40,23 @@ function showUsers(data){
 getAllUsers();
 
 function deleteUser(user_id){
-    $.ajax({
-        url:'/user/delete/'+user_id,
-        type:'Delete',
-        success:function(data){
-            document.getElementById(user_id).remove();
-        },
-        error:function(err){
-            new Noty({
-                theme: 'relax',
-                text: err.responseText,
-                type: 'error',
-                layout: 'topRight',
-                timeout: 1000
-            }).show();
-        }
-    })
+    let confirmation = window.confirm("User will be deleted and access will be revoked, Please confirm !!!");
+    if (confirmation){
+        $.ajax({
+            url:'/user/delete/'+user_id,
+            type:'Delete',
+            success:function(data){
+                document.getElementById(user_id).remove();
+            },
+            error:function(err){
+                new Noty({
+                    theme: 'relax',
+                    text: err.responseText,
+                    type: 'error',
+                    layout: 'topRight',
+                    timeout: 1000
+                }).show();
+            }
+        })
+    }
 }

@@ -90,7 +90,10 @@ function runListener(event){
         })
     }
     else if(itemId.match(/delete.*/)){
-        removeTeacher(itemId.slice(7))
+        let confirmation = window.confirm("Teacher will be removed permanently, Please confirm !!!");
+        if(confirmation){
+            removeTeacher(itemId.slice(7))
+        }
     }
 }
 

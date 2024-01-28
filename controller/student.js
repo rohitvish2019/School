@@ -386,9 +386,10 @@ let AdmissionNumber = '';
 async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolCode){
     let properties = propertiesReader('../School/config/properties/'+SchoolCode+'.properties');
     let last_class_details, lastResultStatus,finalClass
-    last_class_details = await Student.findOne({AdmissionNo:studentAdmissionNumber, Class:studentClass,SchoolCode:SchoolCode});
+    last_class_details = await Student.findOne({AdmissionNo:studentAdmissionNumber, isThisCurrentRecord:true,SchoolCode:SchoolCode});
     //console.log("Last Class result "+last_class_details.TotalGrade.toString())
     if(last_class_details.TotalGrade == '' || last_class_details.TotalGrade == null || last_class_details.TotalGrade === 'NA'){
+        console.log("Last class result is "+ last_class_details);
         lastResultStatus = false
     }else{
         lastResultStatus = true
@@ -512,7 +513,7 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
 }
 
 module.exports.upgradeOneStudent = async function(req, res){
-    console.log('Upgrading rtudent')
+    console.log('Upgrading Student')
     try{
         if(req.user.role === 'Admin'){
             let status = await upgradeClassStudent(req.params.AdmissionNo, req.query.Class, req.user.SchoolCode);

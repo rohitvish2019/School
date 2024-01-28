@@ -12,9 +12,9 @@ function getClassList(){
 }
 
 
-function upgradeStudent(AdmissionNo, Class){
+function upgradeStudent(AdmissionNo){
     $.ajax({
-        url:'/student/upgrade/'+AdmissionNo+'?Class='+Class,
+        url:'/student/upgrade/'+AdmissionNo+'?Class=5',
         type:'get',
         success:function(){
             console.log('student upgraded');
@@ -132,7 +132,7 @@ function showStudentsList(data){
             <td>${student.FathersName}</td>
             <td class='big-screen'>${student.MothersName}</td>
             <td>${student.TotalGrade}</td>
-            <td><button onclick='upgradeStudent(${student.AdmissionNo},${student.Class})' href='upgrade/${student.AdmissionNo}?Class=${student.Class}' class='btn btn-success'>Upgrade</button></td>   
+            <td><button onclick='upgradeStudent(${student.AdmissionNo})' href='upgrade/${student.AdmissionNo}?Class=${student.Class}' class='btn btn-success'>Upgrade</button></td>   
         `
         
         //item.classList.add('btn');
@@ -146,6 +146,7 @@ function showStudentsList(data){
 }
 
 // Invoke when no/error response received from getStudentsList
+
 
 function showNoRecord(err){
     let listDiv = document.getElementById('classList')

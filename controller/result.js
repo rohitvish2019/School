@@ -23,7 +23,6 @@ module.exports.getResult = async function(req, res){
         try{
             let result =await Result.findOne({Class:req.query.Class, AdmissionNo: req.query.AdmissionNo, Term:req.query.Term});
             let student = await Student.findOne({AdmissionNo:result.AdmissionNo, Class:result.Class});
-            console.log(req.query);
             if(result){
                 return res.status(200).json({
                     message: "Result fetched",
@@ -70,11 +69,18 @@ module.exports.addUpdateResult = async function(req, res){
 */
 
 
-async function updateFinalGrade(AdmissionNo, Class, Term, SchoolCode){
+async function updateFinalGrade(AdmissionNo, req_Class, Term, SchoolCode){
+    let Class = req_Class;
+    if(req_Class == 'kg-1'){
+        Class = 'KG1'
+    }else if(req_Class == 'kg-2'){
+        Class = 'KG2'
+    }
     let properties = propertiesReader('../School/config/properties/'+SchoolCode+'.properties');
+    
     try{
         let subjects = properties.get(SchoolCode+'.SUBJECTS_'+Class);
-        let resultRecord = await Result.findOne({AdmissionNo:AdmissionNo,Class:Class,Term:Term, SchoolCode:SchoolCode}, subjects.toString().replaceAll(',',' '));
+        let resultRecord = await Result.findOne({AdmissionNo:AdmissionNo,Class:req_Class,Term:Term, SchoolCode:SchoolCode}, subjects.toString().replaceAll(',',' '));
         let subjectList = subjects.split(',');
         let marksObtained = 0;
         let marksTotal =0;
@@ -82,16 +88,19 @@ async function updateFinalGrade(AdmissionNo, Class, Term, SchoolCode){
             marksObtained= marksObtained + resultRecord[subjectList[i]];
         }   
         marksTotal = +properties.get(SchoolCode+'.Final_TOTAL') * subjectList.length;
+        
         let FinalGrade = calculateGrade(marksObtained*100/marksTotal);
-        await Student.findOneAndUpdate({AdmissionNo:AdmissionNo,Class:Class,SchoolCode:SchoolCode},{TotalGrade:FinalGrade});
+        console.log("Final grade is "+FinalGrade)
+        await Student.findOneAndUpdate({AdmissionNo:AdmissionNo,Class:req_Class,SchoolCode:SchoolCode},{TotalGrade:FinalGrade});
         return true;
     }catch(err){
+        console.log(err)
         logger.error(err);
         return false;
     }
     
 }
-module.exports.updateResult = async  function(req, res){
+module.exports.updateResult = async function(req, res){
     try{
         let resultRecord = await Result.findOne({Class:req.body.Class, AdmissionNo:req.body.AdmissionNo,Term:req.body.Term});
         let newRecord = await Result.create(req.body.marks);
@@ -99,7 +108,8 @@ module.exports.updateResult = async  function(req, res){
         newRecord.save();
         resultRecord.deleteOne();
         if(req.body.Term ==='Final'){
-            let gradeUpdated = updateFinalGrade(req.body.AdmissionNo, req.body.Class, req.body.Term, req.user.SchoolCode);
+            let gradeUpdated = await updateFinalGrade(req.body.AdmissionNo, req.body.Class, req.body.Term, req.user.SchoolCode);
+            console.log(gradeUpdated);
             if(gradeUpdated){
                 console.log("Grade updated")
                 return res.status(200).json({
@@ -128,7 +138,7 @@ module.exports.searchResult = async function(req, res){
     if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
         try{
             let student = await Student.findOne({AdmissionNo:req.params.id, Class:req.query.Class});
-            console.log(student);
+            
             return res.render('search_result', {student:student, role:req.user.role});
         }catch(err){
             console.log(err);
@@ -254,13 +264,13 @@ module.exports.getSubjectsListWithMarks = async function(req, res){
         }
     
         let subjectsData = properties.get(req.user.SchoolCode+'.SUBJECTS_'+updatedClassValue);
-        console.log(subjectsData.replaceAll(',',' '));
+        //console.log(subjectsData.replaceAll(',',' '));
         let subjects = subjectsData.split(',');
         let obtainedMarks = await Result.findOne({Class:req.query.classValue, AdmissionNo:req.query.admissionNo, Term:req.query.Term},subjectsData.replaceAll(',',' '));
         let totalMarks = properties.get(req.user.SchoolCode+'.'+req.query.Term+'_TOTAL');
-        console.log(obtainedMarks);
-        console.log(subjects);
-        console.log(totalMarks);
+        //console.log(obtainedMarks);
+        //console.log(subjects);
+        //console.log(totalMarks);
         return res.status(200).json({
             subjects,
             obtainedMarks,

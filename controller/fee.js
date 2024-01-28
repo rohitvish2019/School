@@ -307,9 +307,9 @@ module.exports.getConcessionHistory = async function(req, res){
 module.exports.getFeeReceipt = async function(req, res){
     try{
         let feeReport = await FeeHistory.findById(req.params.id);
-        let student = await Student.findOne({AdmissionNo:feeReport.AdmissionNo, Class:feeReport.Class, SchoolCode:req.user.SchoolCode})
+        let student = await Student.findOne({AdmissionNo:feeReport.AdmissionNo, SchoolCode:req.user.SchoolCode})
         console.log(feeReport);
-        return res.render('fee_receipt',{feeReport, student, role:req.user.role,SchoolCode:req.user.SchoolCode});
+        return res.render('fee_receipt',{feeReport,student, role:req.user.role,SchoolCode:req.user.SchoolCode});
     }catch(err){
         logger.error(err.toString())
         return res.redirect('back')

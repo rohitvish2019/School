@@ -15,7 +15,6 @@ function admitStudent(registration){
                 window.location.href='/student/showByClass/admission'
             }, 1500)
             
-            
         },
         error: function(err){
             new Noty({

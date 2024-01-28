@@ -84,7 +84,7 @@ module.exports.updateRegistration = async function(req, res){
             await student.deleteOne();
             student = await RegisteredStudent.create(req.body);
             await student.updateOne({SchoolCode:req.user.SchoolCode,RegisteredBy:req.user.email});
-            return res.redirect('/registration/new')
+            return res.redirect('back')
         }
     }catch(err){
         console.log(err);

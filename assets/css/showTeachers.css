@@ -50,28 +50,34 @@ td textarea{
 #pop-up-box{
     border: 2px solid black;
     padding: 2%;
-    margin:2%
+    margin:2%;
+    display: flex;
+    flex-direction: column;
 }
 
 table td, th{
     height: 5% !important;
 }
-
+/*
 .form-data{
-    
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
 }
-
+*/
+.form-group{
+    width: 100%;
+    display: flex;
+}
 .form-group label{
-    width: 20%;
+    width: 30%;
     height: 5%;
     margin: 1%;
 }
 
 .form-group input{
     margin: 1%;
+    width: 40%;
 }
 
 label{

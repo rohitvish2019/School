@@ -8,7 +8,7 @@ const admissonController = require('../controller/admission');
 
 router.get('/',admissonController.addmission);
 router.post('/create', admissonController.addStudent)
-*/
+
 router.post('/updateLastAdmission', admissonController.updateLastAdmission);
 /*
 router.post('/getPreview', admissonController.getPreview);

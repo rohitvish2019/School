@@ -5,7 +5,7 @@ const admissonController = require('../controller/admission');
 
 
 //old code
-/*
+
 router.get('/',admissonController.addmission);
 router.post('/create', admissonController.addStudent)
 */

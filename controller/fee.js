@@ -331,3 +331,37 @@ module.exports.deleteAnnualFee = async function(req, res){
     }
     
 }
+
+module.exports.addOldFee = async function(req, res){
+    try{
+        let record = await Fee.findOne({AdmissionNo:req.body.AdmissionNo, Class:'Old Fees'});
+        if(record){
+            record.updateOne({Total:req.body.Total, Remaining:req.body.Total, Paid:0});
+            record.save();
+            return res.status(200).json({
+                message:'Updated successfully'
+            })
+        }else{
+            Fee.create({
+                AdmissionNo:req.body.AdmissionNo,
+                Class:'Old Fees',
+                Total:req.body.Total,
+                Concession:0,
+                Paid:0,
+                Remaining:req.body.Total,
+                SchoolCode:req.user.SchoolCode,
+            })
+            return res.status(200).json({
+                message:'Added fee'
+            })
+        }
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to update'
+        })
+    }
+}
+
+module.exports.oldFeeTemp = function(req, res){
+    res.render('oldfees')
+}

@@ -45,7 +45,7 @@ app.use(session({
     },
     store:MongoStore.create(
         {
-            mongoUrl: 'mongodb://localhost/employee_reviews',
+            mongoUrl: 'mongodb+srv://rohitvish288:Xlk34Onf2NbyjjZR@mongotest2.fceehoa.mongodb.net/employee_reviews',
             autoRemove: 'disabled'
         
         },

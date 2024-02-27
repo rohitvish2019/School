@@ -57,7 +57,7 @@ app.use(session({
     },
     store:MongoStore.create(
         {
-            mongoUrl: 'mongodb://localhost/school_user_sessions',
+            mongoUrl: 'mongodb+srv://rohitvish288:Xlk34Onf2NbyjjZR@mongotest2.fceehoa.mongodb.net/school_user_sessions',
             autoRemove: 'disabled'
         
         },

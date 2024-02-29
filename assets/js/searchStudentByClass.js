@@ -182,7 +182,8 @@ function showStudentsList(data, action){
     </figure>
     <a class="btn student-list">
         <li style="background-color: #0a807c;color: white; width: 100%;position:sticky;top:0%;z-index:2">
-            <label><b>${id}</b></label>
+        <label><b>S.No</b></label>    
+        <label><b>${id}</b></label>
             <label><b>Name</b></label>
             <label><b>Class</b></label>
             <label><b>Father's Name</b></label>
@@ -216,6 +217,7 @@ function showStudentsList(data, action){
             item.innerHTML=
             `
             <li class="container">
+                
                 <label for="">${student.RegistrationNo}</label>
                 <label for="">${student.FirstName} ${student.LastName}</label>
                 <label for="">${student.Class}</label>
@@ -252,6 +254,7 @@ function showStudentsList(data, action){
         `
         <a class="student-list" >
             <li style="background-color: #479b7e;color: #03420b; width: 100%;">
+                <label><b>S.No</b></label>
                 <label><b>${id}</b></label>
                 <label><b>Name</b></label>
                 <label><b>Class</b></label>
@@ -270,6 +273,7 @@ function showStudentsList(data, action){
             item.innerHTML=
             `
             <li class="container" id='terminated_${student.AdmissionNo}'>
+                <label><b>${i+1}</b></label>
                 <label for="">${student.AdmissionNo}</label>
                 <label for="">${student.FirstName} ${student.LastName}</label>
                 <label for="">${student.Class}</label>
@@ -296,6 +300,7 @@ function showStudentsList(data, action){
             item.innerHTML = 
             `
             <li class="container">
+                <label><b>${i+1}</b></label>
                 <label for="">${student.AdmissionNo}</label>
                 <label for="">${student.FirstName} ${student.LastName}</label>
                 <label for="">${student.Class}</label>

@@ -138,7 +138,6 @@ module.exports.admit = async function(req, res){
         let student,fee, studentData,result_q,result_h,result_f, fee_record;
         console.log(req.params);
         try{
-            
             student = await RegisteredStudent.findOne({RegistrationNo:req.params.id, SchoolCode:req.user.SchoolCode});
             studentData = JSON.parse(JSON.stringify(student));
             delete studentData._id;
@@ -148,7 +147,7 @@ module.exports.admit = async function(req, res){
                     message:'No annual fee found'
                 })
             }
-            let findExistingRecord = await Student.findOne({AdmissionNo:studentData.AdmissionNo});
+            let findExistingRecord = await Student.findOne({AdmissionNo:studentData.AdmissionNo,SchoolCode:req.user.SchoolCode});
             if(findExistingRecord){
                 return res.status(400).json({
                     message:'Duplicate admission No'

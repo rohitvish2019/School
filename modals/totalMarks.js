@@ -1,7 +1,7 @@
 
 const mongoose = require('mongoose');
 const db = require('../config/dbConnection');
-const totalMarks = new mongoose.Schema({
+const totalMarksStudent = new mongoose.Schema({
     Class:{
         type:String
     },
@@ -17,5 +17,5 @@ const totalMarks = new mongoose.Schema({
     timestamps:true
 });
 
-const FeeHistory = mongoose.model('FeesHistory', FeesHistory);
-module.exports = FeeHistory;
+const totalMarks = mongoose.model('totalMarksStudent', totalMarksStudent);
+module.exports = totalMarks;

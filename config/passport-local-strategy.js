@@ -39,7 +39,6 @@ passport.serializeUser(function(user, done){
 passport.deserializeUser(async function(id, done){
     try{
         let user = await User.findById(id);
-        console.log("This is error");
         return done(null, user);
     }catch(err){
         console.log('Error in finding user --> Passport');

@@ -1,6 +1,7 @@
 const Student = require('../modals/admissionSchema');
 const FeesHistory = require('../modals/feeHistory');
 const Fee = require('../modals/FeeSchema');
+const cashTransactions = require('../modals/transactions');
 const moment = require('moment');
 const fs = require('fs');
 const propertiesReader = require('properties-reader');
@@ -264,5 +265,40 @@ module.exports.bulkReportsHome = function(req, res){
     
 }
 
+module.exports.cashBookHome = function(req, res){
+    return res.render('cashbook',{role:req.user.role});
+}
 
 
+module.exports.addCashTransaction = async function(req, res){
+    try{
+        let record = await cashTransactions.create({
+            Amount:req.body.amount,
+            TransactionDate:req.body.date,
+            Comment:req.body.comment,
+            TransactionType:req.body.type,
+            SchoolCode:req.user.SchoolCode
+        });
+        return res.status(200).json({
+            message:'Updated transaction successfully'
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to add transaction, please try again later'
+        })
+    }
+}
+
+module.exports.getCashTransactions = async function(req, res){
+    try{
+        let data = await cashTransactions.find({SchoolCode:req.user.SchoolCode});
+        return res.status(200).json({
+            message:'Transactions fetched',
+            data
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to get transactions'
+        })
+    }
+}

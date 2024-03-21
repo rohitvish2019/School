@@ -3,7 +3,7 @@ const Student = require('../modals/admissionSchema');
 const FeeStructure = require('../modals/feeStructure');
 const FeeHistory = require('../modals/feeHistory');
 const admissionNoSchema = require('../modals/admission_no')
-
+const cashTransactions = require('../modals/transactions');
 const winston = require("winston");
 const dateToday = new Date().getDate().toString()+'-'+ new Date().getMonth().toString() + '-'+ new Date().getFullYear().toString();
 const logger = winston.createLogger({
@@ -115,6 +115,13 @@ module.exports.feeSubmission =async function(req, res){
                 Receipt_No:lastFeeReceiptNumber.LastFeeReceiptNo,
                 PaidTo:req.user.email
             });
+            await cashTransactions.create({
+                SchoolCode:req.user.SchoolCode,
+                amount:req.body.Amount,
+                date:today,
+                comment:"Fees submission, Receipt No: "+lastFeeReceiptNumber.LastFeeReceiptNo,
+                type:'in'
+            })
             return res.status(200).json({
                 message:'Fees record updated successfully'
             })
@@ -137,14 +144,21 @@ module.exports.cancelFees = async function(req, res){
             let feeRecord = await FeeHistory.findById(req.params.id);
             await feeRecord.updateOne({isCancelled:true});
             await feeRecord.save();
-    
+            let today = new Date().getDate() +'-'+ (new Date().getMonth() + 1)+ '-'+new Date().getFullYear();
             let oldFee = await Fee.findOne({AdmissionNo:feeRecord.AdmissionNo, Class:feeRecord.Class,SchoolCode:req.user.SchoolCode});
             await Fee.findOneAndUpdate({AdmissionNo:feeRecord.AdmissionNo, Class:feeRecord.Class,SchoolCode:req.user.SchoolCode},{Paid:oldFee.Paid - feeRecord.Amount, Remaining:oldFee.Remaining + feeRecord.Amount});
-            
+            await cashTransactions.create({
+                SchoolCode:req.user.SchoolCode,
+                amount:feeRecord.Amount,
+                date:today,
+                comment:"Fees cancelled, Receipt No: "+feeRecord.Receipt_No,
+                type:'out'
+            })
             return res.status(200).json({
                 message:'Fees cancelled'
             });
         }catch(err){
+            console.log(err)
             return res.status(500).json({
                 message:'Unable to cancel, Please try again later'
             });

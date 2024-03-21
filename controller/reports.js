@@ -273,10 +273,10 @@ module.exports.cashBookHome = function(req, res){
 module.exports.addCashTransaction = async function(req, res){
     try{
         let record = await cashTransactions.create({
-            Amount:req.body.amount,
-            TransactionDate:req.body.date,
-            Comment:req.body.comment,
-            TransactionType:req.body.type,
+            amount:req.body.amount,
+            date:req.body.date,
+            comment:req.body.comment,
+            type:req.body.type,
             SchoolCode:req.user.SchoolCode
         });
         return res.status(200).json({

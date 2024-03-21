@@ -1,4 +1,4 @@
-let transactions = [];
+
 
 function addTransaction(type) {
     const amountInput = document.getElementById('amount');
@@ -17,8 +17,9 @@ function addTransaction(type) {
     sendTransaction(amount,date,comment,type);
     
 }
-
+let transactions = [];
 function sendTransaction(amount,date,comment,type){
+    
     console.log(amount,date,comment,type);
     $.ajax({
         type:'Post',
@@ -31,8 +32,8 @@ function sendTransaction(amount,date,comment,type){
         },
         success:function(data){
             transactions.push({ type, amount, date, comment});
-            displayTransactions();
-            updateTotals();
+            window.location.href='/reports/cashbook/home'
+            
         },
         error:function(err){}
     })
@@ -42,34 +43,43 @@ function getTransactionsList(){
     $.ajax({
         type:'get',
         url:'/reports/cashbook/getTransactions',
-        success:function(data){console.log(data)},
+        success:function(data){console.log(data);
+            displayTransactions(data.data)},
         error:function(err){console.log("Nothing")}
     })
 }
-function displayTransactions() {
+function displayTransactions(transactions) {
+    console.log(transactions)
     const transactionsDiv = document.getElementById('transactions');
-    transactionsDiv.innerHTML = '';
-
     if (transactions.length === 0) {
         transactionsDiv.innerHTML = '<p>No transactions to display</p>';
         return;
     }
-
     const table = document.createElement('table');
     table.classList.add('transactions-table');
 
     const headerRow = table.insertRow();
     headerRow.innerHTML = '<th>Type</th><th>Amount</th><th>Date</th><th>Comment</th>';
-
+    let totalDebit =0
+    let totalCredit = 0
+    let totalBalance = 0;
     transactions.forEach(transaction => {
         const row = table.insertRow();
+        let type = transaction.type
+        if(type == 'in'){
+            totalCredit = totalCredit+transaction.amount
+        }else{
+            totalDebit = totalDebit + transaction.amount
+        }
         row.innerHTML = `<td>${transaction.type === 'in' ? 'Cash In' : 'Cash Out'}</td>
-                         <td>₹${transaction.amount.toFixed(2)}</td>
+                         <td>₹${transaction.amount}</td>
                          <td>${transaction.date}</td>
                          <td>${transaction.comment}</td>`;
     });
 
     transactionsDiv.appendChild(table);
+    updateTotals(totalCredit, totalDebit)
+    
 }
 
 
@@ -80,19 +90,17 @@ function filterTransactions() {
     const filteredTransactions = transactions.filter(transaction => transaction.monthYear === selectedMonthYear);
     transactions = filteredTransactions;
     displayTransactions();
-    updateTotals();
 }
 
-function updateTotals() {
+function updateTotals(totalCredit,totalDebit) {
     const totalCreditSpan = document.getElementById('totalCredit');
     const totalDebitSpan = document.getElementById('totalDebit');
     const totalBalanceSpan = document.getElementById('totalBalance');
-
-    const totalCredit = transactions.filter(transaction => transaction.type === 'in').reduce((acc, curr) => acc + curr.amount, 0);
-    const totalDebit = transactions.filter(transaction => transaction.type === 'out').reduce((acc, curr) => acc + curr.amount, 0);
-    const totalBalance = totalCredit - totalDebit;
+    let totalBalance = totalCredit - totalDebit
 
     totalCreditSpan.textContent = '₹' + totalCredit.toFixed(2);
     totalDebitSpan.textContent = '₹' + totalDebit.toFixed(2);
     totalBalanceSpan.textContent = '₹' + totalBalance.toFixed(2);
 }
+
+getTransactionsList()

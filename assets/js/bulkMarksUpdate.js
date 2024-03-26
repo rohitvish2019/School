@@ -55,7 +55,17 @@ function updateMarks(AdmissionNo) {
             Allmarks,
             selectedSubjects
         },
-        success: function(data){document.getElementById(AdmissionNo).remove()},
+        success: function(data){
+            new Noty({
+                theme: 'relax',
+                text: data.message,
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+            document.getElementById(AdmissionNo).remove();
+            return
+        },
     })
 }
 
@@ -108,16 +118,15 @@ function getSubjects(){
         url:'/result/subjects',
         data:{
             classValue:document.getElementById('classSelect').value,
-            admissionNo:"101",
             Term: document.getElementById('termSelect').value
         },
         success:function(data){
-            document.getElementById('selectButton').style.display='inline';
+            document.getElementById('selectButton').style.display='block';
             console.log(data);
             document.getElementById('classSelect').setAttribute('disabled', 'true')
             document.getElementById('termSelect').setAttribute('disabled', 'true')
             let container = document.getElementById('subjects');
-            container.innerHTML=`<label>Subjects:</label>`;
+            container.innerHTML=`<label style="display:block">Subjects:</label>`;
             for(let i=0;i<data.subjects.length;i++){
                 let item = document.createElement('div');
                 item.classList.add('subjectItem')

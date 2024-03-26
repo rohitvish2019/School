@@ -1,0 +1,39 @@
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Marks Updater</title>
+    <link rel="stylesheet" href="/css/bulkMarksUpdate.css">
+</head>
+<body>
+    <%- include('_header'); %>
+    <div class="container" style="margin-top: -40%;">
+        
+        <div class="header">
+            <div>
+                <label for="classSelect">Select Class:</label>
+                <select id="classSelect">
+                </select>
+                <label for="termSelect">Select Term:</label>
+                <select id="termSelect">
+                    
+                </select>
+                <button id="getSubject">Get Subjects</button>
+            </div>
+            <div>
+                <div class="subjects" id="subjects" style="display: inline;">
+                    
+                </div>
+                <button id="selectButton">Get Students</button>
+            </div>
+            
+        </div>
+        <div class="main">
+            <table id="marksTable">
+                <!-- Marks data will be dynamically added here -->
+            </table>
+        </div>
+    </div>
+    <script src="/js/bulkMarksUpdate.js"></script>
+</body>
+

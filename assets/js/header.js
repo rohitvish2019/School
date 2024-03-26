@@ -155,7 +155,7 @@ function setStudentsListLocal(){
             for(let i=0;i<data.students.length;i++){
                 studentsList.push(data.students[i])
                 console.log(data.students[i]['AdmissionNo']+ " : "+data.students[i]['Class']+" "+data.students[i]['FathersName']+" "+data.students[i]['MothersName'])
-                localStorage.setItem(data.students[i]['FirstName']+" "+data.students[i]['LastName'],data.students[i]['Class']+" "+data.students[i]['FathersName']+" "+data.students[i]['MothersName'])
+                //localStorage.setItem(data.students[i]['FirstName']+" "+data.students[i]['LastName'],data.students[i]['Class']+" "+data.students[i]['FathersName']+" "+data.students[i]['MothersName']+" "+data.students[i]['AdmissionNo'])
             }
             
         },
@@ -164,18 +164,17 @@ function setStudentsListLocal(){
 }
 
 setStudentsListLocal();
-document.getElementById('searchBox').addEventListener('keydown', filterStudents);
+document.getElementById('searchBox').addEventListener('keyup', filterStudents);
 
 function filterStudents(){
     showStudents();
     console.log('Filtering students')
     let pattern = document.getElementById('searchBox').value.toLowerCase();
     for(let i=0;i<studentsList.length;i++){
-        let fullPattern = (studentsList[i].FirstName + studentsList.LastName).toLowerCase();
+        let fullPattern = (studentsList[i].FirstName + studentsList[i].LastName + studentsList[i].AdmissionNo).toLowerCase();
         if(!(fullPattern.match(pattern))){
             document.getElementById(studentsList[i]._id).remove();
         }
-
     }
 }
 

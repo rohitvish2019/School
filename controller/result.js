@@ -69,6 +69,10 @@ module.exports.addUpdateResult = async function(req, res){
 */
 
 
+module.exports.bulkMarksHome = function(req, res){
+    return res.render('bulkMarksUpdate',{role:req.user.role});
+}
+
 async function updateFinalGrade(AdmissionNo, req_Class, Term, SchoolCode){
     let Class = req_Class;
     if(req_Class == 'kg-1'){
@@ -300,5 +304,52 @@ module.exports.getTerms = function(req, res){
     }
 }
 
+module.exports.getClassResult = async function(req, res){
+    try{
+        let resultSet = await Result.find({Class:req.query.Class, Term:req.query.Term, SchoolCode:req.user.SchoolCode}, req.query.Subjects+" AdmissionNo Class");
+        return res.status(200).json({
+            resultSet
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to fetch results, Please try again later'
+        })
+    }
+}
 
+module.exports.updateResultSingle = async function(req, res){
+    try{
+        let oldRecord = await Result.findOne({AdmissionNo:req.body.AdmissionNo, Class:req.body.Class, Term:req.body.Term, SchoolCode:req.user.SchoolCode});
+        let Allmarks = req.body.Allmarks;
+        let selectedSubjects = req.body.selectedSubjects;
+        for(let i=0;i<selectedSubjects.length;i++){
+            let subjectName = selectedSubjects[i];
+            let marksGiven = Allmarks[selectedSubjects[i]];
+            let obj = JSON.parse('{"'+subjectName+'":"'+marksGiven+'"}')
+            await oldRecord.updateOne(obj);
+            await oldRecord.save();
+        }
+        return res.status(200).json({
+            message:'Marks updated successfully.'
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:"Failed to update marks"
+        })
+    }
+}
 
+module.exports.getNamesByClassForResult = async function(req, res){
+    console.log("req came here ....")
+    try{
+        let students = await Student.find({SchoolCode:req.user.SchoolCode,Class:req.query.Class, isThisCurrentRecord:true},'AdmissionNo FirstName LastName');
+        console.log(students);
+        return res.status(200).json({
+            students
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:'Error fetching names'
+        })
+    }
+}

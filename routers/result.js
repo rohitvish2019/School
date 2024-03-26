@@ -7,4 +7,8 @@ router.post('/updateAll/:AdmissionNo', resultController.updateAllResults);
 router.get('/search/:id', resultController.searchResult);
 router.get('/subjects', resultController.getSubjectsListWithMarks);
 router.get('/terms', resultController.getTerms);
+router.get('/bulkMarksHome', resultController.bulkMarksHome);
+router.get('/getClassResult', resultController.getClassResult);
+router.post('/updateSingleResult', resultController.updateResultSingle);
+router.get('/getStudentName', resultController.getNamesByClassForResult)
 module.exports = router;

@@ -31,6 +31,7 @@
                     <option value="feesDuesClass" disabled>Fees Dues(By Class)</option>
                     <option value="feesDuesTotal" >Fees Dues(Total)</option>
                     <option value="incompleteResult" >Incomplete Result</option>
+                    <option value="incompleteResult" >Students List By Class</option>
                 </select>
                 <div class="filter-input">
                     <label for="email" id="email-label">User</label>
@@ -39,13 +40,26 @@
                 <div class="filter-input">
                     <div style="display: inline;">
                         <label id="start-date-label" style="display:inline;">Start Date</label>
-                        <input type="text" value="20-09-2023" id="start-date" name="start-date" pattern="\d{2}-\d{2}-\d{4}" placeholder="DD-MM-YYYY" required>
+                        <input type="text" value="DD-MM-YYYY" id="start-date" name="start-date" pattern="\d{2}-\d{2}-\d{4}" placeholder="DD-MM-YYYY" required>
                     </div>
                     
                     <div style="display:inline;">
                         <label id="end-date-label" style="display:inline;">End Date</label>
-                        <input type="text" value="03-11-2023" id="end-date" name="end-date" pattern="\d{2}-\d{2}-\d{4}" placeholder="DD-MM-YYYY" required>
+                        <input type="text" value="DD-MM-YYYY" id="end-date" name="end-date" pattern="\d{2}-\d{2}-\d{4}" placeholder="DD-MM-YYYY" required>
                     </div>
+                    <label id="class-label" style="display:inline;">Class</label>
+                    <select name="" id="classForFilter" >
+                        <option value="kg-1">kg-1</option>
+                        <option value="kg-2">kg-2</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                    </select>
                 </div>
                 
                 <div class="filter-input mob-button">

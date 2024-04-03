@@ -52,7 +52,8 @@ function getCSV(){
             purpose : document.getElementById('purpose').value,
             email:document.getElementById('email').value,
             start_date : startDate,
-            end_date : endDate
+            end_date : endDate,
+            Class : document.getElementById('classForFilter').value
         },
         success: function(data){
             window.location.href = '/reports/'+data.filename+'.xlsx'
@@ -100,7 +101,8 @@ function filterTransactions() {
         data:{
             start_date: startDate,
             end_date: endDate,
-            purpose:  document.getElementById('purpose').value
+            purpose:  document.getElementById('purpose').value,
+            Class : document.getElementById('classForFilter').value
         },
         success:function(data){
 

@@ -78,13 +78,13 @@ module.exports.getReports = async function(req, res){
             }else if(req.query.purpose === 'usersCollection'){
                 response = await getFeesReportByUser(req.query.start_date, req.query.end_date, req.user, req.query.email)
             }else if(req.query.purpose === 'currentActiveStudents'){
-                response = await getCurrentActiveStudentsList(req.query.start_date, req.query.end_date, req.user)
+                response = await getCurrentActiveStudentsList(req.query.start_date, req.query.end_date, req.query.Class, req.user)
             }else if(req.query.purpose === 'feesDuesTotal'){
                 response = await getFeesDuesTotal(req.user)
             }else if(req.query.purpose === 'feesDuesClass'){
                 response = await getFeesDuesByClass(req.user,req.query.Class);
             }else if( req.query.purpose === 'incompleteResult'){
-                classList = properties.get(req.user.SchoolCode+'.CLASSES_LIST').split(',');;
+                classList = properties.get(req.user.SchoolCode+'.CLASSES_LIST').split(',');
                 response = await getIncompleteResultsByClass(req.user);
             }
             if(response == 500){
@@ -143,9 +143,9 @@ async function getFeesReport(start_date, end_date, activeUser){
 }
 
 
-async function getCurrentActiveStudentsList(start_date, end_date, activeUser){
+async function getCurrentActiveStudentsList(start_date, end_date, Class, activeUser){
     try{
-        let students = await Student.find({SchoolCode:activeUser.SchoolCode,isThisCurrentRecord:true}).lean();
+        let students = await Student.find({SchoolCode:activeUser.SchoolCode,isThisCurrentRecord:true, Class:Class}).lean();
         return students
     }catch(err){
         return 500
@@ -199,6 +199,7 @@ async function getIncompleteResultsByClass(user){
 
 
 module.exports.getCSV = async function(req, res){
+    
     if(req.user.role == 'Admin'){
         try{
             let response = [];
@@ -209,15 +210,16 @@ module.exports.getCSV = async function(req, res){
             }else if(req.query.purpose === 'usersCollection'){
                 response = await getFeesReportByUser(req.query.start_date, req.query.end_date, req.user, req.query.email)
             }else if(req.query.purpose === 'currentActiveStudents'){
-                response = await getCurrentActiveStudentsList(req.query.start_date, req.query.end_date, req.user)
+                response = await getCurrentActiveStudentsList(req.query.start_date, req.query.end_date, req.query.Class, req.user)
             }else if(req.query.purpose === 'feesDuesTotal'){
                 response = await getFeesDuesTotal(req.user)
             }else if(req.query.purpose === 'feesDuesClass'){
                 response = await getFeesDuesByClass(req.user,req.query.Class);
             }else if( req.query.purpose === 'incompleteResult'){
-                classList = properties.get(req.user.SchoolCode+'.CLASSES_LIST').split(',');;
+                classList = properties.get(req.user.SchoolCode+'.CLASSES_LIST').split(',');
                 response = await getIncompleteResultsByClass(req.user);
             }
+            
             let filename = saveCSV(response,req.query.start_date+"to"+req.query.end_date+'_'+req.query.purpose);
             if(filename == 500){
                 return res.status(500).json({

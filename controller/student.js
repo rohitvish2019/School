@@ -118,10 +118,10 @@ module.exports.getActiveStudents = async function(req, res){
 }
 
 module.exports.getStudent = async function(req, res){
-    let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
+    
     try{
         let student = await Student.findOne({AdmissionNo:req.params.adm_no, Class:req.query.Class});
-        
+        let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'_'+student.Session+'.properties');
         if(req.query.action === 'fee'){
             if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
                 let feesList = await Fee.find({AdmissionNo:req.params.adm_no});
@@ -636,9 +636,9 @@ function getDate(){
 
 
 module.exports.getMarksheetUI = async function(req, res){
-    let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
     try{
-        let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class})
+        let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class});
+        let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'_'+student.Session+'.properties');
         let classValue = req.query.Class;
         let updatedClassValue = classValue;
         if(classValue == 'kg-1'){

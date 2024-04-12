@@ -11,7 +11,8 @@ function displayStudentsList(data){
     });
     // Add table headers
     var headerRow = document.createElement("tr");
-    headerRow.innerHTML = "<th>ID</th><th>Name</th>";
+    headerRow.innerHTML = "<th>S.no</th><th>ID</th><th>Name</th>";
+    
     selectedSubjects.forEach(function(subject) {
         headerRow.innerHTML += "<th>" + subject + "</th>";
     });
@@ -19,15 +20,17 @@ function displayStudentsList(data){
     document.getElementById("marksTable").appendChild(headerRow);
 
     // Add student rows
+    let count = 1;
     studentsData.forEach(function(student) {
         var row = document.createElement("tr");
         row.id=student.AdmissionNo
-        row.innerHTML = "<td>" + student.AdmissionNo + "</td><td id='" +student.AdmissionNo+ "_name" + "'>" + "student.name" + "</td>";
+        row.innerHTML = "<td>" + count + "</td><td>" + student.AdmissionNo + "</td><td id='" +student.AdmissionNo+ "_name" + "'>" + "student.name" + "</td>";
         selectedSubjects.forEach(function(subject) {
             row.innerHTML += "<td><input type='number' id='" +student.AdmissionNo + "_" + subject + "' value='" + student[subject] + "'></td>";
         });
         row.innerHTML += "<td><button onclick='updateMarks(" + student.AdmissionNo + ")'>Update</button></td>";
         document.getElementById("marksTable").appendChild(row);
+        count++;
     });
 }
 

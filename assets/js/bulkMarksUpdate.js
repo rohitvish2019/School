@@ -133,7 +133,7 @@ function getTerms(){
 function getSubjects(){
 
     $.ajax({
-        url:'/result/subjects',
+        url:'/result/subjectsList',
         data:{
             classValue:document.getElementById('classSelect').value,
             Term: document.getElementById('termSelect').value

@@ -281,7 +281,7 @@ module.exports.getSubjectsListWithMarks = async function(req, res){
         let subjectsData = properties.get(req.user.SchoolCode+'.SUBJECTS_'+updatedClassValue);
         //console.log(subjectsData.replaceAll(',',' '));
         let subjects = subjectsData.split(',');
-        let obtainedMarks = await Result.findOne({Class:req.query.classValue, AdmissionNo:req.query.admissionNo, Term:req.query.Term},subjectsData.replaceAll(',',' ')+' Total');
+        let obtainedMarks = await Result.findOne({Class:req.query.classValue, AdmissionNo:admissionNo, Term:req.query.Term, SchoolCode:req.user.SchoolCode},subjectsData.replaceAll(',',' ')+' Total');
         let totalMarks = obtainedMarks.Total
         //console.log(obtainedMarks);
         //console.log(subjects);
@@ -368,6 +368,29 @@ module.exports.getNamesByClassForResult = async function(req, res){
     }catch(err){
         return res.status(500).json({
             message:'Error fetching names'
+        })
+    }
+}
+
+
+module.exports.getSubjectsListOnly = function(req, res){
+    try{
+        let classValue = req.query.classValue;
+        let updatedClassValue = classValue;
+        if(classValue == 'kg-1'){
+            updatedClassValue = 'KG1'
+        }else if(classValue == 'kg-2'){
+            updatedClassValue = 'KG2'
+        }
+        let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
+        let subjectsData = properties.get(req.user.SchoolCode+'.SUBJECTS_'+updatedClassValue);
+        let subjects = subjectsData.split(',');
+        return res.status(200).json({
+            subjects
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to fetch subjects'
         })
     }
 }

@@ -6,6 +6,7 @@ router.post('/update', resultController.updateResult);
 router.post('/updateAll/:AdmissionNo', resultController.updateAllResults);
 router.get('/search/:id', resultController.searchResult);
 router.get('/subjects', resultController.getSubjectsListWithMarks);
+router.get('/subjectsList', resultController.getSubjectsListOnly);
 router.get('/terms', resultController.getTerms);
 router.get('/bulkMarksHome', resultController.bulkMarksHome);
 router.get('/getClassResult', resultController.getClassResult);

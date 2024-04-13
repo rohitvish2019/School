@@ -106,9 +106,19 @@ async function updateFinalGrade(AdmissionNo, req_Class, Term, SchoolCode){
 }
 module.exports.updateResult = async function(req, res){
     try{
+        let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
+        let termsTotal = properties.get(req.user.SchoolCode+'.'+req.body.Term+'_TOTAL');
+        let termWeightage = properties.get(req.user.SchoolCode+'.'+req.body.Term+'.WEIGHT');
         let resultRecord = await Result.findOne({Class:req.body.Class, AdmissionNo:req.body.AdmissionNo,Term:req.body.Term});
         let newRecord = await Result.create(req.body.marks);
-        await newRecord.updateOne({SchoolCode:req.user.SchoolCode, Class:req.body.Class, AdmissionNo:req.body.AdmissionNo,Term:req.body.Term});
+        await newRecord.updateOne({
+            SchoolCode:req.user.SchoolCode,
+            Class:req.body.Class,
+            AdmissionNo:req.body.AdmissionNo,
+            Term:req.body.Term,
+            Total:termsTotal,
+            Weight:termWeightage
+        });
         newRecord.save();
         resultRecord.deleteOne();
         if(req.body.Term ==='Final'){
@@ -132,6 +142,7 @@ module.exports.updateResult = async function(req, res){
         
     }catch(err){
         logger.error(err.toString());
+        console.log(err)
         return res.status(500).json({
             message:'Unable to update result'
         })
@@ -270,8 +281,8 @@ module.exports.getSubjectsListWithMarks = async function(req, res){
         let subjectsData = properties.get(req.user.SchoolCode+'.SUBJECTS_'+updatedClassValue);
         //console.log(subjectsData.replaceAll(',',' '));
         let subjects = subjectsData.split(',');
-        let obtainedMarks = await Result.findOne({Class:req.query.classValue, AdmissionNo:req.query.admissionNo, Term:req.query.Term},subjectsData.replaceAll(',',' '));
-        let totalMarks = properties.get(req.user.SchoolCode+'.'+req.query.Term+'_TOTAL');
+        let obtainedMarks = await Result.findOne({Class:req.query.classValue, AdmissionNo:req.query.admissionNo, Term:req.query.Term},subjectsData.replaceAll(',',' ')+' Total');
+        let totalMarks = obtainedMarks.Total
         //console.log(obtainedMarks);
         //console.log(subjects);
         //console.log(totalMarks);
@@ -306,7 +317,7 @@ module.exports.getTerms = function(req, res){
 
 module.exports.getClassResult = async function(req, res){
     try{
-        let resultSet = await Result.find({Class:req.query.Class, Term:req.query.Term, SchoolCode:req.user.SchoolCode}, req.query.Subjects+" AdmissionNo Class");
+        let resultSet = await Result.find({Class:req.query.Class, Term:req.query.Term, SchoolCode:req.user.SchoolCode}, req.query.Subjects+" AdmissionNo Class Total");
         return res.status(200).json({
             resultSet
         })
@@ -318,9 +329,13 @@ module.exports.getClassResult = async function(req, res){
 }
 
 module.exports.updateResultSingle = async function(req, res){
+    
     try{
+        let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
         let oldRecord = await Result.findOne({AdmissionNo:req.body.AdmissionNo, Class:req.body.Class, Term:req.body.Term, SchoolCode:req.user.SchoolCode});
         let Allmarks = req.body.Allmarks;
+        let totalForTerm = properties.get(req.user.SchoolCode+'.'+req.body.Term+'_TOTAL');
+        let weightForTerm = properties.get(req.user.SchoolCode+'.'+req.body.Term+'.WEIGHT');
         let selectedSubjects = req.body.selectedSubjects;
         for(let i=0;i<selectedSubjects.length;i++){
             let subjectName = selectedSubjects[i];
@@ -329,6 +344,9 @@ module.exports.updateResultSingle = async function(req, res){
             await oldRecord.updateOne(obj);
             await oldRecord.save();
         }
+        console.log(totalForTerm);
+        await oldRecord.updateOne({Total:totalForTerm, Weight:weightForTerm});
+        await oldRecord.save();
         return res.status(200).json({
             message:'Marks updated successfully.'
         })

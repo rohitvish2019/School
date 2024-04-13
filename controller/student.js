@@ -118,10 +118,9 @@ module.exports.getActiveStudents = async function(req, res){
 }
 
 module.exports.getStudent = async function(req, res){
-    
+    let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
     try{
         let student = await Student.findOne({AdmissionNo:req.params.adm_no, Class:req.query.Class});
-        let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'_'+student.Session+'.properties');
         if(req.query.action === 'fee'){
             if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
                 let feesList = await Fee.find({AdmissionNo:req.params.adm_no});
@@ -637,8 +636,8 @@ function getDate(){
 
 module.exports.getMarksheetUI = async function(req, res){
     try{
-        let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class});
-        let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'_'+student.Session+'.properties');
+        let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
+        let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class})
         let classValue = req.query.Class;
         let updatedClassValue = classValue;
         if(classValue == 'kg-1'){
@@ -721,3 +720,39 @@ module.exports.updateProfile = async function(req, res){
     return res.redirect('back')
 }
 
+
+
+module.exports.getMarksheetUINew = async function(req, res){
+    let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
+    let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class});
+    let classValue = req.query.Class;
+    let updatedClassValue = classValue;
+    if(classValue == 'kg-1'){
+        updatedClassValue = 'KG1'
+    }
+    if(classValue == 'kg-2'){
+        updatedClassValue = 'KG2'
+    }
+    let subjects = properties.get(req.user.SchoolCode+'.SUBJECTS_'+updatedClassValue);
+    let subjectsArray = subjects.split(',');
+    let terms = properties.get(req.user.SchoolCode+'.EXAM_SESSIONS').split(',');
+    let termMarks;
+    let resultSet = new Object();
+    for(let i=0;i<terms.length;i++){
+        termMarks = new Object();
+        let weightage = 0;
+        let result = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class,Term:terms[i]},subjects.replaceAll(',',' ')+' Term Total Weight');
+        weightage = result.Weight
+        console.log(result)
+        for(let j=0;j<subjectsArray.length;j++){
+            termMarks[subjectsArray[j]] = (Number(result['_doc'][subjectsArray[j]])*100/ Number(result.Total)) * Number(result.Weight)/100
+        }
+        termMarks['Total'] = result.Total;
+        resultSet[terms[i]] = termMarks;
+    }
+
+    
+    return res.render('getMarksheet',{student, marks:resultSet, sub_list:subjectsArray, terms,SchoolCode:req.user.SchoolCode})
+    
+    
+}

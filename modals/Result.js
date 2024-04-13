@@ -61,7 +61,9 @@ const ResultSchema = new mongoose.Schema({
     CPP:{
         type:Number,
         default:-1
-    }
+    },
+    Total:Number,
+    Weight:Number
     
 },
 {

@@ -6,7 +6,6 @@
 
 <body>
     <div class="marksheet" id="marksheet">
-        <%=student%>
         <div id="logo">
             <img style="margin-top: 5%; margin-bottom: 3%;" src="/schools/<%=SchoolCode%>/school-header.png" alt="school logo" srcset="" width="82%">
         </div>
@@ -58,15 +57,19 @@
                         <%for(let i=0;i<terms.length;i++){%>
                             <th><%=terms[i]%></th>
                         <%}%>
+                        <th>Sum</th>
                     </tr>
                 </thead>
                 <tbody>
                     <%for(let i=0;i<sub_list.length;i++){%>
                         <tr>
                             <td><%=sub_list[i]%></td>
+                            <%let sum = 0%>
                             <%for(let j=0;j<terms.length;j++){%>
-                                <td><%=marks[terms[j]][sub_list[i]]*100/total_marks[j]%></td>
+                                <%sum = sum + marks[terms[j]][sub_list[i]]%>
+                                <td><%=marks[terms[j]][sub_list[i]]%></td>
                             <%}%>
+                            <td><%=sum%></td>
                         </tr>
                     <%}%>
                 </tbody>

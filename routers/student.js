@@ -15,7 +15,7 @@ router.get('/getStudentList', studentController.getStudentsList);
 router.get('/upgradeClass', studentController.upgradeClassPage);
 router.get('/upgrade/:AdmissionNo', studentController.upgradeOneStudent);
 router.post('/upgradeClassBulk', studentController.upgradeClassBulk);
-router.get('/getMarksheet/:AdmissionNo', studentController.getMarksheetUI);
+router.get('/getMarksheet/:AdmissionNo', studentController.getMarksheetUINew);
 router.post('/discharge/:AdmissionNo', studentController.dischargeStudent);
 router.get('/getMe', studentController.getMe);
 router.get('/getAll', studentController.getActiveStudents)

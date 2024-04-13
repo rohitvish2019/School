@@ -1,5 +1,8 @@
 let selectedSubjects = [];
+let maxMarks = 0;
 function displayStudentsList(data){
+    maxMarks = data[0]['Total']
+    document.getElementById('maxMarks').innerText='Maximum Marks : '+ maxMarks;
     selectedSubjects = [];
     document.getElementById("marksTable").innerHTML = "";
     let studentsData = data
@@ -45,6 +48,18 @@ function updateMarks(AdmissionNo) {
     for(let i=0;i<selectedSubjects.length;i++){
         let subjectName = selectedSubjects[i];
         let marks = document.getElementById(AdmissionNo+'_'+selectedSubjects[i]).value;
+        document.getElementById(AdmissionNo+'_'+selectedSubjects[i]).style.border = '1px solid black'
+        if(marks > maxMarks || marks < 0){
+            new Noty({
+                theme: 'relax',
+                text: 'Invalid Marks Found',
+                type: 'error',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+            document.getElementById(AdmissionNo+'_'+selectedSubjects[i]).style.border = '2px solid red'
+            return;
+        }
         Allmarks[subjectName]=marks
     }
     //console.log(selectedSubjects);
@@ -66,7 +81,7 @@ function updateMarks(AdmissionNo) {
                 layout: 'topRight',
                 timeout: 1500
             }).show();
-            document.getElementById(AdmissionNo).remove();
+            document.getElementById(AdmissionNo).style.backgroundColor='#c7fbd7b5';
             return
         },
     })

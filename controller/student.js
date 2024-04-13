@@ -745,13 +745,13 @@ module.exports.getMarksheetUINew = async function(req, res){
         weightage = result.Weight
         console.log(result)
         for(let j=0;j<subjectsArray.length;j++){
-            termMarks[subjectsArray[j]] = (Number(result['_doc'][subjectsArray[j]])*100/ Number(result.Total)) * Number(result.Weight)/100
+            termMarks[subjectsArray[j]] = Math.round((Number(result['_doc'][subjectsArray[j]])*100/ Number(result.Total)) * Number(result.Weight)/100)
         }
         termMarks['Total'] = result.Total;
         resultSet[terms[i]] = termMarks;
     }
 
-    
+
     return res.render('getMarksheet',{student, marks:resultSet, sub_list:subjectsArray, terms,SchoolCode:req.user.SchoolCode})
     
     

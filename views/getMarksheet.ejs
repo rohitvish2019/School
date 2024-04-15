@@ -7,70 +7,161 @@
 <body>
     <div class="marksheet" id="marksheet">
         <div id="logo">
-            <img style="margin-top: 5%; margin-bottom: 3%;" src="/schools/<%=SchoolCode%>/school-header.png" alt="school logo" srcset="" width="82%">
+            <img style="margin-top: 5%; margin-bottom: 3%;" src="/schools/<%=SchoolCode%>/school-header.png" alt="school logo" srcset="" width="95%">
         </div>
         <div class="error-text">
             
         </div>
-        
         <div class="student-info">
-            <div class="row">
-                <div class="label">Admission No:</div>
-                <div class="value" id="admno"><%=student.AdmissionNo%></div>
-                <div class="label">Class:</div>
-                <div class="value"><%=student.Class%></div>
-                <div class="label">Roll No:</div>
-                <div class="value">15</div>
+            <div class="cols">
+                
+                <% let months = ['null','January', 'February','March','April','May','June','July','August','September','October','November','December']%>
+                <% let days=['null','First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'Ninth', 'Tenth', 'Eleventh', 'Twelfth', 'Thirteenth', 'Fourteenth', 'Fifteenth', 'Sixteenth', 'Seventeenth', 'Eighteenth', 'Nineteenth', 'Twentieth', 'Twenty-first', 'Twenty-second', 'Twenty-third', 'Twenty-fourth', 'Twenty-fifth', 'Twenty-sixth', 'Twenty-seventh', 'Twenty-eighth', 'Twenty-ninth', 'Thirtieth', 'Thirty-first'] %>                <div class="dataset">
+                    <label class="data-heading">Student Name :</label>
+                    <label id="student_name"><b><%=student.FirstName%> <%=student.LastName%></b></label>
+                </div>
+                <div class="dataset">
+                    <label class="data-heading">Father's Name :</label>
+                    <label><b><%=student.FathersName%></b></label>
+                </div>
+                <div class="dataset">
+                    <label class="data-heading">Mother's Name :</label>
+                    <label><b><%=student.MothersName%></b></label>
+                </div>
+                <div class="dataset">
+                    <label class="data-heading">Aadhar No :</label>
+                    <label><b><%=student.AadharNumber%></b></label>
+                </div>
+                <div class="dataset">
+                    <label class="data-heading">Samagra ID :</label>
+                    <label><b><%=student.SSSM%></b></label>
+                </div>
+                <div class="dataset">
+                    <label class="data-heading">Gender :</label>
+                    <label><b><%=student.Gender%></b></label>
+                </div>
             </div>
-            <div class="row">
-                <div class="label" >Student Name:</div>
-                <div class="value" id="student_name"><%=student.FirstName%> <%=student.LastName%></div>
-                <div class="label">Father's Name:</div>
-                <div class="value"><%=student.FathersName%></div>
-                <div class="label">Mother's Name:</div>
-                <div class="value"><%=student.MothersName%></div>
-            </div>
-            <div class="row">
-                <div class="label">Aadhar No:</div>
-                <div class="value"><%=student.AadharNumber%></div>
-                <div class="label">Samagra ID:</div>
-                <div class="value"><%=student.SSSM%></div>
-                <div class="label">Date of Birth:</div>
-                <div class="value"><%=student.DOB%></div>
-            </div>
-            <div class="row">
-                <div class="label">Gender:</div>
-                <div class="value"><%=student.Gender%></div>
-                <div class="label">Passing Year:</div>
-                <div class="value"><%=student.Session + 1%></div>
-                <div class="label">Overall Score:</div>
-                <div class="value"><%=student.TotalGrade%></div>
+            <div class="cols">
+                
+                <div class="dataset">
+                    <label class="data-heading">Admission No :</label>
+                    <label id="admno"><b><%=student.AdmissionNo%></b></label>
+                </div>
+                <div class="dataset">
+                    <label class="data-heading">Class :</label>
+                    <label><b><%=student.Class%></b></label>
+                </div>
+                <div class="dataset">
+                    <label class="data-heading">Date of Birth:</label>
+                    <% let DOB = student.DOB.split('-')%>
+                    <label><b><%=DOB[2]%>-<%=DOB[1]%>-<%=DOB[0]%></b></label>
+                </div>
+                <div class="dataset">
+                    <label class="data-heading">DOB in Words :</label>
+                    <label><b><%=days[Number(DOB[2])]%> <%=months[Number(DOB[1])]%></b></label>
+                </div>
+                <div class="dataset">
+                    <label class="data-heading">Passing Year:</label>
+                    <label><b><%=student.Session + 1%></b></label>
+                </div>
+                <div class="dataset">
+                    <label class="data-heading">Overall Score:</label>
+                    <label><b><%=student.TotalGrade%></b></label>
+                </div>
             </div>
         </div>
+        <div style="display: flex;justify-content: space-between;">
+            <div style="width: 62%;text-align: center; font-size: large; font-weight: bold;padding-bottom: 1%;margin-top: 2%;">Academic Score</div>
+            <div style="width: 35%;text-align: center;font-size: large; font-weight: bold;padding-bottom: 1%; margin-top: 2%;">Moral Qualities</div>
+        </div>
         <div class="result-section">
-            <h4>Academic performace details</h4>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Subjects</th>
-                        <%for(let i=0;i<terms.length;i++){%>
-                            <th><%=terms[i]%></th>
+            <div class="scores" id="AcademicScore">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Subjects</th>
+                            <%for(let i=0;i<terms.length;i++){%>
+                                <th><%=terms[i]%></th>
+                            <%}%>
+                            <th>Obtained(Sum)</th>
+                            <th>Total</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%for(let i=0;i<sub_list.length;i++){%>
+                            <tr>
+                                <td><%=sub_list[i]%></td>
+                                <%let sum = 0%>
+                                <% let total = 0%>
+                                <%for(let j=0;j<terms.length;j++){%>
+                                    <%sum = sum + marks[terms[j]][sub_list[i]]%>
+                                    <td><%=marks[terms[j]][sub_list[i]]%></td>
+                                    
+                                <%}%>
+                                <td><%=sum%></td>
+                                <td>100</td>
+                            </tr>
                         <%}%>
-                        <th>Sum</th>
-                    </tr>
+                        <tr>
+                            <td>Grand Total</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="scores" id="LiteraryScore">
+                <table>
+                    <thead>
+                        <th>Area</th>
+                        <th>Score</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>PUNCTUALITY</td>
+                            <td>B</td>
+                        </tr>
+                        <tr>
+                            <td>HYGIENE</td>
+                            <td>B</td>
+                        </tr>
+                        <tr>
+                            <td>CONSCIENTIOUSNESS</td>
+                            <td>B</td>
+                        </tr>
+                        <tr>
+                            <td>HELPFULNESS</td>
+                            <td>B</td>
+                        </tr>
+                        <tr>
+                            <td>HONESTY</td>
+                            <td>B</td>
+                        </tr>
+                        <tr>
+                            <td>Environmentally sensitive</td>
+                            <td>B</td>
+                        </tr>
+                        
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="co-ed-section">
+            <label style="text-align: center; font-size: large; font-weight: bold;padding-bottom: 1%;margin-top: 2%; width: 100%;">Co-Ed Activities</label>
+            <table border="1px solid black">
+                <thead>
+                    <th>Literary</th>
+                    <th>Cultural</th>
+                    <th>Scientific</th>
+                    <th>Creativity</th>
+                    <th>Sports</th>
                 </thead>
                 <tbody>
-                    <%for(let i=0;i<sub_list.length;i++){%>
-                        <tr>
-                            <td><%=sub_list[i]%></td>
-                            <%let sum = 0%>
-                            <%for(let j=0;j<terms.length;j++){%>
-                                <%sum = sum + marks[terms[j]][sub_list[i]]%>
-                                <td><%=marks[terms[j]][sub_list[i]]%></td>
-                            <%}%>
-                            <td><%=sum%></td>
-                        </tr>
-                    <%}%>
+                    <td>B</td>
+                    <td>B</td>
+                    <td>B</td>
+                    <td>B</td>
+                    <td>B</td>
                 </tbody>
             </table>
         </div>
@@ -92,7 +183,7 @@
 </body>
 
     <div>
-        <button id="download-marksheet" class="btn btn-success my-4 download-button">Download</button>
+        <button style="display: none;" id="download-marksheet" class="btn btn-success my-4 download-button">Download</button>
     </div>
 
 

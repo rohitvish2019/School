@@ -6,7 +6,7 @@ body {
 }
 
 .marksheet {
-    width: 210mm;
+    width: 270mm;
     height: 297mm;
     margin-left: 0%;
     padding-left: 2%;
@@ -14,34 +14,58 @@ body {
     background-color: #fff;
 }
 
+@media print {
+    .marksheet {
+        border: 1px solid black;
+        box-shadow: none;
+        background-color: transparent;
+    }
+}
 
+
+
+
+.data-heading{
+    width: 30%;
+    min-width: 100px;
+    display: inline-block;
+    font-weight: 600;
+}
+
+.dataset{
+    margin-bottom: 1%;
+}
 .student-info {
-    margin-bottom: 0px;
-    width: 82%;
+    width: 94%;
     margin-left: 2%;
-}
-
-.row {
     display: flex;
-    margin-bottom: 10px;
+    margin-bottom: 1%;
+    border-bottom: 1px dotted black;
+    padding-bottom: 1%;
+    justify-content: space-between;
+    margin-top: 5%;
+}
+.cols{
+    width: 45%;
 }
 
-.label {
-    flex: 1;
-    margin: 0;
-    padding: 0;
-    font-weight: bold;
+.result-section{
+    width: 96%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 1%;
 }
 
-.value {
-    flex: 1;
-    margin: 0;
-    padding: 0;
-    text-align: left;
-}
 
+#AcademicScore{
+    width: 62%;
+}
+#LiteraryScore{
+    width: 35%;
+}
 .result-section table {
-    width: 82%;
+    width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
     
@@ -53,56 +77,28 @@ body {
     text-align: center;
 }
 
+.co-ed-section table{
+    width: 96%;
+    text-align: center;
+}
+
+.co-ed-section th, .co-ed-section td{
+    border: 1px solid #ccc;
+    padding: 4px;
+    text-align: center;
+}
 .official-section {
-    width: 82%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     margin-top: 8%;
 }
-
 .signature {
-    flex: 1;
     text-align: left;
-    padding: 10px;
+    padding: 5px;
+    width: 20%;
+    
 }
-
-.role {
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.date {
-    font-size: 14px;
-}
-
-@media print {
-    .marksheet {
-        border: 1px solid black;
-        box-shadow: none;
-        background-color: transparent;
-    }
-}
-
-h4{
-    margin-bottom:3%;
-    margin-top: 2%;
-}
-
-.download-button{
-    position: fixed;
-    top: 5%;
-    right: 5%;
-
-}
-
-.error-text{
-    color: red;
-    font-size: medium;
-    text-align: left;
-    margin: 1%;
-    font-weight: bold;
-}
-
-input{
-    text-transform: capitalize;
+.role{
+    margin-bottom: 20%;
 }

@@ -185,7 +185,7 @@ module.exports.admit = async function(req, res){
                     SchoolCode:req.user.SchoolCode
                 });
             }
-            let terms = Schoolproperties.get(req.user.SchoolCode+'.EXAM_SESSIONS').split(',');
+            let terms = (Schoolproperties.get(req.user.SchoolCode+'.EXAM_SESSIONS')+','+Schoolproperties.get(req.user.SchoolCode+'.EXAM_SESSIONS_Add')).split(',');
             for(let i=0;i<terms.length;i++){
                 await Result.create({
                     AdmissionNo: definedAdmissionNo,

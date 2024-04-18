@@ -52,16 +52,18 @@ const ResultSchema = new mongoose.Schema({
     },
     Drawing:{
         type:Number,
-        default: -1
     },
-    Java:{
-        type:Number,
-        default: -1
-    },
-    CPP:{
-        type:Number,
-        default:-1
-    },
+    Literary:String,
+    Cultural:String,
+    Scientific:String,
+    Creativity:String,
+    Sports:String,
+    PUNCTUALITY:String,
+    HYGIENE:String,
+    CONSCIENTIOUSNESS:String,
+    HELPFULNESS:String,
+    HONESTY:String,
+    EnvironmentallySensitive:String,
     Total:Number,
     Weight:Number
     

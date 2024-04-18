@@ -277,15 +277,16 @@ module.exports.getSubjectsListWithMarks = async function(req, res){
         }else if(classValue == 'kg-2'){
             updatedClassValue = 'KG2'
         }
-    
-        let subjectsData = properties.get(req.user.SchoolCode+'.SUBJECTS_'+updatedClassValue);
-        //console.log(subjectsData.replaceAll(',',' '));
+        let subjectsData
+        if(req.query.Term == 'MORAL' || req.query.Term == 'COED'){
+            subjectsData = properties.get(req.user.SchoolCode+'.'+req.query.Term+'.SUBJECTS');
+        }else{
+            subjectsData = properties.get(req.user.SchoolCode+'.SUBJECTS_'+updatedClassValue);
+        }
         let subjects = subjectsData.split(',');
-        let obtainedMarks = await Result.findOne({Class:req.query.classValue, AdmissionNo:admissionNo, Term:req.query.Term, SchoolCode:req.user.SchoolCode},subjectsData.replaceAll(',',' ')+' Total');
+        console.log(req.query)
+        let obtainedMarks = await Result.findOne({Class:req.query.classValue, AdmissionNo:req.query.admissionNo, Term:req.query.Term, SchoolCode:req.user.SchoolCode},subjectsData.replaceAll(',',' ')+' Total');
         let totalMarks = obtainedMarks.Total
-        //console.log(obtainedMarks);
-        //console.log(subjects);
-        //console.log(totalMarks);
         return res.status(200).json({
             subjects,
             obtainedMarks,
@@ -303,7 +304,8 @@ module.exports.getSubjectsListWithMarks = async function(req, res){
 module.exports.getTerms = function(req, res){
     let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
     try{    
-        let terms = properties.get(req.user.SchoolCode+'.EXAM_SESSIONS').split(',')
+        let terms = (properties.get(req.user.SchoolCode+'.EXAM_SESSIONS') +','+ properties.get(req.user.SchoolCode+'.EXAM_SESSIONS_Add')).split(',');
+        console.log(terms.length)
         return res.status(200).json({
             terms
         })
@@ -383,7 +385,13 @@ module.exports.getSubjectsListOnly = function(req, res){
             updatedClassValue = 'KG2'
         }
         let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
-        let subjectsData = properties.get(req.user.SchoolCode+'.SUBJECTS_'+updatedClassValue);
+        let subjectsData;
+        if(req.query.Term == 'MORAL' || req.query.Term == 'COED'){
+            subjectsData = properties.get(req.user.SchoolCode+'.'+req.query.Term+'.SUBJECTS');
+        }else{
+            subjectsData = properties.get(req.user.SchoolCode+'.SUBJECTS_'+updatedClassValue);
+        }
+        
         let subjects = subjectsData.split(',');
         return res.status(200).json({
             subjects

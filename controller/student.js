@@ -736,23 +736,31 @@ module.exports.getMarksheetUINew = async function(req, res){
     let subjects = properties.get(req.user.SchoolCode+'.SUBJECTS_'+updatedClassValue);
     let subjectsArray = subjects.split(',');
     let terms = properties.get(req.user.SchoolCode+'.EXAM_SESSIONS').split(',');
+    let addtionalTerms = properties.get(req.user.SchoolCode+'.EXAM_SESSIONS_Add').split(',');
+    let addtionalSubjects = new Object();
+    let addtionalMarks = new Object();
+    for(let i=0;i<addtionalTerms.length;i++){
+        let subjects = properties.get(req.user.SchoolCode+'.'+addtionalTerms[i]+'.SUBJECTS').replaceAll(',',' ');
+        addtionalMarks[addtionalTerms[i]] = await Result.findOne({SchoolCode:req.user.SchoolCode,Term:addtionalTerms[i], Class:classValue, AdmissionNo:req.params.AdmissionNo}, subjects);
+    };
+    
     let termMarks;
     let resultSet = new Object();
     for(let i=0;i<terms.length;i++){
         termMarks = new Object();
         let weightage = 0;
+        
         let result = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class,Term:terms[i]},subjects.replaceAll(',',' ')+' Term Total Weight');
         weightage = result.Weight
-        console.log(result)
         for(let j=0;j<subjectsArray.length;j++){
             termMarks[subjectsArray[j]] = Math.round((Number(result['_doc'][subjectsArray[j]])*100/ Number(result.Total)) * Number(result.Weight)/100)
         }
         termMarks['Total'] = result.Total;
         resultSet[terms[i]] = termMarks;
     }
+    console.log(addtionalMarks)
 
-
-    return res.render('getMarksheet',{student, marks:resultSet, sub_list:subjectsArray, terms,SchoolCode:req.user.SchoolCode})
+    return res.render('getMarksheet',{student, marks:resultSet, addtionalMarks, sub_list:subjectsArray, terms,SchoolCode:req.user.SchoolCode})
     
     
 }

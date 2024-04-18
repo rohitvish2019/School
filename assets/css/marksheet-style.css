@@ -3,6 +3,7 @@ body {
     margin: 0;
     padding: 0;
     font-size: small;
+    
 }
 
 .marksheet {
@@ -11,7 +12,10 @@ body {
     margin-left: 0%;
     padding-left: 2%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    background-image: url('/schools/SVVN/watermark3.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+
 }
 
 @media print {
@@ -45,8 +49,12 @@ body {
     justify-content: space-between;
     margin-top: 5%;
 }
-.cols{
+.col1{
     width: 45%;
+}
+
+.col2{
+    width: 55%;
 }
 
 .result-section{

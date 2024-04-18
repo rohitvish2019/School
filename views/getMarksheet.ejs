@@ -12,10 +12,13 @@
         <div class="error-text">
             
         </div>
+        
         <div class="student-info">
-            <div class="cols">
+            <div class="col1">
                 
                 <% let months = ['null','January', 'February','March','April','May','June','July','August','September','October','November','December']%>
+                <% let year = ['Nineteen','Two Thousands']%>
+                <% let nums=["null","One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen", "Twenty", "Twenty-One", "Twenty-Two", "Twenty-Three", "Twenty-Four", "Twenty-Five", "Twenty-Six", "Twenty-Seven", "Twenty-Eight", "Twenty-Nine", "Thirty", "Thirty-One", "Thirty-Two", "Thirty-Three", "Thirty-Four", "Thirty-Five", "Thirty-Six", "Thirty-Seven", "Thirty-Eight", "Thirty-Nine", "Forty", "Forty-One", "Forty-Two", "Forty-Three", "Forty-Four", "Forty-Five", "Forty-Six", "Forty-Seven", "Forty-Eight", "Forty-Nine", "Fifty", "Fifty-One", "Fifty-Two", "Fifty-Three", "Fifty-Four", "Fifty-Five", "Fifty-Six", "Fifty-Seven", "Fifty-Eight", "Fifty-Nine", "Sixty", "Sixty-One", "Sixty-Two", "Sixty-Three", "Sixty-Four", "Sixty-Five", "Sixty-Six", "Sixty-Seven", "Sixty-Eight", "Sixty-Nine", "Seventy", "Seventy-One", "Seventy-Two", "Seventy-Three", "Seventy-Four", "Seventy-Five", "Seventy-Six", "Seventy-Seven", "Seventy-Eight", "Seventy-Nine", "Eighty", "Eighty-One", "Eighty-Two", "Eighty-Three", "Eighty-Four", "Eighty-Five", "Eighty-Six", "Eighty-Seven", "Eighty-Eight", "Eighty-Nine", "Ninety", "Ninety-One", "Ninety-Two", "Ninety-Three", "Ninety-Four", "Ninety-Five", "Ninety-Six", "Ninety-Seven", "Ninety-Eight", "Ninety-Nine"]%>
                 <% let days=['null','First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'Ninth', 'Tenth', 'Eleventh', 'Twelfth', 'Thirteenth', 'Fourteenth', 'Fifteenth', 'Sixteenth', 'Seventeenth', 'Eighteenth', 'Nineteenth', 'Twentieth', 'Twenty-first', 'Twenty-second', 'Twenty-third', 'Twenty-fourth', 'Twenty-fifth', 'Twenty-sixth', 'Twenty-seventh', 'Twenty-eighth', 'Twenty-ninth', 'Thirtieth', 'Thirty-first'] %>                <div class="dataset">
                     <label class="data-heading">Student Name :</label>
                     <label id="student_name"><b><%=student.FirstName%> <%=student.LastName%></b></label>
@@ -41,7 +44,7 @@
                     <label><b><%=student.Gender%></b></label>
                 </div>
             </div>
-            <div class="cols">
+            <div class="col2">
                 
                 <div class="dataset">
                     <label class="data-heading">Admission No :</label>
@@ -58,7 +61,7 @@
                 </div>
                 <div class="dataset">
                     <label class="data-heading">DOB in Words :</label>
-                    <label><b><%=days[Number(DOB[2])]%> <%=months[Number(DOB[1])]%></b></label>
+                    <label style="font-size: small;font-weight: bold;"><%=days[Number(DOB[2])]%> <%=months[Number(DOB[1])]%> <%=year[Number(DOB[0].substring(0,2)-19)]%> <%=nums[Number(DOB[0].substring(2))]%></label>
                 </div>
                 <div class="dataset">
                     <label class="data-heading">Passing Year:</label>
@@ -110,38 +113,21 @@
                 </table>
             </div>
             <div class="scores" id="LiteraryScore">
+                <% let subjects = Object.keys(addtionalMarks['MORAL']['_doc'])%>
+                
                 <table>
                     <thead>
                         <th>Area</th>
                         <th>Score</th>
                     </thead>
+                    
                     <tbody>
-                        <tr>
-                            <td>PUNCTUALITY</td>
-                            <td>B</td>
-                        </tr>
-                        <tr>
-                            <td>HYGIENE</td>
-                            <td>B</td>
-                        </tr>
-                        <tr>
-                            <td>CONSCIENTIOUSNESS</td>
-                            <td>B</td>
-                        </tr>
-                        <tr>
-                            <td>HELPFULNESS</td>
-                            <td>B</td>
-                        </tr>
-                        <tr>
-                            <td>HONESTY</td>
-                            <td>B</td>
-                        </tr>
-                        <tr>
-                            <td>Environmentally sensitive</td>
-                            <td>B</td>
-                        </tr>
-                        
-
+                        <%for(let i=1;i<subjects.length;i++){%>
+                            <tr>
+                                <td><%=subjects[i]%></td>
+                                <td><%=addtionalMarks['MORAL']['_doc'][subjects[i]]%></td>
+                            </tr>
+                        <%}%>
                     </tbody>
                 </table>
             </div>
@@ -157,11 +143,10 @@
                     <th>Sports</th>
                 </thead>
                 <tbody>
-                    <td>B</td>
-                    <td>B</td>
-                    <td>B</td>
-                    <td>B</td>
-                    <td>B</td>
+                    <% let subs = Object.keys(addtionalMarks['COED']['_doc'])%>
+                    <%for(let i=1;i<Object.keys(addtionalMarks['COED']['_doc']).length;i++){%>
+                        <td><%=addtionalMarks['COED']['_doc'][subs[i]]%></td>
+                    <%}%>
                 </tbody>
             </table>
         </div>

@@ -113,7 +113,9 @@
                 </table>
             </div>
             <div class="scores" id="LiteraryScore">
+                <%let grades=['F','F','F','F','F','F','F','D','D','D','D','C','C','C','C','B','B','B','A','A','A']%>
                 <% let subjects = Object.keys(addtionalMarks['MORAL']['_doc'])%>
+                <% let hindiSubs = ["","नियमितता/समयबद्धता","स्वच्छता","कर्तव्यनिष्ठा","सहयोग की भावना","सत्यवादिता/ईमानदारी","पर्यावरण संवेदनशील"]%>
                 
                 <table>
                     <thead>
@@ -124,8 +126,8 @@
                     <tbody>
                         <%for(let i=1;i<subjects.length;i++){%>
                             <tr>
-                                <td><%=subjects[i]%></td>
-                                <td><%=addtionalMarks['MORAL']['_doc'][subjects[i]]%></td>
+                                <td><%=hindiSubs[i]%></td>
+                                <td><%=grades[addtionalMarks['MORAL']['_doc'][subjects[i]]]%></td>
                             </tr>
                         <%}%>
                     </tbody>
@@ -136,16 +138,17 @@
             <label style="text-align: center; font-size: large; font-weight: bold;padding-bottom: 1%;margin-top: 2%; width: 100%;">Co-Ed Activities</label>
             <table border="1px solid black">
                 <thead>
-                    <th>Literary</th>
-                    <th>Cultural</th>
-                    <th>Scientific</th>
-                    <th>Creativity</th>
-                    <th>Sports</th>
+                    <th>साहित्यिक</th>
+                    <th>सांस्कृतिक</th>
+                    <th>वैज्ञानिक</th>
+                    <th>सृजनात्मक</th>
+                    <th>खेलकूद</th>
                 </thead>
                 <tbody>
+                    
                     <% let subs = Object.keys(addtionalMarks['COED']['_doc'])%>
                     <%for(let i=1;i<Object.keys(addtionalMarks['COED']['_doc']).length;i++){%>
-                        <td><%=addtionalMarks['COED']['_doc'][subs[i]]%></td>
+                        <td><%= grades[Number(addtionalMarks['COED']['_doc'][subs[i]])]%></td>
                     <%}%>
                 </tbody>
             </table>
@@ -159,10 +162,12 @@
                 <div class="role">Class Teacher's Signature:</div>
                 <div class="date">Date:</div>
             </div>
+            <!--
             <div class="signature">
                 <div class="role">Parent's Signature:</div>
                 <div class="date">Date:</div>
             </div>
+            -->
         </div>
     </div>
 </body>

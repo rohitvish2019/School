@@ -31,7 +31,7 @@ function displayStudentsList(data){
         selectedSubjects.forEach(function(subject) {
             row.innerHTML += "<td><input type='number' id='" +student.AdmissionNo + "_" + subject + "' value='" + student[subject] + "'></td>";
         });
-        row.innerHTML += "<td><button onclick='updateMarks(" + student.AdmissionNo + ")'>Update</button></td><td><a href='/student/getMarksheet/"+student.AdmissionNo+"/?Class="+document.getElementById('classSelect').value+"'>Marksheet</a></td>";
+        row.innerHTML += "<td><button onclick='updateMarks(" + student.AdmissionNo + ")'>Update</button></td><td><a target='_blank' href='/student/getMarksheet/"+student.AdmissionNo+"/?Class="+document.getElementById('classSelect').value+"'>Marksheet</a></td>";
         document.getElementById("marksTable").appendChild(row);
         count++;
     });
@@ -208,4 +208,5 @@ function getNamesByClass(Class){
 document.getElementById('getSubject').addEventListener('click', getSubjects);
 getTerms()
 document.getElementById("selectButton").addEventListener("click", getCurrentResult);
-getClassList()
+getClassList();
+Window.print();

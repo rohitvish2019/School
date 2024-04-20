@@ -5,6 +5,9 @@
 </head>
 
 <body>
+    <script>
+        let a = 60;
+    </script>
     <div class="marksheet" id="marksheet">
         <div id="logo">
             <img style="margin-top: 5%; margin-bottom: 3%;" src="/schools/<%=SchoolCode%>/school-header.png" alt="school logo" srcset="" width="95%">
@@ -20,81 +23,85 @@
                 <% let year = ['Nineteen','Two Thousands']%>
                 <% let nums=["null","One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen", "Twenty", "Twenty-One", "Twenty-Two", "Twenty-Three", "Twenty-Four", "Twenty-Five", "Twenty-Six", "Twenty-Seven", "Twenty-Eight", "Twenty-Nine", "Thirty", "Thirty-One", "Thirty-Two", "Thirty-Three", "Thirty-Four", "Thirty-Five", "Thirty-Six", "Thirty-Seven", "Thirty-Eight", "Thirty-Nine", "Forty", "Forty-One", "Forty-Two", "Forty-Three", "Forty-Four", "Forty-Five", "Forty-Six", "Forty-Seven", "Forty-Eight", "Forty-Nine", "Fifty", "Fifty-One", "Fifty-Two", "Fifty-Three", "Fifty-Four", "Fifty-Five", "Fifty-Six", "Fifty-Seven", "Fifty-Eight", "Fifty-Nine", "Sixty", "Sixty-One", "Sixty-Two", "Sixty-Three", "Sixty-Four", "Sixty-Five", "Sixty-Six", "Sixty-Seven", "Sixty-Eight", "Sixty-Nine", "Seventy", "Seventy-One", "Seventy-Two", "Seventy-Three", "Seventy-Four", "Seventy-Five", "Seventy-Six", "Seventy-Seven", "Seventy-Eight", "Seventy-Nine", "Eighty", "Eighty-One", "Eighty-Two", "Eighty-Three", "Eighty-Four", "Eighty-Five", "Eighty-Six", "Eighty-Seven", "Eighty-Eight", "Eighty-Nine", "Ninety", "Ninety-One", "Ninety-Two", "Ninety-Three", "Ninety-Four", "Ninety-Five", "Ninety-Six", "Ninety-Seven", "Ninety-Eight", "Ninety-Nine"]%>
                 <% let days=['null','First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'Ninth', 'Tenth', 'Eleventh', 'Twelfth', 'Thirteenth', 'Fourteenth', 'Fifteenth', 'Sixteenth', 'Seventeenth', 'Eighteenth', 'Nineteenth', 'Twentieth', 'Twenty-first', 'Twenty-second', 'Twenty-third', 'Twenty-fourth', 'Twenty-fifth', 'Twenty-sixth', 'Twenty-seventh', 'Twenty-eighth', 'Twenty-ninth', 'Thirtieth', 'Thirty-first'] %>                <div class="dataset">
-                    <label class="data-heading">Student Name :</label>
+                    <label class="data-heading">विद्यार्थी का नाम :</label>
                     <label id="student_name"><b><%=student.FirstName%> <%=student.LastName%></b></label>
                 </div>
                 <div class="dataset">
-                    <label class="data-heading">Father's Name :</label>
+                    <label class="data-heading">पिता का नाम :</label>
                     <label><b><%=student.FathersName%></b></label>
                 </div>
                 <div class="dataset">
-                    <label class="data-heading">Mother's Name :</label>
+                    <label class="data-heading">माता का नाम :</label>
                     <label><b><%=student.MothersName%></b></label>
                 </div>
                 <div class="dataset">
-                    <label class="data-heading">Aadhar No :</label>
+                    <label class="data-heading">आधार क्रमांक :</label>
                     <label><b><%=student.AadharNumber%></b></label>
                 </div>
                 <div class="dataset">
-                    <label class="data-heading">Samagra ID :</label>
+                    <label class="data-heading">समग्र आईडी :</label>
                     <label><b><%=student.SSSM%></b></label>
                 </div>
+                <!--
                 <div class="dataset">
                     <label class="data-heading">Gender :</label>
                     <label><b><%=student.Gender%></b></label>
                 </div>
+                -->
             </div>
             <div class="col2">
                 
                 <div class="dataset">
-                    <label class="data-heading">Admission No :</label>
+                    <label class="data-heading">दाखिल क्रमांक :</label>
                     <label id="admno"><b><%=student.AdmissionNo%></b></label>
                 </div>
                 <div class="dataset">
-                    <label class="data-heading">Class :</label>
+                    <label class="data-heading">कक्षा :</label>
                     <label><b><%=student.Class%></b></label>
                 </div>
                 <div class="dataset">
-                    <label class="data-heading">Date of Birth:</label>
+                    <label class="data-heading">जन्म तिथि :</label>
                     <% let DOB = student.DOB.split('-')%>
                     <label><b><%=DOB[2]%>-<%=DOB[1]%>-<%=DOB[0]%></b></label>
                 </div>
                 <div class="dataset">
-                    <label class="data-heading">DOB in Words :</label>
+                    <label class="data-heading">जन्म तिथि(शब्दो में) :</label>
                     <label style="font-size: small;font-weight: bold;"><%=days[Number(DOB[2])]%> <%=months[Number(DOB[1])]%> <%=year[Number(DOB[0].substring(0,2)-19)]%> <%=nums[Number(DOB[0].substring(2))]%></label>
                 </div>
                 <div class="dataset">
-                    <label class="data-heading">Passing Year:</label>
+                    <label class="data-heading">उत्तीर्ण वर्ष:</label>
                     <label><b><%=student.Session + 1%></b></label>
                 </div>
                 <div class="dataset">
-                    <label class="data-heading">Overall Score:</label>
+                    <label class="data-heading">परिणाम:</label>
                     <label><b><%=student.TotalGrade%></b></label>
                 </div>
             </div>
         </div>
         <div style="display: flex;justify-content: space-between;">
-            <div style="width: 62%;text-align: center; font-size: large; font-weight: bold;padding-bottom: 1%;margin-top: 2%;">Academic Score</div>
-            <div style="width: 35%;text-align: center;font-size: large; font-weight: bold;padding-bottom: 1%; margin-top: 2%;">Moral Qualities</div>
+            <div style="width: 62%;text-align: center; font-size: large; font-weight: bold;padding-bottom: 1%;margin-top: 2%;">शैक्षिक क्षेत्रों का मूल्यांकन</div>
+            <div style="width: 35%;text-align: center;font-size: large; font-weight: bold;padding-bottom: 1%; margin-top: 2%;">व्यक्तिगत सामाजिक गुण</div>
         </div>
         <div class="result-section">
             <div class="scores" id="AcademicScore">
+                <% termsMapping = {"Half-Yearly":"अर्द्धवार्षिक","Final":"वार्षिक","Project":"प्रोजेक्ट"} %>
+                <%let grades=['F','F','F','F','F','F','F','D+','D+','D','C+','C','C','B+','B','B','A','A','A+','A+','A+']%>
                 <table>
                     <thead>
                         <tr>
-                            <th>Subjects</th>
+                            <th>विषय</th>
                             <%for(let i=0;i<terms.length;i++){%>
-                                <th><%=terms[i]%></th>
+                                <th><%=termsMapping[terms[i]]%></th>
                             <%}%>
-                            <th>Obtained(Sum)</th>
-                            <th>Total</th>
-
+                            <th>प्राप्तांक(योग)</th>
+                            <th>कुल</th>
+                            <th>ग्रेड</th>
                         </tr>
                     </thead>
                     <tbody>
                         <%for(let i=0;i<sub_list.length;i++){%>
                             <tr>
-                                <td><%=sub_list[i]%></td>
+                                <td><%=subjectsMapping[sub_list[i]]%></td>
                                 <%let sum = 0%>
                                 <% let total = 0%>
                                 <%for(let j=0;j<terms.length;j++){%>
@@ -104,6 +111,7 @@
                                 <%}%>
                                 <td><%=sum%></td>
                                 <td>100</td>
+                                <td><%=grades[Math.ceil(sum/5)]%></td>
                             </tr>
                         <%}%>
                         <tr>
@@ -113,20 +121,19 @@
                 </table>
             </div>
             <div class="scores" id="LiteraryScore">
-                <%let grades=['F','F','F','F','F','F','F','D','D','D','D','C','C','C','C','B','B','B','A','A','A']%>
                 <% let subjects = Object.keys(addtionalMarks['MORAL']['_doc'])%>
                 <% let hindiSubs = ["","नियमितता/समयबद्धता","स्वच्छता","कर्तव्यनिष्ठा","सहयोग की भावना","सत्यवादिता/ईमानदारी","पर्यावरण संवेदनशील"]%>
                 
                 <table>
                     <thead>
-                        <th>Area</th>
-                        <th>Score</th>
+                        <th>क्षेत्र</th>
+                        <th>ग्रेड</th>
                     </thead>
                     
                     <tbody>
                         <%for(let i=1;i<subjects.length;i++){%>
                             <tr>
-                                <td><%=hindiSubs[i]%></td>
+                                <td><%=subjectsMapping[subjects[i]]%></td>
                                 <td><%=grades[addtionalMarks['MORAL']['_doc'][subjects[i]]]%></td>
                             </tr>
                         <%}%>
@@ -135,7 +142,7 @@
             </div>
         </div>
         <div class="co-ed-section">
-            <label style="text-align: center; font-size: large; font-weight: bold;padding-bottom: 1%;margin-top: 2%; width: 100%;">Co-Ed Activities</label>
+            <label style="text-align: center; font-size: large; font-weight: bold;padding-bottom: 1%;margin-top: 2%; width: 100%;">सह शैक्षिक क्षेत्र</label>
             <table border="1px solid black">
                 <thead>
                     <th>साहित्यिक</th>
@@ -151,6 +158,35 @@
                         <td><%= grades[Number(addtionalMarks['COED']['_doc'][subs[i]])]%></td>
                     <%}%>
                 </tbody>
+            </table>
+        </div>
+        <div>
+            <label style="text-align: center; font-size: large; font-weight: bold;padding-bottom: 1%;margin-top: 2%; width: 100%;">ग्रेडिंग व्यवस्था का विवरण</label>
+            
+            <table border="1px solid black">
+                <tr>
+                    <td>ग्रेड</td>
+                    <td>A+</td>
+                    <td>A</td>
+                    <td>B+</td>
+                    <td>B</td>
+                    <td>C+</td>
+                    <td>C</td>
+                    <td>D</td>
+                    <td>F</td>
+                    
+                </tr>
+                <tr>
+                    <td>प्राप्तांक</td>
+                    <td>>85</td>
+                    <td>76-85</td>
+                    <td>66-75</td>
+                    <td>56-65</td>
+                    <td>51-55</td>
+                    <td>46-50</td>
+                    <td>33-45</td>
+                    <td><33</td>
+                </tr>
             </table>
         </div>
         <div class="official-section">
@@ -170,13 +206,14 @@
             -->
         </div>
     </div>
+    
 </body>
 
     <div>
         <button style="display: none;" id="download-marksheet" class="btn btn-success my-4 download-button">Download</button>
     </div>
 
-
+    वार्षिक परीक्षा प्रगति पत्रक संस्था प्रमुख के हस्ताक्षर एवं पदमुद्रा के बाद ही मान्य होगा
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.2/jquery.min.js" integrity="sha512-tWHlutFnuG0C6nQRlpvrEhE4QpkG1nn2MOUMWmUeRePl4e3Aki0VB6W1v3oLjFtd0hVOtRQ9PHpSfN6u6/QXkQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.0/html2pdf.bundle.min.js" integrity="sha512-w3u9q/DeneCSwUDjhiMNibTRh/1i/gScBVp2imNVAMCt6cUHIw6xzhzcPFIaL3Q1EbI2l+nu17q2aLJJLo4ZYg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

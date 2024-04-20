@@ -723,44 +723,68 @@ module.exports.updateProfile = async function(req, res){
 
 
 module.exports.getMarksheetUINew = async function(req, res){
-    let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
-    let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class});
-    let classValue = req.query.Class;
-    let updatedClassValue = classValue;
-    if(classValue == 'kg-1'){
-        updatedClassValue = 'KG1'
-    }
-    if(classValue == 'kg-2'){
-        updatedClassValue = 'KG2'
-    }
-    let subjects = properties.get(req.user.SchoolCode+'.SUBJECTS_'+updatedClassValue);
-    let subjectsArray = subjects.split(',');
-    let terms = properties.get(req.user.SchoolCode+'.EXAM_SESSIONS').split(',');
-    let addtionalTerms = properties.get(req.user.SchoolCode+'.EXAM_SESSIONS_Add').split(',');
-    let addtionalSubjects = new Object();
-    let addtionalMarks = new Object();
-    for(let i=0;i<addtionalTerms.length;i++){
-        let subjects = properties.get(req.user.SchoolCode+'.'+addtionalTerms[i]+'.SUBJECTS').replaceAll(',',' ');
-        addtionalMarks[addtionalTerms[i]] = await Result.findOne({SchoolCode:req.user.SchoolCode,Term:addtionalTerms[i], Class:classValue, AdmissionNo:req.params.AdmissionNo}, subjects);
-    };
-    
-    let termMarks;
-    let resultSet = new Object();
-    for(let i=0;i<terms.length;i++){
-        termMarks = new Object();
-        let weightage = 0;
-        
-        let result = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class,Term:terms[i]},subjects.replaceAll(',',' ')+' Term Total Weight');
-        weightage = result.Weight
-        for(let j=0;j<subjectsArray.length;j++){
-            termMarks[subjectsArray[j]] = Math.round((Number(result['_doc'][subjectsArray[j]])*100/ Number(result.Total)) * Number(result.Weight)/100)
+    try{
+        let subjectsMapping = {
+            "Hindi":"हिन्दी",
+            "English" : "अंग्रेज़ी",
+            "Math" : "गणित",
+            "Social_Science" :"सामाजिक विज्ञान",
+            "Science" : "विज्ञान",
+            "Enviornment":"पर्यावरण",
+            "Sanskrit":"संस्कृत",
+            "Computer":"कंप्यूटर",
+            "Moral":"नैतिक शिक्षा",
+            "Drawing":"चित्रकला",
+            "Literary":"साहित्यिक",
+            "Cultural":"सांस्कृतिक",
+            "Scientific":"वैज्ञानिक",
+            "Creativity":"सृजनात्मक",
+            "Sports":"खेलकूद",
+            "PUNCTUALITY":"नियमितता/समयबद्धता",
+            "HYGIENE":"स्वच्छता",
+            "CONSCIENTIOUSNESS":"कर्तव्यनिष्ठा",
+            "HELPFULNESS":"सहयोग की भावना",
+            "HONESTY":"सत्यवादिता/ईमानदारी",
+            "EnvironmentallySensitive":"पर्यावरण संवेदनशील",
         }
-        termMarks['Total'] = result.Total;
-        resultSet[terms[i]] = termMarks;
+        let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
+        let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class});
+        let classValue = req.query.Class;
+        let updatedClassValue = classValue;
+        if(classValue == 'kg-1'){
+            updatedClassValue = 'KG1'
+        }
+        if(classValue == 'kg-2'){
+            updatedClassValue = 'KG2'
+        }
+        let subjects = properties.get(req.user.SchoolCode+'.SUBJECTS_'+updatedClassValue);
+        let subjectsArray = subjects.split(',');
+        let terms = properties.get(req.user.SchoolCode+'.EXAM_SESSIONS').split(',');
+        let addtionalTerms = properties.get(req.user.SchoolCode+'.EXAM_SESSIONS_Add').split(',');
+        let addtionalMarks = new Object();
+        for(let i=0;i<addtionalTerms.length;i++){
+            let subjects = properties.get(req.user.SchoolCode+'.'+addtionalTerms[i]+'.SUBJECTS').replaceAll(',',' ');
+            addtionalMarks[addtionalTerms[i]] = await Result.findOne({SchoolCode:req.user.SchoolCode,Term:addtionalTerms[i], Class:classValue, AdmissionNo:req.params.AdmissionNo}, subjects);
+        };
+        
+        let termMarks;
+        let resultSet = new Object();
+        for(let i=0;i<terms.length;i++){
+            termMarks = new Object();
+            let weightage = 0;
+            let result = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class,Term:terms[i]},subjects.replaceAll(',',' ')+' Term Total Weight');
+            weightage = result.Weight
+            for(let j=0;j<subjectsArray.length;j++){
+                termMarks[subjectsArray[j]] = Math.round((Number(result['_doc'][subjectsArray[j]])*100/ Number(result.Total)) * Number(result.Weight)/100)
+            }
+            termMarks['Total'] = result.Total;
+            resultSet[terms[i]] = termMarks;
+        }
+        return res.render('getMarksheet',{student, marks:resultSet, addtionalMarks, subjectsMapping, sub_list:subjectsArray, terms,SchoolCode:req.user.SchoolCode})
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:'Unable to fetch marksheet'
+        });
     }
-    console.log(addtionalMarks)
-
-    return res.render('getMarksheet',{student, marks:resultSet, addtionalMarks, sub_list:subjectsArray, terms,SchoolCode:req.user.SchoolCode})
-    
-    
 }

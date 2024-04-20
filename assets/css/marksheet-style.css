@@ -8,14 +8,13 @@ body {
 
 .marksheet {
     width: 270mm;
-    height: 297mm;
+    height: 370mm;
     margin-left: 0%;
     padding-left: 2%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-image: url('/schools/SVVN/watermark3.png');
     background-repeat: no-repeat;
     background-size: contain;
-
 }
 
 @media print {
@@ -25,9 +24,6 @@ body {
         background-color: transparent;
     }
 }
-
-
-
 
 .data-heading{
     width: 30%;
@@ -85,12 +81,12 @@ body {
     text-align: center;
 }
 
-.co-ed-section table{
+.co-ed-section table, table{
     width: 96%;
     text-align: center;
 }
 
-.co-ed-section th, .co-ed-section td{
+.co-ed-section th, .co-ed-section td, table th, table td{
     border: 1px solid #ccc;
     padding: 4px;
     text-align: center;
@@ -108,5 +104,5 @@ body {
     
 }
 .role{
-    margin-bottom: 20%;
+    margin-bottom: 40%;
 }

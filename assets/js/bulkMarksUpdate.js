@@ -19,7 +19,7 @@ function displayStudentsList(data){
     selectedSubjects.forEach(function(subject) {
         headerRow.innerHTML += "<th>" + subject + "</th>";
     });
-    headerRow.innerHTML += "<th>Action</th>";
+    headerRow.innerHTML += "<th>Action</th><th>Marksheet</th>";
     document.getElementById("marksTable").appendChild(headerRow);
 
     // Add student rows
@@ -31,7 +31,7 @@ function displayStudentsList(data){
         selectedSubjects.forEach(function(subject) {
             row.innerHTML += "<td><input type='number' id='" +student.AdmissionNo + "_" + subject + "' value='" + student[subject] + "'></td>";
         });
-        row.innerHTML += "<td><button onclick='updateMarks(" + student.AdmissionNo + ")'>Update</button></td>";
+        row.innerHTML += "<td><button onclick='updateMarks(" + student.AdmissionNo + ")'>Update</button></td><td><a href='/student/getMarksheet/"+student.AdmissionNo+"/?Class="+document.getElementById('classSelect').value+"'>Marksheet</a></td>";
         document.getElementById("marksTable").appendChild(row);
         count++;
     });

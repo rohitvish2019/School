@@ -8,7 +8,7 @@ body {
 
 .marksheet {
     width: 270mm;
-    height: 370mm;
+    height: 390mm;
     margin-left: 0%;
     padding-left: 2%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -46,7 +46,7 @@ body {
     margin-top: 5%;
 }
 .col1{
-    width: 45%;
+    width: 55%;
 }
 
 .col2{
@@ -104,5 +104,5 @@ body {
     
 }
 .role{
-    margin-bottom: 40%;
+    margin-bottom: 30%;
 }

@@ -768,19 +768,27 @@ module.exports.getMarksheetUINew = async function(req, res){
         };
         
         let termMarks;
+        let grandTotal = new Object();
         let resultSet = new Object();
         for(let i=0;i<terms.length;i++){
             termMarks = new Object();
             let weightage = 0;
+            
             let result = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class,Term:terms[i]},subjects.replaceAll(',',' ')+' Term Total Weight');
-            weightage = result.Weight
+            weightage = result.Weight;
+            let termSum = 0;
             for(let j=0;j<subjectsArray.length;j++){
-                termMarks[subjectsArray[j]] = Math.round((Number(result['_doc'][subjectsArray[j]])*100/ Number(result.Total)) * Number(result.Weight)/100)
+                termMarks[subjectsArray[j]] = Math.round((Number(result['_doc'][subjectsArray[j]])*100/ Number(result.Total)) * Number(result.Weight)/100);
+                termSum = termSum + Math.round((Number(result['_doc'][subjectsArray[j]])*100/ Number(result.Total)) * Number(result.Weight)/100);
             }
             termMarks['Total'] = result.Total;
+            grandTotal[terms[i]] = termSum;
+            console.log(typeof(terms[i]))
             resultSet[terms[i]] = termMarks;
+            console.log("Grand total")
+            console.log(grandTotal)
         }
-        return res.render('getMarksheet',{student, marks:resultSet, addtionalMarks, subjectsMapping, sub_list:subjectsArray, terms,SchoolCode:req.user.SchoolCode})
+        return res.render('getMarksheet',{student, marks:resultSet, grandTotal, addtionalMarks, subjectsMapping, sub_list:subjectsArray, terms,SchoolCode:req.user.SchoolCode})
     }catch(err){
         console.log(err)
         return res.status(500).json({

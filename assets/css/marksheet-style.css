@@ -29,11 +29,11 @@ body {
     width: 30%;
     min-width: 100px;
     display: inline-block;
-    font-weight: 600;
 }
 
 .dataset{
     margin-bottom: 1%;
+    text-transform: uppercase;
 }
 .student-info {
     width: 94%;

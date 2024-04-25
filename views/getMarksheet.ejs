@@ -52,7 +52,7 @@
                     <label id="admno"><b><%=student.AdmissionNo%></b></label>
                 </div>
                 <div class="dataset">
-                    <label style="font-weight: 900;" class="data-heading">कक्षा :</label>
+                    <label class="data-heading">कक्षा :</label>
                     <label style="font-weight: 900;"><b><%=student.Class%></b></label>
                 </div>
                 <div class="dataset">
@@ -108,11 +108,11 @@
                                 <% let total = 0%>
                                 <%for(let j=0;j<terms.length;j++){%>
                                     <%sum = sum + marks[terms[j]][sub_list[i]]%>
-                                    <td><%=marks[terms[j]][sub_list[i]]%></td>
+                                    <td><b><%=marks[terms[j]][sub_list[i]]%></b></td>
                                 <%}%>
-                                <td><%=sum%></td>
-                                <td>100</td>
-                                <td><%=grades[Math.ceil(sum/5)]%></td>
+                                <td><b><%=sum%></b></td>
+                                <td><b>100</b></td>
+                                <td><b><%=grades[Math.ceil(sum/5)]%></b></td>
                             </tr>
                         <%}%>
                         <tr>
@@ -120,11 +120,11 @@
                             <% let mysum = 0%>
                             <% for(let i=0;i<terms.length;i++){%>
                                 <%mysum = mysum + grandTotal[terms[i]]%>
-                                <td><%=grandTotal[terms[i]]%></td>
+                                <td><b><%=grandTotal[terms[i]]%></b></td>
                             <%}%>
-                            <td><%=mysum%></td>
-                            <td><%=sub_list.length * 100 %></td>
-                            <td><%=grades[Math.ceil(mysum/sub_list.length/5)]%></td>
+                            <td><b><%=mysum%></b></td>
+                            <td><b><%=sub_list.length * 100 %></b></td>
+                            <td><b><%=grades[Math.ceil(mysum/sub_list.length/5)]%></b></td>
                         </tr>
                     </tbody>
                 </table>
@@ -143,7 +143,7 @@
                         <%for(let i=1;i<subjects.length;i++){%>
                             <tr>
                                 <td><%=subjectsMapping[subjects[i]]%></td>
-                                <td><%=grades[addtionalMarks['MORAL']['_doc'][subjects[i]]]%></td>
+                                <td><b><%=grades[addtionalMarks['MORAL']['_doc'][subjects[i]]]%></b></td>
                             </tr>
                         <%}%>
                     </tbody>
@@ -155,17 +155,20 @@
             <label style="text-align: center; font-size: large; font-weight: bold;padding-bottom: 1%;margin-top: 2%; width: 100%;">सह शैक्षिक क्षेत्र</label>
             <table border="1px solid black">
                 <thead>
-                    <th>साहित्यिक</th>
-                    <th>सांस्कृतिक</th>
-                    <th>वैज्ञानिक</th>
-                    <th>सृजनात्मक</th>
-                    <th>खेलकूद</th>
+                    <tr>
+                        <td>साहित्यिक</td>
+                        <td>सांस्कृतिक</td>
+                        <td>वैज्ञानिक</td>
+                        <td>सृजनात्मक</td>
+                        <td>खेलकूद</td>
+                    </tr>
+                    
                 </thead>
                 <tbody>
                     
                     <% let subs = Object.keys(addtionalMarks['COED']['_doc'])%>
                     <%for(let i=1;i<Object.keys(addtionalMarks['COED']['_doc']).length;i++){%>
-                        <td><%= grades[Number(addtionalMarks['COED']['_doc'][subs[i]])]%></td>
+                        <td><b><%= grades[Number(addtionalMarks['COED']['_doc'][subs[i]])]%></b></td>
                     <%}%>
                 </tbody>
             </table>

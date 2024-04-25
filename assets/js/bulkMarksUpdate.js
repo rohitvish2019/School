@@ -209,4 +209,4 @@ document.getElementById('getSubject').addEventListener('click', getSubjects);
 getTerms()
 document.getElementById("selectButton").addEventListener("click", getCurrentResult);
 getClassList();
-Window.print();
+

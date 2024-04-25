@@ -12,7 +12,7 @@ body {
     margin-left: 0%;
     padding-left: 2%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-image: url('/schools/SVVN/watermark3.png');
+    background-image: url('/schools/SVVN/watermark5.png');
     background-repeat: no-repeat;
     background-size: contain;
 }
@@ -46,11 +46,19 @@ body {
     margin-top: 5%;
 }
 .col1{
-    width: 55%;
+    width: 45%;
+}
+
+td{
+    font-size: 19px;
+}
+
+th{
+    font-size: 18px;
 }
 
 .col2{
-    width: 55%;
+    width: 60%;
 }
 
 .result-section{
@@ -61,6 +69,9 @@ body {
     margin-top: 1%;
 }
 
+label{
+    font-size: 17px;
+}
 
 #AcademicScore{
     width: 62%;
@@ -95,7 +106,7 @@ body {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    margin-top: 8%;
+    margin-top: 5%;
 }
 .signature {
     text-align: left;

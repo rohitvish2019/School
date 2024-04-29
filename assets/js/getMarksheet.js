@@ -18,3 +18,17 @@ function calculateGrade(value){
         return 'F'
     }
 }
+
+function setFinalGrade(){
+    $.ajax({
+        url:'/result/updateFinalGradeM',
+        type:'POST',
+        data:{
+            grade:document.getElementById('finalGrade').innerText,
+            AdmissionNo:document.getElementById('admno').innerText
+        }
+    })
+    console.log(document.getElementById('finalGrade').innerText)
+}
+
+setFinalGrade()

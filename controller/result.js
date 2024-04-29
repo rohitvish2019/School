@@ -402,3 +402,17 @@ module.exports.getSubjectsListOnly = function(req, res){
         })
     }
 }
+
+module.exports.updateResultSingleNew = async function(req, res){
+    try{
+        let student = await Student.findOne({AdmissionNo:req.body.AdmissionNo, isThisCurrentRecord:true});
+        await student.updateOne({TotalGrade:req.body.grade});
+        return res.status(200).json({
+            message:'Final grade updated'
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to update final grade'
+        })
+    }
+}

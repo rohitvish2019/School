@@ -127,7 +127,7 @@
                             <%let percent = (mysum/sub_list.length).toString().substring(0,5)%>
                             <td><b><%=mysum%></b></td>
                             <td><b><%=sub_list.length * 100 %></b></td>
-                            <td>
+                            <td id="finalGrade">
                                 <%if(percent > 85){%>
                                     <b>A+</b>
                                 <%}else if(percent < 85 && percent >= 76){%>

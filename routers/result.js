@@ -11,5 +11,6 @@ router.get('/terms', resultController.getTerms);
 router.get('/bulkMarksHome', resultController.bulkMarksHome);
 router.get('/getClassResult', resultController.getClassResult);
 router.post('/updateSingleResult', resultController.updateResultSingle);
-router.get('/getStudentName', resultController.getNamesByClassForResult)
+router.get('/getStudentName', resultController.getNamesByClassForResult);
+router.post('/updateFinalGradeM', resultController.updateResultSingleNew);
 module.exports = router;

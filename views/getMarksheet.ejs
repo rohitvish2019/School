@@ -115,16 +115,39 @@
                                 <td><b><%=grades[Math.ceil(sum/5)]%></b></td>
                             </tr>
                         <%}%>
+                        
                         <tr>
                             <td>कुल योग</td>
                             <% let mysum = 0%>
+                            
                             <% for(let i=0;i<terms.length;i++){%>
                                 <%mysum = mysum + grandTotal[terms[i]]%>
                                 <td><b><%=grandTotal[terms[i]]%></b></td>
                             <%}%>
+                            <%let percent = (mysum/sub_list.length).toString().substring(0,5)%>
                             <td><b><%=mysum%></b></td>
                             <td><b><%=sub_list.length * 100 %></b></td>
-                            <td><b><%=grades[Math.ceil(mysum/sub_list.length/5)]%></b></td>
+                            <td>
+                                <%if(percent > 85){%>
+                                    <b>A+</b>
+                                <%}else if(percent < 85 && percent >= 76){%>
+                                    <b>A</b>
+                                <%}else if(percent < 76 && percent >= 66){%>
+                                    <b>B+</b>
+                                <%}else if(percent < 66 && percent >= 56){%>
+                                    <b>B</b>
+                                <%}else if(percent < 56 && percent >= 51){%>
+                                    <b>C+</b>
+                                <%}else if(percent < 56 && percent >= 51){%>
+                                    <b>C</b>
+                                <%}else if(percent < 46 && percent >= 33){%>
+                                    <b>D</b>
+                                <%}else if(percent < 33 ){%>
+                                    <b>F</b>
+                                <%}else{%>
+                                    <b>Invalid</b>
+                                <%}%>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

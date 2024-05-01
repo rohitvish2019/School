@@ -22,7 +22,7 @@
                 </label>
             </div>
             <div class="ai-right">
-                <label for="">TC क्रमांक</label>
+                <label for="">TC क्रमांक : <%=tcNo%></label>
                 <label for="">दिनांक : <%=new Date().getFullYear() +'-'+ (Number(new Date().getMonth()) + 1) +'-'+ new Date().getDate(),
                     %></label>
             </div>
@@ -48,9 +48,22 @@
             <p>
                 उसका आचरण <b>अच्छा </b> था
             </p>
+
         </div>
-        <div class="extra-content"></div>
-        <div class="footer"></div>
+        <div class="heading">
+            स्थानांतरण प्रमाण पत्र
+        </div>
+        <div class="extra-content">
+            <p>दिनांक को शाला छोड़ने के पहले शाला में छात्र छात्रा माता का नाम, पिता का नाम द्वारा भुगतान की गई फीस का विवरण इस प्रकार है</p>
+            <p>1. <%=student.Session + 1%> के अंत तक शिक्षण शुल्क : ₹ <%=fees.Paid%></p>
+            <p>2. <%=student.Session + 1%> के अंत तक अन्य शुल्क : ₹ 0</p>
+        </div>
+        <div class="footer">
+            <div style="text-align: end; font-weight: bold;" class="signature">
+                <div style="width: 95%;">Principal's Signature:</div>
+                <div style="width: 76.8%; margin-top: 7%;" class="date">Date:</div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

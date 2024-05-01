@@ -14,6 +14,9 @@ const AdmissionNo = new mongoose.Schema({
         type:Number,
         default:1
     },
+    LastTCNo:{
+        type:Number
+    },
     SchoolCode:{
         unique:true,
         type:String

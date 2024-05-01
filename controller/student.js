@@ -3,6 +3,7 @@ const Fee = require('../modals/FeeSchema');
 const FeeStructure = require('../modals/feeStructure');
 const Result = require('../modals/Result');
 const Noty = require('noty');
+const AdmissionTracker = require('../modals/admission_no')
 const path = require('path');
 const RegisteredStudent = require('../modals/RegistrationSchema');
 const propertiesReader = require('properties-reader');
@@ -160,15 +161,18 @@ module.exports.getStudent = async function(req, res){
             logger.info('Get student request received from Result module')
             if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
                 let tcData = await TCRecords.findOne({AdmissionNo:req.params.adm_no});
+                let TrackerRecord = await AdmissionTracker.findOne({SchoolCode:req.user.SchoolCode});
+                let fees = await Fee.findOne({SchoolCode:req.user.SchoolCode,AdmissionNo:req.params.adm_no, Class:req.query.Class});
                 let err=''
+                tcNo = TrackerRecord.LastTCNo;
                 let DOBInWords=getDOBInWords(student.DOB);
                 let DOBDate = convertDateFormat(student.DOB);
 
                 if(!tcData.ReleivingClass || !tcData.RelievingDate){
                     err = "TC not generated yet, Please discharge the student first and try again"
                     logger.info(err)
-                    return res.render('TCDetails',{student,err,DOBInWords,DOBDate});            }
-                return res.render('TCDetails',{role:req.user.role,student,err ,tcData,DOBInWords,DOBDate});
+                    return res.render('TCDetails',{student,err,DOBInWords,DOBDate,});            }
+                return res.render('TCDetails',{role:req.user.role,student,err ,tcData,DOBInWords,DOBDate, tcNo, fees});
             }else if(req.user.role === 'Student'){
                 let student = await Student.findOne({AdmissionNo:req.params.adm_no, isThisCurrentRecord:true, Mob:req.user.email});
                 if(student){

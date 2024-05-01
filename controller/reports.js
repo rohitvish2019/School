@@ -41,7 +41,7 @@ module.exports.getClassList = async function(req, res){
     try{
         if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
             console.log(req.query)
-            let studentsList = await Student.find({Session:req.query.Admission_year,Class:req.query.Class});
+            let studentsList = await Student.find({Session:req.query.Admission_year,Class:req.query.Class, SchoolCode:req.user.SchoolCode});
             if(studentsList.length > 0){
                 return res.status(200).json({
                     message:'Success',

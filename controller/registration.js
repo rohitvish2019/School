@@ -239,7 +239,7 @@ module.exports.admit = async function(req, res){
 module.exports.download = async function(req, res){
     try{
         if(req.user.role === 'Admin'){
-            let data = await RegisteredStudent.findOne({RegistrationNo:req.params.id});
+            let data = await RegisteredStudent.findOne({RegistrationNo:req.params.id, SchoolCode:req.user.SchoolCode});
             return res.render('RegistrationForm', {data, role:req.user.role});
         }else{
             return res.render('Error_403')

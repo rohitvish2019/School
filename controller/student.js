@@ -682,12 +682,14 @@ module.exports.dischargeStudent = async function(req, res){
         try{
             let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo,isThisCurrentRecord:true})
             console.log(student.TotalGrade)
+            /*
             if(!student.TotalGrade){
                 console.log("Result not updated")
                 return res.status(500).json({
                     message:"Result not updated correctly"
                 })
             }
+            */
             await Student.findOneAndUpdate({AdmissionNo:req.params.AdmissionNo,isThisCurrentRecord:true }, {isThisCurrentRecord:'false'});
             await TCRecords.findOneAndUpdate({AdmissionNo:req.params.AdmissionNo}, {RelievingDate:getDate(), ReleivingClass:student.Class})
             

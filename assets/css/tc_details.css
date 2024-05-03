@@ -2,6 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    
 }
 
 .main {
@@ -10,6 +11,9 @@ body {
     border: 1px solid black;
     padding-left: 1%;
     padding-right: 1%;
+    background-image: url('/schools/SVVN/watermark5.png');
+    background-repeat: no-repeat;
+    background-size: contain;
 
 }
 .header{
@@ -74,5 +78,5 @@ body {
 
 p{
     font-size: medium;
-    padding: 0.5%;
+    padding: 0.3%;
 }

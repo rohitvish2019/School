@@ -12,7 +12,9 @@
         <div class="header">
             <img src="/schools/SVVN/school-header.png" alt="" srcset="" height="100%" width="100%">
         </div>
+        <small style="display: block; font-size: medium; text-align: center;">शिक्षा संहिता भाग 3 फार्म 4</small>
         <div class="heading">
+            
             स्थानांतरण प्रमाण पत्र
         </div>
         <div class="academic-info">
@@ -33,7 +35,7 @@
             
         <div class="main-content">
             <p>
-                प्रमाणित किया जाता है की छात्र/ छात्रा : <b> <%=student.FirstName%> <%=student.LastName%> </b> माता का नाम :<b> <%=student.MothersName%> </b> पिता का नाम : <b><%=student.FathersName%> </b> जाति : <b><%=student.Caste%> </b>मातृभाषा  <b>हिंदी </b>शाला <b>श्री वीर विद्या निकेतन शाला शाहपुर तहसील सागर जिला सागर</b> में दिनांक <b><%=student.AdmissionDate.split('-')[2]%>-<%=student.AdmissionDate.split('-')[1]%>-<%=student.AdmissionDate.split('-')[0]%> से <%=tcData.RelievingDate%> </b>तक उपस्थित रहा/रही है,और अब दिनांक <b> <%=tcData.RelievingDate%> </b>को शाला छोड़ रहा/रही है। अग्र भाग में दिखलाए अनुसार उसने शाला में फीस का भुगतान कर दिया है।
+                प्रमाणित किया जाता है की छात्र/ छात्रा : <b> <%=student.FirstName%> <%=student.LastName%> </b> माता का नाम :<b> <%=student.MothersName%> </b> पिता का नाम : <b><%=student.FathersName%> </b> जाति : <b><%=student.Caste%> </b>मातृभाषा  <b>हिंदी </b>शाला <b>श्री वीर विद्या निकेतन शाला शाहपुर तहसील सागर जिला सागर</b> में दिनांक <b><%=student.AdmissionDate.split('-')[2]%>-<%=student.AdmissionDate.split('-')[1]%>-<%=student.AdmissionDate.split('-')[0]%> से <%=tcData.RelievingDate%> </b>तक उपस्थित रहा/रही है,और अब दिनांक <b> <%=String(new Date().getDate()).padStart(2,'0') +'-'+ String((Number(new Date().getMonth()) + 1)).padStart(2,'0') +'-'+  new Date().getFullYear()%> </b>को शाला छोड़ रहा/रही है। अग्र भाग में दिखलाए अनुसार उसने शाला में फीस का भुगतान कर दिया है।
             </p>
             <p>
                 शाला प्रवेश पंजी में दाखिल क्रमांक : <b><%=student.AdmissionNo%> </b> के अनुसार उसकी जन्मतिथि अंको में <b><%=DOBDate%> </b>शब्दो में <b><%=days[Number(DOBDate.split('-')[0])]%> <%=months[Number(DOBDate.split('-')[1])]%> <%=year[Number(DOBDate.split('-')[2].substring(0,2)-19)]%> <%=nums[Number(DOBDate.split('-')[2].substring(2))]%> </b>है।
@@ -53,25 +55,28 @@
                 <%}else{%>
                     <b><%=student.AdmissionClass%></b>
                 <%}%>
-                में लिखा था।
+                में वर्ष <b><%=student.AdmissionDate.split('-')[0]%></b> में लिखा था।
             </p>
             <p>
                 उसका आचरण <b>अच्छा </b> था
             </p>
-
+            <div style="text-align: end; font-weight: bold; margin-bottom: 2%;" class="signature">
+                <div style="width: 95%;">Principal's Signature:</div>
+                <div style="width: 77.6%; margin-top: 5%;" class="date">Date:</div>
+            </div>
         </div>
         <div class="heading">
             स्थानांतरण प्रमाण पत्र
         </div>
         <div class="extra-content">
-            <p>दिनांक को शाला छोड़ने के पहले शाला में छात्र/छात्रा :<b> <%=student.FirstName%> <%=student.LastName%> </b> माता का नाम: <b> <%=student.MothersName%> </b> पिता का नाम : <b><%=student.FathersName%> </b> द्वारा भुगतान की गई फीस का विवरण इस प्रकार है</p>
+            <p>दिनांक <b><%=String(new Date().getDate()).padStart(2,'0') +'-'+ String((Number(new Date().getMonth()) + 1)).padStart(2,'0') +'-'+  new Date().getFullYear()%></b> को शाला छोड़ने के पहले शाला में छात्र/छात्रा :<b> <%=student.FirstName%> <%=student.LastName%> </b> माता का नाम: <b> <%=student.MothersName%> </b> पिता का नाम : <b><%=student.FathersName%> </b> द्वारा भुगतान की गई फीस का विवरण इस प्रकार है</p>
             <p>1. <%=student.Session + 1%> के अंत तक शिक्षण शुल्क : _ _ _ _ _</p>
             <p>2. <%=student.Session + 1%> के अंत तक अन्य शुल्क : _ _ _ _ _</p>
         </div>
         <div class="footer">
             <div style="text-align: end; font-weight: bold;" class="signature">
                 <div style="width: 95%;">Principal's Signature:</div>
-                <div style="width: 77.6%; margin-top: 7%;" class="date">Date:</div>
+                <div style="width: 77.6%; margin-top: 5%;" class="date">Date:</div>
             </div>
         </div>
     </div>

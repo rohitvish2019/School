@@ -680,9 +680,8 @@ module.exports.getMarksheetUI = async function(req, res){
 module.exports.dischargeStudent = async function(req, res){
     if(req.user.role === 'Admin'){
         try{
-            let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo,isThisCurrentRecord:true})
-            console.log(student.TotalGrade)
             /*
+            let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo,isThisCurrentRecord:true})
             if(!student.TotalGrade){
                 console.log("Result not updated")
                 return res.status(500).json({

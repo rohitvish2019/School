@@ -66,6 +66,7 @@ function showClassList(data){
                 <li><a class="dropdown-item" href="/student/getMarksheet/${data[i].AdmissionNo}?Class=${data[i].Class}">Marksheet</a></li>
                 <li><a class="dropdown-item" href="/student/get/${data[i].AdmissionNo}?Class=${data[i].Class}&action=tc">TC</a></li>
                 <li><a class="dropdown-item" href="/student/get/${data[i].AdmissionNo}?Class=${data[i].Class}&action=fee">Fees</a></li>
+                <li><a class="dropdown-item" href="/student/${data[i]._id}?isOld=yes">Profile</a></li>
             </ul>
         </div>
         

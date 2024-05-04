@@ -9,7 +9,6 @@
         <%- include('_header'); %>
     </div>
     <div class="body-container">
-        
         <div class="upper-center">
             <h5>Quick Actions</h5>
             <a href="/student/get/<%=data.AdmissionNo%>?Class=<%=data.Class%>&action=fee" class="btn btn-success">Fees Details</a>
@@ -226,7 +225,12 @@
         <div class="footer-container">
             <div style="display: flex; justify-content: space-around;">
                 <input class="btn btn-success" id="download-button" value="Download as PDF">
-                <input class="btn btn-success" id="edit-profile" value="Edit">
+                <%if(isOld == 'yes'){%>
+                    <input hidden class="btn btn-success" id="edit-profile" value="Edittrue">
+                <%}else{%>
+                    <input class="btn btn-success" id="edit-profile" value="Editfalse">
+                <%}%>
+                
             </div>
         </div>
         

@@ -212,8 +212,9 @@ module.exports.getStudent = async function(req, res){
 
 module.exports.getProfile = async function(req, res){
     try{
+        let isOld = req.query.isOld
         let student = await Student.findById(req.params.id);
-        return res.render('StudentProfile',{data:student, role:req.user.role})
+        return res.render('StudentProfile',{data:student, role:req.user.role, isOld})
     }catch(err){
         logger.error('Error fetching student profile : ')
         logger.error(err.toString());
@@ -680,8 +681,9 @@ module.exports.getMarksheetUI = async function(req, res){
 module.exports.dischargeStudent = async function(req, res){
     if(req.user.role === 'Admin'){
         try{
-            /*
+            
             let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo,isThisCurrentRecord:true})
+            /*
             if(!student.TotalGrade){
                 console.log("Result not updated")
                 return res.status(500).json({

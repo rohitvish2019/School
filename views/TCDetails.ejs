@@ -44,11 +44,9 @@
             </p>
             <p>
                 उसने कक्षा <b> <%=student.Class%> </b>माध्यम हिंदी से वर्ष <b> <%=student.Session + 1%> </b>में
-                <%if(student.TotalGrade == 'A' || student.TotalGrade == 'A+' || student.TotalGrade == 'B' || student.TotalGrade == 'B+' || student.TotalGrade == 'C' || student.TotalGrade == 'C+' || student.TotalGrade == 'D' || student.TotalGrade == 'D+'){%>
-                    <b>उत्तीर्ण</b>
-                <%}else{%> 
-                    <b>अनुत्तीर्ण</b>
-                <%}%> की है। इसका नाम कक्षा 
+                    <b>उत्तीर्ण / अनुत्तीर्ण / अध्यनरत</b>
+                   
+                की है। इसका नाम कक्षा 
                 <%if(student.AdmissionClass == '' || student.AdmissionClass == null){%>
                     _ _ _ _ _
                 <%}else{%>

@@ -122,7 +122,7 @@ function filterTransactions() {
                 showIncompleteResult(data.response, data.classList);
             }
             else if(data.purpose === 'feesDuesClass'){
-                showFeesDuesByClass();
+                showFeesDuesByClass(data.response);
             }
         },
         error:function(err){console.log(err.responseText)}
@@ -215,6 +215,39 @@ function showAdmittedStudents(data){
     document.getElementById('loader').style.display='none'
 }
 function showFeesByUser(){}
+function showFeesDuesByClass(data){
+    let tbody = document.getElementById('table-body');
+    tbody.style.fontSize='0.8rem';
+    let thead = document.createElement('tr');
+    thead.innerHTML=
+    `
+        <th>Admission No</th>
+        <th>Class</th>
+        <th>Total</th>
+        <th>Concession</th>
+        <th>Remaining</th>
+        
+        
+    `
+    tbody.innerHTML=``;
+    tbody.appendChild(thead)
+    for(let i=0;i<data.length;i++){
+        let row = document.createElement('tr');
+        row.innerHTML=
+        `
+            <td>${data[i].AdmissionNo}</td>
+            <td>${data[i].Class}</td>
+            <td>${data[i].Total}</td>
+            <td>${data[i].Concession}</td>
+            <td>${data[i].Remaining}</td>
+        `
+        tbody.appendChild(row);
+        total += data[i].Amount
+    }
+    document.getElementById('count').innerText='Count :'
+    document.getElementById('total').innerText= data.length
+    document.getElementById('loader').style.display='none'
+}
 function showActiveStudents(data){
     let tbody = document.getElementById('table-body');
     tbody.style.fontSize='0.8rem';

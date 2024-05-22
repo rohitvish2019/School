@@ -19,10 +19,12 @@ if(button3 != null){
 
 // To generate the pdf of admission form
 function generatePDFAdmissionForm() {   
+    /*
     document.getElementById('General-info').style.display = 'flex'
     document.getElementById('Parents-Information').style.display = 'flex'
     document.getElementById('Last-School-Record').style.display = 'flex'
     document.getElementById('Bank-Information').style.display = 'flex'
+    */
     new Noty({
         theme: 'relax',
         text: 'Admission form is downloading',
@@ -34,10 +36,10 @@ function generatePDFAdmissionForm() {
     let lastname = document.getElementById('lname').value;
     let admissionno = document.getElementById('admno').value;
     var opt = {
-        margin:       0.63,
+        margin:       0,
         filename:     firstname+'_'+lastname+'_'+admissionno,
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2 },
+        image:        { type: 'jpeg', quality: 1 },
+        html2canvas:  { scale: 1 },
         jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
         };
     // Choose the element that your content will be rendered to.

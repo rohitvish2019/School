@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>छात्र प्रवेश जानकारी</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #000;
+            margin-top: 20px;
+            box-sizing: border-box;
+        }
+        h2 {
+            text-align: center;
+            margin-top: 0;
+        }
+        .block {
+            margin-bottom: 20px;
+        }
+        .block h3 {
+            background: #f0f0f0;
+            padding: 10px;
+            margin: 0;
+            border-bottom: 1px solid #ccc;
+        }
+        .block div {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 10px;
+        }
+        .field {
+            width: 50%;
+            box-sizing: border-box;
+            padding: 5px 0;
+        }
+        .label {
+            display: inline-block;
+            width: 150px; /* Fixed width for labels */
+            font-weight: bold;
+        }
+        .value {
+            display: inline-block;
+        }
+        @media print {
+            body {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                width: 100%;
+                border: none;
+                margin-top: 0;
+            }
+            .block h3 {
+                background: #fff;
+                border: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>छात्र प्रवेश जानकारी</h2>
+        
+        <div class="block">
+            <h3>छात्र की जानकारी</h3>
+            <div>
+                <div class="field"><span class="label">कक्षा:</span><span class="value">10</span></div>
+                <div class="field"><span class="label">पंजीकरण:</span><span class="value">12345</span></div>
+                <div class="field"><span class="label">माध्यम:</span><span class="value">अंग्रेज़ी</span></div>
+                <div class="field"><span class="label">सत्र:</span><span class="value">2024-2025</span></div>
+                <div class="field"><span class="label">प्रवेश संख्या:</span><span class="value">67890</span></div>
+                <div class="field"><span class="label">प्रवेश तिथि:</span><span class="value">2024-05-22</span></div>
+                <div class="field"><span class="label">पहला नाम:</span><span class="value">जॉन</span></div>
+                <div class="field"><span class="label">अंतिम नाम:</span><span class="value">डो</span></div>
+                <div class="field"><span class="label">आधार संख्या:</span><span class="value">1234-5678-9012</span></div>
+                <div class="field"><span class="label">समग्र आईडी:</span><span class="value">123456789012</span></div>
+                <div class="field"><span class="label">मोबाइल नंबर:</span><span class="value">9876543210</span></div>
+                <div class="field"><span class="label">जन्म तिथि:</span><span class="value">2006-04-15</span></div>
+                <div class="field"><span class="label">जाति:</span><span class="value">सामान्य</span></div>
+                <div class="field"><span class="label">वर्ग:</span><span class="value">ओबीसी</span></div>
+                <div class="field"><span class="label">धर्म:</span><span class="value">हिंदू</span></div>
+                <div class="field"><span class="label">पता:</span><span class="value">123 मुख्य सड़क, शहर</span></div>
+                <div class="field"><span class="label">लिंग:</span><span class="value">पुरुष</span></div>
+            </div>
+        </div>
+
+        <div class="block">
+            <h3>माता-पिता की जानकारी</h3>
+            <div>
+                <div class="field"><span class="label">पिता का नाम:</span><span class="value">रिचर्ड डो</span></div>
+                <div class="field"><span class="label">माता का नाम:</span><span class="value">जेन डो</span></div>
+                <div class="field"><span class="label">पिता की शिक्षा:</span><span class="value">स्नातक की डिग्री</span></div>
+                <div class="field"><span class="label">माता की शिक्षा:</span><span class="value">स्नातकोत्तर की डिग्री</span></div>
+                <div class="field"><span class="label">पिता का व्यवसाय:</span><span class="value">इंजीनियर</span></div>
+                <div class="field"><span class="label">माता का व्यवसाय:</span><span class="value">शिक्षक</span></div>
+                <div class="field"><span class="label">पिता का कार्यस्थल:</span><span class="value">एबीसी कॉर्प</span></div>
+                <div class="field"><span class="label">माता का कार्यस्थल:</span><span class="value">एक्सवाईजेड स्कूल</span></div>
+                <div class="field"><span class="label">पिता की वार्षिक आय:</span><span class="value">₹500,000</span></div>
+                <div class="field"><span class="label">माता की वार्षिक आय:</span><span class="value">₹400,000</span></div>
+            </div>
+        </div>
+
+        <div class="block">
+            <h3>बैंक जानकारी</h3>
+            <div>
+                <div class="field"><span class="label">बैंक का नाम:</span><span class="value">बैंक ऑफ एक्सवाईजेड</span></div>
+                <div class="field"><span class="label">शाखा:</span><span class="value">मुख्य शाखा</span></div>
+                <div class="field"><span class="label">आईएफएससी कोड:</span><span class="value">XYZ0001234</span></div>
+                <div class="field"><span class="label">खाता संख्या:</span><span class="value">123456789012</span></div>
+            </div>
+        </div>
+
+        <div class="block">
+            <h3>शैक्षिक जानकारी</h3>
+            <div>
+                <div class="field"><span class="label">अंतिम स्कूल का नाम:</span><span class="value">एबीसी हाई स्कूल</span></div>
+                <div class="field"><span class="label">अंतिम पास कक्षा:</span><span class="value">9</span></div>
+                <div class="field"><span class="label">उत्तीर्ण वर्ष:</span><span class="value">2023</span></div>
+                <div class="field"><span class="label">ग्रेड:</span><span class="value">ए</span></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -32,9 +32,9 @@ function generatePDFAdmissionForm() {
         layout: 'topRight',
         timeout: 1500
     }).show();
-    let firstname = document.getElementById('fname').value;
-    let lastname = document.getElementById('lname').value;
-    let admissionno = document.getElementById('admno').value;
+    let firstname = document.getElementById('fname').innerText;
+    let lastname = document.getElementById('lname').innerText;
+    let admissionno = document.getElementById('admno').innerHTML;
     var opt = {
         margin:       0,
         filename:     firstname+'_'+lastname+'_'+admissionno,

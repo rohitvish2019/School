@@ -20,11 +20,15 @@ function calculateGrade(value){
 }
 
 function setFinalGrade(){
+    let grade = document.getElementById('finalGrade').innerText;
+    if(grade == 'Invalid'){
+        grade = null
+    }
     $.ajax({
         url:'/result/updateFinalGradeM',
         type:'POST',
         data:{
-            grade:document.getElementById('finalGrade').innerText,
+            grade,
             AdmissionNo:document.getElementById('admno').innerText
         }
     })

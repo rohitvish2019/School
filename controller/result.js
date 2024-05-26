@@ -406,7 +406,7 @@ module.exports.getSubjectsListOnly = function(req, res){
 module.exports.updateResultSingleNew = async function(req, res){
     try{
         let student = await Student.findOne({AdmissionNo:req.body.AdmissionNo, isThisCurrentRecord:true});
-        await student.updateOne({TotalGrade:req.body.grade});
+        await student.updateOne({TotalGrade:req.body.grade, ResultPercentage: req.body.percent});
         return res.status(200).json({
             message:'Final grade updated'
         })
@@ -415,4 +415,18 @@ module.exports.updateResultSingleNew = async function(req, res){
             message:'Unable to update final grade'
         })
     }
+}
+
+
+module.exports.getResultForSSP = async function(req, res){
+    console.log("Returning for SSP")
+    let student = await Student.findOne({SSSM:req.query.SSSM, isThisCurrentRecord:true, SchoolCode:req.query.SchoolCode},'Class AdmissionNo TotalGrade');
+    let result = await Result.findOne({Class:student.Class, AdmissionNo:student.AdmissionNo, SchoolCode:req.query.SchoolCode})
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    console.log(result);
+    return res.status(200).json({
+        student,
+        result
+    })
 }

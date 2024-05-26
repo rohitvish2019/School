@@ -21,6 +21,7 @@ function calculateGrade(value){
 
 function setFinalGrade(){
     let grade = document.getElementById('finalGrade').innerText;
+    let percent = Number(document.getElementById('percent').innerText)
     if(grade == 'Invalid'){
         grade = null
     }
@@ -29,6 +30,7 @@ function setFinalGrade(){
         type:'POST',
         data:{
             grade,
+            percent,
             AdmissionNo:document.getElementById('admno').innerText
         }
     })

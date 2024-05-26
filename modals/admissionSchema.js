@@ -10,6 +10,7 @@ const Students = new mongoose.Schema({
         type:String,
         default: new Date().toISOString()
     },
+    ResultPercentage:Number,
     AdmissionClass:String,
     Session:Number,
     SiblingsCount:String,

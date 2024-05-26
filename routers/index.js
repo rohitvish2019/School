@@ -18,6 +18,7 @@ router.use('/attendance', passport.checkAuthentication, require('./Attendance'))
 router.use('/ebooks', passport.checkAuthentication, require('./ebooks'));
 router.use('/balance',passport.checkAuthentication,require('./balanceSheet'))
 router.get('/', userController.mainHome);
+router.get('/getResultForSSP', require('../controller/result').getResultForSSP);
 
 
 module.exports = router;

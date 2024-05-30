@@ -392,13 +392,12 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
     let last_class_details, lastResultStatus,finalClass
     last_class_details = await Student.findOne({AdmissionNo:studentAdmissionNumber, isThisCurrentRecord:true,SchoolCode:SchoolCode});
     //console.log("Last Class result "+last_class_details.TotalGrade.toString())
-    if(last_class_details.TotalGrade == '' || last_class_details.TotalGrade == null || last_class_details.TotalGrade === 'NA'){
+    if(last_class_details.TotalGrade == '' || last_class_details.TotalGrade == null || last_class_details.TotalGrade === 'NA' ||last_class_details.TotalGrade.toLowerCase() == 'Invalid'.toLowerCase()){
         console.log("Last class result is "+ last_class_details);
         lastResultStatus = false
     }else{
         lastResultStatus = true
     }
-    console
     AdmissionNumber = last_class_details.AdmissionNo;
     if(!lastResultStatus){
         return 424;
@@ -407,10 +406,9 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
         return 414;
     }
     finalClass = properties.get(SchoolCode+'.CLASSES_LIST').split(',');
-    console.log();
-    
     console.log("Last Class is for school is"+finalClass);
     console.log("Student Class is "+last_class_details.Class);
+
     if(last_class_details.Class == finalClass[finalClass.length-1]){
         console.log("Condition is matching");
         return 400;
@@ -448,6 +446,7 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
         RegistrationNo:last_class_details.RegistrationNo,
         AdmissionNo:last_class_details.AdmissionNo,
         AdmissionDate:last_class_details.AdmissionDate,
+        AdmissionClass:last_class_details.AdmissionClass,
         Session:+last_class_details.Session + 1,
         SiblingsCount:last_class_details.SiblingsCount,
         FirstName:last_class_details.FirstName,
@@ -490,11 +489,9 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
         SchoolCode:last_class_details.SchoolCode,
         isThisCurrentRecord:true,
     });
-    
-    await upgradedStudent.save();
+
     await last_class_details.updateOne({isThisCurrentRecord:false});
     await last_class_details.save();
-
     await Fee.create({
         AdmissionNo: upgradedStudent.AdmissionNo,
         Class: newClass,
@@ -502,7 +499,10 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
         Remaining:feeAmounttForClass.Fees,
         SchoolCode:SchoolCode
     });
+    //add addtional sessions also
     let terms = properties.get(SchoolCode+'.EXAM_SESSIONS').split(',');
+    let addTerms = properties.get(SchoolCode+'.EXAM_SESSIONS_Add').split(',');
+    terms = terms.concat(addTerms);
     for(let i=0;i<terms.length;i++){
         await Result.create({
             AdmissionNo: AdmissionNumber,
@@ -580,7 +580,7 @@ module.exports.upgradeClassBulk = function(req, res){
                 upgradeClassStudent(studentList[i],studentClass,req.user.SchoolCode)
             }
             return res.status(200).json({
-                message:'Markes students are updgraded to new class successfully.'
+                message:'Marked students are updgraded to new class successfully.'
             });
         }catch(err){
             console.log(err);

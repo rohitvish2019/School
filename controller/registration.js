@@ -156,7 +156,7 @@ module.exports.admit = async function(req, res){
             let newStudent = await Student.create(studentData);
             let definedAdmissionNo = studentData.AdmissionNo;
             if(studentData.AdmissionNo){
-                await newStudent.updateOne({SchoolCode:req.user.SchoolCode});
+                await newStudent.updateOne({SchoolCode:req.user.SchoolCode, AdmissionClass:req.body.Class});
             }else{
                 let adm = await AdmissionNo.findOne({SchoolCode:req.user.SchoolCode});
                 let lastAdmissionNo = +adm.LastAdmission;

@@ -420,13 +420,10 @@ module.exports.updateResultSingleNew = async function(req, res){
 
 module.exports.getResultForSSP = async function(req, res){
     console.log("Returning for SSP")
-    let student = await Student.findOne({SSSM:req.query.SSSM, isThisCurrentRecord:true, SchoolCode:req.query.SchoolCode},'Class AdmissionNo TotalGrade');
-    let result = await Result.findOne({Class:student.Class, AdmissionNo:student.AdmissionNo, SchoolCode:req.query.SchoolCode})
+    let student = await Student.findOne({SSSM:req.query.SSSM, isThisCurrentRecord:true, SchoolCode:req.query.SchoolCode},'Class AdmissionNo TotalGrade ResultPercentage');
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    console.log(result);
     return res.status(200).json({
         student,
-        result
     })
 }

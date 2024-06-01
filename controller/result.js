@@ -319,7 +319,7 @@ module.exports.getTerms = function(req, res){
 
 module.exports.getClassResult = async function(req, res){
     try{
-        let resultSet = await Result.find({Class:req.query.Class, Term:req.query.Term, SchoolCode:req.user.SchoolCode}, req.query.Subjects+" AdmissionNo Class Total");
+        let resultSet = await Result.find({Class:req.query.Class, Term:req.query.Term, SchoolCode:req.user.SchoolCode, isThisCurrentRecord:true}, req.query.Subjects+" AdmissionNo Class Total");
         return res.status(200).json({
             resultSet
         })

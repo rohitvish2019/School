@@ -65,7 +65,11 @@ const ResultSchema = new mongoose.Schema({
     HONESTY:String,
     EnvironmentallySensitive:String,
     Total:Number,
-    Weight:Number
+    Weight:Number,
+    isThisCurrentRecord:{
+        type:Boolean,
+        default:true
+    }
     
 },
 {

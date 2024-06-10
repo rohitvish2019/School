@@ -691,8 +691,9 @@ module.exports.dischargeStudent = async function(req, res){
                 })
             }
             */
-            await Student.findOneAndUpdate({AdmissionNo:req.params.AdmissionNo,isThisCurrentRecord:true }, {isThisCurrentRecord:'false'});
+            await Student.findOneAndUpdate({AdmissionNo:req.params.AdmissionNo,isThisCurrentRecord:true }, {isThisCurrentRecord:false});
             await TCRecords.findOneAndUpdate({AdmissionNo:req.params.AdmissionNo}, {RelievingDate:getDate(), ReleivingClass:student.Class})
+            await Result.updateMany({AdmissionNo:req.params.AdmissionNo,Class:student.Class, isThisCurrentRecord:true}, {$set:{isThisCurrentRecord:false}})
             
             return res.status(200).json({
                 message:"Student is updated as alumini now"

@@ -3,27 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fee Submission Receipt</title>
-    <link rel="stylesheet" href="/css/fee_receipt.css">
+    <title>Receipt PDF</title>
+    <link rel="stylesheet" href="/css/receiptPDF.css">
 </head>
 <body>
-    <div class="receipt">
-        <img src="/schools/<%=SchoolCode%>/school-header.png" alt="School Logo" class="school-logo">
-        <div class="receipt-header">
-            <h2>Fee Submission Receipt</h2>
-            <p>Receipt No: <%=feeReport.Receipt_No%></p>
+    <div class="main-body">
+        <div class="pdf1">
+            <img src="/schools/<%=SchoolCode%>/school-header.png" alt="School Logo" class="school-logo">
+            <div class="receipt-header">
+                <h2>Fee Submission Receipt</h2>
+                <p>Receipt No: <%=feeReport.Receipt_No%></p>
+            </div>
+            <div class="patient-info">
+                <div style="width: 7%;" class="patient-data">
+                    <label class="p-head">AdmissionNo</label>
+                    <label class="p-value"><%=student.AdmissionNo%></label>
+                </div>
+                <div style="width: 28%;" class="patient-data">
+                    <label class="p-head">Name</label>
+                    <label class="p-value"><%=student.FirstName%> <%=student.LastName%></label>
+                </div>
+                <div style="width: 6%;" class="patient-data">
+                    <label class="p-head">Class</label>
+                    <label class="p-value"><%=student.Class%></label>
+                </div>
+            </div>
+            <div class="itemsList">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Payment Date</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%let subtotal = 0%>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                
+                            </tr>
+                        
+                        
+                        <!-- Add more rows for additional items if needed -->
+                    </tbody>
+                    <tfoot>
+                        <tr class="subtotal">
+                            <td colspan="5">Subtotal</td>
+                            <td>₹</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
-        <div class="receipt-info">
-            <p><span class="info-label">Student Name:</span> <span class="info-value"><%=student.FirstName%> <%=student.LastName%></span></p>
-            <p><span class="info-label">Class:</span> <span class="info-value"><%=feeReport.Class%></span></p>
-            <p><span class="info-label">Date:</span> <span class="info-value"><%=feeReport.Payment_Date%></span></p>
-            <p><span class="info-label">Amount Paid:</span> <span class="info-value"><%=feeReport.Amount%></span></p>
-            <p><span class="info-label">Comment:</span> <span class="info-value"><%=feeReport.Comment%></span></p>
-        </div>
-        <p>Thank you for your payment!</p>
     </div>
-    <script>
-        let item = document.getElementById('')
-    </script>
 </body>
 </html>

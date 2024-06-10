@@ -40,6 +40,7 @@ app.use(session({
     secret: 'getitDone',
     saveUninitialized: false,
     resave: false,
+    rolling:true,
     cookie: {
         maxAge: (1000 * 60 * 100)
     },

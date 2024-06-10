@@ -70,7 +70,9 @@ module.exports.getReports = async function(req, res){
     if(req.user.role == 'Admin'){
         let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
         classList = null;
+        let students
         try{
+            students = await Student.find({Class:req.query.Class, isThisCurrentRecord:true},'AdmissionNo FirstName LastName Class').sort('AdmissionNo');
             if(req.query.purpose === 'feesReport'){
                 response = await getFeesReport(req.query.start_date, req.query.end_date, req.user)
             }else if(req.query.purpose === 'admittedStudents'){
@@ -95,7 +97,8 @@ module.exports.getReports = async function(req, res){
                 return res.status(200).json({
                     classList,
                     response,
-                    purpose:req.query.purpose
+                    purpose:req.query.purpose,
+                    students
                 })
             }
         }catch(err){
@@ -179,7 +182,9 @@ async function getFeesReportByUser(start_date, end_date, activeUser, userToSearc
 
 async function getFeesDuesByClass(user, Class){
     try{
+        console.log("Here it is")
         let records = await Fee.find({Class:Class,SchoolCode:user.SchoolCode,Remaining:{$gt:0}}).lean();
+        
         return records
     }catch(err){
         logger.error(err.toString());

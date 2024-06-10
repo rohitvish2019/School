@@ -122,7 +122,7 @@ function filterTransactions() {
                 showIncompleteResult(data.response, data.classList);
             }
             else if(data.purpose === 'feesDuesClass'){
-                showFeesDuesByClass(data.response);
+                showFeesDuesByClass(data.response, data.students);
             }
         },
         error:function(err){console.log(err.responseText)}
@@ -215,37 +215,61 @@ function showAdmittedStudents(data){
     document.getElementById('loader').style.display='none'
 }
 function showFeesByUser(){}
-function showFeesDuesByClass(data){
+function showFeesDuesByClass(data, students){
+    let counter = 0
+    let total = 0
+    let i,j
     let tbody = document.getElementById('table-body');
     tbody.style.fontSize='0.8rem';
     let thead = document.createElement('tr');
     thead.innerHTML=
-    `
+    `   <th>S.no</th>
         <th>Admission No</th>
+        <th>Name</th>
         <th>Class</th>
         <th>Total</th>
         <th>Concession</th>
-        <th>Remaining</th>
-        
-        
+        <th>Remaining</th>       
     `
     tbody.innerHTML=``;
     tbody.appendChild(thead)
-    for(let i=0;i<data.length;i++){
-        let row = document.createElement('tr');
-        row.innerHTML=
-        `
-            <td>${data[i].AdmissionNo}</td>
-            <td>${data[i].Class}</td>
-            <td>${data[i].Total}</td>
-            <td>${data[i].Concession}</td>
-            <td>${data[i].Remaining}</td>
-        `
-        tbody.appendChild(row);
-        total += data[i].Amount
+    for(i=0;i<data.length;i++){
+        for(j=0;j<students.length;j++){
+            //console.log(data[i].AdmissionNo +"===="+ students[j].AdmissionNo)
+            if(data[i].AdmissionNo == students[j].AdmissionNo){
+                console.log(data[i].AdmissionNo + " "+ students[j].FirstName);
+                let row = document.createElement('tr');
+                row.innerHTML=
+                `   
+                    <td>${counter+1}</td>
+                    <td>${data[i].AdmissionNo}</td>
+                    <td>${students[j].FirstName} ${students[j].LastName}</td>
+                    <td>${data[i].Class}</td>
+                    <td>${data[i].Total}</td>
+                    <td>${data[i].Concession}</td>
+                    <td>${data[i].Remaining}</td>
+                `
+                tbody.appendChild(row);
+                total = total + Number(data[i].Remaining) 
+                counter ++
+                break
+            }
+            if(counter >= data.length){
+                console.log("Breaking :" +i +"   "+j )
+                break
+            }
+        }
+        if(counter >= data.length){
+            console.log("Breaking :" +i +"   "+j )
+            break
+        }
     }
-    document.getElementById('count').innerText='Count :'
-    document.getElementById('total').innerText= data.length
+    
+    for(let i=0;i<data.length;i++){
+        
+    }
+    document.getElementById('count').innerText='Total Dues :'
+    document.getElementById('total').innerText= total
     document.getElementById('loader').style.display='none'
 }
 function showActiveStudents(data){
@@ -253,7 +277,7 @@ function showActiveStudents(data){
     tbody.style.fontSize='0.8rem';
     let thead = document.createElement('tr');
     thead.innerHTML=
-    `
+    `   <th>S.No</th>
         <th>Admission No</th>
         <th>Class</th>
         <th>Admission Date</th>
@@ -274,7 +298,7 @@ function showActiveStudents(data){
     for(let i=0;i<data.length;i++){
         let row = document.createElement('tr');
         row.innerHTML=
-        `
+        `   <td>${i+1}</td>
             <td>${data[i].AdmissionNo}</td>
             <td>${data[i].Class}</td>
             <td>${data[i].AdmissionDate}</td>

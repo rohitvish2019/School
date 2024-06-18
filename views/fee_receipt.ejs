@@ -5,14 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Receipt PDF</title>
     <link rel="stylesheet" href="/css/receiptPDF.css">
+    <style>
+        table {
+    border-collapse: collapse;
+    width: 100%;
+}
+thead,th{
+    position: sticky;
+    top: 0;
+    
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 6px;
+    text-align: left;
+    font-size: 12px;
+}
+th {
+    background-color: #f2f2f2;
+}
+
+    </style>
 </head>
 <body>
     <div class="main-body">
         <div class="pdf1">
-            <img src="/schools/<%=SchoolCode%>/school-header.png" alt="School Logo" class="school-logo">
+            <h2 style="text-align: center;">Shree Veer Vidya Niketan School Shahpur</h2>
+            <h4 style="text-align: center;">Run By : Shree Varni Shiksha Prasar Samiti Shahpur Dist Sagar Reg: 1583/96</h4>
             <div class="receipt-header">
-                <h2>Fee Submission Receipt</h2>
-                <p>Receipt No: <%=feeReport.Receipt_No%></p>
+                <h3 style="text-align: center;">Fee Submission Receipt</h3>
+                <p>Receipt No: </p>
             </div>
             <div class="patient-info">
                 <div style="width: 7%;" class="patient-data">
@@ -32,6 +54,7 @@
                 <table>
                     <thead>
                         <tr>
+                            <th>Receipt No:</th>
                             <th>Description</th>
                             <th>Amount</th>
                             <th>Payment Date</th>
@@ -41,24 +64,19 @@
                     <tbody>
                         <%let subtotal = 0%>
                             <tr>
+                                <td><%=feeReport.Receipt_No%></td>
+                                <td><%=feeReport.Comment%></td>
+                                <td><%=feeReport.Amount%></td>
                                 <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td><%=feeReport.Amount%></td>
+                                
                                 
                             </tr>
                         
                         
                         <!-- Add more rows for additional items if needed -->
                     </tbody>
-                    <tfoot>
-                        <tr class="subtotal">
-                            <td colspan="5">Subtotal</td>
-                            <td>₹</td>
-                        </tr>
-                    </tfoot>
+                    
                 </table>
             </div>
         </div>

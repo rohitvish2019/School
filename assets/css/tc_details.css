@@ -80,3 +80,6 @@ p{
     font-size: medium;
     padding: 0.3%;
 }
+b{
+    text-transform: capitalize;
+}

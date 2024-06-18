@@ -19,11 +19,11 @@
         <div class="academic-info">
             <div class="ai-left">
                 <label for="">दाखिल क्रमांक : <%=student.AdmissionNo%></label>
-                <label for="">दिनांक : <%=student.AdmissionDate.split('/')[0]%>-<%=student.AdmissionDate.split('/')[1]%>-<%=student.AdmissionDate.split('/')[2]%>
+                <label for="">दिनांक : <%=student.AdmissionDate.split('-')[2]%>-<%=student.AdmissionDate.split('-')[1]%>-<%=student.AdmissionDate.split('-')[0]%>
                 </label>
             </div>
             <div class="ai-right">
-                <label for="">TC क्रमांक : <%=tcNo%></label>
+                <label for="">TC क्रमांक : <%=tcData.TCNo%></label>
                 <label for="">दिनांक : <%=String(new Date().getDate()).padStart(2,'0') +'-'+ String((Number(new Date().getMonth()) + 1)).padStart(2,'0') +'-'+  new Date().getFullYear()%></label>
             </div>
         </div>
@@ -44,9 +44,9 @@
             </p>
             <p>
                 उसने कक्षा <b> <%=student.Class%> </b>माध्यम हिंदी से वर्ष <b> <%=student.Session + 1%> </b>में
-                    <b>उत्तीर्ण / अनुत्तीर्ण / अध्यनरत</b>
+                    <b>उत्तीर्ण की/ अनुत्तीर्ण की/ अध्यनरत</b>
                    
-                की है। इसका नाम कक्षा 
+                 है। इसका नाम कक्षा 
                 <%if(student.AdmissionClass == '' || student.AdmissionClass == null){%>
                     _ _ _ _ _
                 <%}else{%>

@@ -2,6 +2,9 @@
 const mongoose = require('mongoose');
 const db = require('../config/dbConnection');
 const TCRecords = new mongoose.Schema({
+    TCNo:{
+        type:Number
+    },
     AdmissionNo:{
         type:String
     },

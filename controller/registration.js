@@ -195,7 +195,7 @@ module.exports.admit = async function(req, res){
                 });
             }
             
-            await RegisteredStudent.deleteOne({RegistrationNo:student.RegistrationNo, SchoolCode:req.user.SchoolCode});
+            await RegisteredStudent.findOneAndUpdate({RegistrationNo:student.RegistrationNo, SchoolCode:req.user.SchoolCode},{isAdmitted:true});
             await TCRecords.create({
                 AdmissionNo:definedAdmissionNo,
                 AdmissionClass: studentData.Class,

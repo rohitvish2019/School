@@ -43,19 +43,30 @@ th {
             <h2 style="text-align: center;">Shree Veer Vidya Niketan School Shahpur</h2>
             <h4 style="text-align: center;">Run By : Shree Varni Shiksha Prasar Samiti Shahpur Dist Sagar Reg: 1583/96</h4>
             
-            <div class="patient-info" style="margin-bottom: 2%;margin-left: 1%;">
-                <div style="width: 40%;" class="patient-data">
-                    <label class="p-head">AdmissionNo</label>
-                    <label class="p-value"><%=student.AdmissionNo%></label>
+            <div class="patient-info" style="margin-bottom: 2%;margin-left: 1%;display: flex;">
+                <div style="width: 50%;">
+                    
+                    <div class="patient-data">
+                        <label class="p-head" >Name :</label>
+                        <label class="p-value"><%=student.FirstName%> <%=student.LastName%></label>
+                    </div>
+                    <div class="patient-data">
+                        <label class="p-head">Father's Name :</label>
+                        <label class="p-value"><%=student.FathersName%></label>
+                    </div>
                 </div>
-                <div style="width: 40%;" class="patient-data">
-                    <label class="p-head">Name</label>
-                    <label class="p-value"><%=student.FirstName%> <%=student.LastName%></label>
+                <div style="width: 50%;">
+                    <div  class="patient-data">
+                        <label class="p-head">AdmissionNo :</label>
+                        <label class="p-value"><%=student.AdmissionNo%></label>
+                    </div>
+                    <div  class="patient-data">
+                        <label class="p-head">Class : </label>
+                        <label class="p-value"><%=student.Class%></label>
+                    </div>
                 </div>
-                <div style="width: 40%;" class="patient-data">
-                    <label class="p-head">Class</label>
-                    <label class="p-value"><%=student.Class%></label>
-                </div>
+                
+                
             </div>
             <div class="itemsList">
                 <table>

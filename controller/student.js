@@ -354,7 +354,7 @@ module.exports.getStudentsList = async function(req, res){
     if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
         if(req.query.Action === 'admission'){
             logger.info('Finding registered students')
-            studentList = await RegisteredStudent.find({Class:req.query.Class,SchoolCode:req.user.SchoolCode})
+            studentList = await RegisteredStudent.find({Class:req.query.Class,SchoolCode:req.user.SchoolCode,isAdmitted:false, isRejected:false})
         }
         else{
             logger.info('Finding admitted students')

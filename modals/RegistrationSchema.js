@@ -52,6 +52,14 @@ const RegisteredStudents = new mongoose.Schema({
     isThisCurrentRecord:{
         type:Boolean,
         default:true
+    },
+    isRejected:{
+        type:Boolean,
+        default:false
+    },
+    isAdmitted:{
+        type:Boolean,
+        default:false
     }
 },
 {

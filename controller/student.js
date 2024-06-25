@@ -121,17 +121,17 @@ module.exports.getActiveStudents = async function(req, res){
 module.exports.getStudent = async function(req, res){
     let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
     try{
-        let student = await Student.findOne({AdmissionNo:req.params.adm_no, Class:req.query.Class});
+        let student = await Student.findOne({AdmissionNo:req.params.adm_no, Class:req.query.Class,SchoolCode:req.user.SchoolCode});
         if(req.query.action === 'fee'){
             if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
-                let feesList = await Fee.find({AdmissionNo:req.params.adm_no});
+                let feesList = await Fee.find({AdmissionNo:req.params.adm_no, SchoolCode:req.user.SchoolCode});
                 logger.info('Get student request received from fee module')
                 return res.render('feeDetails',{feesList, student,role:req.user.role});
             }else if(req.user.role === 'Student'){
-                let student = await Student.findOne({AdmissionNo:req.params.adm_no, isThisCurrentRecord:true, Mob:req.user.email});
+                let student = await Student.findOne({AdmissionNo:req.params.adm_no, isThisCurrentRecord:true, Mob:req.user.email, SchoolCode:req.user.SchoolCode});
                 if(student){
                     logger.info('Get student request received from fee module')
-                    let feesList = await Fee.find({AdmissionNo:req.params.adm_no});
+                    let feesList = await Fee.find({AdmissionNo:req.params.adm_no, SchoolCode:req.user.SchoolCode});
                     return res.render('feeDetails',{feesList, student,role:req.user.role});
                 }else{
                     logger.error('Unautorized request, User '+req.user.email+' is not authorized')
@@ -143,14 +143,14 @@ module.exports.getStudent = async function(req, res){
             
             if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
                 
-                let result = await Result.find({AdmissionNo:req.params.adm_no, Class:req.query.Class});
+                let result = await Result.find({AdmissionNo:req.params.adm_no, Class:req.query.Class, SchoolCode:req.user.SchoolCode});
                 console.log(result);
                 return res.render('resultDetails',{role:req.user.role, result, student, quarterlyTotalMarks:properties.get(req.user.SchoolCode+'_quarterly-total'), halfYearlyTotalMarks:properties.get(req.user.SchoolCode+'_half-yearly-total'), finalTotalMarks:properties.get(req.user.SchoolCode+'_final-total')});
             }
             else if(req.user.role === 'Student'){
-                let student = await Student.findOne({AdmissionNo:req.params.adm_no, isThisCurrentRecord:true, Mob:req.user.email});
+                let student = await Student.findOne({AdmissionNo:req.params.adm_no, isThisCurrentRecord:true, Mob:req.user.email, SchoolCode:req.user.SchoolCode});
                 if(student){
-                    let result = await Result.find({AdmissionNo:req.params.adm_no, Class:req.query.Class});
+                    let result = await Result.find({AdmissionNo:req.params.adm_no, Class:req.query.Class, SchoolCode:req.user.SchoolCode});
                     return res.render('resultDetails',{role:req.user.role, result, student, quarterlyTotalMarks:properties.get(req.user.SchoolCode+'_quarterly-total'), halfYearlyTotalMarks:properties.get(req.user.SchoolCode+'_half-yearly-total'), finalTotalMarks:properties.get(req.user.SchoolCode+'_final-total')});
                 }else{
                     logger.error('Unautorized request, User '+req.user.email+' is not authorized')
@@ -160,7 +160,7 @@ module.exports.getStudent = async function(req, res){
         }else if(req.query.action ==='tc'){
             logger.info('Get student request received from Result module')
             if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
-                let tcData = await TCRecords.findOne({AdmissionNo:req.params.adm_no});
+                let tcData = await TCRecords.findOne({AdmissionNo:req.params.adm_no, SchoolCode:req.user.SchoolCode});
                 let TrackerRecord = await AdmissionTracker.findOne({SchoolCode:req.user.SchoolCode});
                 let fees = await Fee.findOne({SchoolCode:req.user.SchoolCode,AdmissionNo:req.params.adm_no, Class:req.query.Class});
                 let err=''
@@ -174,9 +174,9 @@ module.exports.getStudent = async function(req, res){
                     return res.render('TCDetails',{student,err,DOBInWords,DOBDate,});            }
                 return res.render('TCDetails',{role:req.user.role,student,err ,tcData,DOBInWords,DOBDate, tcNo, fees});
             }else if(req.user.role === 'Student'){
-                let student = await Student.findOne({AdmissionNo:req.params.adm_no, isThisCurrentRecord:true, Mob:req.user.email});
+                let student = await Student.findOne({AdmissionNo:req.params.adm_no, isThisCurrentRecord:true, Mob:req.user.email, SchoolCode:req.user.SchoolCode});
                 if(student){
-                    let tcData = await TCRecords.findOne({AdmissionNo:req.params.adm_no});
+                    let tcData = await TCRecords.findOne({AdmissionNo:req.params.adm_no, SchoolCode:req.user.SchoolCode});
                     let err=''
                     let DOBInWords=getDOBInWords(student.DOB);
                     let DOBDate = convertDateFormat(student.DOB);
@@ -229,7 +229,7 @@ module.exports.getProfileBySamagra = async function(req, res){
     console.log("Outer connection");
     console.log(req.query);
     try{
-        let student = await Student.findOne({SSSM:req.query.SSSM});
+        let student = await Student.findOne({SSSM:req.query.SSSM, SchoolCode:req.user.SchoolCode});
         console.log(student);
         if(student){
             res.header('Access-Control-Allow-Origin', '*');
@@ -512,7 +512,7 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
             SchoolCode:SchoolCode
         });
     }
-    await Result.updateMany({AdmissionNo:last_class_details.AdmissionNo,Class:last_class_details.Class, isThisCurrentRecord:true},{$set:{isThisCurrentRecord:false}})
+    await Result.updateMany({AdmissionNo:last_class_details.AdmissionNo,Class:last_class_details.Class, isThisCurrentRecord:true, SchoolCode:req.user.SchoolCode},{$set:{isThisCurrentRecord:false}})
     return 200;
 
 }
@@ -643,7 +643,7 @@ function getDate(){
 module.exports.getMarksheetUI = async function(req, res){
     try{
         let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
-        let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class})
+        let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class, SchoolCode:req.user.SchoolCode})
         let classValue = req.query.Class;
         let updatedClassValue = classValue;
         if(classValue == 'kg-1'){
@@ -663,7 +663,7 @@ module.exports.getMarksheetUI = async function(req, res){
         }
         console.log(total_marks);
         for(let i=0;i<terms.length;i++){
-            marks[terms[i]] = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class,Term:terms[i]},subjects.replaceAll(',',' ')+' Term')
+            marks[terms[i]] = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class,Term:terms[i], SchoolCode:req.user.SchoolCode},subjects.replaceAll(',',' ')+' Term')
         }
         console.log("Logger started")
         console.log(student)
@@ -683,7 +683,7 @@ module.exports.dischargeStudent = async function(req, res){
     if(req.user.role === 'Admin'){
         try{
             
-            let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo,isThisCurrentRecord:true})
+            let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo,isThisCurrentRecord:true,SchoolCode:req.user.SchoolCode})
             let trackerRecord = await AdmissionTracker.findOne({SchoolCode:req.user.SchoolCode});
             /*
             if(!student.TotalGrade){
@@ -759,7 +759,7 @@ module.exports.getMarksheetUINew = async function(req, res){
             "EnvironmentallySensitive":"पर्यावरण संवेदनशील",
         }
         let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
-        let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class});
+        let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class, SchoolCode:req.user.SchoolCode});
         let classValue = req.query.Class;
         let updatedClassValue = classValue;
         if(classValue == 'kg-1'){
@@ -785,7 +785,7 @@ module.exports.getMarksheetUINew = async function(req, res){
             termMarks = new Object();
             let weightage = 0;
             
-            let result = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class,Term:terms[i]},subjects.replaceAll(',',' ')+' Term Total Weight');
+            let result = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class,Term:terms[i], SchoolCode:req.user.SchoolCode},subjects.replaceAll(',',' ')+' Term Total Weight');
             weightage = result.Weight;
             let termSum = 0;
             for(let j=0;j<subjectsArray.length;j++){

@@ -99,7 +99,7 @@ module.exports.deleteMessage = async function(req, res){
 
 module.exports.getNotifications = async function(req, res){
     try{
-        let students = await Students.find({Mob:req.user.email, isThisCurrentRecord:true});
+        let students = await Students.find({Mob:req.user.email, isThisCurrentRecord:true, SchoolCode:req.user.SchoolCode});
         let messageToShow = [];
         let neededClasses = new Set();
         classesToGet=[]

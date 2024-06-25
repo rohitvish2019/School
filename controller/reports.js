@@ -72,7 +72,7 @@ module.exports.getReports = async function(req, res){
         classList = null;
         let students
         try{
-            students = await Student.find({Class:req.query.Class, isThisCurrentRecord:true},'AdmissionNo FirstName LastName Class').sort('AdmissionNo');
+            students = await Student.find({Class:req.query.Class, isThisCurrentRecord:true, SchoolCode:req.user.SchoolCode},'AdmissionNo FirstName LastName Class').sort('AdmissionNo');
             if(req.query.purpose === 'feesReport'){
                 response = await getFeesReport(req.query.start_date, req.query.end_date, req.user)
             }else if(req.query.purpose === 'admittedStudents'){

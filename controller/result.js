@@ -21,8 +21,8 @@ const logger = winston.createLogger({
 module.exports.getResult = async function(req, res){
     if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
         try{
-            let result =await Result.findOne({Class:req.query.Class, AdmissionNo: req.query.AdmissionNo, Term:req.query.Term});
-            let student = await Student.findOne({AdmissionNo:result.AdmissionNo, Class:result.Class});
+            let result =await Result.findOne({Class:req.query.Class, AdmissionNo: req.query.AdmissionNo, Term:req.query.Term, SchoolCode:req.user.SchoolCode});
+            let student = await Student.findOne({AdmissionNo:result.AdmissionNo, Class:result.Class, SchoolCode:req.user.SchoolCode});
             if(result){
                 return res.status(200).json({
                     message: "Result fetched",
@@ -109,7 +109,7 @@ module.exports.updateResult = async function(req, res){
         let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
         let termsTotal = properties.get(req.user.SchoolCode+'.'+req.body.Term+'_TOTAL');
         let termWeightage = properties.get(req.user.SchoolCode+'.'+req.body.Term+'.WEIGHT');
-        let resultRecord = await Result.findOne({Class:req.body.Class, AdmissionNo:req.body.AdmissionNo,Term:req.body.Term});
+        let resultRecord = await Result.findOne({SchoolCode:req.user.SchoolCode, Class:req.body.Class, AdmissionNo:req.body.AdmissionNo,Term:req.body.Term});
         let newRecord = await Result.create(req.body.marks);
         await newRecord.updateOne({
             SchoolCode:req.user.SchoolCode,
@@ -152,7 +152,7 @@ module.exports.updateResult = async function(req, res){
 module.exports.searchResult = async function(req, res){
     if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
         try{
-            let student = await Student.findOne({AdmissionNo:req.params.id, Class:req.query.Class});
+            let student = await Student.findOne({AdmissionNo:req.params.id,SchoolCode:req.user.SchoolCode, Class:req.query.Class});
             
             return res.render('search_result', {student:student, role:req.user.role});
         }catch(err){
@@ -208,9 +208,9 @@ async function updateFinalGrades(AdmissionNo, Class){
 module.exports.updateAllResults = async function(req, res){
     if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
         try{
-            let result_q = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class, Term:'Quarterly'});
-            let result_h = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class, Term:'Half-Yearly'});
-            let result_f = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class, Term:'Final'});
+            let result_q = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class, Term:'Quarterly', SchoolCode:req.user.SchoolCode});
+            let result_h = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class, Term:'Half-Yearly', SchoolCode:req.user.SchoolCode});
+            let result_f = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class, Term:'Final', SchoolCode:req.user.SchoolCode});
             console.log(result_q);
     
             await result_q.updateOne({Hindi:+req.body.Hindi_q});
@@ -405,7 +405,7 @@ module.exports.getSubjectsListOnly = function(req, res){
 
 module.exports.updateResultSingleNew = async function(req, res){
     try{
-        let student = await Student.findOne({AdmissionNo:req.body.AdmissionNo, isThisCurrentRecord:true});
+        let student = await Student.findOne({AdmissionNo:req.body.AdmissionNo, isThisCurrentRecord:true, SchoolCode:req.user.SchoolCode});
         await student.updateOne({TotalGrade:req.body.grade, ResultPercentage: req.body.percent});
         return res.status(200).json({
             message:'Final grade updated'

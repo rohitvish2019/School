@@ -38,7 +38,7 @@ module.exports.getFeeDetails = async function(req, res){
             feeData = await Fee.findOne({AdmissionNo:student.AdmissionNo,SchoolCode:req.user.SchoolCode});
             return res.render('feeSubmit', {feeData:feeData, student:student, role:req.user.role});
         }else if(req.user.role === 'Student'){
-            let student = await Student.findOne({_id:req.params.id, Mob:req.user.email});
+            let student = await Student.findOne({_id:req.params.id, Mob:req.user.email, SchoolCode:req.user.SchoolCode});
             feeData = await Fee.findOne({AdmissionNo:student.AdmissionNo,SchoolCode:req.user.SchoolCode});
             return res.render('feeSubmit', {feeData:feeData, student:student, role:req.user.role});
         }
@@ -274,7 +274,7 @@ module.exports.getFeeHistory = async function(req, res){
                 data: feeList
             })
         }else if(req.user.role === 'Student'){
-            let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo, Mob:req.user.email,isThisCurrentRecord:true});
+            let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo, Mob:req.user.email,isThisCurrentRecord:true, SchoolCode:req.user.SchoolCode});
             if(student){
                 let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo,type:'Fees',isCancelled:false,SchoolCode:req.user.SchoolCode}).sort({Payment_Date:'descending'});
                 return res.status(200).json({
@@ -348,7 +348,7 @@ module.exports.deleteAnnualFee = async function(req, res){
 
 module.exports.addOldFee = async function(req, res){
     try{
-        let record = await Fee.findOne({AdmissionNo:req.body.AdmissionNo, Class:'Old Fees'});
+        let record = await Fee.findOne({AdmissionNo:req.body.AdmissionNo, Class:'Old Fees', SchoolCode:req.user.SchoolCode});
         if(record){
             record.updateOne({Total:req.body.Total, Remaining:req.body.Total, Paid:0});
             record.save();

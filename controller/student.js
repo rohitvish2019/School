@@ -400,7 +400,7 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
         lastResultStatus = true
     }
     AdmissionNumber = last_class_details.AdmissionNo;
-    if(!lastResultStatus){
+    if(!lastResultStatus && last_class_details.Class != '5'){
         return 424;
     }
     if(last_class_details.TotalGrade =='F' ){

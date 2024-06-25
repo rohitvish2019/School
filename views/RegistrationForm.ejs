@@ -139,8 +139,13 @@
     </div>
     <div class="mx-2 my-4" style="display: flex; justify-content: space-around;">
         <input class="btn btn-success" id="download-button" value="Download as PDF">
+        <!--
         <input type="submit" class="btn btn-success" id="edit-profile" value="Submit Changes">
-        <input class="btn btn-success" value="Approve" onclick="admitStudent('<%=data.RegistrationNo%>')">
+        -->
+        <%if(!isAdmitted){%>
+            <input class="btn btn-success" value="Approve" onclick="admitStudent('<%=data.RegistrationNo%>')">
+        <%}%>
+        
     </div>
     <script src="/js/pdfCreator.js"></script>
     <script src="/js/edit_registration.js"></script>

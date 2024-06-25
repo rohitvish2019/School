@@ -13,6 +13,7 @@
             <h5>Quick Actions</h5>
             <a href="/student/get/<%=data.AdmissionNo%>?Class=<%=data.Class%>&action=fee" class="btn btn-success">Fees Details</a>
             <a href="/student/get/<%=data.AdmissionNo%>?Class=<%=data.Class%>&action=result" class="btn btn-success">Result Details</a>
+            <a href="/registration/admissionForm/<%=data.RegistrationNo%>">Admission Form</a>
         </div>
         <div class="center-body">
             <form action="/student/updateProfile" method="POST" class="container" id="admissionForm" onsubmit="generatePDF()">
@@ -225,10 +226,10 @@
         <div class="footer-container">
             <div style="display: flex; justify-content: space-around;">
                 <input class="btn btn-success" id="download-button" value="Download as PDF">
-                <%if(isOld == 'yes'){%>
-                    <input hidden class="btn btn-success" id="edit-profile" value="Edittrue">
+                <%if(false && isOld == 'yes'){%>
+                    <input hidden class="btn btn-success" id="edit-profile" value="Edit">
                 <%}else{%>
-                    <input class="btn btn-success" id="edit-profile" value="Editfalse">
+                    <input class="btn btn-success" id="edit-profile" value="Edit">
                 <%}%>
                 
             </div>

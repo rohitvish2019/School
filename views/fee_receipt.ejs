@@ -24,6 +24,16 @@ th, td {
 th {
     background-color: #f2f2f2;
 }
+.p-head{
+    display: inline-block;
+    font-size: large;
+    font-weight: bold;
+    width: 45% !important;
+    text-transform: capitalize;
+}
+.p-value, td{
+    text-transform: capitalize;
+}
 
     </style>
 </head>
@@ -32,20 +42,17 @@ th {
         <div class="pdf1">
             <h2 style="text-align: center;">Shree Veer Vidya Niketan School Shahpur</h2>
             <h4 style="text-align: center;">Run By : Shree Varni Shiksha Prasar Samiti Shahpur Dist Sagar Reg: 1583/96</h4>
-            <div class="receipt-header">
-                <h3 style="text-align: center;">Fee Submission Receipt</h3>
-                <p>Receipt No: </p>
-            </div>
-            <div class="patient-info">
-                <div style="width: 7%;" class="patient-data">
+            
+            <div class="patient-info" style="margin-bottom: 2%;margin-left: 1%;">
+                <div style="width: 40%;" class="patient-data">
                     <label class="p-head">AdmissionNo</label>
                     <label class="p-value"><%=student.AdmissionNo%></label>
                 </div>
-                <div style="width: 28%;" class="patient-data">
+                <div style="width: 40%;" class="patient-data">
                     <label class="p-head">Name</label>
                     <label class="p-value"><%=student.FirstName%> <%=student.LastName%></label>
                 </div>
-                <div style="width: 6%;" class="patient-data">
+                <div style="width: 40%;" class="patient-data">
                     <label class="p-head">Class</label>
                     <label class="p-value"><%=student.Class%></label>
                 </div>
@@ -67,17 +74,20 @@ th {
                                 <td><%=feeReport.Receipt_No%></td>
                                 <td><%=feeReport.Comment%></td>
                                 <td><%=feeReport.Amount%></td>
-                                <td></td>
+                                <td><%=String(feeReport.createdAt).substr(4,12)%></td>
                                 <td><%=feeReport.Amount%></td>
                                 
-                                
                             </tr>
-                        
-                        
                         <!-- Add more rows for additional items if needed -->
                     </tbody>
                     
                 </table>
+                <div style="margin-top: 1%;font-weight: bold;">
+                    <span style="margin-left: 5%;margin-top: 4%;">Payee (Signature)</span>
+                    <label style="margin-left: 65%;margin-top: 2%;">Recipient(Signature)</label>
+                    <label for=""></label>
+                </div>
+                
             </div>
         </div>
     </div>

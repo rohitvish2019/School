@@ -9,5 +9,6 @@ router.post('/update', RegistrationController.updateRegistration);
 router.delete('/delete/:id', RegistrationController.delete);
 router.post('/admit/:id', RegistrationController.admit);
 router.get('/download/:id', RegistrationController.download);
+router.get('/admissionForm/:id', RegistrationController.viewAdmissionForm);
 
 module.exports = router;

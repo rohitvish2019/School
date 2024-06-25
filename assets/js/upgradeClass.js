@@ -110,7 +110,7 @@ function showStudentsList(data){
     `
     <a class="btn student-list">
     <tr>
-        
+        <th>S.no</th>
         <th class='big-screen'>Student ID</th>
         <th>Name</th>
         <th>Class</th>
@@ -126,6 +126,7 @@ function showStudentsList(data){
         let item = document.createElement('tr');
         item.innerHTML = 
         `
+            <td>${i+1}</td>
             <td class='big-screen'>${student.AdmissionNo}</td>
             <td>${student.FirstName} ${student.LastName}</td>
             <td>${student.Class}</td>

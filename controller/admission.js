@@ -48,72 +48,7 @@ module.exports.addmission =async function(request, response){
     }
 }
 
-//To add new student in record with dependencies 
-/*
-module.exports.addStudent = async function(request, response){
-    let student, lastAdmissionNumber, ADN, fee, newFee, result_q, result_h,result_f, fee_record;
-    try{
-        student = await Student.create(request.body);
-        lastAdmissionNumber = await AdmissionNo.findOne({SchoolCode:request.user.SchoolCode});
-        ADN = lastAdmissionNumber.LastAdmission;
-        await student.updateOne({AdmissionNo:ADN+1,SchoolCode:request.user.SchoolCode});
-        
-        fee = await FeeStructure.findOne({SchoolCode:request.user.SchoolCode,Class:request.body.Class});
 
-        fee_record = await FeeSchema.create({
-            AdmissionNo:ADN+1,
-            Class:request.body.Class,
-            Total:fee.Fees,
-            Remaining: fee.Fees,
-            Paid:0,
-            SchoolCode:request.user.SchoolCode
-        });
-
-        
-        result_q = await Result.create({
-            AdmissionNo: ADN+1,
-            Class:request.body.Class,
-            Term: 'Quarterly',
-            SchoolCode:request.user.SchoolCode
-        });
-
-        result_h = await Result.create({
-            AdmissionNo: ADN+1,
-            Class:request.body.Class,
-            Term: 'Half-Yearly',
-            SchoolCode:request.user.SchoolCode
-        });
-
-        result_f = await Result.create({
-            AdmissionNo: ADN+1,
-            Class:request.body.Class,
-            Term: 'Final',
-            SchoolCode:request.user.SchoolCode
-        });
-
-        await lastAdmissionNumber.updateOne({LastAdmission:ADN+1});
-    }catch(err){
-        if(student){
-            Student.deleteOne(student)
-        }
-        if(fee_record){
-            FeeStructure.deleteOne(fee_record)
-        }
-        if(result_q){
-            Result.deleteOne(result_q);
-        }
-        if(result_h){
-            Result.deleteOne(result_h);
-        }
-        if(result_f){
-            Result.deleteOne(result_f);
-        }
-        console.log(err);
-    }
-    return response.redirect('/admissions')
-}
-
-*/
 // To updateOne the last admission number in case of first startup of application
 
 module.exports.updateLastAdmission =async function(req, res){

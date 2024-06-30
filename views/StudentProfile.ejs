@@ -22,13 +22,18 @@
                     <h5>Academic details</h5>
                     <div id="school-Info" style="display: flex; flex-wrap: wrap; margin-top: 1%; border-bottom: 1px solid black;">
                         <div class="gen-info">
-                            <label>Class</label>
-                            <input id="class" class="form-input" readonly required name="Class" style="width: 100%;" value="<%=data.Class%>">
+                            <label>Registration No</label>
+                            <input class="form-input" readonly type="text" name="RegistrationNo" value="<%=data.RegistrationNo%>">
                         </div>
                         <div class="gen-info">
                             <label>Admission No</label>
                             <input id="admno" class="form-input" readonly type="text" name="AdmissionNo" value="<%=data.AdmissionNo%>">
                         </div>
+                        <div class="gen-info">
+                            <label>Class</label>
+                            <input id="class" class="form-input" readonly required name="Class" style="width: 100%;" value="<%=data.Class%>">
+                        </div>
+                        
                         <div class="gen-info">
                             <label>Medium</label>
                             <input class="form-input" readonly type="text" name="Medium" value="<%=data.Medium%>">

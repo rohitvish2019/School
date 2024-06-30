@@ -284,7 +284,7 @@ module.exports.addCashTransaction = async function(req, res){
             date:req.body.date,
             comment:req.body.comment,
             type:req.body.type,
-            SchoolCode:req.user.SchoolCode
+            SchoolCode:req.user.SchoolCode,
         });
         return res.status(200).json({
             message:'Updated transaction successfully'

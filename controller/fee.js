@@ -115,12 +115,14 @@ module.exports.feeSubmission =async function(req, res){
                 Receipt_No:lastFeeReceiptNumber.LastFeeReceiptNo,
                 PaidTo:req.user.email
             });
+            let student = await Student.findOne({SchoolCode:req.user.SchoolCode,AdmissionNo:fee.AdmissionNo,isThisCurrentRecord:true})
             await cashTransactions.create({
                 SchoolCode:req.user.SchoolCode,
                 amount:req.body.Amount,
-                date:today,
+                date:new Date(),
                 comment:"Fees submission, Receipt No: "+lastFeeReceiptNumber.LastFeeReceiptNo,
-                type:'in'
+                type:'fees in',
+                Person:student.FirstName+' '+student.LastName
             })
             return res.status(200).json({
                 message:'Fees record updated successfully'
@@ -152,7 +154,7 @@ module.exports.cancelFees = async function(req, res){
                 amount:feeRecord.Amount,
                 date:today,
                 comment:"Fees cancelled, Receipt No: "+feeRecord.Receipt_No,
-                type:'out'
+                type:'fees out'
             })
             return res.status(200).json({
                 message:'Fees cancelled'

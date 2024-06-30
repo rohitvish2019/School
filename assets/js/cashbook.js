@@ -59,22 +59,37 @@ function displayTransactions(transactions) {
     table.classList.add('transactions-table');
 
     const headerRow = table.insertRow();
-    headerRow.innerHTML = '<th>Type</th><th>Amount</th><th>Date</th><th>Comment</th>';
+    headerRow.innerHTML = '<th>S.No</th><th>Date</th><th>Credit Amount</th><th>Debit Amount</th><th>Comment</th><th>Payee/Paid to</th>';
+    
     let totalDebit =0
     let totalCredit = 0
     let totalBalance = 0;
+    let count = 1;
     transactions.forEach(transaction => {
         const row = table.insertRow();
         let type = transaction.type
+        let dateArray = String(transaction.date).split('T')[0].split('-');
         if(type == 'in'){
             totalCredit = totalCredit+transaction.amount
+            row.innerHTML = `
+                         <td>${count++}</td>
+                         <td>${dateArray[2]}-${dateArray[1]}-${dateArray[0]}</td>
+                         <td>₹${transaction.amount}</td>
+                         <td>-</td>
+                         <td>${transaction.comment}</td>
+                         <td>${transaction.Person}</td>`;
         }else{
             totalDebit = totalDebit + transaction.amount
-        }
-        row.innerHTML = `<td>${transaction.type === 'in' ? 'Cash In' : 'Cash Out'}</td>
+            row.innerHTML = `
+                         <td>${count++}</td>
+                         <td>${dateArray[2]}-${dateArray[1]}-${dateArray[0]}</td>
+                         <td>-</td>
                          <td>₹${transaction.amount}</td>
-                         <td>${transaction.date}</td>
-                         <td>${transaction.comment}</td>`;
+                         <td>${transaction.comment}</td>
+                         <td>${transaction.Person}</td>`;
+        }
+
+        
     });
 
     transactionsDiv.appendChild(table);

@@ -69,7 +69,7 @@ function displayTransactions(transactions) {
         const row = table.insertRow();
         let type = transaction.type
         let dateArray = String(transaction.date).split('T')[0].split('-');
-        if(type == 'in'){
+        if(type == 'in' || type == 'fees in'){
             totalCredit = totalCredit+transaction.amount
             row.innerHTML = `
                          <td>${count++}</td>

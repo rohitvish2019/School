@@ -240,7 +240,7 @@ module.exports.download = async function(req, res){
     try{
         if(req.user.role === 'Admin'){
             let data = await RegisteredStudent.findOne({RegistrationNo:req.params.id, SchoolCode:req.user.SchoolCode});
-            return res.render('RegistrationForm', {data, role:req.user.role, SchoolCode:req.user.SchoolCode, isAdmitted:false});
+            return res.render('RegistrationForm_hindi', {data, role:req.user.role, SchoolCode:req.user.SchoolCode, isAdmitted:false});
         }else{
             return res.render('Error_403')
         }
@@ -254,7 +254,7 @@ module.exports.viewAdmissionForm = async function(req, res){
     try{
         if(req.user.role === 'Admin'){
             let data = await Student.findOne({RegistrationNo:req.params.id, SchoolCode:req.user.SchoolCode});
-            return res.render('RegistrationForm', {data, role:req.user.role, SchoolCode:req.user.SchoolCode, isAdmitted:true});
+            return res.render('RegistrationForm_hindi', {data, role:req.user.role, SchoolCode:req.user.SchoolCode, isAdmitted:true});
         }else{
             return res.render('Error_403')
         }

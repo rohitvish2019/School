@@ -14,6 +14,8 @@ function addTransaction(type) {
         alert('Please enter a valid amount.');
         return;
     }
+    document.getElementById('cashin').setAttribute('disabled','disabled')
+    document.getElementById('cashout').setAttribute('disabled','disabled')
     sendTransaction(amount,date,comment,type);
     
 }
@@ -21,6 +23,9 @@ let transactions = [];
 function sendTransaction(amount,date,comment,type){
     
     console.log(amount,date,comment,type);
+    for(let i=0;i<100000;i++){
+        console.log(i)
+    }
     $.ajax({
         type:'Post',
         url:'/reports/cashbook/update',

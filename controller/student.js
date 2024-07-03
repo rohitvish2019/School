@@ -512,7 +512,7 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
             SchoolCode:SchoolCode
         });
     }
-    await Result.updateMany({AdmissionNo:last_class_details.AdmissionNo,Class:last_class_details.Class, isThisCurrentRecord:true, SchoolCode:req.user.SchoolCode},{$set:{isThisCurrentRecord:false}})
+    await Result.updateMany({AdmissionNo:last_class_details.AdmissionNo,Class:last_class_details.Class, isThisCurrentRecord:true, SchoolCode:SchoolCode},{$set:{isThisCurrentRecord:false}})
     return 200;
 
 }

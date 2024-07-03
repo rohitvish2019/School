@@ -12,7 +12,7 @@
 }
 .main-body{
     height: 1020px;
-    border: 1px solid red;
+    
 }
 thead,th{
     position: sticky;
@@ -23,25 +23,30 @@ th, td {
     border: 1px solid #ddd;
     padding: 6px;
     text-align: left;
-    font-size: 12px;
+    font-size: 18px;
 }
 .pdf1{
     border: 1px solid black;
-    height: 25% !important;
+    height: 50% !important;
+    background-image: url('/schools/SVVN/watermark_receipt_1.png');
+    background-size: contain;
+    background-repeat: no-repeat;
     
+
 }
 th {
     background-color: #f2f2f2;
 }
 .p-head{
     display: inline-block;
-    font-size: 14px;
+    font-size: 20px;
     font-weight: bold;
     width: 45% !important;
     text-transform: capitalize;
 }
 .p-value, td{
     text-transform: capitalize;
+    font-size: 20px;
 }
 
     </style>
@@ -49,35 +54,30 @@ th {
 <body>
     <div class="main-body">
         <div class="pdf1">
-            <label style="display: block; text-align: center;font-size: 21px;font-weight: bold;margin-bottom: 2px;">Shree Veer Vidya Niketan School Shahpur</label>
-            <label style="display: block;text-align: center;margin-bottom: 10px;">Run By : Shree Varni Shiksha Prasar Samiti Shahpur Dist Sagar Reg: 1583/96</label>
+            <label style="display: block; text-align: center;font-size: 27px;font-weight: bold;margin-bottom: 2px;margin-top: 1%;">Shree Veer Vidya Niketan School Shahpur</label>
+            <label style="display: block;text-align: center;margin-bottom: 3%;font-size: 21px;">Run By : Shree Varni Shiksha Prasar Samiti Shahpur Dist Sagar Reg: 1583/96</label>
             
             <div class="patient-info" style="margin-bottom: 2%;margin-left: 1%;display: flex;">
                 <div style="width: 50%;">
-                    
-                    <div class="patient-data">
+                    <div  style="margin-bottom: 1%;">
+                        <label class="p-head">AdmissionNo :</label>
+                        <label class="p-value"><%=student.AdmissionNo%></label>
+                    </div>
+                    <div  style="margin-bottom: 1%;">
+                        <label class="p-head">Class : </label>
+                        <label class="p-value"><%=student.Class%></label>
+                    </div>
+                    <div style="margin-bottom: 1%;">
                         <label class="p-head" >Name :</label>
                         <label class="p-value"><%=student.FirstName%> <%=student.LastName%></label>
                     </div>
-                    <div class="patient-data">
+                    <div style="margin-bottom: 1%;">
                         <label class="p-head">Father's Name :</label>
                         <label class="p-value"><%=student.FathersName%></label>
                     </div>
                 </div>
-                <div style="width: 50%;">
-                    <div  class="patient-data">
-                        <label class="p-head">AdmissionNo :</label>
-                        <label class="p-value"><%=student.AdmissionNo%></label>
-                    </div>
-                    <div  class="patient-data">
-                        <label class="p-head">Class : </label>
-                        <label class="p-value"><%=student.Class%></label>
-                    </div>
-                </div>
-                
-                
             </div>
-            <div class="itemsList">
+            <div class="itemsList" style="margin-top: 3%;">
                 <table>
                     <thead>
                         <tr>
@@ -102,9 +102,9 @@ th {
                     </tbody>
                     
                 </table>
-                <div style="margin-top: 1%;font-weight: bold;font-size: 15px;">
+                <div style="margin-top: 6%;font-weight: bold;font-size: 21px;">
                     <label style="margin-left: 5%;margin-top: 4%;">Payee (Signature)</label>
-                    <label style="margin-left: 45%;margin-top: 2%;">Recipient(Signature)</label>
+                    <label style="margin-left: 40%;margin-top: 2%;">Recipient(Signature)</label>
                     <label for=""></label>
                 </div>
                 
@@ -112,33 +112,30 @@ th {
         </div>
 
         <div class="pdf1">
-            <label style="display: block; text-align: center;font-size: 21px;font-weight: bold;margin-bottom: 2px;">Shree Veer Vidya Niketan School Shahpur</label>
-            <label style="display: block;text-align: center;margin-bottom: 10px;">Run By : Shree Varni Shiksha Prasar Samiti Shahpur Dist Sagar Reg: 1583/96</label>
+            <label style="display: block; text-align: center;font-size: 27px;font-weight: bold;margin-bottom: 2px;margin-top: 1%;">Shree Veer Vidya Niketan School Shahpur</label>
+            <label style="display: block;text-align: center;margin-bottom: 3%;font-size: 21px;">Run By : Shree Varni Shiksha Prasar Samiti Shahpur Dist Sagar Reg: 1583/96</label>
             
             <div class="patient-info" style="margin-bottom: 2%;margin-left: 1%;display: flex;">
                 <div style="width: 50%;">
-                    
-                    <div class="patient-data">
+                    <div  style="margin-bottom: 1%;">
+                        <label class="p-head">AdmissionNo :</label>
+                        <label class="p-value"><%=student.AdmissionNo%></label>
+                    </div>
+                    <div  style="margin-bottom: 1%;">
+                        <label class="p-head">Class : </label>
+                        <label class="p-value"><%=student.Class%></label>
+                    </div>
+                    <div style="margin-bottom: 1%;">
                         <label class="p-head" >Name :</label>
                         <label class="p-value"><%=student.FirstName%> <%=student.LastName%></label>
                     </div>
-                    <div class="patient-data">
+                    <div style="margin-bottom: 1%;">
                         <label class="p-head">Father's Name :</label>
                         <label class="p-value"><%=student.FathersName%></label>
                     </div>
                 </div>
-                <div style="width: 50%;">
-                    <div  class="patient-data">
-                        <label class="p-head">AdmissionNo :</label>
-                        <label class="p-value"><%=student.AdmissionNo%></label>
-                    </div>
-                    <div  class="patient-data">
-                        <label class="p-head">Class : </label>
-                        <label class="p-value"><%=student.Class%></label>
-                    </div>
-                </div>
             </div>
-            <div class="itemsList">
+            <div class="itemsList" style="margin-top: 3%;">
                 <table>
                     <thead>
                         <tr>
@@ -163,9 +160,9 @@ th {
                     </tbody>
                     
                 </table>
-                <div style="margin-top: 1%;font-weight: bold;font-size: 15px;">
+                <div style="margin-top: 6%;font-weight: bold;font-size: 21px;">
                     <label style="margin-left: 5%;margin-top: 4%;">Payee (Signature)</label>
-                    <label style="margin-left: 45%;margin-top: 2%;">Recipient(Signature)</label>
+                    <label style="margin-left: 40%;margin-top: 2%;">Recipient(Signature)</label>
                     <label for=""></label>
                 </div>
                 

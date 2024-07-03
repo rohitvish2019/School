@@ -130,6 +130,7 @@ function cancelFees(id){
 }
 
 function submitFeeOrConcession(){
+    document.getElementById('submit_fee').setAttribute('disabled','true')
     let Date;
     let AdmissionNo = document.getElementById('AdmissionNo_fee').value;
     let Class = document.getElementById('Class_fee').value;
@@ -169,6 +170,7 @@ function submitFeeOrConcession(){
                 timeout: 1000
             }).show();
             checkFees();
+            document.getElementById('submit_fee').removeAttribute('disabled')
             
             
         },

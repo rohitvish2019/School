@@ -26,7 +26,7 @@
             margin-top: 0;
         }
         .block {
-            margin-bottom: 10px;
+            margin-bottom: 5%;
         }
         .block h4 {
             background: #f0f0f0;
@@ -38,6 +38,7 @@
             display: flex;
             flex-wrap: wrap;
             padding: 5px;
+            
         }
         .field {
             width: 50%;
@@ -56,6 +57,10 @@
             display: block;
             margin-bottom: .7%;
             margin-left: .3%;
+        }
+        .sign{
+            display: block !important;
+            margin-bottom: 5%;
         }
         @media print {
             body {
@@ -171,6 +176,37 @@
                 9.शाला द्वारा शुल्क वृद्धि या पुस्तक परिवर्तन, यूनिफॉर्म परिवर्तन पर मुझे किसी भी प्रकार की आप्ति नहीं है, मेरे पुत्र/ पुत्री द्वारा शाला के प्रत्येक नियम का पालन किया जाएगा
             </span>
             
+        </div>
+        <div class="block" style="display: flex;height: 150px;">
+            <div style="width: 48%;display: block;">
+                <span class="sign">
+                    पिता/ माता द्वारा प्रमाणित
+                </span>
+                <span class="sign">
+                    हस्ताक्षर................................
+                </span>
+                <span class="sign">
+                    दिनांक.................................
+                </span>
+            </div>
+            <div style="width: 48%;display: flex;flex-direction: column;align-items: end;">
+                <span class="sign">
+                    विद्यार्थी द्वारा प्रमाणित&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                               
+                </span>
+                <span class="sign">
+                    विद्यार्थी के हस्ताक्षर.......................................
+                </span>
+                <span class="sign">
+                    पूरा नाम .....................................................
+                </span>
+            </div>
+        </div>
+
+        <div class="block">
+            <h4 style="margin-bottom: 2%;">आदेश</h4>
+            <span class="rules">
+                आवेदक को कक्षा &nbsp; <b><%=data.Class%></b>&nbsp;  में नियमानुसार प्रवेश दिया जाता है, अथवा आवेदन स्वीकृत किया जाता है
+            </span>
         </div>
     </div>
     <div class="mx-2 my-4" style="display: flex; justify-content: space-around;">

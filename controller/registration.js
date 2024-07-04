@@ -167,11 +167,17 @@ module.exports.admit = async function(req, res){
             }
             
             //fee = await FeeStructure.findOne({Class:studentData.Class,SchoolCode:req.user.SchoolCode});
+            let admFee = 0;
+            if(studentData.Class == '1' || studentData.Class == '2' || studentData.Class == '3' || studentData.Class == '4' || studentData.Class == '5'){
+                admFee = 250
+            }else{
+                admFee = 200
+            }
             fee_record = await FeeSchema.create({
                 AdmissionNo:definedAdmissionNo,
                 Class:studentData.Class,
-                Total:fee.Fees,
-                Remaining: fee.Fees,
+                Total:+fee.Fees + +admFee,
+                Remaining: +fee.Fees + +admFee,
                 Paid:0,
                 SchoolCode:req.user.SchoolCode
             });

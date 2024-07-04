@@ -98,7 +98,7 @@ module.exports.feeSubmission =async function(req, res){
                     message:'Amount limit exceeding'
                 })
             }
-            await fee.updateOne({Paid:fee.Paid + +req.body.Amount, Remaining: fee.Remaining - +req.body.Amount });
+            await fee.updateOne({Paid:fee.Paid + +req.body.Amount, Remaining: fee.Total - (+req.body.Amount + +fee.Paid) });
             let lastFeeReceiptNumber = await admissionNoSchema.findOne({SchoolCode:req.user.SchoolCode});
             await lastFeeReceiptNumber.updateOne({LastFeeReceiptNo:lastFeeReceiptNumber.LastFeeReceiptNo+1});
             lastFeeReceiptNumber.save();

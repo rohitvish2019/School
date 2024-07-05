@@ -68,6 +68,7 @@ module.exports.getClassList = async function(req, res){
 
 module.exports.getReports = async function(req, res){
     if(req.user.role == 'Admin'){
+        console.log("Hitting here")
         let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
         classList = null;
         let students
@@ -88,6 +89,8 @@ module.exports.getReports = async function(req, res){
             }else if( req.query.purpose === 'incompleteResult'){
                 classList = properties.get(req.user.SchoolCode+'.CLASSES_LIST').split(',');
                 response = await getIncompleteResultsByClass(req.user);
+            }else if(req.query.purpose === 'studentsListByClass'){
+                response = await getStudentsByClass(req.query.Class);
             }
             if(response == 500){
                 return res.status(500).json({
@@ -109,6 +112,18 @@ module.exports.getReports = async function(req, res){
         }
     }else{
         return res.render('Error_403')
+    }
+    
+}
+
+async function getStudentsByClass(classForFilter){
+    try{
+        let students = await Student.find({Class:classForFilter, isThisCurrentRecord:true});
+        return students
+    }catch(err){
+        console.log("error")
+        console.log(err);
+        return 500
     }
     
 }

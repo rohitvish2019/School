@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>List of Students</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px; /* Space between tables */
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+
+    @media print {
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        table {
+            page-break-inside: auto;
+            width: 100%;
+            margin: 0 auto;
+            font-size: 12px; /* Adjust font size for print */
+        }
+    }
+</style>
+</head>
+<body>
+
+<h2 style="text-align: center;">List of Students</h2>
+<select style="position: fixed;top: 0; left: 10%;" name="" id="">
+    <option value="kg-1">kg-1</option>
+    <option value="kg-2">kg-2</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+</select>
+<table>
+  <thead>
+    <tr>
+      <th style="width: 5%;">S.no</th>
+      <th style="width: 10%;">Admission No</th>
+      <th style="width: 15%;">Name</th>
+      <th style="width: 15%;">Father's Name</th>
+      <th style="width: 15%;">Mother's Name</th>
+      <th style="width: 10%;">Class</th>
+      <th style="width: 10%;">DOB</th>
+      <th style="width: 10%;">Cast</th>
+      <th style="width: 10%;">Religion</th>
+      <th style="width: 10%;">Gender</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>202301</td>
+      <td>John Doe</td>
+      <td>Michael Doe</td>
+      <td>Jane Doe</td>
+      <td>10th Grade</td>
+      <td>2007-05-15</td>
+      <td>General</td>
+      <td>Christian</td>
+      <td>Male</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>202302</td>
+      <td>Jane Smith</td>
+      <td>David Smith</td>
+      <td>Emily Smith</td>
+      <td>9th Grade</td>
+      <td>2008-08-20</td>
+      <td>OBC</td>
+      <td>Hindu</td>
+      <td>Female</td>
+    </tr>
+    <!-- Add more rows as needed -->
+  </tbody>
+</table>
+
+ 
+</body>
+</html>
+

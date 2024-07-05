@@ -807,3 +807,8 @@ module.exports.getMarksheetUINew = async function(req, res){
         });
     }
 }
+
+module.exports.printClassList = function(req, res){
+    console.log("coming soon...")
+    return res.render('ebooks')
+}

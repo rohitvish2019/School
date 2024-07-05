@@ -23,7 +23,7 @@ function updateForm(){
         document.getElementById('end-date-label').style.display = 'inline'
         document.getElementById('email').style.display = 'none'
         document.getElementById('email-label').style.display = 'none'
-    }else if(element.value == 'currentActiveStudents' || element.value == 'feesDuesClass' || element.value == 'feesDuesTotal' || element.value === 'incompleteResult'){
+    }else if(element.value == 'currentActiveStudents' || element.value == 'feesDuesClass' || element.value == 'feesDuesTotal' || element.value === 'incompleteResult'|| element.value=='studentsListByClass'){
         document.getElementById('start-date').style.display = 'none'
         document.getElementById('end-date').style.display = 'none'
         document.getElementById('start-date-label').style.display = 'none'
@@ -114,7 +114,10 @@ function filterTransactions() {
 
             }else if(data.purpose === 'currentActiveStudents'){
                 showActiveStudents(data.response)
-            }else if(data.purpose === 'feesDuesTotal'){
+            }else if(data.purpose=='studentsListByClass'){
+                showStudentsByClass(data.response)
+            }
+            else if(data.purpose === 'feesDuesTotal'){
                 showFeesDues(data.response);
             }
             else if(data.purpose === 'incompleteResult'){
@@ -394,4 +397,46 @@ function isDateInRange(dateString, startDate, endDate) {
     const dateParts = dateString.split('-');
     const date = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
     return date >= new Date(startDate) && date <= new Date(endDate);
+}
+
+
+function showStudentsByClass(data){
+    let tbody = document.getElementById('table-body');
+    tbody.style.fontSize='0.8rem';
+    let thead = document.createElement('tr');
+    thead.innerHTML=
+    `   <th>S.No</th>
+        <th>Admission No</th>
+        <th>Class</th>
+        <th>Name</th>
+        <th>Father's Name</th>
+        <th>Mother's Name</th>
+        <th>DOB</th>
+        <th>Caste</th>
+        <th>Religion</th>
+        <th>Gender</th>
+        
+    `
+    tbody.innerHTML=``;
+    tbody.appendChild(thead)
+    for(let i=0;i<data.length;i++){
+        let row = document.createElement('tr');
+        row.innerHTML=
+        `   <td>${i+1}</td>
+            <td>${data[i].AdmissionNo}</td>
+            <td>${data[i].Class}</td>
+            <td>${data[i].FirstName} ${data[i].LastName}</td>
+            <td>${data[i].FathersName}</td>
+            <td>${data[i].MothersName}</td>
+            <td>${data[i].DOB}</td>
+            <td>${data[i].Caste}</td>
+            <td>${data[i].Religion}</td>
+            <td>${data[i].Gender}</td>
+        `
+        tbody.appendChild(row);
+        total += data[i].Amount
+    }
+    document.getElementById('count').innerText='Count :'
+    document.getElementById('total').innerText= data.length
+    document.getElementById('loader').style.display='none'
 }

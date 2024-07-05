@@ -3,7 +3,6 @@ const router = express.Router();
 const studentController = require('../controller/student');
 
 
-//old code 
 router.get('/get/:adm_no', studentController.getStudent)
 router.get('/search', studentController.search)
 router.get('/showByClass', studentController.getStudentsByClassForm);
@@ -22,4 +21,5 @@ router.get('/getAll', studentController.getActiveStudents)
 router.get('/:id', studentController.getProfile);
 router.post('/updateprofile', studentController.updateProfile)
 router.get('/samagra/profile', studentController.getProfileBySamagra);
+router.get('/printClassList', studentController.printClassList)
 module.exports = router;

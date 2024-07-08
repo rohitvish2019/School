@@ -90,7 +90,7 @@ module.exports.getReports = async function(req, res){
                 classList = properties.get(req.user.SchoolCode+'.CLASSES_LIST').split(',');
                 response = await getIncompleteResultsByClass(req.user);
             }else if(req.query.purpose === 'studentsListByClass'){
-                response = await getStudentsByClass(req.query.Class);
+                response = await getStudentsByClass(req.query.Class, req.user.SchoolCode);
             }
             if(response == 500){
                 return res.status(500).json({
@@ -116,9 +116,9 @@ module.exports.getReports = async function(req, res){
     
 }
 
-async function getStudentsByClass(classForFilter){
+async function getStudentsByClass(classForFilter, SchoolCode){
     try{
-        let students = await Student.find({Class:classForFilter, isThisCurrentRecord:true});
+        let students = await Student.find({Class:classForFilter, isThisCurrentRecord:true, SchoolCode:SchoolCode});
         return students
     }catch(err){
         console.log("error")
@@ -197,10 +197,13 @@ async function getFeesReportByUser(start_date, end_date, activeUser, userToSearc
 
 async function getFeesDuesByClass(user, Class){
     try{
-        console.log("Here it is")
-        let records = await Fee.find({Class:Class,SchoolCode:user.SchoolCode,Remaining:{$gt:0}}).lean();
-        
-        return records
+        let records = await Fee.find({Class:Class,SchoolCode:user.SchoolCode},'AdmissionNo').sort('AdmissionNo').lean();
+        let studentsAdmissionNumbers = []
+        for(let i=0;i<records.length;i++){
+            studentsAdmissionNumbers.push(records[i].AdmissionNo)
+        }
+        let data = Fee.find({AdmissionNo:{$in:studentsAdmissionNumbers}}).sort('AdmissionNo').lean();
+        return data
     }catch(err){
         logger.error(err.toString());
         return null

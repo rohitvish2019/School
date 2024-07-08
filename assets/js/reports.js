@@ -231,6 +231,7 @@ function showFeesDuesByClass(data, students){
         <th>Name</th>
         <th>Class</th>
         <th>Total</th>
+        <th>Paid</th>
         <th>Concession</th>
         <th>Remaining</th>       
     `
@@ -249,12 +250,13 @@ function showFeesDuesByClass(data, students){
                     <td>${students[j].FirstName} ${students[j].LastName}</td>
                     <td>${data[i].Class}</td>
                     <td>${data[i].Total}</td>
+                    <td>${data[i].Paid}</td>
                     <td>${data[i].Concession}</td>
                     <td>${data[i].Remaining}</td>
                 `
                 tbody.appendChild(row);
                 total = total + Number(data[i].Remaining) 
-                counter ++
+                counter++
                 break
             }
             if(counter >= data.length){

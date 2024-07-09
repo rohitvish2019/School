@@ -35,7 +35,7 @@ function sendTransaction(amount,date,comment,type,person){
         },
         success:function(data){
             transactions.push({ type, amount, date, comment});
-            //window.location.href='/reports/cashbook/home'
+            window.location.href='/reports/cashbook/home'
             
         },
         error:function(err){}

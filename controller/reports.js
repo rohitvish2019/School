@@ -296,6 +296,7 @@ module.exports.cashBookHome = function(req, res){
 
 
 module.exports.addCashTransaction = async function(req, res){
+    console.log(req.body)
     try{
         let record = await cashTransactions.create({
             amount:req.body.amount,
@@ -303,6 +304,7 @@ module.exports.addCashTransaction = async function(req, res){
             comment:req.body.comment,
             type:req.body.type,
             SchoolCode:req.user.SchoolCode,
+            Person:req.body.person
         });
         return res.status(200).json({
             message:'Updated transaction successfully'

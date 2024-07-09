@@ -149,12 +149,14 @@ module.exports.cancelFees = async function(req, res){
             let today = new Date().getDate() +'-'+ (new Date().getMonth() + 1)+ '-'+new Date().getFullYear();
             let oldFee = await Fee.findOne({AdmissionNo:feeRecord.AdmissionNo, Class:feeRecord.Class,SchoolCode:req.user.SchoolCode});
             await Fee.findOneAndUpdate({AdmissionNo:feeRecord.AdmissionNo, Class:feeRecord.Class,SchoolCode:req.user.SchoolCode},{Paid:oldFee.Paid - feeRecord.Amount, Remaining:oldFee.Remaining + feeRecord.Amount});
+            let student = await Student.findOne({SchoolCode:req.user.SchoolCode,AdmissionNo:feeRecord.AdmissionNo,isThisCurrentRecord:true})
             await cashTransactions.create({
                 SchoolCode:req.user.SchoolCode,
                 amount:feeRecord.Amount,
                 date:today,
                 comment:"Fees cancelled, Receipt No: "+feeRecord.Receipt_No,
-                type:'fees out'
+                type:'fees out',
+                Person:student.FirstName+' '+student.LastName
             })
             return res.status(200).json({
                 message:'Fees cancelled'

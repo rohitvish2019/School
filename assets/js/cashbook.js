@@ -4,11 +4,12 @@ function addTransaction(type) {
     const amountInput = document.getElementById('amount');
     const dateInput = document.getElementById('date');
     const commentInput = document.getElementById('comment');
+    const personInput = document.getElementById('person');
     const monthYearInput = document.getElementById('monthYear');
     const amount = parseFloat(amountInput.value);
     const date = dateInput.value;
     const comment = commentInput.value;
-    
+    const person =  personInput.value  
 
     if (isNaN(amount)) {
         alert('Please enter a valid amount.');
@@ -16,16 +17,12 @@ function addTransaction(type) {
     }
     document.getElementById('cashin').setAttribute('disabled','disabled')
     document.getElementById('cashout').setAttribute('disabled','disabled')
-    sendTransaction(amount,date,comment,type);
+    sendTransaction(amount,date,comment,type,person);
     
 }
 let transactions = [];
-function sendTransaction(amount,date,comment,type){
-    
+function sendTransaction(amount,date,comment,type,person){
     console.log(amount,date,comment,type);
-    for(let i=0;i<100000;i++){
-        console.log(i)
-    }
     $.ajax({
         type:'Post',
         url:'/reports/cashbook/update',
@@ -33,11 +30,12 @@ function sendTransaction(amount,date,comment,type){
             amount,
             date,
             comment,
-            type
+            type,
+            person,
         },
         success:function(data){
             transactions.push({ type, amount, date, comment});
-            window.location.href='/reports/cashbook/home'
+            //window.location.href='/reports/cashbook/home'
             
         },
         error:function(err){}

@@ -21,6 +21,7 @@ function showNoRecord(){
     header.innerHTML=
     `
     <div class="list-header">
+        <h6>S.No</h6>
         <h6>Student Name</h6>
         <h6>Father's Name</h6>
         <h6>Aadhar</h6>
@@ -44,6 +45,7 @@ function showClassList(data){
     header.innerHTML=
     `
     <div class="list-header">
+        <h6>S.No</h6>
         <h6>Student Name</h6>
         <h6>Father's Name</h6>
         <h6>Aadhar</h6>
@@ -55,6 +57,7 @@ function showClassList(data){
         let record = document.createElement('div');
         record.innerHTML=
         `
+        <label class='record-item'>${i+1}</label>
         <label class='record-item'>${data[i].FirstName} ${data[i].LastName}</label>
         <label class='record-item'>${data[i].FathersName}</label>
         <label class='record-item'>${data[i].AadharNumber}</label>

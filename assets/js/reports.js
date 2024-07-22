@@ -237,27 +237,67 @@ function showFeesDuesByClass(data, students){
     `
     tbody.innerHTML=``;
     tbody.appendChild(thead)
+    let lastAdmissionNo='0000000000000';
+    let currentTotal=0,currentPaid=0,currentRemaining=0,currentConcession=0;
     for(i=0;i<data.length;i++){
         for(j=0;j<students.length;j++){
             //console.log(data[i].AdmissionNo +"===="+ students[j].AdmissionNo)
             if(data[i].AdmissionNo == students[j].AdmissionNo){
                 console.log(data[i].AdmissionNo + " "+ students[j].FirstName);
-                let row = document.createElement('tr');
-                row.innerHTML=
-                `   
-                    <td>${counter+1}</td>
-                    <td>${data[i].AdmissionNo}</td>
-                    <td>${students[j].FirstName} ${students[j].LastName}</td>
-                    <td>${data[i].Class}</td>
-                    <td>${data[i].Total}</td>
-                    <td>${data[i].Paid}</td>
-                    <td>${data[i].Concession}</td>
-                    <td>${data[i].Remaining}</td>
-                `
-                tbody.appendChild(row);
-                total = total + Number(data[i].Remaining) 
-                counter++
-                break
+                if(i+1 == data.length){
+                    if(data[i].AdmissionNo == data[i-1].AdmissionNo){
+                        continue
+                    }else{
+                        let row = document.createElement('tr');
+                        row.innerHTML=
+                        `  
+                            <td>${counter+1}</td>
+                            <td>${data[i].AdmissionNo}</td>
+                            <td>${students[j].FirstName} ${students[j].LastName}</td>
+                            <td>${data[i].Class}</td>
+                            <td>${data[i].Total}</td>
+                            <td>${data[i].Paid}</td>
+                            <td>${data[i].Concession}</td>
+                            <td>${data[i].Remaining}</td>
+                        `
+                        tbody.appendChild(row);
+                        total = total + Number(data[i].Remaining) 
+                        counter++
+                        break
+                    }                
+
+                }else{
+                    if(data[i].AdmissionNo == data[i+1].AdmissionNo){
+                        currentTotal = currentTotal + data[i].Total,
+                        currentConcession = currentConcession + data[i].Consession
+                        currentRemaining = currentRemaining + data[i].Remaining,
+                        currentPaid = currentPaid + data[i].Paid
+                    
+                    }else{
+                        let row = document.createElement('tr');
+                        row.innerHTML=
+                        `  
+                            <td>${counter+1}</td>
+                            <td>${data[i].AdmissionNo}</td>
+                            <td>${students[j].FirstName} ${students[j].LastName}</td>
+                            <td>${data[i].Class}</td>
+                            <td>${data[i].Total + currentTotal}</td>
+                            <td>${data[i].Paid + currentPaid}</td>
+                            <td>${data[i].Concession + currentConcession}</td>
+                            <td>${data[i].Remaining + currentRemaining}</td>
+                        `
+                        tbody.appendChild(row);
+                        total = total + Number(data[i].Remaining) 
+                        counter++
+                        currentTotal=0
+                        currentConcession=0
+                        currentPaid=0
+                        currentRemaining=0
+                        break
+                    }
+                }
+                
+                
             }
             if(counter >= data.length){
                 console.log("Breaking :" +i +"   "+j )

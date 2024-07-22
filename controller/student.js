@@ -665,13 +665,7 @@ module.exports.getMarksheetUI = async function(req, res){
         for(let i=0;i<terms.length;i++){
             marks[terms[i]] = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class,Term:terms[i], SchoolCode:req.user.SchoolCode},subjects.replaceAll(',',' ')+' Term')
         }
-        console.log("Logger started")
-        console.log(student)
-        console.log(marks)
-        console.log(sub_list)
-        console.log(terms)
-        console.log(total_marks)
-        console.log('Logger ended')
+        
         return res.render('getMarksheet',{student, marks, sub_list, terms, total_marks,SchoolCode:req.user.SchoolCode})
     }catch(err){
         logger.error(err)

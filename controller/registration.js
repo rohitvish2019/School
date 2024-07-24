@@ -61,6 +61,8 @@ module.exports.register = async function(req, res){
     let student;
     try{
         student = await RegisteredStudent.create(req.body);
+        let AdDate = new Date().getFullYear().toString() +"-"+ (new Date().getMonth()+1).toString().padStart(2,'0') +"-"+ new Date().getDate();
+        await student.updateOne({AdmissionDate:AdDate})
         lastRegistrationNumber = await AdmissionNo.findOne({SchoolCode:req.user.SchoolCode});
         RN = lastRegistrationNumber.LastRegistration;
         await student.updateOne({RegistrationNo:RN+1,SchoolCode:req.user.SchoolCode,RegisteredBy:req.user.email})

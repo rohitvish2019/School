@@ -230,7 +230,9 @@ function showFeesDuesByClass(data, students){
         <th>Admission No</th>
         <th>Name</th>
         <th>Class</th>
-        <th>Total</th>
+        <th>Total Fees</th>
+        <th>Old Fees</th>
+        <th>Current Fees</th>
         <th>Paid</th>
         <th>Concession</th>
         <th>Remaining</th>       
@@ -255,6 +257,8 @@ function showFeesDuesByClass(data, students){
                             <td>${data[i].AdmissionNo}</td>
                             <td>${students[j].FirstName} ${students[j].LastName}</td>
                             <td>${data[i].Class}</td>
+                            <td>${data[i].Total}</td>
+                            <td>0</td>
                             <td>${data[i].Total}</td>
                             <td>${data[i].Paid}</td>
                             <td>${data[i].Concession}</td>
@@ -282,6 +286,8 @@ function showFeesDuesByClass(data, students){
                             <td>${students[j].FirstName} ${students[j].LastName}</td>
                             <td>${data[i].Class}</td>
                             <td>${data[i].Total + currentTotal}</td>
+                            <td>${currentTotal}</td>
+                            <td>${data[i].Total}</td>
                             <td>${data[i].Paid + currentPaid}</td>
                             <td>${data[i].Concession + currentConcession}</td>
                             <td>${data[i].Remaining + currentRemaining}</td>

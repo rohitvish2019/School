@@ -391,7 +391,7 @@ let AdmissionNumber = '';
 async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolCode){
     let properties = propertiesReader('../School/config/properties/'+SchoolCode+'.properties');
     let last_class_details, lastResultStatus,finalClass
-    last_class_details = await Student.findOne({AdmissionNo:studentAdmissionNumber, isThisCurrentRecord:true,SchoolCode:SchoolCode});
+    last_class_details = await Student.findOne({AdmissionNo:studentAdmissionNumber,isThisCurrentRecord:true,SchoolCode:SchoolCode});
     //console.log("Last Class result "+last_class_details.TotalGrade.toString())
     if(last_class_details.TotalGrade == '' || last_class_details.TotalGrade == null || last_class_details.TotalGrade === 'NA' ||last_class_details.TotalGrade.toLowerCase() == 'Invalid'.toLowerCase()){
         console.log("Last class result is "+ last_class_details);

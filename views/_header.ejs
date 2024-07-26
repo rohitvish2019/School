@@ -52,7 +52,7 @@
           <li><a class="dropdown-item" href="/student/showByClass/admission">Admission approval</a></li>
           <li><a class="dropdown-item" href="/user/new">Add new user</a></li>
           <li><a class="dropdown-item" href="/user/showAll">Show users</a></li>
-          <li><a class="dropdown-item" href="/reports/cashbook/home">Cashbook</a></li>
+          <li><a class="dropdown-item" target="_blank" href="/reports/cashbook/home">Cashbook</a></li>
           <li><a class="dropdown-item disabled" href="#">Change Contact Info</a></li>
         </ul>
       </li>
@@ -176,12 +176,16 @@
             
           </ul>
         </li>
+        <%}%>
+        <%if(role === 'Admin' || role === 'Teacher'){%>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Documents
           </a>  
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/reports/students">Old students</a></li>
+            <%if(role === 'Admin'){%>
+              <li><a class="dropdown-item" href="/reports/students">Old students</a></li>
+            <%}%>
             <li><a class="dropdown-item" href="/reports/bulk/home">Bulk reports</a></li>
           </ul>
         </li>

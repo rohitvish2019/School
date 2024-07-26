@@ -712,12 +712,13 @@ module.exports.updateProfile = async function(req, res){
     try{
         let student = await Student.findById(req.body.id);
         let AdmissionDate = student.AdmissionDate;
+        let isThisCurrentRecord = student.isThisCurrentRecord;
         await student.deleteOne();
         let newStudent = await Student.create(req.body);
         if(req.body.AdmissionDate == '' || req.body.AdmissionDate == null){
             await newStudent.updateOne({AdmissionDate:AdmissionDate});
         }
-        await newStudent.updateOne({SchoolCode:req.user.SchoolCode});
+        await newStudent.updateOne({SchoolCode:req.user.SchoolCode,isThisCurrentRecord:isThisCurrentRecord});
     }catch(err){
         console.log(err)
     }

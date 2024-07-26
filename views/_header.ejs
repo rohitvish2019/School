@@ -67,14 +67,17 @@
           
         </ul>
       </li>
+      <%}%>
+      <%if(role === 'Admin' || role === 'Teacher'){%>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           Documents
         </a>  
         <ul class="dropdown-menu header-items">
+          <%if(role === 'Admin'){%>
           <li><a class="dropdown-item" href="/reports/students">Old students</a></li>
-          <li><a class="dropdown-item" href="/reports/bulk/home">Bulk reports</a></li>
-          <li><a class="dropdown-item" href="/student/printClassList">Print Class List</a></li>
+          <%}%>
+          <li><a class="dropdown-item" target="_blank" href="/reports/bulk/home">Bulk reports</a></li>
         </ul>
       </li>
       <%}%>

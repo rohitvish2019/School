@@ -21,5 +21,5 @@ router.get('/getAll', studentController.getActiveStudents)
 router.get('/:id', studentController.getProfile);
 router.post('/updateprofile', studentController.updateProfile)
 router.get('/samagra/profile', studentController.getProfileBySamagra);
-router.get('/printClassList', studentController.printClassList)
+router.get('/printClassList', studentController.printClassList);
 module.exports = router;

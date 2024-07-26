@@ -23,7 +23,7 @@ const logger = winston.createLogger({
 });
 
 module.exports.home = function(req, res){
-    if(req.user.role == 'Admin'){
+    if(req.user.role == 'Admin' || req.user.role=='Teacher'){
         try{
             return res.render('reports_home',{error:"", role:req.user.role});
         }catch(err){
@@ -67,7 +67,7 @@ module.exports.getClassList = async function(req, res){
 }
 
 module.exports.getReports = async function(req, res){
-    if(req.user.role == 'Admin'){
+    if(req.user.role == 'Admin' || req.user.role == 'Teacher'){
         console.log("Hitting here")
         let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
         classList = null;
@@ -223,7 +223,7 @@ async function getIncompleteResultsByClass(user){
 
 module.exports.getCSV = async function(req, res){
     
-    if(req.user.role == 'Admin'){
+    if(req.user.role == 'Admin' || req.user.role == 'Teacher'){
         try{
             let response = [];
             if(req.query.purpose === 'feesReport'){
@@ -277,7 +277,7 @@ function saveCSV(reportArray, filename){
 }
 
 module.exports.bulkReportsHome = function(req, res){
-    if(req.user.role == 'Admin'){
+    if(req.user.role == 'Admin' || req.user.role=='Teacher'){
         try{
             return res.render('reports',{role:req.user.role});
         }catch(err){

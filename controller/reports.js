@@ -202,7 +202,7 @@ async function getFeesDuesByClass(user, Class){
         for(let i=0;i<records.length;i++){
             studentsAdmissionNumbers.push(records[i].AdmissionNo)
         }
-        let data = Fee.find({AdmissionNo:{$in:studentsAdmissionNumbers}}).sort('AdmissionNo').lean();
+        let data = Fee.find({AdmissionNo:{$in:studentsAdmissionNumbers, SchoolCode:user.SchoolCode}}).sort('AdmissionNo').lean();
         return data
     }catch(err){
         logger.error(err.toString());

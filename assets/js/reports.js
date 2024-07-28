@@ -240,7 +240,10 @@ function showFeesDuesByClass(data, students){
     tbody.innerHTML=``;
     tbody.appendChild(thead)
     let lastAdmissionNo='0000000000000';
-    let currentTotal=0,currentPaid=0,currentRemaining=0,currentConcession=0;
+    let currentTotal=0;
+    let currentPaid=0
+    let currentRemaining=0
+    let currentConcession=0;
     for(i=0;i<data.length;i++){
         for(j=0;j<students.length;j++){
             //console.log(data[i].AdmissionNo +"===="+ students[j].AdmissionNo)
@@ -273,12 +276,13 @@ function showFeesDuesByClass(data, students){
                 }else{
                     if(data[i].AdmissionNo == data[i+1].AdmissionNo){
                         currentTotal = currentTotal + data[i].Total,
-                        currentConcession = currentConcession + data[i].Consession
+                        currentConcession = currentConcession + data[i].Concession
                         currentRemaining = currentRemaining + data[i].Remaining,
                         currentPaid = currentPaid + data[i].Paid
                     
                     }else{
                         let row = document.createElement('tr');
+                        let thisRowConcession = data[i].Concession + currentConcession;
                         row.innerHTML=
                         `  
                             <td>${counter+1}</td>
@@ -289,7 +293,7 @@ function showFeesDuesByClass(data, students){
                             <td>${currentTotal}</td>
                             <td>${data[i].Total}</td>
                             <td>${data[i].Paid + currentPaid}</td>
-                            <td>${data[i].Concession + currentConcession}</td>
+                            <td>${thisRowConcession}</td>
                             <td>${data[i].Remaining + currentRemaining}</td>
                         `
                         tbody.appendChild(row);

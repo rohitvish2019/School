@@ -459,31 +459,37 @@ function showStudentsByClass(data){
     thead.innerHTML=
     `   <th>S.No</th>
         <th>Admission No</th>
-        <th>Class</th>
         <th>Name</th>
         <th>Father's Name</th>
         <th>Mother's Name</th>
-        <th>DOB</th>
-        <th>Caste</th>
-        <th>Religion</th>
-        <th>Gender</th>
+        <th>Date Of Birth</th>
+        <th>Aadhar</th>
+        <th>Samagra</th>
+        <th>Contact No</th>
+        <th>Account No</th>
+        <th>IFSC</th>
+        
+        
+
         
     `
     tbody.innerHTML=``;
     tbody.appendChild(thead)
     for(let i=0;i<data.length;i++){
         let row = document.createElement('tr');
+        let dob = data[i].DOB.split('-')
         row.innerHTML=
-        `   <td>${i+1}</td>
-            <td>${data[i].AdmissionNo}</td>
-            <td>${data[i].Class}</td>
-            <td>${data[i].FirstName} ${data[i].LastName}</td>
-            <td>${data[i].FathersName}</td>
-            <td>${data[i].MothersName}</td>
-            <td>${data[i].DOB}</td>
-            <td>${data[i].Caste}</td>
-            <td>${data[i].Religion}</td>
-            <td>${data[i].Gender}</td>
+        `   <td style='width:2%'>${i+1}</td>
+            <td style='width:3%'>${data[i].AdmissionNo}</td>
+            <td style='width:10%'>${data[i].FirstName} ${data[i].LastName}</td>
+            <td style='width:8%'>${data[i].FathersName}</td>
+            <td style='width:8%'>${data[i].MothersName}</td>
+            <td style='width:11% !important'>${dob[2]}-${dob[1]}-${dob[0]}</td>
+            <td style='width:11%'>${data[i].AadharNumber}</td>
+            <td style='width:8%'>${data[i].SSSM}</td>
+            <td style='width:9%'>${data[i].Mob}</td>
+            <td style='width:18%'>${data[i].AccountNo}</td>
+            <td style='width:8%'>${data[i].IFSC}</td>
         `
         tbody.appendChild(row);
         total += data[i].Amount

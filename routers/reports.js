@@ -8,5 +8,8 @@ router.get('/bulk/home', reportsController.bulkReportsHome);
 router.get('/getExcel', reportsController.getCSV);
 router.get('/cashbook/home', reportsController.cashBookHome);
 router.post('/cashbook/update', reportsController.addCashTransaction);
-router.get('/cashbook/getTransactions', reportsController.getCashTransactions)
+router.get('/cashbook/getTransactions', reportsController.getCashTransactions);
+router.get('/timeTableHome', reportsController.timeTableHome);
+router.post('/savetimeTable', reportsController.saveTimeTable);
+router.get('/getTimeTable', reportsController.getTimeTable);
 module.exports = router;

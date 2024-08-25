@@ -171,12 +171,16 @@ module.exports.admit = async function(req, res){
             //fee = await FeeStructure.findOne({Class:studentData.Class,SchoolCode:req.user.SchoolCode});
             let admFee = 0;
             if(req.user.SchoolCode == 'SVVN'){
+                console.log("Checking admission fee")
                 if(studentData.Class == '1' || studentData.Class == '2' || studentData.Class == '3' || studentData.Class == '4' || studentData.Class == '5'){
-                    admFee = 250
+                    console.log("Checking primary admission fee")
+                    admFee = Number(Schoolproperties.get(req.user.SchoolCode+'.ADMISSIONFEE_PRIMARY'))
                 }else if(studentData.Class == '6' || studentData.Class == '7' || studentData.Class == '8' ){
-                    admFee = 200
+                    console.log("Checking middle admission fee")
+                    admFee = Number(Schoolproperties.get(req.user.SchoolCode+'.ADMISSIONFEE_MIDDLE'))
                 }
             }
+            console.log("Admission Fees is "+admFee)
             fee_record = await FeeSchema.create({
                 AdmissionNo:definedAdmissionNo,
                 Class:studentData.Class,

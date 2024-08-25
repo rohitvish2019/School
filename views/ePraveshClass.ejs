@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css">
+    <title>E-Pravesh</title>
+    <style>
+        .container{
+            display: flex;
+            height: 11.5in;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            width : 8.1in;
+            margin-bottom: 25px;
+            
+            
+        }
+        .card-container{
+            height: 368px;
+            width: 375px;
+            border: 1px solid black;
+            margin: 5px;
+            display: block;
+            background-image: url('/schools/SVVN/watermark5.png');
+            background-size: cover;
+        }
+        .heading{
+            display: block;
+            font-size: 19px;
+            margin-top: 10px !important;
+        }
+        .student-info{
+            height: 100px;
+            width: 100%;
+            margin-top: 5px;
+            margin-left: 5px;
+            margin-bottom: 12px;
+        }
+        .text-info{
+            font-size: 14px;
+        }
+        .lines{
+            display: block
+        }
+        th, td{
+            text-align: left;
+            border: .5px solid black;
+            border-left: none;
+        
+        }
+        table{
+            border-top: 0.5px solid black;
+            border-collapse: collapse !important;
+        }
+        .input-items{
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    <div style="display: block !important;">
+        <div class="input-items" id="seesionSelector">
+            <label for="">Session</label>
+            <input type="number" id="selectedSession">
+        </div>
+        <div class="input-items" id="classSelector">
+            <label for="">Class</label>
+            <select name="" id="selectedClass">
+                <option value="" disabled selected>--Select Class--</option>
+                <%for(let i=0;i<classList.length;i++){%>
+                    <option value="<%=classList[i]%>"><%=classList[i]%></option>
+                <%}%>
+            </select>
+        </div>
+        <div class="input-items" id="termSelector">
+            <label for="">Term</label>
+            <select name="" id="selectedTerm">
+                <option value="">--Select Term--</option>
+                <%for(let i=0;i<classList.length;i++){%>
+                    <option value="<%=terms[i]%>"><%=terms[i]%></option>
+                <%}%>
+            </select>
+        </div>
+        <div class="input-items" id="getAdmitCardsbutton">
+            <input type="button" value="Get Admit cards" onclick="getAdmitCardsList()">
+        </div>
+        <div class="input-items" id="makePrintableButton">
+            <input type="button" value="Make printable" onclick="makePrintable()">
+        </div>
+
+    </div>
+    <div class="container" id="container">
+
+    </div>
+    
+    <script src="/js/ePraveshClass.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
+
+</body>
+</html>

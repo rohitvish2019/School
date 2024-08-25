@@ -2,6 +2,7 @@ const Student = require('../modals/admissionSchema');
 const FeesHistory = require('../modals/feeHistory');
 const Fee = require('../modals/FeeSchema');
 const cashTransactions = require('../modals/transactions');
+const timeTable = require('../modals/timeTable')
 const moment = require('moment');
 const fs = require('fs');
 const propertiesReader = require('properties-reader');
@@ -9,6 +10,7 @@ const propertiesReader = require('properties-reader');
 
 var json2xls = require('json2xls');
 const winston = require("winston");
+const PropertiesReader = require('properties-reader');
 const dateToday = new Date().getDate().toString()+'-'+ new Date().getMonth().toString() + '-'+ new Date().getFullYear().toString();
 const logger = winston.createLogger({
   level: "info",
@@ -326,6 +328,75 @@ module.exports.getCashTransactions = async function(req, res){
     }catch(err){
         return res.status(500).json({
             message:'Unable to get transactions'
+        })
+    }
+}
+
+
+module.exports.timeTableHome = function(req, res){
+    return res.render('time-table', {role:req.user.role});
+}
+
+
+module.exports.saveTimeTable = async function(req, res){
+    try{
+        
+        let savedData = await timeTable.findOne({Class:req.body.Class, Term:req.body.Term,Session:req.body.Session,SchoolCode:req.user.SchoolCode});
+        if(savedData){
+            await savedData.updateOne({Information:req.body.Information});
+        }else{
+            await timeTable.create({
+                Class:req.body.Class,
+                Term:req.body.Term,
+                Information:req.body.Information,
+                SchoolCode:req.user.SchoolCode,
+                Session:req.body.Session
+            })
+        }
+        
+        return res.status(200).json({
+            message:'Time table saved'
+        })
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Unable to save time table'
+        })
+    }
+}
+
+
+module.exports.getTimeTable = async function (req, res) {
+    try{
+        let tt = await timeTable.findOne({Class:req.query.classValue,Term:req.query.Term,Session:req.query.Session ,SchoolCode:req.user.SchoolCode});
+        let classProperties = req.query.classValue
+        if(classProperties == 'kg-1'){
+            classProperties = 'KG1'
+        }else if (classProperties == 'kg-2'){
+            classProperties = 'KG2'
+        }
+            
+        let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
+        let subjectsFromProperties = properties.get(req.user.SchoolCode+'.SUBJECTS_'+classProperties);
+        let subjects = subjectsFromProperties.split(',');
+        if(tt){
+            return res.status(200).json({
+                message:'saved data found',
+                timeTable: tt,
+                isRecordFound: true,
+                subjects
+            })
+        }else{
+            
+            return res.status(200).json({
+                isRecordFound:false,
+                subjects
+            })
+        }
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:'Unable to fetch data',
         })
     }
 }

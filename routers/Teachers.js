@@ -8,4 +8,6 @@ router.post('/remove', TeachersController.removeTeacher);
 router.get('/activate/:id', TeachersController.markActive);
 router.get('/deactivate/:id', TeachersController.markInActive);
 router.get('/inActives', TeachersController.getInActiveTeachers);
+router.get('/actions/ePraveshHome', TeachersController.ePraveshHome);
+router.get('/getAdmitCards', TeachersController.getAdmitCards);
 module.exports = router;

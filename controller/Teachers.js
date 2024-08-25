@@ -1,5 +1,9 @@
 const TeachersSchema = require('../modals/TeachersDetails');
 const winston = require("winston");
+const Students = require('../modals/admissionSchema');
+const TimeTable = require('../modals/timeTable');
+const propertiesReader = require('properties-reader');
+
 const dateToday = new Date().getDate().toString()+'-'+ new Date().getMonth().toString() + '-'+ new Date().getFullYear().toString();
 const logger = winston.createLogger({
   level: "info",
@@ -140,15 +144,44 @@ module.exports.markInActive = async function(req, res){
     return res.redirect('back')
 }
 
-module.exports.updateSalary = function(req, res){
+module.exports.ePraveshHome = async function(req, res){
+
+    let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties')
+    let classList = properties.get(req.user.SchoolCode+'.CLASSES_LIST').split(',');
+    let terms = properties.get(req.user.SchoolCode+'.EXAM_SESSIONS').split(',');
     
+    
+    return res.render('ePraveshClass',{classList,terms});
 }
 
-module.exports.updateSubjects = function(req, res){
+module.exports.getAdmitCards = async function(req, res){
+    let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties')
+    let SchoolName = properties.get(req.user.SchoolCode+'.NAME')
+    try{
+        let students = await Students.find({Class:req.query.Class, SchoolCode:req.user.SchoolCode,isThisCurrentRecord:true},'FirstName LastName FathersName MothersName AdmissionNo DOB').sort('FirstName');
+        let timeTable = await TimeTable.findOne({Session:req.query.Session, Class:req.query.Class, Term:req.query.Term});
+        if(!students || students.length <= 0){
+            return res.status(404).json({
+                message:'no students found for selected class'
+            })
+        }else if(!timeTable || timeTable.length <= 0){
+            return res.status(404).json({
+                message:'Data missing, please check if time table is updated correctly'
+            })
+        }else{
+            return res.status(200).json({
+                message:'Admit cards fetched',
+                students,
+                timeTable,
+                SchoolName
+            })
+        }
+        
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:'Internal Server Error'
+        })
+    }
     
 }
-
-module.exports.updateEducation = function(req, res){
-    
-}
-

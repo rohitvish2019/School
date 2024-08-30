@@ -5,6 +5,7 @@ const FeeHistory = require('../modals/feeHistory');
 const admissionNoSchema = require('../modals/admission_no')
 const cashTransactions = require('../modals/transactions');
 const winston = require("winston");
+const propertiesReader = require('properties-reader');
 const dateToday = new Date().getDate().toString()+'-'+ new Date().getMonth().toString() + '-'+ new Date().getFullYear().toString();
 const logger = winston.createLogger({
   level: "info",
@@ -324,10 +325,13 @@ module.exports.getConcessionHistory = async function(req, res){
 
 module.exports.getFeeReceipt = async function(req, res){
     try{
+        let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
+        let SchoolName = properties.get(req.user.SchoolCode+'.NAME');
+        let mono = properties.get(req.user.SchoolCode+'.MONO');
         let feeReport = await FeeHistory.findById(req.params.id);
         let student = await Student.findOne({AdmissionNo:feeReport.AdmissionNo, SchoolCode:req.user.SchoolCode})
         console.log(feeReport);
-        return res.render('fee_receipt',{feeReport,student, role:req.user.role,SchoolCode:req.user.SchoolCode});
+        return res.render('fee_receipt',{feeReport,student, role:req.user.role,SchoolCode:req.user.SchoolCode, SchoolName,mono});
     }catch(err){
         logger.error(err.toString())
         return res.redirect('back')

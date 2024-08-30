@@ -27,7 +27,8 @@ const logger = winston.createLogger({
 module.exports.home = function(req, res){
     if(req.user.role == 'Admin' || req.user.role=='Teacher'){
         try{
-            return res.render('reports_home',{error:"", role:req.user.role});
+            
+            return res.render('reports_home',{error:"", role:req.user.role,classList});
         }catch(err){
             return res.redirect('back');
         }
@@ -43,7 +44,7 @@ module.exports.getClassList = async function(req, res){
     try{
         if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
             console.log(req.query)
-            let studentsList = await Student.find({Session:req.query.Admission_year,Class:req.query.Class, SchoolCode:req.user.SchoolCode, isThisCurrentRecord:false});
+            let studentsList = await Student.find({Session:req.query.Admission_year,Class:req.query.Class, SchoolCode:req.user.SchoolCode, isThisCurrentRecord:false}).collation({locale: "en" }).sort('FirstName');
             if(studentsList.length > 0){
                 return res.status(200).json({
                     message:'Success',
@@ -120,7 +121,7 @@ module.exports.getReports = async function(req, res){
 
 async function getStudentsByClass(classForFilter, SchoolCode){
     try{
-        let students = await Student.find({Class:classForFilter, isThisCurrentRecord:true, SchoolCode:SchoolCode});
+        let students = await Student.find({Class:classForFilter, isThisCurrentRecord:true, SchoolCode:SchoolCode}).collation({locale: "en" }).sort('FirstName');
         return students
     }catch(err){
         console.log("error")
@@ -136,7 +137,7 @@ async function getAdmittedStudentsReport(start_date, end_date, activeUser){
         let startDate = new Date(Date.parse(start_date)).toISOString();
         let endDate = new Date(moment(end_date).add(1,'days')).toISOString();
         console.log("Start date is : "+startDate);
-        let studentsList = await Student.find({SchoolCode:activeUser.SchoolCode,AdmissionDate:{$gte:startDate,$lte:endDate}}).lean();
+        let studentsList = await Student.find({SchoolCode:activeUser.SchoolCode,AdmissionDate:{$gte:startDate,$lte:endDate}}).collation({locale: "en" }).sort('FirstName').lean();
         return studentsList
     }catch(err){
         console.log("getting error")
@@ -165,7 +166,7 @@ async function getFeesReport(start_date, end_date, activeUser){
 
 async function getCurrentActiveStudentsList(start_date, end_date, Class, activeUser){
     try{
-        let students = await Student.find({SchoolCode:activeUser.SchoolCode,isThisCurrentRecord:true, Class:Class}).lean();
+        let students = await Student.find({SchoolCode:activeUser.SchoolCode,isThisCurrentRecord:true, Class:Class}).collation({locale: "en" }).sort('FirstName').lean();
         return students
     }catch(err){
         return 500
@@ -281,7 +282,9 @@ function saveCSV(reportArray, filename){
 module.exports.bulkReportsHome = function(req, res){
     if(req.user.role == 'Admin' || req.user.role=='Teacher'){
         try{
-            return res.render('reports',{role:req.user.role});
+            let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
+            let classList = properties.get(req.user.SchoolCode+'.CLASSES_LIST').split(',');
+            return res.render('reports',{role:req.user.role, classList});
         }catch(err){
             logger.error(err.toString())
             return res.redirect('back')

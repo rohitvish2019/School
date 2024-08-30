@@ -62,6 +62,7 @@ function showAdmitCards(students, timeTable, Class, SchoolName){
     console.log(students.length);
     for(let i=0;i<students.length;i++){
         let item = null
+        let ttkeys = Object.keys(timeTable)
         item = document.createElement('div');
         item.classList.add('card-container');
         item.innerHTML=
@@ -89,12 +90,16 @@ function showAdmitCards(students, timeTable, Class, SchoolName){
 
                     <div class="lines">
                         <label style="margin-bottom: 2px; min-width: 40% !important; display: inline-block;">जन्म तिथि : </label> 
-                        <label for=""> ${students[i].DOB}</label>   
+                        <label for=""> ${students[i].DOB.split('-')[2]}-${students[i].DOB.split('-')[1]}-${students[i].DOB.split('-')[0]}</label>   
                     </div>
 
                     <div class="lines">
-                        <label style="margin-bottom: 2px; min-width: 40% !important; display: inline-block;">समग्र आईडी :  </label> 
+                        <label style="margin-bottom: 2px; min-width: 40% !important; display: inline-block;">अनुक्रमांक :  </label> 
                         <label for="">${roleNoSuffix}${(i+1).toString().padStart(2,'0')}</label>   
+                    </div>
+                    <div class="lines">
+                        <label style="margin-bottom: 2px; min-width: 40% !important; display: inline-block;">समय :  </label> 
+                        <label for="">${timeTable[ttkeys[0]].split('$')[2]}</label>   
                     </div>
                 </div>
             </div>
@@ -104,13 +109,13 @@ function showAdmitCards(students, timeTable, Class, SchoolName){
                         <th style="width: 5%;">S.no</th>
                         <th style="width: 45%;">Subject</th>
                         <th style="width: 28%;">Date</th>
-                        <th style="width: 23%;border-right: none;">Time</th>
+                        <th style="width: 23%;border-right: none;">Day</th>
                     </thead>
                 </table>
             </div>
         `
         let timeTableElement = document.createElement('tbody');
-        let ttkeys = Object.keys(timeTable)
+        
         
         for(let j=0;j<ttkeys.length;j++){
             let tableRow = document.createElement('tr')
@@ -119,7 +124,7 @@ function showAdmitCards(students, timeTable, Class, SchoolName){
                 <td style="text-align: center;width: 5% !important">${j+1}</td>
                 <td style="padding-left: 2px;width: 45%;">${ttkeys[j]}</td>
                 <td style="width: 28% !important;">${timeTable[ttkeys[j]].split('$')[0]}</td>
-                <td style="border-right: none;width: 23%;">${timeTable[ttkeys[j]].split('$')[2]}</td>
+                <td style="border-right: none;width: 23%;">${timeTable[ttkeys[j]].split('$')[1]}</td>
                 
             `
             timeTableElement.appendChild(tableRow);

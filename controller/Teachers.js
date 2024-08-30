@@ -158,7 +158,7 @@ module.exports.getAdmitCards = async function(req, res){
     let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties')
     let SchoolName = properties.get(req.user.SchoolCode+'.NAME')
     try{
-        let students = await Students.find({Class:req.query.Class, SchoolCode:req.user.SchoolCode,isThisCurrentRecord:true},'FirstName LastName FathersName MothersName AdmissionNo DOB').sort('FirstName');
+        let students = await Students.find({Class:req.query.Class, SchoolCode:req.user.SchoolCode,isThisCurrentRecord:true},'FirstName LastName FathersName MothersName AdmissionNo DOB').collation({locale: "en" }).sort('FirstName');
         let timeTable = await TimeTable.findOne({Session:req.query.Session, Class:req.query.Class, Term:req.query.Term});
         if(!students || students.length <= 0){
             return res.status(404).json({

@@ -22,14 +22,15 @@
             <!-- Filter form -->
             <div class="filter-container">
                 <select name="purpose" id="purpose" class="filter-input">
-                    <option value="feesReport">Fees Submission Report</option>
-                    <option value="admittedStudents">Admitted Students</option>
-                    <option value="usersCollection" disabled>Collection report by users</option>
+                    <option value="studentsListByClass" >Students List By Class</option>
                     <option value="currentActiveStudents" >Active Students report</option>
                     <option value="feesDuesClass">Fees Dues(By Class)</option>
                     <option value="feesDuesTotal" >Fees Dues(Total)</option>
-                    <option value="incompleteResult" >Incomplete Result</option>
-                    <option value="studentsListByClass" >Students List By Class</option>
+                    <option value="feesReport">Fees Submission Report</option>
+                    <option value="admittedStudents" disabled>Admitted Students</option>
+                    <option value="usersCollection" disabled>Collection report by users</option>
+                    <option value="incompleteResult" disabled>Incomplete Result</option>
+                    
                 </select>
                 <div class="filter-input">
                     <label for="email" id="email-label">User</label>
@@ -47,16 +48,9 @@
                     </div>
                     <label id="class-label" style="display:inline;">Class</label>
                     <select name="" id="classForFilter" >
-                        <option value="kg-1">kg-1</option>
-                        <option value="kg-2">kg-2</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
+                        <%for(let i=0;i<classList.length;i++){%>
+                            <option value="<%=classList[i]%>"><%=classList[i]%></option>
+                        <%}%>
                     </select>
                 </div>
                 

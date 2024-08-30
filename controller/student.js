@@ -358,7 +358,7 @@ module.exports.getStudentsList = async function(req, res){
         }
         else{
             logger.info('Finding admitted students')
-            studentList = await Student.find({Class:req.query.Class, isThisCurrentRecord:true,SchoolCode:req.user.SchoolCode}).sort('FirstName')
+            studentList = await Student.find({Class:req.query.Class, isThisCurrentRecord:true,SchoolCode:req.user.SchoolCode}).collation({locale: "en" }).sort('FirstName')
         }
         return res.status(200).json({
             message:"Student list fetched successfully",

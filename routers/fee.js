@@ -15,6 +15,7 @@ router.get('/receipt/:id',feeController.getFeeReceipt);
 router.get('/cancel/:id', feeController.cancelFees);
 router.delete('/delete/:Class', feeController.deleteAnnualFee);
 router.get('/addOldFees', feeController.oldFeeTemp);
-router.post('/tempOldFee', feeController.addOldFee)
+router.post('/tempOldFee', feeController.addOldFee);
+router.post('/addNew',feeController.addNewFee);
 
 module.exports = router;

@@ -39,6 +39,7 @@ button{
     margin-right: 10px;
     margin-top: .5%;
     border: 0.2px solid black;
+    display: inline;
 }
 
 .button-group button {
@@ -53,6 +54,8 @@ button{
 
 .filter-section {
     margin-bottom: 20px;
+    display: inline-flex;
+    width: 100%;
 }
 
 .filter-section input[type="month"] {
@@ -70,7 +73,7 @@ button{
 
 #transactions th, #transactions td {
     padding: 4px;
-    border-bottom: 1px solid #ddd;
+    border: 1px solid #ddd !important;
 }
 
 

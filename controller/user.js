@@ -43,15 +43,12 @@ module.exports.home = async function(req, res){
         const pathToDirectory = '../School/assets/schools/'+req.user.SchoolCode+'/carousel-photos';
         let mono = properties.get(req.user.SchoolCode+'_MONO');
         let imgdir = properties.get(req.user.SchoolCode+'_IMAGES')
-        console.log(mono);
         fs.readdir(pathToDirectory, (error, files) => {
         if (error) {
             console.log(error);
         } else {
             if(req.isAuthenticated){
-                console.log(req.user.School_Code+'_name');
                 let School_name = properties.get(req.user.SchoolCode+'_name');
-                console.log(files)
                 return res.render('admin_home', {files,role:req.user.role, School_name, messages, user:{name:req.user.full_name, Mobile:req.user.mobile_number, username:req.user.email, address: req.user.address,SchoolCode:req.user.SchoolCode}, mono,imgdir});
                 
                 

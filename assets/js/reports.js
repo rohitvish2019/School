@@ -350,7 +350,17 @@ function showActiveStudents(data){
     `
     tbody.innerHTML=``;
     tbody.appendChild(thead)
+    let maleCount = 0;
+    let femaleCount = 0;
+    let otherCount = 0;
     for(let i=0;i<data.length;i++){
+        if((data[i].Gender).toUpperCase() == 'MALE'){
+            maleCount++
+        }else if((data[i].Gender).toUpperCase() == 'FEMALE'){
+            femaleCount++
+        }else{
+            otherCount++
+        }
         let row = document.createElement('tr');
         row.innerHTML=
         `   <td>${i+1}</td>
@@ -371,6 +381,11 @@ function showActiveStudents(data){
         tbody.appendChild(row);
         total += data[i].Amount
     }
+    console.log("Count is "+maleCount+"    "+femaleCount);
+    document.getElementById('maleCount').innerText='Male : '+maleCount
+    document.getElementById('femaleCount').innerText='Female : '+femaleCount
+    document.getElementById('othersCount').innerText='Others : '+otherCount
+    document.getElementById('genderCount').style.display='block'
     document.getElementById('count').innerText='Count :'
     document.getElementById('total').innerText= data.length
     document.getElementById('loader').style.display='none'
@@ -453,6 +468,10 @@ function isDateInRange(dateString, startDate, endDate) {
 
 
 function showStudentsByClass(data){
+    let maleCount = 0;
+    let femaleCount = 0;
+    let otherCount = 0;
+    
     let tbody = document.getElementById('table-body');
     tbody.style.fontSize='0.8rem';
     let thead = document.createElement('tr');
@@ -469,19 +488,23 @@ function showStudentsByClass(data){
         <th>Account No</th>
         <th>IFSC</th>
         
-        
-
-        
     `
     tbody.innerHTML=``;
     tbody.appendChild(thead)
     for(let i=0;i<data.length;i++){
+        if((data[i].Gender).toUpperCase() == 'MALE'){
+            maleCount++
+        }else if((data[i].Gender).toUpperCase() == 'FEMALE'){
+            femaleCount++
+        }else{
+            otherCount++
+        }
         let row = document.createElement('tr');
         let dob = data[i].DOB.split('-')
         row.innerHTML=
         `   <td style='width:2%'>${i+1}</td>
             <td style='width:3%'>${data[i].AdmissionNo}</td>
-            <td style='width:10%'>${data[i].FirstName} ${data[i].LastName}</td>
+            <td style='width:10%'>${data[i].FirstName} ${data[i].LastName}123</td>
             <td style='width:8%'>${data[i].FathersName}</td>
             <td style='width:8%'>${data[i].MothersName}</td>
             <td style='width:11% !important'>${dob[2]}-${dob[1]}-${dob[0]}</td>
@@ -494,6 +517,11 @@ function showStudentsByClass(data){
         tbody.appendChild(row);
         total += data[i].Amount
     }
+    console.log("Count is "+maleCount+"    "+femaleCount);
+    document.getElementById('maleCount').innerText='Male : '+maleCount
+    document.getElementById('femaleCount').innerText='Female : '+femaleCount
+    document.getElementById('othersCount').innerText='Others : '+otherCount
+    document.getElementById('genderCount').style.display='block'
     document.getElementById('count').innerText='Count :'
     document.getElementById('total').innerText= data.length
     document.getElementById('loader').style.display='none'

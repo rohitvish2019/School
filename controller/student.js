@@ -94,7 +94,7 @@ function convertDateFormat(thisDate){
 module.exports.getActiveStudents = async function(req, res){
     logger.info('Collecting active students report')
     try{
-        let students = await Student.find({SchoolCode:req.user.SchoolCode, isThisCurrentRecord:true});
+        let students = await Student.find({SchoolCode:req.user.SchoolCode, isThisCurrentRecord:true},'FirstName LastName Class FathersName');
         if(students.length > 0){
             logger.info('Returning list of '+students.length+ ' students')
             return res.status(200).json({

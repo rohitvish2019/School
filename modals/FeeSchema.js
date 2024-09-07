@@ -31,7 +31,9 @@ const Fees = new mongoose.Schema({
     PayHistory:{
         type:Array,
         ref:'FeeHistory'
-    }
+    },
+    type:String,
+    Period:String
 },
 {
     timestamps:true

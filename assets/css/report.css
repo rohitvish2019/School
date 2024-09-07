@@ -21,9 +21,9 @@
 }
 
 .center-body{
-
     width: 100%;
     height: 100%;
+    
 }
 
 table {
@@ -143,4 +143,8 @@ figure {
       display: flex;
       justify-content: flex-start;
     }
+  }
+
+  #genderCount{
+    display: none;
   }

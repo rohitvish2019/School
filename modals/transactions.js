@@ -15,7 +15,11 @@ const transaction = new mongoose.Schema({
         default:false
     },
     isCountable:Boolean,
-    Person:String
+    Person:String,
+    transactionType:{
+        type:String,
+        enum:['credit','debit']
+    }
 },
 {
     timestamps:true

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt PDF</title>
+    <link rel="stylesheet" href="/css/receiptPDF.css">
+    <style>
+        table {
+    border-collapse: collapse;
+    width: 100%;
+}
+.main-body{
+    height: 1020px;
+    
+}
+thead,th{
+    position: sticky;
+    top: 0;
+    
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 6px;
+    text-align: left;
+    font-size: 18px;
+}
+.pdf1{
+    border: 1px solid black;
+    height: 50% !important;
+    
+    background-size: contain;
+    background-repeat: no-repeat;
+    
+
+}
+th {
+    background-color: #f2f2f2;
+}
+.p-head{
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+    width: 45% !important;
+    text-transform: capitalize;
+}
+.p-value, td{
+    text-transform: capitalize;
+    font-size: 20px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="main-body">
+        <div class="pdf1" style="background-image: url('/schools/<%=SchoolCode%>/watermark_receipt_1.png');">
+            <label style="display: block; text-align: center;font-size: 27px;font-weight: bold;margin-bottom: 2px;margin-top: 1%;"><%=SchoolName%></label>
+            <label style="display: block;text-align: center;margin-bottom: 3%;font-size: 21px;"><%=mono%></label>
+            
+            <div class="patient-info" style="margin-bottom: 2%;margin-left: 1%;display: flex;">
+                <div style="width: 50%;">
+                    <div  style="margin-bottom: 1%;">
+                        <label class="p-head">AdmissionNo :</label>
+                        <label class="p-value"><%=student.AdmissionNo%></label>
+                    </div>
+                    <div  style="margin-bottom: 1%;">
+                        <label class="p-head">Class : </label>
+                        <label class="p-value"><%=feeReport.Class%></label>
+                    </div>
+                    <div style="margin-bottom: 1%;">
+                        <label class="p-head" >Name :</label>
+                        <label class="p-value"><%=student.FirstName%> <%=student.LastName%></label>
+                    </div>
+                    <div style="margin-bottom: 1%;">
+                        <label class="p-head">Father's Name :</label>
+                        <label class="p-value"><%=student.FathersName%></label>
+                    </div>
+                </div>
+            </div>
+            <div class="itemsList" style="margin-top: 3%;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Receipt No:</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Payment Date</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                            <tr>
+                                <td><%=feeReport.Receipt_No%></td>
+                                <td><%=feeReport.Comment%></td>
+                                <td><%=feeReport.Amount%></td>
+                                <td><%=String(feeReport.createdAt).substr(4,12)%></td>
+                                <td><%=feeReport.Amount%></td>
+                                
+                            </tr>
+                        <!-- Add more rows for additional items if needed -->
+                    </tbody>
+                    
+                </table>
+                <div style="margin-top: 6%;font-weight: bold;font-size: 21px;">
+                    <label style="margin-left: 5%;margin-top: 4%;">Payee (Signature)</label>
+                    <label style="margin-left: 40%;margin-top: 2%;">Recipient(Signature)</label>
+                    <label for=""></label>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="pdf1" style="background-image: url('/schools/<%=SchoolCode%>/watermark_receipt_1.png');">
+            <label style="display: block; text-align: center;font-size: 27px;font-weight: bold;margin-bottom: 2px;margin-top: 1%;"><%=SchoolName%></label>
+            <label style="display: block;text-align: center;margin-bottom: 3%;font-size: 21px;"><%=mono%></label>
+            
+            <div class="patient-info" style="margin-bottom: 2%;margin-left: 1%;display: flex;">
+                <div style="width: 50%;">
+                    <div  style="margin-bottom: 1%;">
+                        <label class="p-head">AdmissionNo :</label>
+                        <label class="p-value"><%=student.AdmissionNo%></label>
+                    </div>
+                    <div  style="margin-bottom: 1%;">
+                        <label class="p-head">Class : </label>
+                        <label class="p-value"><%=feeReport.Class%></label>
+                    </div>
+                    <div style="margin-bottom: 1%;">
+                        <label class="p-head" >Name :</label>
+                        <label class="p-value"><%=student.FirstName%> <%=student.LastName%></label>
+                    </div>
+                    <div style="margin-bottom: 1%;">
+                        <label class="p-head">Father's Name :</label>
+                        <label class="p-value"><%=student.FathersName%></label>
+                    </div>
+                </div>
+            </div>
+            <div class="itemsList" style="margin-top: 3%;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Receipt No:</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Payment Date</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                            <tr>
+                                <td><%=feeReport.Receipt_No%></td>
+                                <td><%=feeReport.Comment%></td>
+                                <td><%=feeReport.Amount%></td>
+                                <td><%=String(feeReport.createdAt).substr(4,12)%></td>
+                                <td><%=feeReport.Amount%></td>
+                                
+                            </tr>
+                        <!-- Add more rows for additional items if needed -->
+                    </tbody>
+                    
+                </table>
+                <div style="margin-top: 6%;font-weight: bold;font-size: 21px;">
+                    <label style="margin-left: 5%;margin-top: 4%;">Payee (Signature)</label>
+                    <label style="margin-left: 40%;margin-top: 2%;">Recipient(Signature)</label>
+                    <label for=""></label>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+    </div>
+</body>
+</html>

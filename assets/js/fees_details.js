@@ -1,3 +1,5 @@
+//const { error } = require("winston");
+
 // To get fees data from sever of a student
 function checkFees(){
     let adm = document.getElementById('AdmissionNoFees').innerText;
@@ -20,8 +22,8 @@ function showFees(data){
     container.innerHTML=``;
     let header = document.createElement('tr');
     header.innerHTML = 
-    `
-        <th>Class</th>
+    `   <th>Class</th>
+        <th>Type</th>
         <th>Total</th>
         <th>Concession</th>
         <th>Paid</th>
@@ -34,6 +36,7 @@ function showFees(data){
         item.innerHTML = 
         `
         <td>${data[i].Class}</td>
+        <td>${data[i].type}</td>
         <td>${data[i].Total}</td>
         <td>${data[i].Concession}</td>
         <td>${data[i].Paid}</td>
@@ -44,7 +47,7 @@ function showFees(data){
                     Actions
                 </a>
                 <ul style='font-size:0.7rem' class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <li><button class='dropdown-item btn btn-success' id='pay_${data[i].Class}_${data[i].AdmissionNo}' onclick="openPopup('${data[i].Class}_${data[i].AdmissionNo}_submit')">Pay</button></li>
+                    <li><button class='dropdown-item btn btn-success' id='pay_${data[i].Class}_${data[i].AdmissionNo}' onclick="openPopup('${data[i].Class}_${data[i].AdmissionNo}_submit_${data[i].type}')">Pay</button></li>
                     <li><button class='dropdown-item btn btn-success' id='concession_${data[i].Class}_${data[i].AdmissionNo}' onclick="openPopup('${data[i].Class}_${data[i].AdmissionNo}_con')">Concession</button></li> 
                 </ul>
                 
@@ -90,7 +93,7 @@ function openPopup(data){
     document.getElementById('popup').style.display='block';
     let details = data.split('_');
     console.log(details);
-    document.getElementById(details[0]).setAttribute('selected','true')
+    //document.getElementById(details[0]).setAttribute('selected','true')
     //document.getElementById('fee-form').setAttribute('action','/fee/'+details[2])
     let action = '';
     if(details[2] === 'submit'){
@@ -98,6 +101,8 @@ function openPopup(data){
     }else{
         action = 'Concession'
     }
+    document.getElementById('Class_fee').value=details[0];
+    document.getElementById('Type_fee').value=details[3]
     document.getElementById('purpose').setAttribute('value',action)
     
 }
@@ -140,6 +145,7 @@ function submitFeeOrConcession(){
     let Amount = document.getElementById('Amount_fee').value;
     let purpose = document.getElementById('purpose').value
     let Comment = document.getElementById('comment_fee').value;
+    let type = document.getElementById('Type_fee').value;
     if(AdmissionNo == '' || Class == '' || Amount =='' || purpose == '' || Comment == ''){
         new Noty({
             theme: 'relax',
@@ -158,7 +164,8 @@ function submitFeeOrConcession(){
             Class,
             Date,
             Amount,
-            Comment
+            Comment,
+            type
         },
         success:function(data){
             closePopup();
@@ -301,21 +308,19 @@ function showFeesHistory(data){
 
 
 function openPaymentHistory(){
+    //console.log("Opening payment history");
     let feeHistory = document.getElementById('fee-history');
     let feeDetails = document.getElementById('fee-details');
     let concessionHistory = document.getElementById('concession-history');
-
     document.getElementById('details-button').style.backgroundColor='transparent';
     document.getElementById('details-button').style.color='black';
     document.getElementById('history-button-pay').style.backgroundColor='#0a807c';
     document.getElementById('history-button-pay').style.color='white';
     document.getElementById('history-button-con').style.backgroundColor='transparent';
     document.getElementById('history-button-con').style.color='black';
-
     feeDetails.style.display='none';
     concessionHistory.style.display='none';
     feeHistory.style.display='block'
-
     getFeesHistory();
 
 }
@@ -373,3 +378,50 @@ if(cross){
 }
 
 
+
+function openAddFee(){
+    document.getElementById('addFeesPopup').style.display='block'
+}
+
+function closeAddFee(){
+    document.getElementById('addFeesPopup').style.display='none'
+}
+
+
+function saveNewFees(){
+    let AdmissionNo = document.getElementById('admission_no_add_fee').value;
+    let type = document.getElementById('feesType').value;
+    let Amount = document.getElementById('totalFees_add_fee').value;
+    let Period = document.getElementById('period').value;
+    let Class = document.getElementById('class_add_fee').value;
+    $.ajax({
+        url:'/fee/addNew',
+        type:'POST',
+        data:{
+            AdmissionNo,
+            type,
+            Amount,
+            Period,
+            Class
+        },
+        success:function(data){
+            new Noty({
+                theme: 'relax',
+                text: data.message,
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1000
+            }).show();
+            window.location.href='/student/get/'+AdmissionNo+'?Class='+Class+'&action=fee'
+        },
+        error:function(err){
+            new Noty({
+                theme: 'relax',
+                text: JSON.parse(err.responseText).message,
+                type: 'error',
+                layout: 'topRight',
+                timeout: 1000
+            }).show();
+        }
+    })
+}

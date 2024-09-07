@@ -84,7 +84,12 @@ module.exports.getFee =async function(req, res){
 module.exports.feeSubmission =async function(req, res){
     if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
         try{
-            let fee = await Fee.findOne({AdmissionNo:req.body.AdmissionNo, Class:req.body.Class,SchoolCode:req.user.SchoolCode});
+            let fee = await Fee.findOne({
+                AdmissionNo:req.body.AdmissionNo, 
+                Class:req.body.Class,
+                SchoolCode:req.user.SchoolCode,
+                type:req.body.type
+            });
             let paidFee = fee.Paid;
             let remainingFee = fee.Remaining;
             if(paidFee == null){
@@ -122,8 +127,9 @@ module.exports.feeSubmission =async function(req, res){
                 amount:req.body.Amount,
                 date:new Date(),
                 comment:"Fees submission, Receipt No: "+lastFeeReceiptNumber.LastFeeReceiptNo,
-                type:'fees in',
-                Person:student.FirstName+' '+student.LastName
+                type:req.body.type,
+                Person:student.FirstName+' '+student.LastName,
+                transactionType:'credit'
             })
             return res.status(200).json({
                 message:'Fees record updated successfully'
@@ -157,7 +163,8 @@ module.exports.cancelFees = async function(req, res){
                 date:new Date(),
                 comment:"Fees cancelled, Receipt No: "+feeRecord.Receipt_No,
                 type:'fees out',
-                Person:student.FirstName+' '+student.LastName
+                Person:student.FirstName+' '+student.LastName,
+                transactionType:'debit'
             })
             return res.status(200).json({
                 message:'Fees cancelled'
@@ -331,6 +338,9 @@ module.exports.getFeeReceipt = async function(req, res){
         let feeReport = await FeeHistory.findById(req.params.id);
         let student = await Student.findOne({AdmissionNo:feeReport.AdmissionNo, SchoolCode:req.user.SchoolCode})
         console.log(feeReport);
+        if(req.user.SchoolCode == 'SVVN'){
+            return res.render('fee_receipt_4',{feeReport,student, role:req.user.role,SchoolCode:req.user.SchoolCode, SchoolName,mono});
+        }
         return res.render('fee_receipt',{feeReport,student, role:req.user.role,SchoolCode:req.user.SchoolCode, SchoolName,mono});
     }catch(err){
         logger.error(err.toString())
@@ -386,4 +396,25 @@ module.exports.addOldFee = async function(req, res){
 
 module.exports.oldFeeTemp = function(req, res){
     res.render('oldfees')
+}
+
+module.exports.addNewFee = async function(req, res){
+    try{
+        await Fee.create({
+            AdmissionNo:req.body.AdmissionNo,
+            Class:req.body.Class,
+            Total:req.body.Amount,
+            Remaining:req.body.Amount,
+            SchoolCode:req.user.SchoolCode,
+            type:req.body.type,
+            Period:req.body.Period
+        });
+        return res.status(200).json({
+            message:'Fees record added'
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to add this fees'
+        })
+    }
 }

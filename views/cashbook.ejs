@@ -10,7 +10,7 @@
     
     <div class="container">
         <label style="font-size: medium;font-weight: bold;text-align: center;width: 100%;">Cash Records Tracker</label>
-        <div class="input-section">
+        <div class="input-section" id="input-section">
             <input type="number" id="amount" placeholder="Enter amount">
             <input type="date" id="date">
             
@@ -20,16 +20,29 @@
             <button id="cashout" onclick="addTransaction('out')">Cash Out</button>
             
         </div>
-        <!--
-        <div class="filter-section">
-            <input type="month" id="monthYear">
-            <button onclick="filterTransactions()">Filter</button>
+        
+        <div class="filter-section" id="filter-section">
+            <div>
+                <label for="">Filter Transactions ::</label>
+            </div>
+            <div style="margin-left: 2%;">
+                <label for="">Start date :</label>
+                <input type="date" name="" id="startDate">
+            </div>
+            <div style="margin-left: 2%;">
+                <label for="">End date</label>
+                <input type="date" name="" id="endDate">
+            </div>
+            <div style="margin-left: 2%;">
+                <button onclick="getTransactionsList()">Filter</button>
+                <button onclick="makePrintable()">Make Printable</button>
+            </div>
         </div>
-        -->
+        
         <div id="transactions">
             
         </div>
-        <div id="totals">
+        <div id="totals" hidden>
             <p>Total Credit: <span id="totalCredit">0</span></p>
             <p>Total Debit: <span id="totalDebit">0</span></p>
             <p>Total Balance: <span id="totalBalance">0</span></p>

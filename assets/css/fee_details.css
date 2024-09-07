@@ -57,10 +57,19 @@ button{
     height: 360px;
     width: 350px;
     border: 1px solid purple;
-    background-color: antiquewhite;
     position: fixed;
     top: 25%;
     left: 40%;
+    background-color: rgba(239, 235, 235, 0.919);
+    position: fixed;
+    top: 35%;
+    left: 45%;
+    -webkit-box-shadow: 0 0 10px gray;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    border-radius: 1.5rem;
+    overflow-y: auto;
+    padding: 5px;
+    padding-bottom: 10px;
 }
 .student-details label{
     width: 100%;
@@ -84,7 +93,7 @@ button{
 #close-button{
     position: relative;
     top: 2%;
-    left: 90%;
+    left: 85%;
     width: 8%;
     height: 8%;
 }
@@ -188,6 +197,34 @@ input{
 }
 .upper-center{
     display: none;
+}
+
+#addFeesPopup{
+    height: 320px;
+    width: 20%;
+    border: 1px solid purple;
+    background-color: rgba(239, 235, 235, 0.919);
+    position: fixed;
+    top: 35%;
+    left: 45%;
+    -webkit-box-shadow: 0 0 10px gray;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    border-radius: 1.5rem;
+    overflow-y: auto;
+    padding: 10px;
+    padding-bottom: 10px;
+    display: none
+}
+.addFeeInputs{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+.addFeeInputs input, .addFeeInputs select, .addFeeInputs button{
+    margin: 3px;
+    margin-left: 2%;
+    margin-right: 2%;
 }
 
 @media screen and  (max-width: 560px){

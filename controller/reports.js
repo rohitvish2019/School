@@ -27,9 +27,9 @@ const logger = winston.createLogger({
 module.exports.home = function(req, res){
     if(req.user.role == 'Admin' || req.user.role=='Teacher'){
         try{
-            
-            return res.render('reports_home',{error:"", role:req.user.role,classList});
+            return res.render('reports_home',{error:"", role:req.user.role});
         }catch(err){
+            logger.error(err.toString())
             return res.redirect('back');
         }
     }else{
@@ -286,6 +286,7 @@ module.exports.bulkReportsHome = function(req, res){
             let classList = properties.get(req.user.SchoolCode+'.CLASSES_LIST').split(',');
             return res.render('reports',{role:req.user.role, classList});
         }catch(err){
+            console.log(err)
             logger.error(err.toString())
             return res.redirect('back')
         }
@@ -302,6 +303,16 @@ module.exports.cashBookHome = function(req, res){
 
 module.exports.addCashTransaction = async function(req, res){
     console.log(req.body)
+    let transactionType;
+    if(req.body.type == 'in'){
+        transactionType='credit'
+        console.log("Crediting amount")
+    }else if(req.body.type =='out'){
+        transactionType='debit'
+        console.log("Crediting amount")
+    }else{
+        console.log("No actions on amount")
+    }
     try{
         let record = await cashTransactions.create({
             amount:req.body.amount,
@@ -309,7 +320,8 @@ module.exports.addCashTransaction = async function(req, res){
             comment:req.body.comment,
             type:req.body.type,
             SchoolCode:req.user.SchoolCode,
-            Person:req.body.person
+            Person:req.body.person,
+            transactionType:transactionType
         });
         return res.status(200).json({
             message:'Updated transaction successfully'
@@ -323,7 +335,13 @@ module.exports.addCashTransaction = async function(req, res){
 
 module.exports.getCashTransactions = async function(req, res){
     try{
-        let data = await cashTransactions.find({SchoolCode:req.user.SchoolCode});
+        let data = await cashTransactions.find({
+            $and: [
+                {date:{$gte :new Date(req.query.startDate)}},
+                {date: {$lte : new Date(req.query.endDate)}},
+                {SchoolCode:req.user.SchoolCode}
+            ]
+        });
         return res.status(200).json({
             message:'Transactions fetched',
             data
@@ -402,4 +420,16 @@ module.exports.getTimeTable = async function (req, res) {
             message:'Unable to fetch data',
         })
     }
+}
+
+module.exports.otherReceiptsHome = function(req, res){
+    return res.render('otherReceipts', {role:req.user.role});
+}
+
+module.exports.createReceipt = function(req, res){
+
+}
+
+module.exports.getOtherReceipts = function(req,res){
+
 }

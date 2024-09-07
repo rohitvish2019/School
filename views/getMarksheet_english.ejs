@@ -19,23 +19,23 @@
                 <% let year = ['Nineteen','Two Thousands']%>
                 <% let nums=["null","One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen", "Twenty", "Twenty-One", "Twenty-Two", "Twenty-Three", "Twenty-Four", "Twenty-Five", "Twenty-Six", "Twenty-Seven", "Twenty-Eight", "Twenty-Nine", "Thirty", "Thirty-One", "Thirty-Two", "Thirty-Three", "Thirty-Four", "Thirty-Five", "Thirty-Six", "Thirty-Seven", "Thirty-Eight", "Thirty-Nine", "Forty", "Forty-One", "Forty-Two", "Forty-Three", "Forty-Four", "Forty-Five", "Forty-Six", "Forty-Seven", "Forty-Eight", "Forty-Nine", "Fifty", "Fifty-One", "Fifty-Two", "Fifty-Three", "Fifty-Four", "Fifty-Five", "Fifty-Six", "Fifty-Seven", "Fifty-Eight", "Fifty-Nine", "Sixty", "Sixty-One", "Sixty-Two", "Sixty-Three", "Sixty-Four", "Sixty-Five", "Sixty-Six", "Sixty-Seven", "Sixty-Eight", "Sixty-Nine", "Seventy", "Seventy-One", "Seventy-Two", "Seventy-Three", "Seventy-Four", "Seventy-Five", "Seventy-Six", "Seventy-Seven", "Seventy-Eight", "Seventy-Nine", "Eighty", "Eighty-One", "Eighty-Two", "Eighty-Three", "Eighty-Four", "Eighty-Five", "Eighty-Six", "Eighty-Seven", "Eighty-Eight", "Eighty-Nine", "Ninety", "Ninety-One", "Ninety-Two", "Ninety-Three", "Ninety-Four", "Ninety-Five", "Ninety-Six", "Ninety-Seven", "Ninety-Eight", "Ninety-Nine"]%>
                 <% let days=['null','First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'Ninth', 'Tenth', 'Eleventh', 'Twelfth', 'Thirteenth', 'Fourteenth', 'Fifteenth', 'Sixteenth', 'Seventeenth', 'Eighteenth', 'Nineteenth', 'Twentieth', 'Twenty-first', 'Twenty-second', 'Twenty-third', 'Twenty-fourth', 'Twenty-fifth', 'Twenty-sixth', 'Twenty-seventh', 'Twenty-eighth', 'Twenty-ninth', 'Thirtieth', 'Thirty-first'] %>                <div class="dataset">
-                    <label class="data-heading">विद्यार्थी का नाम :</label>
+                    <label class="data-heading">Student's Name :</label>
                     <label id="student_name"><b><%=student.FirstName%> <%=student.LastName%></b></label>
                 </div>
                 <div class="dataset">
-                    <label class="data-heading">पिता का नाम :</label>
+                    <label class="data-heading">Father's Name :</label>
                     <label><b><%=student.FathersName%></b></label>
                 </div>
                 <div class="dataset">
-                    <label class="data-heading">माता का नाम :</label>
+                    <label class="data-heading">Mother's Name :</label>
                     <label><b><%=student.MothersName%></b></label>
                 </div>
                 <div class="dataset">
-                    <label class="data-heading">आधार क्रमांक :</label>
+                    <label class="data-heading">Aadhar No :</label>
                     <label><b><%=student.AadharNumber%></b></label>
                 </div>
                 <div class="dataset">
-                    <label class="data-heading">समग्र आईडी :</label>
+                    <label class="data-heading">Samagra ID :</label>
                     <label><b><%=student.SSSM%></b></label>
                 </div>
                 <!--
@@ -48,29 +48,29 @@
             <div class="col2">
                 
                 <div class="dataset">
-                    <label class="data-heading">दाखिल क्रमांक :</label>
+                    <label class="data-heading">Admission No :</label>
                     <label id="admno"><b><%=student.AdmissionNo%></b></label>
                 </div>
                 <div class="dataset">
-                    <label class="data-heading">कक्षा :</label>
+                    <label class="data-heading">Class :</label>
                     <label style="font-weight: 900;"><b><%=student.Class%></b></label>
                 </div>
                 <div class="dataset">
-                    <label class="data-heading">जन्म तिथि :</label>
+                    <label class="data-heading">Date Of Birth :</label>
                     <% let DOB = student.DOB.split('-')%>
                     <label><b><%=DOB[2]%>-<%=DOB[1]%>-<%=DOB[0]%></b></label>
                 </div>
                 <div class="dataset">
-                    <label class="data-heading">जन्म तिथि(शब्दो में) :</label>
+                    <label class="data-heading">DOB(in words) :</label>
                     <label style="font-size:14px;font-weight: bold;"><%=days[Number(DOB[2])]%> <%=months[Number(DOB[1])]%> <%=year[Number(DOB[0].substring(0,2)-19)]%> <%=nums[Number(DOB[0].substring(2))]%></label>
                 </div>
                 <div class="dataset">
-                    <label class="data-heading">उत्तीर्ण सत्र:</label>
+                    <label class="data-heading">Session:</label>
                     <label><b><%=student.Session%> - <%=student.Session + 1%></b></label>
                 </div>
                 <div class="dataset">
-                    <label class="data-heading">परीक्षा का माध्यम :</label>
-                    <label><b>हिंदी</b></label>
+                    <label class="data-heading">Medium :</label>
+                    <label><b><%=student.Medium%></b></label>
                 </div>
                 <!--
                 <div class="dataset">
@@ -91,19 +91,19 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>विषय</th>
+                            <th>Subject</th>
                             <%for(let i=0;i<terms.length;i++){%>
-                                <th><%=termsMapping[terms[i]]%></th>
+                                <th><%=terms[i]%></th>
                             <%}%>
-                            <th>प्राप्तांक(योग)</th>
-                            <th>कुल</th>
-                            <th>ग्रेड</th>
+                            <th>Obt. Marks</th>
+                            <th>Total</th>
+                            <th>Grade</th>
                         </tr>
                     </thead>
                     <tbody>
                         <%for(let i=0;i<sub_list.length;i++){%>
                             <tr>
-                                <td><%=subjectsMapping[sub_list[i]]%></td>
+                                <td><%=sub_list[i]%></td>
                                 <%let sum = 0%>
                                 <% let total = 0%>
                                 <%for(let j=0;j<terms.length;j++){%>
@@ -168,7 +168,7 @@
                     <tbody>
                         <%for(let i=1;i<subjects.length;i++){%>
                             <tr>
-                                <td><%=subjectsMapping[subjects[i]]%></td>
+                                <td><%=subjects[i]%></td>
                                 <td><b><%=grades[addtionalMarks['MORAL']['_doc'][subjects[i]]]%></b></td>
                             </tr>
                         <%}%>
@@ -180,21 +180,28 @@
         <div class="co-ed-section">
             <label style="text-align: center; font-size: large; font-weight: bold;padding-bottom: 1%;margin-top: 2%; width: 100%;">सह शैक्षिक क्षेत्र</label>
             <table border="1px solid black">
+                <% let subs = []%>
+                <% if(addtionalMarks && addtionalMarks['COED']){ %>
+                    <% subs = Object.keys(addtionalMarks['COED']['_doc']) %>
+                <%}%>
                 <thead>
-                    <tr>
-                        <td>साहित्यिक</td>
-                        <td>सांस्कृतिक</td>
-                        <td>वैज्ञानिक</td>
-                        <td>सृजनात्मक</td>
-                        <td>खेलकूद</td>
-                    </tr>
+                    <%if(student.Medium == 'English'){%>
+                        <%for(let i=0;i<subs.length;i++){%>
+                            <td><%=subs[i]%></td>
+                        <%}%>
+                    <%}else{%>
+                        <tr>
+                            <td>साहित्यिक</td>
+                            <td>सांस्कृतिक</td>
+                            <td>वैज्ञानिक</td>
+                            <td>सृजनात्मक</td>
+                            <td>खेलकूद</td>
+                        </tr>
+                    <%}%>
                     
                 </thead>
                 <tbody>
-                    <% let subs = []%>
-                    <% if(addtionalMarks && addtionalMarks['COED']){ %>
-                        <% subs = Object.keys(addtionalMarks['COED']['_doc']) %>
-                    <%}%>
+                    
                     <%if(addtionalMarks && addtionalMarks['COED']){%>
                         <%for(let i=1;i<Object.keys(addtionalMarks['COED']['_doc']).length;i++){%>
                             <td><b><%= grades[Number(addtionalMarks['COED']['_doc'][subs[i]])]%></b></td>

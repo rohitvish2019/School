@@ -43,9 +43,15 @@ function sendTransaction(amount,date,comment,type,person){
 }
 
 function getTransactionsList(){
+    let startDate = document.getElementById('startDate').value
+    let endDate = document.getElementById('endDate').value
     $.ajax({
         type:'get',
         url:'/reports/cashbook/getTransactions',
+        data:{
+            startDate,
+            endDate
+        },
         success:function(data){console.log(data);
             displayTransactions(data.data)},
         error:function(err){console.log("Nothing")}
@@ -54,25 +60,23 @@ function getTransactionsList(){
 function displayTransactions(transactions) {
     console.log(transactions)
     const transactionsDiv = document.getElementById('transactions');
+    transactionsDiv.innerHTML=``;
     if (transactions.length === 0) {
         transactionsDiv.innerHTML = '<p>No transactions to display</p>';
         return;
     }
     const table = document.createElement('table');
     table.classList.add('transactions-table');
-
     const headerRow = table.insertRow();
     headerRow.innerHTML = '<th>S.No</th><th>Date</th><th>Credit Amount</th><th>Debit Amount</th><th>Comment</th><th>Payee/Paid to</th>';
-    
     let totalDebit =0
     let totalCredit = 0
     let totalBalance = 0;
     let count = 1;
     transactions.forEach(transaction => {
         const row = table.insertRow();
-        let type = transaction.type
         let dateArray = String(transaction.date).split('T')[0].split('-');
-        if(type == 'in' || type == 'fees in'){
+        if(transaction.transactionType=='credit'){
             totalCredit = totalCredit+transaction.amount
             row.innerHTML = `
                          <td>${count++}</td>
@@ -94,13 +98,14 @@ function displayTransactions(transactions) {
 
         
     });
-
+    const footerRow = table.insertRow();
+    footerRow.innerHTML= `<th>Total</th><th></th><th>${totalCredit}</th><th>${totalDebit}</th><th></th><th></th>`
     transactionsDiv.appendChild(table);
-    updateTotals(totalCredit, totalDebit)
+    //updateTotals(totalCredit, totalDebit)
     
 }
 
-
+/*
 function filterTransactions() {
     const monthYearInput = document.getElementById('monthYear');
     const selectedMonthYear = monthYearInput.value;
@@ -109,7 +114,7 @@ function filterTransactions() {
     transactions = filteredTransactions;
     displayTransactions();
 }
-
+*/
 function updateTotals(totalCredit,totalDebit) {
     const totalCreditSpan = document.getElementById('totalCredit');
     const totalDebitSpan = document.getElementById('totalDebit');
@@ -121,4 +126,9 @@ function updateTotals(totalCredit,totalDebit) {
     totalBalanceSpan.textContent = '₹' + totalBalance.toFixed(2);
 }
 
-getTransactionsList()
+function makePrintable(){
+    document.getElementById('input-section').style.display='none'
+    document.getElementById('filter-section').style.display='none'
+}
+
+

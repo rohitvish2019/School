@@ -9,7 +9,7 @@
         <%- include('_header'); %>
     </div>
     <div class="upper-center">
-        <a href="/fee/addOldFees">Add Old Fees</a>
+        <button href="/fee/addOldFees" onclick="openAddFee()" class="btn btn-primary">Add More Fee</button>
         <h3 style="margin-bottom: 1%;">Student Details</h3>
         <div class="student-details-mob">
             <div class="std-item">
@@ -39,7 +39,7 @@
     </div>
     <div class="body-container">
         <div class="left-side-panel news-container">
-            <a href="/fee/addOldFees">Add Old Fees</a>
+            <button href="/fee/addOldFees" onclick="openAddFee()" class="btn btn-primary">Add More Fees</button>
             <div class="student-details">
                 <h3 style="margin-bottom: 10%;">Student Details</h3>
                 <div>
@@ -78,6 +78,7 @@
                 <table id="fee-details-container">
                     <tr>
                         <th>Class</th>
+                        <th>Type</th>
                         <th>Total</th>
                         <th>Concession</th>
                         <th>Paid</th>
@@ -87,6 +88,7 @@
                     <% for(let i=0;i<feesList.length;i++){%>
                         <tr>
                             <td><%=feesList[i].Class%></td>
+                            <td><%=feesList[i].type%></td>
                             <td><%=feesList[i].Total%></td>
                             <td><%=feesList[i].Concession%></td>
                             <td><%=feesList[i].Paid%></td>
@@ -97,7 +99,7 @@
                                         Actions
                                     </a>
                                     <ul style='font-size:0.7rem' class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <li><button class='dropdown-item btn btn-success' id='pay_<%=feesList[i].Class%>_<%=feesList[i].AdmissionNo%>' onclick="openPopup('<%=feesList[i].Class%>_<%=feesList[i].AdmissionNo%>_submit')">Pay</button></li>
+                                        <li><button class='dropdown-item btn btn-success' id='pay_<%=feesList[i].Class%>_<%=feesList[i].AdmissionNo%>' onclick="openPopup('<%=feesList[i].Class%>_<%=feesList[i].AdmissionNo%>_submit_<%=feesList[i].type%>')">Pay</button></li>
                                         <li><button class='dropdown-item btn btn-success' id='concession_<%=feesList[i].Class%>_<%=feesList[i].AdmissionNo%>' onclick="openPopup('<%=feesList[i].Class%>_<%=feesList[i].AdmissionNo%>_con')">Concession</button></li> 
                                     </ul>
                                     
@@ -138,10 +140,10 @@
             </div>
             <div id="popup" style="display: none;">
        
-                <div  id="close-button"><img id="cross" src="/images/cross.png" alt="" srcset="" height="100%" width="100%"></div>
-                <div style="text-align: center; position: relative; left: 15%;">
+                <button style="background-color: transparent;border: none;" id="close-button"><img id="cross" src="/images/cross.png" alt="" srcset="" height="100%" width="150%"></button>
+                <div style="text-align: center; position: relative;">
                     <b>
-                        <input id='purpose' style="border: none; background-color: transparent;" type="text" value="Fees pay">
+                        <input id='purpose' style="border: none; background-color: transparent; width: 40%;font-weight: bold;font-size: x-large !important;" type="text" value="Fees pay">
                     </b>   
                 </div>
                 <div class="form-item">
@@ -151,16 +153,17 @@
                 
                 <div class="form-item">
                     <label>Class</label>
-                    <select id="Class_fee" style="width: 25%;">
-                        <%for (let i=0;i<feesList.length;i++){%>
-                            <option required class="class_option" id="<%=feesList[i].Class%>" value="<%=feesList[i].Class%>"><%=feesList[i].Class%></option>
-                        <%}%>
-                    </select>
+                    <input required readonly id="Class_fee" type="text" placeholder="Class">
+                </div>
+                <div class="form-item">
+                    <label for="">Type</label>
+                    <input readonly required id="Type_fee" type="text" placeholder="Type">
                 </div>
                 <div class="form-item">
                     <label for="">Amount</label>
                     <input required id="Amount_fee" type="text" placeholder="Amount">
                 </div>
+                
                 <!--
                 <div class="form-item">
                     <label for="">Date</label>
@@ -174,11 +177,31 @@
                 <div style="display: flex; justify-content: center;">
                     <button class="btn btn-success" id='submit_fee' onclick="submitFeeOrConcession()">Pay</button>
                 </div>
-                    
-                
+            </div>
+
+            <div id="addFeesPopup">
+                <button style="background-color: transparent;border: none;" onclick="closeAddFee()" id="close-button"><img id="close_add_fee" src="/images/cross.png" alt="" srcset="" height="100%" width="200%"></button>
+                <h5 style="text-align: center;">Add New Fees</h5>
+                <div class="addFeeInputs">
+                    <input readonly type="text" id="admission_no_add_fee" placeholder="Admission No" value="<%=feesList[0].AdmissionNo%>">
+                    <input readonly type="text" id="class_add_fee" value="<%=student.Class%>">
+                    <select name="" id="feesType">
+                        <option value="">--select fee type--</option>
+                        <option value="Old Fees">Old Fees</option>
+                        <option value="Admission Fee">Admission Fee</option>
+                        <option value="Transport Fee">Transport Fee</option>
+                        <option value="Exam Fee">Exam Fee</option>
+                        <option value="Extracurricular Activity Fee">Extracurricular Activity Fee</option>
+                        <option value="Material and Book Fee">Material and Book Fee</option>
+                        <option value="Building and Maintenance Fees">Building and Maintenance Fees</option>
+                        <option value="Tuition Fees">Tuition Fees</option>
+                    </select>
+                    <input type="text" name="" id="period" placeholder="Time Period">
+                    <input type="number" id="totalFees_add_fee" placeholder="Total Fees">
+                    <button class="btn btn-success" onclick="saveNewFees()">Save</button>
+                </div>
             </div>
         </div>
-        
     </div>
 </body>
 <script src="/js/fees_details.js"></script>

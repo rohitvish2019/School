@@ -187,7 +187,8 @@ module.exports.admit = async function(req, res){
                 Total:+fee.Fees + +admFee,
                 Remaining: +fee.Fees + +admFee,
                 Paid:0,
-                SchoolCode:req.user.SchoolCode
+                SchoolCode:req.user.SchoolCode,
+                type:'Tuition Fees'
             });
             if(studentData.OldFee){
                 await FeeSchema.create({

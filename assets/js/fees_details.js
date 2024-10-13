@@ -11,10 +11,8 @@ function checkFees(){
         },
         success: function(data){showFees(data.data)},
         error: function(err){showNoFees()}
-    });
-    
+    });   
 }
-
 
 function showFees(data){
     console.log(data.length);
@@ -48,7 +46,8 @@ function showFees(data){
                 </a>
                 <ul style='font-size:0.7rem' class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                     <li><button class='dropdown-item btn btn-success' id='pay_${data[i].Class}_${data[i].AdmissionNo}' onclick="openPopup('${data[i].Class}_${data[i].AdmissionNo}_submit_${data[i].type}')">Pay</button></li>
-                    <li><button class='dropdown-item btn btn-success' id='concession_${data[i].Class}_${data[i].AdmissionNo}' onclick="openPopup('${data[i].Class}_${data[i].AdmissionNo}_con')">Concession</button></li> 
+                    <li><button class='dropdown-item btn btn-success' id='concession_${data[i].Class}_${data[i].AdmissionNo}' onclick="openPopup('${data[i].Class}_${data[i].AdmissionNo}_con')">Concession</button></li>
+                    <li><button class='dropdown-item btn btn-success' id='remove_${data[i].Class}_${data[i].AdmissionNo}' onclick="removeFee('${data[i]._id}')">Remove</button></li>  
                 </ul>
                 
             </div>
@@ -57,6 +56,31 @@ function showFees(data){
         container.appendChild(item);
     }
     
+}
+
+function removeFee(id){
+    $.ajax({
+        url:'/fee/deleteFee/'+id,
+        type:'delete',
+        success: function(data){
+            new Noty({
+                theme: 'relax',
+                text: 'Fees removed successfully',
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1500
+            }).show(); 
+        },
+        error:function(err){
+            new Noty({
+                theme: 'relax',
+                text: 'Unable to delete fees',
+                type: 'error',
+                layout: 'topRight',
+                timeout: 1500
+            }).show(); 
+        }
+    })
 }
 // Invoke this function in case of no/error response received from checkFees to show no fees found
 
@@ -425,3 +449,4 @@ function saveNewFees(){
         }
     })
 }
+checkFees()

@@ -185,7 +185,7 @@ function getCurrentResult(){
         },
         success:function(data){
             displayStudentsList(data.resultSet);
-            getNamesByClass(Class);
+            getNamesByClass(Class, data.resultSet);
         }
     })
 }

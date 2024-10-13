@@ -82,7 +82,7 @@ module.exports.getFee =async function(req, res){
 }
 
 module.exports.feeSubmission =async function(req, res){
-    if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
+    if(req.user.role === 'Admin'){
         try{
             let fee = await Fee.findOne({
                 AdmissionNo:req.body.AdmissionNo, 
@@ -415,6 +415,19 @@ module.exports.addNewFee = async function(req, res){
     }catch(err){
         return res.status(500).json({
             message:'Unable to add this fees'
+        })
+    }
+}
+
+module.exports.removeFee = async function(req, res){
+    try{
+        let fee = await Fee.findByIdAndDelete(req.params.id);
+        return res.status(200).json({
+            message:'Fees removed successfully'
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to remove fees'
         })
     }
 }

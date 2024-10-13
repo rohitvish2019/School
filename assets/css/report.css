@@ -47,7 +47,9 @@ th {
     font-weight: 600;
     font-size: 12px !important;
 }
-
+.columns{
+  margin-left: 1%;
+}
 .filter-container {
     margin-top: 20px;
 }

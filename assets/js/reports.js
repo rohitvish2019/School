@@ -328,14 +328,30 @@ function showFeesDuesByClass(data, students){
     document.getElementById('loader').style.display='none'
 }
 function showActiveStudents(data){
+    let columnsData = document.getElementsByClassName('columns');
+    let columns = new Array();
+    columns.push('S.no')
+    for(let i=0;i<columnsData.length;i++){
+        if(columnsData[i].checked == true){
+            columns.push(columnsData[i].value)
+        }
+    }
     let tbody = document.getElementById('table-body');
     tbody.style.fontSize='0.8rem';
     let thead = document.createElement('tr');
+    
+    for(let i=0;i<columns.length;i++){
+        let tdata = document.createElement('th');
+        tdata.innerHTML=columns[i]
+        thead.appendChild(tdata)
+    }
+    /*
     thead.innerHTML=
-    `   <th>S.No</th>
-        <th>Admission No</th>
+    `   
+        <th>S.No</th>
+        <th>AdmissionNo</th>
         <th>Class</th>
-        <th>Admission Date</th>
+        <th>AdmissionDate</th>
         <th>Name</th>
         <th>Father's Name</th>
         <th>Mother's Name</th>
@@ -348,12 +364,24 @@ function showActiveStudents(data){
         <th>Gender</th>
         
     `
+    */
     tbody.innerHTML=``;
     tbody.appendChild(thead)
     let maleCount = 0;
     let femaleCount = 0;
     let otherCount = 0;
     for(let i=0;i<data.length;i++){
+        let row = document.createElement('tr');
+        for(let j=0;j<columns.length;j++){
+            let rowData = document.createElement('td');
+            if(j == 0){
+                rowData.innerHTML=i+1
+            }else{
+                rowData.innerHTML=data[i][columns[j]];
+            }
+            
+            row.appendChild(rowData)
+        }
         if((data[i].Gender).toUpperCase() == 'MALE'){
             maleCount++
         }else if((data[i].Gender).toUpperCase() == 'FEMALE'){
@@ -361,23 +389,7 @@ function showActiveStudents(data){
         }else{
             otherCount++
         }
-        let row = document.createElement('tr');
-        row.innerHTML=
-        `   <td>${i+1}</td>
-            <td>${data[i].AdmissionNo}</td>
-            <td>${data[i].Class}</td>
-            <td>${data[i].AdmissionDate}</td>
-            <td>${data[i].FirstName} ${data[i].LastName}</td>
-            <td>${data[i].FathersName}</td>
-            <td>${data[i].MothersName}</td>
-            <td>${data[i].SSSM}</td>
-            <td>${data[i].AadharNumber}</td>
-            <td>${data[i].DOB}</td>
-            <td>${data[i].Caste}</td>
-            <td>${data[i].Category}</td>
-            <td>${data[i].Religion}</td>
-            <td>${data[i].Gender}</td>
-        `
+        
         tbody.appendChild(row);
         total += data[i].Amount
     }
@@ -504,7 +516,7 @@ function showStudentsByClass(data){
         row.innerHTML=
         `   <td style='width:2%'>${i+1}</td>
             <td style='width:3%'>${data[i].AdmissionNo}</td>
-            <td style='width:10%'>${data[i].FirstName} ${data[i].LastName}123</td>
+            <td style='width:10%'>${data[i].FirstName} ${data[i].LastName}</td>
             <td style='width:8%'>${data[i].FathersName}</td>
             <td style='width:8%'>${data[i].MothersName}</td>
             <td style='width:11% !important'>${dob[2]}-${dob[1]}-${dob[0]}</td>

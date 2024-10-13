@@ -3,7 +3,6 @@ const router = express.Router();
 const feeController = require('../controller/fee');
 router.get('/getFee/:id', feeController.getFeeDetails);
 router.get('/getMyFee', feeController.getFee)
-
 router.get('/updateFeeForm', feeController.updateFeeForm);
 router.post('/updateFee', feeController.updateFee);
 router.post('/getConsession', feeController.addConsession);
@@ -17,5 +16,6 @@ router.delete('/delete/:Class', feeController.deleteAnnualFee);
 router.get('/addOldFees', feeController.oldFeeTemp);
 router.post('/tempOldFee', feeController.addOldFee);
 router.post('/addNew',feeController.addNewFee);
+router.delete('/deleteFee/:id', feeController.removeFee);
 
 module.exports = router;

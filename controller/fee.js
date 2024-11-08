@@ -336,12 +336,13 @@ module.exports.getFeeReceipt = async function(req, res){
         let SchoolName = properties.get(req.user.SchoolCode+'.NAME');
         let mono = properties.get(req.user.SchoolCode+'.MONO');
         let feeReport = await FeeHistory.findById(req.params.id);
-        let student = await Student.findOne({AdmissionNo:feeReport.AdmissionNo, SchoolCode:req.user.SchoolCode})
-        console.log(feeReport);
+        let student = await Student.findOne({AdmissionNo:feeReport.AdmissionNo, SchoolCode:req.user.SchoolCode});
+        let currentFees = await Fee.findOne({AdmissionNo:feeReport.AdmissionNo, Class:feeReport.Class})
+        console.log(currentFees);
         if(req.user.SchoolCode == 'SVVN'){
-            return res.render('fee_receipt_4',{feeReport,student, role:req.user.role,SchoolCode:req.user.SchoolCode, SchoolName,mono});
+            return res.render('fee_receipt_4',{RemainingFees : currentFees.Remaining,feeReport,student, role:req.user.role,SchoolCode:req.user.SchoolCode, SchoolName,mono});
         }
-        return res.render('fee_receipt',{feeReport,student, role:req.user.role,SchoolCode:req.user.SchoolCode, SchoolName,mono});
+        return res.render('fee_receipt',{RemainingFees : currentFees.Remaining,feeReport,student, role:req.user.role,SchoolCode:req.user.SchoolCode, SchoolName,mono});
     }catch(err){
         logger.error(err.toString())
         return res.redirect('back')

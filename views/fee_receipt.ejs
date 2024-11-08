@@ -83,9 +83,9 @@ th {
                         <tr>
                             <th>Receipt No:</th>
                             <th>Description</th>
-                            <th>Amount</th>
+                            <th>Amount Paid</th>
                             <th>Payment Date</th>
-                            <th>Total</th>
+                            <th>Remaining</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -95,7 +95,7 @@ th {
                                 <td><%=feeReport.Comment%></td>
                                 <td><%=feeReport.Amount%></td>
                                 <td><%=String(feeReport.createdAt).substr(4,12)%></td>
-                                <td><%=feeReport.Amount%></td>
+                                <td><%=RemainingFees%></td>
                                 
                             </tr>
                         <!-- Add more rows for additional items if needed -->
@@ -141,9 +141,9 @@ th {
                         <tr>
                             <th>Receipt No:</th>
                             <th>Description</th>
-                            <th>Amount</th>
+                            <th>Amount Paid</th>
                             <th>Payment Date</th>
-                            <th>Total</th>
+                            <th>Remaining</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -153,7 +153,7 @@ th {
                                 <td><%=feeReport.Comment%></td>
                                 <td><%=feeReport.Amount%></td>
                                 <td><%=String(feeReport.createdAt).substr(4,12)%></td>
-                                <td><%=feeReport.Amount%></td>
+                                <td><%=RemainingFees%></td>
                                 
                             </tr>
                         <!-- Add more rows for additional items if needed -->

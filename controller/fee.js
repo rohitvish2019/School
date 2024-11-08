@@ -82,6 +82,7 @@ module.exports.getFee =async function(req, res){
 }
 
 module.exports.feeSubmission =async function(req, res){
+    console.log(req.body)
     if(req.user.role === 'Admin'){
         try{
             let fee = await Fee.findOne({
@@ -117,7 +118,7 @@ module.exports.feeSubmission =async function(req, res){
                 Amount: req.body.Amount,
                 Payment_Date: today,
                 Comment: req.body.Comment,
-                type:'Fees',
+                type:req.body.type,
                 Receipt_No:lastFeeReceiptNumber.LastFeeReceiptNo,
                 PaidTo:req.user.email
             });

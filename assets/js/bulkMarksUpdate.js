@@ -200,7 +200,10 @@ function getNamesByClass(Class){
         },
         success: function(data){
             for(let i=0;i<data.students.length;i++){
-                document.getElementById(data.students[i].AdmissionNo+"_name").innerText=data.students[i].FirstName+" "+data.students[i].LastName
+                if(document.getElementById(data.students[i].AdmissionNo+"_name")){
+                    document.getElementById(data.students[i].AdmissionNo+"_name").innerText=data.students[i].FirstName+" "+data.students[i].LastName
+                }
+                
             }
         }
     });

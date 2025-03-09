@@ -794,7 +794,11 @@ module.exports.getMarksheetUINew = async function(req, res){
             console.log("Grand total")
             console.log(grandTotal)
         }
-        return res.render('getMarksheet',{student, marks:resultSet, grandTotal, addtionalMarks, subjectsMapping, sub_list:subjectsArray, terms,SchoolCode:req.user.SchoolCode})
+        if(req.user.SchoolCode == 'SVVN') {
+            return res.render('getMarksheet',{student, marks:resultSet, grandTotal, addtionalMarks, subjectsMapping, sub_list:subjectsArray, terms,SchoolCode:req.user.SchoolCode})
+        } else {
+            return res.render('getMarksheet_english',{student, marks:resultSet, grandTotal, addtionalMarks, subjectsMapping, sub_list:subjectsArray, terms,SchoolCode:req.user.SchoolCode})
+        }
     }catch(err){
         console.log(err)
         return res.status(500).json({

@@ -53,6 +53,14 @@ const ResultSchema = new mongoose.Schema({
     Drawing:{
         type:Number,
     },
+    GK:{
+        type:Number,
+        default:-1
+    },
+    Rhymes:{
+        type:Number,
+        default:-1
+    },
     Literary:String,
     Cultural:String,
     Scientific:String,
@@ -60,10 +68,18 @@ const ResultSchema = new mongoose.Schema({
     Sports:String,
     PUNCTUALITY:String,
     HYGIENE:String,
+    Music:Number,
     CONSCIENTIOUSNESS:String,
     HELPFULNESS:String,
     HONESTY:String,
     EnvironmentallySensitive:String,
+    EADING:Number,
+    READING:Number,
+    WRITING:Number,
+    LISTENING:Number,
+    SPEAKING:Number,
+    MUSIC:Number,
+    GAMES:Number,
     Total:Number,
     Weight:Number,
     isThisCurrentRecord:{

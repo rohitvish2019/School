@@ -28,7 +28,7 @@
         </ul>
       </li>
 
-      <%if(role === 'Admin'){%>
+      <%if(role === 'Admin' || role === 'Teacher'){%>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           Teacher
@@ -138,7 +138,7 @@
           <li><a class="dropdown-item" href="#"></a></li>
         </ul>
       </li>
-      <%if(role === 'Admin'){%>
+      <%if(role === 'Admin' || role === 'Teacher'){%>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Teachers

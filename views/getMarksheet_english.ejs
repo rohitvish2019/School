@@ -1,6 +1,6 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/marksheet-style.css">
+    <link rel="stylesheet" href="/css/marksheet-style-english.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 
@@ -18,17 +18,44 @@
                 <% let months = ['null','January', 'February','March','April','May','June','July','August','September','October','November','December']%>
                 <% let year = ['Nineteen','Two Thousands']%>
                 <% let nums=["null","One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen", "Twenty", "Twenty-One", "Twenty-Two", "Twenty-Three", "Twenty-Four", "Twenty-Five", "Twenty-Six", "Twenty-Seven", "Twenty-Eight", "Twenty-Nine", "Thirty", "Thirty-One", "Thirty-Two", "Thirty-Three", "Thirty-Four", "Thirty-Five", "Thirty-Six", "Thirty-Seven", "Thirty-Eight", "Thirty-Nine", "Forty", "Forty-One", "Forty-Two", "Forty-Three", "Forty-Four", "Forty-Five", "Forty-Six", "Forty-Seven", "Forty-Eight", "Forty-Nine", "Fifty", "Fifty-One", "Fifty-Two", "Fifty-Three", "Fifty-Four", "Fifty-Five", "Fifty-Six", "Fifty-Seven", "Fifty-Eight", "Fifty-Nine", "Sixty", "Sixty-One", "Sixty-Two", "Sixty-Three", "Sixty-Four", "Sixty-Five", "Sixty-Six", "Sixty-Seven", "Sixty-Eight", "Sixty-Nine", "Seventy", "Seventy-One", "Seventy-Two", "Seventy-Three", "Seventy-Four", "Seventy-Five", "Seventy-Six", "Seventy-Seven", "Seventy-Eight", "Seventy-Nine", "Eighty", "Eighty-One", "Eighty-Two", "Eighty-Three", "Eighty-Four", "Eighty-Five", "Eighty-Six", "Eighty-Seven", "Eighty-Eight", "Eighty-Nine", "Ninety", "Ninety-One", "Ninety-Two", "Ninety-Three", "Ninety-Four", "Ninety-Five", "Ninety-Six", "Ninety-Seven", "Ninety-Eight", "Ninety-Nine"]%>
-                <% let days=['null','First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'Ninth', 'Tenth', 'Eleventh', 'Twelfth', 'Thirteenth', 'Fourteenth', 'Fifteenth', 'Sixteenth', 'Seventeenth', 'Eighteenth', 'Nineteenth', 'Twentieth', 'Twenty-first', 'Twenty-second', 'Twenty-third', 'Twenty-fourth', 'Twenty-fifth', 'Twenty-sixth', 'Twenty-seventh', 'Twenty-eighth', 'Twenty-ninth', 'Thirtieth', 'Thirty-first'] %>                <div class="dataset">
-                    <label class="data-heading">Student's Name :</label>
+                <% let days=['null','First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'Ninth', 'Tenth', 'Eleventh', 'Twelfth', 'Thirteenth', 'Fourteenth', 'Fifteenth', 'Sixteenth', 'Seventeenth', 'Eighteenth', 'Nineteenth', 'Twentieth', 'Twenty-first', 'Twenty-second', 'Twenty-third', 'Twenty-fourth', 'Twenty-fifth', 'Twenty-sixth', 'Twenty-seventh', 'Twenty-eighth', 'Twenty-ninth', 'Thirtieth', 'Thirty-first'] %>                
+                <div class="dataset">
+                    <label class="data-heading">Admission No :</label>
+                    <label id="admno"><b><%=student.AdmissionNo%></b></label>
+                </div>
+                <div class="dataset">
+                    <label class="data-heading">Name of Student :</label>
                     <label id="student_name"><b><%=student.FirstName%> <%=student.LastName%></b></label>
+                </div>
+                <div class="dataset">
+                    <label class="data-heading">Mother's Name :</label>
+                    <label><b><%=student.MothersName%></b></label>
                 </div>
                 <div class="dataset">
                     <label class="data-heading">Father's Name :</label>
                     <label><b><%=student.FathersName%></b></label>
                 </div>
                 <div class="dataset">
-                    <label class="data-heading">Mother's Name :</label>
-                    <label><b><%=student.MothersName%></b></label>
+                    <label class="data-heading">Date Of Birth :</label>
+                    
+                    <label><b><%=student.DOB%></b></label>
+                </div>
+                <div class="dataset">
+                    <label class="data-heading">Address :</label>
+                    <label><b><%=student.Address%></b></label>
+                </div>
+                
+                <!--
+                <div class="dataset">
+                    <label class="data-heading">Gender :</label>
+                    <label><b><%=student.Gender%></b></label>
+                </div>
+                -->
+            </div>
+            <div class="col2">
+                <div class="dataset">
+                    <label class="data-heading">Class :</label>
+                    <label style="font-weight: 900;"><b><%=student.Class%></b></label>
                 </div>
                 <div class="dataset">
                     <label class="data-heading">Aadhar No :</label>
@@ -38,36 +65,16 @@
                     <label class="data-heading">Samagra ID :</label>
                     <label><b><%=student.SSSM%></b></label>
                 </div>
-                <!--
-                <div class="dataset">
-                    <label class="data-heading">Gender :</label>
-                    <label><b><%=student.Gender%></b></label>
-                </div>
-                -->
-            </div>
-            <div class="col2">
-                
-                <div class="dataset">
-                    <label class="data-heading">Admission No :</label>
-                    <label id="admno"><b><%=student.AdmissionNo%></b></label>
-                </div>
-                <div class="dataset">
-                    <label class="data-heading">Class :</label>
-                    <label style="font-weight: 900;"><b><%=student.Class%></b></label>
-                </div>
-                <div class="dataset">
-                    <label class="data-heading">Date Of Birth :</label>
-                    <% let DOB = student.DOB.split('-')%>
-                    <label><b><%=DOB[2]%>-<%=DOB[1]%>-<%=DOB[0]%></b></label>
-                </div>
-                <div class="dataset">
-                    <label class="data-heading">DOB(in words) :</label>
-                    <label style="font-size:14px;font-weight: bold;"><%=days[Number(DOB[2])]%> <%=months[Number(DOB[1])]%> <%=year[Number(DOB[0].substring(0,2)-19)]%> <%=nums[Number(DOB[0].substring(2))]%></label>
-                </div>
                 <div class="dataset">
                     <label class="data-heading">Session:</label>
                     <label><b><%=student.Session%> - <%=student.Session + 1%></b></label>
                 </div>
+                <div class="dataset">
+                    <label class="data-heading" style="width: 30%;margin-top: 3px;"></label>
+                    <% let DOB = student.DOB.split('-')%>
+                    <label style="font-size: 15px; font-weight: bold;width:100%;">(<%=days[Number(DOB[0])]%> <%=months[Number(DOB[1])]%> <%=year[Number(DOB[2].substring(0,2)-19)]%> <%=nums[Number(DOB[2].substring(2))]%>)</label>
+                </div>
+               
                 <div class="dataset">
                     <label class="data-heading">Medium :</label>
                     <label><b><%=student.Medium%></b></label>
@@ -81,8 +88,7 @@
             </div>
         </div>
         <div style="display: flex;justify-content: space-between;">
-            <div style="width: 62%;text-align: center; font-size: large; font-weight: bold;padding-bottom: 1%;margin-top: 2%;">Academic Evaluation</div>
-            <div style="width: 35%;text-align: center;font-size: large; font-weight: bold;padding-bottom: 1%; margin-top: 2%;">Personal and Social Qualities</div>
+            <div style="width: 100%;text-align: center; font-size: large; font-weight: bold;padding-bottom: 1%;margin-top: 2%;">Academic Evaluation</div>
         </div>
         <div class="result-section">
             <div class="scores" id="AcademicScore">
@@ -90,44 +96,66 @@
                 <%let grades=['F','F','F','F','F','F','F','D+','D+','D','C+','C','C','B+','B','B','A','A','A+','A+','A+']%>
                 <table>
                     <thead>
+                        
                         <tr>
-                            <th>Subject</th>
+                            <th rowspan="2">Subject</th>
                             <%for(let i=0;i<terms.length;i++){%>
-                                <th><%=terms[i]%></th>
+                                <th colspan="3"><%=terms[i]%></th>
                             <%}%>
-                            <th>Obt. Marks</th>
-                            <th>Total</th>
-                            <th>Grade</th>
+                            
+                        </tr>
+                        <tr>
+                            <td>Marks</td>
+                            <td>Obt</td>
+                            <td>Grade</td>
+                            <td>Marks</td>
+                            <td>Obt</td>
+                            <td>Grade</td>
+                            <td>Marks</td>
+                            <td>Obt</td>
+                            <td>Grade</td>
                         </tr>
                     </thead>
                     <tbody>
+                        <%let sum = 0%>
+                        <% let total = 0%>
                         <%for(let i=0;i<sub_list.length;i++){%>
                             <tr>
                                 <td><%=sub_list[i]%></td>
-                                <%let sum = 0%>
-                                <% let total = 0%>
                                 <%for(let j=0;j<terms.length;j++){%>
                                     <%sum = sum + marks[terms[j]][sub_list[i]]%>
+                                    <% total = total + marks[terms[j]]['Total']%>
                                     <td><b><%=marks[terms[j]][sub_list[i]]%></b></td>
+                                    <td><b><%=marks[terms[j]]['Total']%></b></td>
+                                    <td><b>
+                                        <% let subMarks = marks[terms[j]][sub_list[i]]%>
+                                        <%if(subMarks >= 91) {%>
+                                            A1
+                                        <%} else if (subMarks > 80) {%>
+                                            A2
+                                        <%} else if (subMarks > 70) {%>
+                                            B1
+                                        <%} else if ( subMarks > 60 ){%>
+                                            B2
+                                        <%} else if (subMarks > 50 ) {%>
+                                            C1
+                                        <%} else if ( subMarks > 40 ) { %>
+                                            C2
+                                        <%} else if (subMarks > 32 ){%>
+                                            D
+                                        <%} else {%>
+                                            F
+                                        <%}%>
+                                            
+                                    </b></td>
                                 <%}%>
-                                <td><b><%=sum%></b></td>
-                                <td><b>100</b></td>
-                                <td><b><%=grades[Math.ceil(sum/5)]%></b></td>
                             </tr>
                         <%}%>
                         
                         <tr>
-                            <td>Sub Total</td>
-                            <% let mysum = 0%>
-                            
-                            <% for(let i=0;i<terms.length;i++){%>
-                                <%mysum = mysum + grandTotal[terms[i]]%>
-                                <td><b><%=grandTotal[terms[i]]%></b></td>
-                            <%}%>
-                            <%let percent = (mysum/sub_list.length).toString().substring(0,5)%>
-                            <td><b><%=mysum%></b></td>
-                            <td><b><%=sub_list.length * 100 %></b></td>
-                            <td id="finalGrade">
+                            <td>Final Grade</td>
+                            <td id="finalGrade" colspan="9">
+                                <%let percent = (sum/total)*100%>
                                 <%if(percent >= 85){%>
                                     <b>A+</b>
                                 <%}else if(percent < 85 && percent >= 76){%>
@@ -152,33 +180,10 @@
                     </tbody>
                 </table>
             </div>
-            <div class="scores" id="LiteraryScore">
-                <% let subjects = []%>
-                <% if(addtionalMarks &&  addtionalMarks['MORAL']){ %>
-                    <% subjects = Object.keys(addtionalMarks['MORAL']['_doc']) %>
-                <%}%>
-                <% let hindiSubs = ["","नियमितता/समयबद्धता","स्वच्छता","कर्तव्यनिष्ठा","सहयोग की भावना","सत्यवादिता/ईमानदारी","पर्यावरण संवेदनशील"]%>
-                
-                <table>
-                    <thead>
-                        <th>Subject</th>
-                        <th>Grade</th>
-                    </thead>
-                    
-                    <tbody>
-                        <%for(let i=1;i<subjects.length;i++){%>
-                            <tr>
-                                <td><%=subjects[i]%></td>
-                                <td><b><%=grades[addtionalMarks['MORAL']['_doc'][subjects[i]]]%></b></td>
-                            </tr>
-                        <%}%>
-                    </tbody>
-                </table>
-            </div>
         </div>
         
         <div class="co-ed-section">
-            <label style="text-align: center; font-size: large; font-weight: bold;padding-bottom: 1%;margin-top: 2%; width: 100%;">Extracurricular Activities</label>
+            <label style="text-align: center; font-size: large; font-weight: bold;padding-bottom: 1%;margin-top: 1%; width: 100%;">Extracurricular Activities</label>
             <table border="1px solid black">
                 <% let subs = []%>
                 <% if(addtionalMarks && addtionalMarks['COED']){ %>
@@ -186,7 +191,7 @@
                 <%}%>
                 <thead>
                     <%if(student.Medium == 'English'){%>
-                        <%for(let i=0;i<subs.length;i++){%>
+                        <%for(let i=1;i<subs.length;i++){%>
                             <td><%=subs[i]%></td>
                         <%}%>
                     <%}else{%>
@@ -204,7 +209,7 @@
                     
                     <%if(addtionalMarks && addtionalMarks['COED']){%>
                         <%for(let i=1;i<Object.keys(addtionalMarks['COED']['_doc']).length;i++){%>
-                            <td><b><%= grades[Number(addtionalMarks['COED']['_doc'][subs[i]])]%></b></td>
+                            <td><b><%= grades[Math.ceil(Number(addtionalMarks['COED']['_doc'][subs[i]])/5)]%></b></td>
                         <%}%>
                     <%}else{%>
                         <td>NA</td>
@@ -219,7 +224,7 @@
         <div>
             <label style="text-align: center; font-size: large; font-weight: bold;padding-bottom: 1%;margin-top: 1%; width: 100%;">Grading System Details</label>
             
-            <table border="1px solid black">
+            <table border="1px solid black" class="co-ed-section">
                 <tr>
                     <td>Grade</td>
                     <td>A+</td>
@@ -233,7 +238,7 @@
                     
                 </tr>
                 <tr>
-                    <td>प्राप्तांक</td>
+                    <td>Obt.</td>
                     <td>>85</td>
                     <td>76-85</td>
                     <td>66-75</td>
@@ -246,24 +251,38 @@
             </table>
         </div>
         <h6 style="margin-top: 2%;font-size: 16px;">
-            परीक्षा परिणाम : 
-            <%if(mysum/sub_list.length > 33){%>
+            Result : 
+            <%if(percent > 33){%>
                 <b>Pass</b>
             <%}else{%>
                 <b>Fail</b>
             <%}%>
         </h6>
-        <h6 style="font-size: 16px;">Percentage : <span id = 'percent'><%=(mysum/sub_list.length).toString().substring(0,5)%></span></h6>
-        
+        <h6 style="font-size: 16px;">Percentage : <span id = 'percent'><%=(percent).toString().substring(0,5)%></span></h6>
+        <table class="small-table">
+            <tbody style="text-align: center;">
+                <tr>
+                    <td colspan="2">Attendance</td>
+                </tr>
+                <tr>
+                    <td>Total working days</td>
+                    <td>Present</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
         <div class="official-section" style="font-size: 16px;">
             <div class="signature">
-                <div class="role">Principal's Signature:</div>
-                <div class="date">Date:</div>
+                <div class="role">Class Teacher's Signature</div>
             </div>
             <div class="signature">
-                <div class="role">Class Teacher's Signature:</div>
-                <div class="date">Date:</div>
+                <div class="role">Headmaster's Signature</div>
+                
             </div>
+            
             <!--
             <div class="signature">
                 <div class="role">Parent's Signature:</div>
@@ -271,7 +290,6 @@
             </div>
             -->
         </div>
-        <label style="margin-top: 1%;">The annual examination progress report will be valid only after the signature and seal of the head of the institution.</label>
     
     </div>
     

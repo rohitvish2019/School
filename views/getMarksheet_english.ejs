@@ -10,7 +10,6 @@
             <img style="margin-top: 5%; margin-bottom: 3%;background-color:transparent;" src="/schools/<%=SchoolCode%>/school-header.png" alt="school logo" srcset="" width="95%">
         </div>
         <div class="error-text">
-            
         </div>
         
         <div class="student-info">
@@ -42,7 +41,7 @@
                 </div>
                 <div class="dataset">
                     <label class="data-heading">Address :</label>
-                    <label><b><%=student.Address%></b></label>
+                    <label><b><%=student.FullAddress%></b></label>
                 </div>
                 
                 <!--
@@ -125,8 +124,9 @@
                                 <%for(let j=0;j<terms.length;j++){%>
                                     <%sum = sum + marks[terms[j]][sub_list[i]]%>
                                     <% total = total + marks[terms[j]]['Total']%>
-                                    <td><b><%=marks[terms[j]][sub_list[i]]%></b></td>
                                     <td><b><%=marks[terms[j]]['Total']%></b></td>
+                                    <td><b><%=marks[terms[j]][sub_list[i]]%></b></td>
+                                    
                                     <td><b>
                                         <% let subMarks = marks[terms[j]][sub_list[i]]%>
                                         <%if(subMarks >= 91) {%>
@@ -257,8 +257,8 @@
             <%}else{%>
                 <b>Fail</b>
             <%}%>
+            [&nbsp<%=(percent).toString().substring(0,5)%> % ]
         </h6>
-        <h6 style="font-size: 16px;">Percentage : <span id = 'percent'><%=(percent).toString().substring(0,5)%></span></h6>
         <table class="small-table">
             <tbody style="text-align: center;">
                 <tr>
@@ -276,10 +276,10 @@
         </table>
         <div class="official-section" style="font-size: 16px;">
             <div class="signature">
-                <div class="role">Class Teacher's Signature</div>
+                <div class="role">Signature of Class Teacher</div>
             </div>
             <div class="signature">
-                <div class="role">Headmaster's Signature</div>
+                <div class="role">Signature Of Head-Master</div>
                 
             </div>
             

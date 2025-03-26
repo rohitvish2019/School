@@ -107,13 +107,14 @@ label{
     width: 100%;
     display: flex;
     justify-content: space-between;
-    margin-top: 3%;
+    margin-top: 80px;
 }
 .signature {
     text-align: left;
     padding: 5px;
-    width: 23%;
+    width: 25%;
     font-size: 19px;
+    font-weight: bold;
 }
 .role{
     margin-bottom: 30%;

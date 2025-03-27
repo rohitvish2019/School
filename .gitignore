@@ -2,3 +2,4 @@
 /assets/reports
 /logs
 /config/properties/
+/config/database.properties

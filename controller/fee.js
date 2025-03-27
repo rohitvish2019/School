@@ -281,7 +281,7 @@ module.exports.addConsession = async function(req, res){
 module.exports.getFeeHistory = async function(req, res){
     try{
         if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
-            let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo,type:'Fees',isCancelled:false,SchoolCode:req.user.SchoolCode}).sort({Payment_Date:'descending'});
+            let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo,type :{$ne : 'Concession'},isCancelled:false,SchoolCode:req.user.SchoolCode}).sort({Payment_Date:'descending'});
             return res.status(200).json({
                 message:'History fetched successfully',
                 data: feeList
@@ -289,7 +289,7 @@ module.exports.getFeeHistory = async function(req, res){
         }else if(req.user.role === 'Student'){
             let student = await Student.findOne({AdmissionNo:req.params.AdmissionNo, Mob:req.user.email,isThisCurrentRecord:true, SchoolCode:req.user.SchoolCode});
             if(student){
-                let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo,type:'Fees',isCancelled:false,SchoolCode:req.user.SchoolCode}).sort({Payment_Date:'descending'});
+                let feeList = await FeeHistory.find({AdmissionNo:req.params.AdmissionNo,type :{$ne : 'Concession'},isCancelled:false,SchoolCode:req.user.SchoolCode}).sort({Payment_Date:'descending'});
                 return res.status(200).json({
                     message:'History fetched successfully',
                     data: feeList

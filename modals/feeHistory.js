@@ -35,7 +35,6 @@ const FeesHistory = new mongoose.Schema({
     },
     type:{
         type:String,
-        enum:['Fees', 'Concession']
     },
     
 },

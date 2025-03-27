@@ -74,6 +74,11 @@ module.exports.bulkMarksHome = function(req, res){
 }
 
 async function updateFinalGrade(AdmissionNo, req_Class, Term, SchoolCode){
+    logger.info("Request received to to update final grade : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     let Class = req_Class;
     if(req_Class == 'kg-1'){
         Class = 'KG1'
@@ -105,6 +110,11 @@ async function updateFinalGrade(AdmissionNo, req_Class, Term, SchoolCode){
     
 }
 module.exports.updateResult = async function(req, res){
+    logger.info("Request received to update result : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     try{
         let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
         let termsTotal = properties.get(req.user.SchoolCode+'.'+req.body.Term+'_TOTAL');
@@ -206,6 +216,11 @@ async function updateFinalGrades(AdmissionNo, Class){
 */
 
 module.exports.updateAllResults = async function(req, res){
+    logger.info("Request received to update all results : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
         try{
             let result_q = await Result.findOne({AdmissionNo:req.params.AdmissionNo, Class:req.query.Class, Term:'Quarterly', SchoolCode:req.user.SchoolCode});
@@ -331,7 +346,11 @@ module.exports.getClassResult = async function(req, res){
 }
 
 module.exports.updateResultSingle = async function(req, res){
-    
+    logger.info("Request received to update single result : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     try{
         let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
         let oldRecord = await Result.findOne({AdmissionNo:req.body.AdmissionNo, Class:req.body.Class, Term:req.body.Term, SchoolCode:req.user.SchoolCode});
@@ -404,6 +423,11 @@ module.exports.getSubjectsListOnly = function(req, res){
 }
 
 module.exports.updateResultSingleNew = async function(req, res){
+    logger.info("Request received to update single result new method : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     try{
         let student = await Student.findOne({AdmissionNo:req.body.AdmissionNo, isThisCurrentRecord:true, SchoolCode:req.user.SchoolCode});
         await student.updateOne({TotalGrade:req.body.grade, ResultPercentage: req.body.percent});

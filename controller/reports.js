@@ -302,6 +302,11 @@ module.exports.cashBookHome = function(req, res){
 
 
 module.exports.addCashTransaction = async function(req, res){
+    logger.info("Request received to add new transaction : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     console.log(req.body)
     let transactionType;
     if(req.body.type == 'in'){
@@ -360,6 +365,11 @@ module.exports.timeTableHome = function(req, res){
 
 
 module.exports.saveTimeTable = async function(req, res){
+    logger.info("Request received to save time table : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     try{
         
         let savedData = await timeTable.findOne({Class:req.body.Class, Term:req.body.Term,Session:req.body.Session,SchoolCode:req.user.SchoolCode});

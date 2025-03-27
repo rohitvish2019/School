@@ -82,6 +82,8 @@ module.exports.getFee =async function(req, res){
 }
 
 module.exports.feeSubmission =async function(req, res){
+    logger.info("Request received to submit fees "+ req.user);
+    logger.info(req.body);
     console.log(req.body)
     if(req.user.role === 'Admin'){
         try{
@@ -136,7 +138,8 @@ module.exports.feeSubmission =async function(req, res){
                 message:'Fees record updated successfully'
             })
         }catch(err){
-            console.log(err)
+            console.log(err);
+            logger.info(err.toString());
             return res.status(500).json({
                 message:'Internal server error'
             })
@@ -149,6 +152,11 @@ module.exports.feeSubmission =async function(req, res){
 }
 
 module.exports.cancelFees = async function(req, res){
+    logger.info("Request received to cancel fees : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     if(req.user.role === 'Admin'){
         try{
             let feeRecord = await FeeHistory.findById(req.params.id);
@@ -204,6 +212,11 @@ module.exports.updateFeeForm = async function(req, res){
 }
 
 module.exports.updateFee = async function(req, res){
+    logger.info("Request received to update fees structure : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     if(req.user.role === 'Admin'){
         try{
             let currentFee = await FeeStructure.findOne({Class:req.body.Class,SchoolCode:req.user.SchoolCode});
@@ -231,6 +244,11 @@ module.exports.updateFee = async function(req, res){
 }
 
 module.exports.addConsession = async function(req, res){
+    logger.info("Request received to add concession : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
         try{
             let fee = await Fee.findOne({AdmissionNo:req.body.AdmissionNo, Class:req.body.Class,SchoolCode:req.user.SchoolCode});
@@ -352,6 +370,11 @@ module.exports.getFeeReceipt = async function(req, res){
 }
 
 module.exports.deleteAnnualFee = async function(req, res){
+    logger.info("Request received to delete fee structure : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     try{
         await FeeStructure.findOneAndDelete({Class:req.params.Class, SchoolCode:req.user.SchoolCode});
         return res.status(200).json({
@@ -367,6 +390,11 @@ module.exports.deleteAnnualFee = async function(req, res){
 }
 
 module.exports.addOldFee = async function(req, res){
+    logger.info("Request received to add old fees : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     try{
         let record = await Fee.findOne({AdmissionNo:req.body.AdmissionNo, Class:'Old Fees', SchoolCode:req.user.SchoolCode});
         if(record){
@@ -401,6 +429,11 @@ module.exports.oldFeeTemp = function(req, res){
 }
 
 module.exports.addNewFee = async function(req, res){
+    logger.info("Request received to add new fees : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     try{
         await Fee.create({
             AdmissionNo:req.body.AdmissionNo,
@@ -422,6 +455,11 @@ module.exports.addNewFee = async function(req, res){
 }
 
 module.exports.removeFee = async function(req, res){
+    logger.info("Request received to remove fees : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     try{
         let fee = await Fee.findByIdAndDelete(req.params.id);
         return res.status(200).json({

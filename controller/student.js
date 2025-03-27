@@ -519,6 +519,11 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
 
 module.exports.upgradeOneStudent = async function(req, res){
     console.log('Upgrading Student')
+    logger.info("Request received to upgrade student : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     try{
         if(req.user.role === 'Admin'){
             let status = await upgradeClassStudent(req.params.AdmissionNo, req.query.Class, req.user.SchoolCode);
@@ -568,6 +573,11 @@ module.exports.upgradeOneStudent = async function(req, res){
 
 
 module.exports.upgradeClassBulk = function(req, res){
+    logger.info("Request received to upgrade class bulk : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     if(req.user.role === 'Admin'){
         try{
             if(req.body.Class==='8'){
@@ -674,6 +684,11 @@ module.exports.getMarksheetUI = async function(req, res){
 }
 
 module.exports.dischargeStudent = async function(req, res){
+    logger.info("Request received to discharge student : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     if(req.user.role === 'Admin'){
         try{
             
@@ -709,6 +724,11 @@ module.exports.dischargeStudent = async function(req, res){
 }
 
 module.exports.updateProfile = async function(req, res){
+    logger.info("Request received to update profile : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     try{
         let student = await Student.findById(req.body.id);
         let AdmissionDate = student.AdmissionDate;

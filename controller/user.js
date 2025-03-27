@@ -84,6 +84,11 @@ module.exports.logout = function(req, res){
 }
 
 module.exports.addNewUser = async function(req, res){
+    logger.info("Request received to add new user : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     try{
         if(req.user.role === 'Admin'){
             let user  = await UserSchema.create(
@@ -119,6 +124,11 @@ module.exports.addUserPage = function(req, res){
 }
 
 module.exports.addStudentUser = async function(req, res){
+    logger.info("Request received to add student user : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     try{
         let student = await Students.findOne({AdmissionNo:req.body.AdmissionNo, isThisCurrentRecord:true, Mob:req.body.email, SchoolCode: req.body.SchoolCode});
         if(student){

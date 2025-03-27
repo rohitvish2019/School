@@ -58,6 +58,11 @@ module.exports.getPreview = function(req, res){
 }
 
 module.exports.register = async function(req, res){
+    logger.info("Request received to register student : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     let student;
     try{
         student = await RegisteredStudent.create(req.body);
@@ -80,6 +85,11 @@ module.exports.register = async function(req, res){
 }
 
 module.exports.updateRegistration = async function(req, res){
+    logger.info("Request received to update registeration : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     try{
         if(req.user.role === 'Teacher' || req.user.role === 'Admin'){
             let student = await RegisteredStudent.findOne({RegistrationNo:req.body.RegistrationNo,SchoolCode:req.user.SchoolCode});
@@ -96,6 +106,11 @@ module.exports.updateRegistration = async function(req, res){
 }
 
 module.exports.delete = async function(req, res){
+    logger.info("Request received to delete student : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     if(req.user.role === 'Admin'){
         try{
             await RegisteredStudent.findOneAndRemove({RegistrationNo:req.params.id, SchoolCode:req.user.SchoolCode});
@@ -135,6 +150,11 @@ function getDate(){
 
 
 module.exports.admit = async function(req, res){
+    logger.info("Request received to admit student : ");
+    logger.info(req.user)
+    logger.info(req.body)
+    logger.info(req.query)
+    logger.info(req.params)
     let Schoolproperties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
     if(req.user.role === 'Admin'){
         let student,fee, studentData,result_q,result_h,result_f, fee_record;

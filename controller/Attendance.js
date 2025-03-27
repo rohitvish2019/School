@@ -14,6 +14,8 @@ module.exports.studentHome = function(req, res){
 }
 
 module.exports.updateAttendance = async function(req, res){
+    logger.info("Request received for updating students "+req.user);
+    logger.info(req.body);
     if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
         try{
             let oldRecord = await Attendance.findOne({Class:req.body.Class,SchoolCode:req.user.SchoolCode,Day:req.body.day,Month:req.body.month,Year:req.body.year});

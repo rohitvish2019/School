@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/tc_details.css">
+    <title>TC</title>
+</head>
+<body>
+    <div class="main">
+        <div class="header">
+            <img src="/schools/NCCAS/school-header.png" alt="" srcset="" height="100%" width="100%">
+        </div>
+        <div class="heading">
+            TRANSFER CERTIFICATE
+        </div>
+        <div class="academic-info">
+            <div class="ai-left">
+                <label for="">Admission No : <%=student.AdmissionNo%></label>
+                <label for="">Date of Admission : <%=student.AdmissionDate%>
+                </label>
+            </div>
+            <div class="ai-right">
+                <label for="" style="margin-right: 13%;">TC No : <%=tcData.TCNo%></label>
+                <label for="">Date : <%=String(new Date().getDate()).padStart(2,'0') +'-'+ String((Number(new Date().getMonth()) + 1)).padStart(2,'0') +'-'+  new Date().getFullYear()%></label>
+            </div>
+        </div>
+        <% let months = ['null','January', 'February','March','April','May','June','July','August','September','October','November','December']%>
+        <% let year = ['Nineteen','Two Thousands']%>
+        <% let nums=["null","One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen", "Twenty", "Twenty-One", "Twenty-Two", "Twenty-Three", "Twenty-Four", "Twenty-Five", "Twenty-Six", "Twenty-Seven", "Twenty-Eight", "Twenty-Nine", "Thirty", "Thirty-One", "Thirty-Two", "Thirty-Three", "Thirty-Four", "Thirty-Five", "Thirty-Six", "Thirty-Seven", "Thirty-Eight", "Thirty-Nine", "Forty", "Forty-One", "Forty-Two", "Forty-Three", "Forty-Four", "Forty-Five", "Forty-Six", "Forty-Seven", "Forty-Eight", "Forty-Nine", "Fifty", "Fifty-One", "Fifty-Two", "Fifty-Three", "Fifty-Four", "Fifty-Five", "Fifty-Six", "Fifty-Seven", "Fifty-Eight", "Fifty-Nine", "Sixty", "Sixty-One", "Sixty-Two", "Sixty-Three", "Sixty-Four", "Sixty-Five", "Sixty-Six", "Sixty-Seven", "Sixty-Eight", "Sixty-Nine", "Seventy", "Seventy-One", "Seventy-Two", "Seventy-Three", "Seventy-Four", "Seventy-Five", "Seventy-Six", "Seventy-Seven", "Seventy-Eight", "Seventy-Nine", "Eighty", "Eighty-One", "Eighty-Two", "Eighty-Three", "Eighty-Four", "Eighty-Five", "Eighty-Six", "Eighty-Seven", "Eighty-Eight", "Eighty-Nine", "Ninety", "Ninety-One", "Ninety-Two", "Ninety-Three", "Ninety-Four", "Ninety-Five", "Ninety-Six", "Ninety-Seven", "Ninety-Eight", "Ninety-Nine"]%>
+        <% let days=['null','First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'Ninth', 'Tenth', 'Eleventh', 'Twelfth', 'Thirteenth', 'Fourteenth', 'Fifteenth', 'Sixteenth', 'Seventeenth', 'Eighteenth', 'Nineteenth', 'Twentieth', 'Twenty-first', 'Twenty-second', 'Twenty-third', 'Twenty-fourth', 'Twenty-fifth', 'Twenty-sixth', 'Twenty-seventh', 'Twenty-eighth', 'Twenty-ninth', 'Thirtieth', 'Thirty-first'] %>                <div class="dataset">
+            
+        <div class="main-content">
+            <p>
+                It is certified that Shri/Ku : <b> <%=student.FirstName%> <%=student.LastName%> </b> Mother's Name :<b> <%=student.MothersName%> </b> Father's Name : <b><%=student.FathersName%> </b>Mother Tongue  <b>Hindi. </b>He/She has attended <b>New Creation Children Academy Sihora, Damoh (M.P.)</b> from <b><%=student.AdmissionDate%> to <%=String(tcData.RelievingDate.split('-')[0]).padStart(2,'0')%>-<%=String(tcData.RelievingDate.split('-')[1]).padStart(2,'0')%>-<%=tcData.RelievingDate.split('-')[2]%></b> and now leaves on <b> <%=String(new Date().getDate()).padStart(2,'0') +'-'+ String((Number(new Date().getMonth()) + 1)).padStart(2,'0') +'-'+  new Date().getFullYear()%>.</b> 
+                
+            </p>
+            <p>
+                He/She has paid all dues to school.
+            </p>
+            <p>
+                His/Her Date of birth according to school admission register is :  <b><%=DOBDate%> </b>In words <b><%=days[Number(DOBDate.split('-')[0])]%> <%=months[Number(DOBDate.split('-')[1])]%> <%=year[Number(DOBDate.split('-')[2].substring(0,2)-19)]%> <%=nums[Number(DOBDate.split('-')[2].substring(2))]%> </b>
+            </p>
+            <p>
+                He/She has been vaccinated or is otherwise protected from small pox.
+            </p>
+            <p>
+                The last annual promotion examination passed by him/her was that of <b> <%=student.Class%>th </b> medium <b>English</b> year <b><%=student.Session %> - <%=student.Session + 1%> </b>
+            </p>
+            <p>
+                He/She was admitted in class : 
+                <%if(student.AdmissionClass == '' || student.AdmissionClass == null){%>
+                    _ _ _ _ _
+                <%}else{%>
+                    <b><%=student.AdmissionClass%>th</b>
+                <%}%>
+                 in year <b><%=student.AdmissionDate.split('-')[2]%></b>
+            </p>
+            <p>His/Her conduct was <b>Good</b></p>
+            <p>
+                Student SSSM Id : <b><%=student.SSSM%></b>
+            </p>
+            <p>
+                Student Aadhar no : <b><%=student.AadharNumber%></b>
+            </p>
+            <p>
+                Student Apaar id : <b>___________</b>
+            </p>
+            <p>
+                Student PEN No : <b>____________</b>
+            </p>
+            <div style="text-align: end; font-weight: bold; margin-bottom: 2%;margin-top: 5%;" class="signature">
+                <div style="width: 95%;text-align: right;">Head Master:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <div style="width: 95%;">New Creation Children Academy Sihora</div>
+                <div style="width: 58%; margin-top: 3%;" class="date">Date:</div>
+            </div>
+        </div>
+        <!--
+        <div class="heading">
+            TRANSFER CERTIFICATE
+        </div>
+        <div class="extra-content">
+            <p>दिनांक <b><%=String(new Date().getDate()).padStart(2,'0') +'-'+ String((Number(new Date().getMonth()) + 1)).padStart(2,'0') +'-'+  new Date().getFullYear()%></b> को शाला छोड़ने के पहले शाला में छात्र/छात्रा :<b> <%=student.FirstName%> <%=student.LastName%> </b> माता का नाम: <b> <%=student.MothersName%> </b> पिता का नाम : <b><%=student.FathersName%> </b> द्वारा भुगतान की गई फीस का विवरण इस प्रकार है</p>
+            <p>1. <%=student.Session + 1%> के अंत तक शिक्षण शुल्क : _ _ _ _ _</p>
+            <p>2. <%=student.Session + 1%> के अंत तक अन्य शुल्क : _ _ _ _ _</p>
+        </div>
+        <div class="footer">
+            <div style="text-align: end; font-weight: bold;" class="signature">
+                <div style="width: 95%;">Principal's Signature:</div>
+                <div style="width: 77.6%; margin-top: 3%;" class="date">Date:</div>
+            </div>
+        </div>
+        -->
+    </div>
+</body>
+</html>

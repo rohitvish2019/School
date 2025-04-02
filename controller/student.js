@@ -83,12 +83,34 @@ function getDOBInWords(thisDate){
 }
 
 function convertDateFormat(thisDate){
-
-    let year = thisDate.toString().slice(0,4);
-    let month= thisDate.toString().slice(5,7);
-    let day = thisDate.toString().slice(8,10);
-    console.log( day+"-"+month+"-"+year)
-    return day+"-"+month+"-"+year;
+    thisDate = thisDate.toString().trim();
+    let seperator = '-'
+    let partitionIndex = 0;
+    if(thisDate.toString().indexOf('/') != -1){
+        seperator = '/'
+        partitionIndex = thisDate.toString().indexOf('/')
+    } else if (thisDate.toString().indexOf('\\') != -1){
+        seperator = '\\'
+        partitionIndex = thisDate.toString().indexOf('//')
+    } else {
+        partitionIndex = thisDate.toString().indexOf('-')
+    }
+    let year
+    let month
+    let day
+    if(partitionIndex < 3) {
+        console.log("Partition char is "+ seperator+ " & partition index is "+ partitionIndex)
+        day = thisDate.toString().slice(0,2);
+        month= thisDate.toString().slice(3,5);
+        year = thisDate.toString().slice(6,10);
+    } else {
+        year = thisDate.toString().slice(0,4);
+        month= thisDate.toString().slice(5,7);
+        day = thisDate.toString().slice(8,10);
+    }
+    let finaldate = day+"-"+month+"-"+year;
+    console.log(finaldate)
+    return finaldate;
 }
 
 module.exports.getActiveStudents = async function(req, res){
@@ -119,6 +141,7 @@ module.exports.getActiveStudents = async function(req, res){
 }
 
 module.exports.getStudent = async function(req, res){
+    let imgdir = '/schools/'+req.user.SchoolCode
     let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
     try{
         let student = await Student.findOne({AdmissionNo:req.params.adm_no, Class:req.query.Class,SchoolCode:req.user.SchoolCode});
@@ -126,13 +149,13 @@ module.exports.getStudent = async function(req, res){
             if(req.user.role === 'Admin' || req.user.role === 'Teacher'){
                 let feesList = await Fee.find({AdmissionNo:req.params.adm_no, SchoolCode:req.user.SchoolCode});
                 logger.info('Get student request received from fee module')
-                return res.render('feeDetails',{feesList, student,role:req.user.role});
+                return res.render('feeDetails',{feesList, student,role:req.user.role, imgdir});
             }else if(req.user.role === 'Student'){
                 let student = await Student.findOne({AdmissionNo:req.params.adm_no, isThisCurrentRecord:true, Mob:req.user.email, SchoolCode:req.user.SchoolCode});
                 if(student){
                     logger.info('Get student request received from fee module')
                     let feesList = await Fee.find({AdmissionNo:req.params.adm_no, SchoolCode:req.user.SchoolCode});
-                    return res.render('feeDetails',{feesList, student,role:req.user.role});
+                    return res.render('feeDetails',{feesList, student,role:req.user.role, imgdir});
                 }else{
                     logger.error('Unautorized request, User '+req.user.email+' is not authorized')
                     return res.render('Error_403')
@@ -145,13 +168,13 @@ module.exports.getStudent = async function(req, res){
                 
                 let result = await Result.find({AdmissionNo:req.params.adm_no, Class:req.query.Class, SchoolCode:req.user.SchoolCode});
                 console.log(result);
-                return res.render('resultDetails',{role:req.user.role, result, student, quarterlyTotalMarks:properties.get(req.user.SchoolCode+'_quarterly-total'), halfYearlyTotalMarks:properties.get(req.user.SchoolCode+'_half-yearly-total'), finalTotalMarks:properties.get(req.user.SchoolCode+'_final-total')});
+                return res.render('resultDetails',{imgdir,role:req.user.role, result, student, quarterlyTotalMarks:properties.get(req.user.SchoolCode+'_quarterly-total'), halfYearlyTotalMarks:properties.get(req.user.SchoolCode+'_half-yearly-total'), finalTotalMarks:properties.get(req.user.SchoolCode+'_final-total')});
             }
             else if(req.user.role === 'Student'){
                 let student = await Student.findOne({AdmissionNo:req.params.adm_no, isThisCurrentRecord:true, Mob:req.user.email, SchoolCode:req.user.SchoolCode});
                 if(student){
                     let result = await Result.find({AdmissionNo:req.params.adm_no, Class:req.query.Class, SchoolCode:req.user.SchoolCode});
-                    return res.render('resultDetails',{role:req.user.role, result, student, quarterlyTotalMarks:properties.get(req.user.SchoolCode+'_quarterly-total'), halfYearlyTotalMarks:properties.get(req.user.SchoolCode+'_half-yearly-total'), finalTotalMarks:properties.get(req.user.SchoolCode+'_final-total')});
+                    return res.render('resultDetails',{imgdir, role:req.user.role, result, student, quarterlyTotalMarks:properties.get(req.user.SchoolCode+'_quarterly-total'), halfYearlyTotalMarks:properties.get(req.user.SchoolCode+'_half-yearly-total'), finalTotalMarks:properties.get(req.user.SchoolCode+'_final-total')});
                 }else{
                     logger.error('Unautorized request, User '+req.user.email+' is not authorized')
                     return res.render('Error_403')
@@ -171,7 +194,11 @@ module.exports.getStudent = async function(req, res){
                 if( !tcData || !tcData.ReleivingClass || !tcData.RelievingDate){
                     err = "TC not generated yet, Please discharge the student first and try again"
                     logger.info(err)
-                    return res.render('TCDetails',{student,err,DOBInWords,DOBDate,});            }
+                    return res.render('TCDetails',{student,err,DOBInWords,DOBDate,});            
+                }
+                if(req.user.SchoolCode == 'NCCAS') {
+                    return res.render('TCDetails_english',{role:req.user.role,student,err ,tcData,DOBInWords,DOBDate, tcNo, fees});
+                }
                 return res.render('TCDetails',{role:req.user.role,student,err ,tcData,DOBInWords,DOBDate, tcNo, fees});
             }else if(req.user.role === 'Student'){
                 let student = await Student.findOne({AdmissionNo:req.params.adm_no, isThisCurrentRecord:true, Mob:req.user.email, SchoolCode:req.user.SchoolCode});
@@ -191,7 +218,7 @@ module.exports.getStudent = async function(req, res){
             }
             else{
                 if(student){
-                    return res.render('student_details',{role:req.user.role,student:student});
+                    return res.render('student_details',{imgdir, role:req.user.role,student:student});
                 }else{
                     console.log('Student not found')
                     return res.status(404).json({
@@ -213,9 +240,10 @@ module.exports.getStudent = async function(req, res){
 
 module.exports.getProfile = async function(req, res){
     try{
+        let imgdir = '/schools/'+req.user.SchoolCode
         let isOld = req.query.isOld
         let student = await Student.findById(req.params.id);
-        return res.render('StudentProfile',{data:student, role:req.user.role, isOld})
+        return res.render('StudentProfile',{data:student, role:req.user.role, isOld, imgdir})
     }catch(err){
         logger.error('Error fetching student profile : ')
         logger.error(err.toString());

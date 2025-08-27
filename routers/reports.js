@@ -12,5 +12,7 @@ router.get('/cashbook/getTransactions', reportsController.getCashTransactions);
 router.get('/timeTableHome', reportsController.timeTableHome);
 router.post('/savetimeTable', reportsController.saveTimeTable);
 router.get('/getTimeTable', reportsController.getTimeTable);
-router.get('/newReceipt', reportsController.otherReceiptsHome)
+router.get('/newReceipt', reportsController.otherReceiptsHome);
+router.get('/feesReport', reportsController.getFeesReportByClass);
+router.get('/feeSummary', reportsController.feesSummaryHome);
 module.exports = router;

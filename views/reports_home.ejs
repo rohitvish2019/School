@@ -19,18 +19,9 @@
                         <h6>Class</h6>
                         <h4>
                             <select style="width: 150%;" id="class_of_student">
-                                
-                                
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                                <option>6</option>
-                                <option>7</option>
-                                <option>8</option>
-                                <option>kg-1</option>
-                                <option>kg-2</option>
+                                <%for(let i=0;i<classList.length;i++){%>
+                                    <option value="<%=classList[i]%>"><%=classList[i]%></option>
+                                <%}%>
                             </select>
                         </h4>
                     </div>

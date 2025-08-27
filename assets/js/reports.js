@@ -377,15 +377,22 @@ function showActiveStudents(data){
             if(j == 0){
                 rowData.innerHTML=i+1
             }else{
-                rowData.innerHTML=data[i][columns[j]];
+                if(columns[j] =='DOB') {
+                    rowData.innerHTML= new Date(data[i][columns[j]]).toLocaleDateString().split('/').join('-');
+                } else {
+                    rowData.innerHTML=data[i][columns[j]];
+                }
+                
             }
             
             row.appendChild(rowData)
         }
-        if((data[i].Gender).toUpperCase() == 'MALE'){
+        if((data[i].Gender).toUpperCase().trit == 'MALE'){
+            row.style.color='blue'
             maleCount++
-        }else if((data[i].Gender).toUpperCase() == 'FEMALE'){
+        }else if((data[i].Gender).toUpperCase().trim() == 'FEMALE'){
             femaleCount++
+            row.style.color='red'
         }else{
             otherCount++
         }

@@ -33,7 +33,9 @@
             
         <div class="main-content">
             <p>
-                It is certified that Shri/Ku : <b> <%=student.FirstName%> <%=student.LastName%> </b> Mother's Name :<b> <%=student.MothersName%> </b> Father's Name : <b><%=student.FathersName%> </b>Mother Tongue  <b>Hindi. </b>He/She has attended <b>New Creation Children Academy Sihora, Damoh (M.P.)</b> from <b><%=student.AdmissionDate%> to <%=String(tcData.RelievingDate.split('-')[0]).padStart(2,'0')%>-<%=String(tcData.RelievingDate.split('-')[1]).padStart(2,'0')%>-<%=tcData.RelievingDate.split('-')[2]%></b> and now leaves on <b> <%=String(new Date().getDate()).padStart(2,'0') +'-'+ String((Number(new Date().getMonth()) + 1)).padStart(2,'0') +'-'+  new Date().getFullYear()%>.</b> 
+                It is certified that Shri/Ku : <b> <%=student.FirstName%> <%=student.LastName%> </b> Mother's Name :<b> <%=student.MothersName%> </b> Father's Name : <b><%=student.FathersName%> </b>Mother Tongue  <b>Hindi. </b>He/She has attended <b>New Creation Children Academy Sihora, Damoh (M.P.)</b> from <b><%=student.AdmissionDate%> to 
+                    <input style="border: none;background-color: transparent;width: 90px;" value="31-03-<%=tcData.RelievingDate.split('-')[2]%>">
+                    </b> and now leaves on <b> <input style="border: none;background-color: transparent;width: 90px;" value="31-03-<%=new Date().getFullYear()%>"></b> 
                 
             </p>
             <p>
@@ -53,7 +55,7 @@
                 <%if(student.AdmissionClass == '' || student.AdmissionClass == null){%>
                     _ _ _ _ _
                 <%}else{%>
-                    <b><%=student.AdmissionClass%>th</b>
+                    <b><%=student.AdmissionClass%></b>
                 <%}%>
                  in year <b><%=student.AdmissionDate.split('-')[2]%></b>
             </p>
@@ -65,10 +67,10 @@
                 Student Aadhar no : <b><%=student.AadharNumber%></b>
             </p>
             <p>
-                Student Apaar id : <b>___________</b>
+                Student Apaar id : <b><input type="text" style="width: 200px;border: none;"></b>
             </p>
             <p>
-                Student PEN No : <b>____________</b>
+                Student PEN No : <b><input type="text" style="width: 200px; border: none;"></b>
             </p>
             <div style="text-align: end; font-weight: bold; margin-bottom: 2%;margin-top: 5%;" class="signature">
                 <div style="width: 95%;text-align: right;">Head Master:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>

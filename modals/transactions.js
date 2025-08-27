@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const transaction = new mongoose.Schema({
     amount:Number,
     SchoolCode:String,
-    date:Date,
+    date:String,
     comment:String,
     type:String,
     isValid:{

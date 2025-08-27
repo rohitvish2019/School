@@ -27,7 +27,9 @@ const logger = winston.createLogger({
 module.exports.home = function(req, res){
     if(req.user.role == 'Admin' || req.user.role=='Teacher'){
         try{
-            return res.render('reports_home',{error:"", role:req.user.role});
+            let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
+            let classList = properties.get(req.user.SchoolCode+".CLASSES_LIST").split(',');
+            return res.render('reports_home',{error:"", role:req.user.role, classList});
         }catch(err){
             logger.error(err.toString())
             return res.redirect('back');
@@ -197,7 +199,7 @@ async function getFeesReportByUser(start_date, end_date, activeUser, userToSearc
     }
 }
 
-
+/*
 async function getFeesDuesByClass(user, Class){
     try{
         let records = await Fee.find({Class:Class,SchoolCode:user.SchoolCode},'AdmissionNo').sort('AdmissionNo').lean();
@@ -212,7 +214,23 @@ async function getFeesDuesByClass(user, Class){
         return null
     }
 }
+*/
 
+
+async function getFeesDuesByClass(user, Class){
+    try{
+        let records = await Student.find({Class:Class,SchoolCode:user.SchoolCode,isThisCurrentRecord:true},'AdmissionNo').sort('AdmissionNo').lean();
+        let studentsAdmissionNumbers = []
+        for(let i=0;i<records.length;i++){
+            studentsAdmissionNumbers.push(records[i].AdmissionNo)
+        }
+        let data = Fee.find({AdmissionNo:{$in:studentsAdmissionNumbers},SchoolCode:user.SchoolCode}).sort('AdmissionNo').lean();
+        return data
+    }catch(err){
+        logger.error(err.toString());
+        return null
+    }
+}
 async function getIncompleteResultsByClass(user){
     try{
         let records = await Student.find({TotalGrade:null, SchoolCode:user.SchoolCode},'Class').lean();
@@ -314,7 +332,7 @@ module.exports.addCashTransaction = async function(req, res){
         console.log("Crediting amount")
     }else if(req.body.type =='out'){
         transactionType='debit'
-        console.log("Crediting amount")
+        console.log("Debiting amount")
     }else{
         console.log("No actions on amount")
     }
@@ -339,19 +357,22 @@ module.exports.addCashTransaction = async function(req, res){
 }
 
 module.exports.getCashTransactions = async function(req, res){
+    console.log("Getting cash transactions");
+    console.log(req.query);
     try{
         let data = await cashTransactions.find({
             $and: [
-                {date:{$gte :new Date(req.query.startDate)}},
-                {date: {$lte : new Date(req.query.endDate)}},
+                {date:{$gte :req.query.startDate}},
+                {date: {$lte :req.query.endDate}},
                 {SchoolCode:req.user.SchoolCode}
             ]
-        });
+        }).sort("date");
         return res.status(200).json({
             message:'Transactions fetched',
             data
         })
     }catch(err){
+        console.log(err)
         return res.status(500).json({
             message:'Unable to get transactions'
         })
@@ -442,4 +463,73 @@ module.exports.createReceipt = function(req, res){
 
 module.exports.getOtherReceipts = function(req,res){
 
+}
+
+module.exports.getFeesReportByClass = async function(req, res) {
+    try {
+        console.log(req.query)
+        let students = await Student.distinct("AdmissionNo",{Class:req.query.Class, isThisCurrentRecord:true, SchoolCode:'NCCAS'}).lean();
+        let studentsData = await Student.find({Class:req.query.Class, isThisCurrentRecord:true, SchoolCode:'NCCAS'},"AdmissionNo FirstName LastName Class").lean();
+        //console.log(students)
+        let feeRecords = await Fee.aggregate([
+        {
+            $match: { AdmissionNo: { $in: students } }   // filter students
+        },
+        {
+            $group: {
+            _id: { AdmissionNo: "$AdmissionNo", Class: "$Class" }, // group by student + fee type
+            total: { $sum: "$Total" },
+            paid: { $sum: "$Paid" },
+            remaining: { $sum: "$Remaining" },
+			concession: { $sum: "$Concession" }
+            }
+        },
+        {
+            $project: {
+            _id: 0,
+            AdmissionNo: "$_id.AdmissionNo",
+            type: "$_id.type",
+            total: 1,
+            paid: 1,
+            remaining: 1,
+            Class: "$_id.Class",
+            concession:1
+            }
+        },
+        {
+            $sort: { AdmissionNo: 1, type: 1 }   // optional sorting
+        }
+        ]);
+        console.log(studentsData[0]);
+        console.log(feeRecords[0])
+        let feeSummary = studentsData.map( s => ({
+            ...s,
+            fees : feeRecords.filter(f => f.AdmissionNo === s.AdmissionNo)
+        }));
+        feeSummary.sort((a, b) => {
+            if (a.AdmissionNo < b.AdmissionNo) return -1;
+            if (a.AdmissionNo > b.AdmissionNo) return 1;
+            return 0;
+        });
+        return res.status(200).json({
+            feeSummary
+        })
+    }catch (err) {
+        console.log(err)
+        return res.status(500).json({
+            message :'unable to find fees records'
+        })
+    }
+}
+
+
+module.exports.feesSummaryHome = function(req, res) {
+    try {
+        let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties');
+        let classList = properties.get(req.user.SchoolCode+'.CLASSES_LIST').split(',');
+        return res.render('feesSummaryHome',{role:req.user.role, classList});
+    }catch(err) {
+        console.log(err);
+        return res.render('Error_403')
+    }
 }

@@ -449,8 +449,14 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
     newClass='';
     if(last_class_details.Class=='kg-1'){
         newClass='kg-2'
-    }else if(last_class_details.Class == 'lkg'){
+    }else if(last_class_details.Class == 'lkg' ){
         newClass='ukg'
+    } else if(last_class_details.Class == 'L.K.G.') {
+        newClass='U.K.G.'
+    } else if (last_class_details.Class == 'U.K.G.') {
+        newClass = '1'
+    } else if (last_class_details.Class == 'Nursery') {
+        newClass = 'L.K.G'
     }
     else if(last_class_details.Class=='kg-2' || last_class_details.Class == 'ukg'){
         newClass='1'
@@ -526,7 +532,8 @@ async function upgradeClassStudent(studentAdmissionNumber, studentClass, SchoolC
         Class: newClass,
         Total: feeAmounttForClass.Fees,
         Remaining:feeAmounttForClass.Fees,
-        SchoolCode:SchoolCode
+        SchoolCode:SchoolCode,
+        type:'Tuition Fees'
     });
     //add addtional sessions also
     let terms = properties.get(SchoolCode+'.EXAM_SESSIONS').split(',');

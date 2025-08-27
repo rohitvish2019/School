@@ -112,7 +112,7 @@ module.exports.feeSubmission =async function(req, res){
             await lastFeeReceiptNumber.updateOne({LastFeeReceiptNo:lastFeeReceiptNumber.LastFeeReceiptNo+1});
             lastFeeReceiptNumber.save();
             console.log(lastFeeReceiptNumber);
-            let today = new Date().getDate() +'-'+ (new Date().getMonth() + 1)+ '-'+new Date().getFullYear();
+            let today = new Date().toLocaleDateString("en-IN",{year:'numeric'})+ '-' + new Date().toLocaleDateString("en-IN",{month:'2-digit'})+ '-' +new Date().toLocaleDateString("en-IN",{day:'2-digit'})
             await FeeHistory.create({
                 AdmissionNo:fee.AdmissionNo,
                 Class: fee.Class,
@@ -128,7 +128,7 @@ module.exports.feeSubmission =async function(req, res){
             await cashTransactions.create({
                 SchoolCode:req.user.SchoolCode,
                 amount:req.body.Amount,
-                date:new Date(),
+                date:today,
                 comment:"Fees submission, Receipt No: "+lastFeeReceiptNumber.LastFeeReceiptNo,
                 type:req.body.type,
                 Person:student.FirstName+' '+student.LastName,
@@ -162,14 +162,14 @@ module.exports.cancelFees = async function(req, res){
             let feeRecord = await FeeHistory.findById(req.params.id);
             await feeRecord.updateOne({isCancelled:true});
             await feeRecord.save();
-            let today = new Date().getDate() +'-'+ (new Date().getMonth() + 1)+ '-'+new Date().getFullYear();
+            let today =  new Date().toLocaleDateString('en-IN',{day:'2-digit', month:'2-digit', year:'numeric'}).split('/').reverse().join('-')
             let oldFee = await Fee.findOne({AdmissionNo:feeRecord.AdmissionNo, Class:feeRecord.Class,SchoolCode:req.user.SchoolCode});
             await Fee.findOneAndUpdate({AdmissionNo:feeRecord.AdmissionNo, Class:feeRecord.Class,SchoolCode:req.user.SchoolCode},{Paid:oldFee.Paid - feeRecord.Amount, Remaining:oldFee.Remaining + feeRecord.Amount});
             let student = await Student.findOne({SchoolCode:req.user.SchoolCode,AdmissionNo:feeRecord.AdmissionNo})
             await cashTransactions.create({
                 SchoolCode:req.user.SchoolCode,
                 amount:feeRecord.Amount,
-                date:new Date(),
+                date:today,
                 comment:"Fees cancelled, Receipt No: "+feeRecord.Receipt_No,
                 type:'fees out',
                 Person:student.FirstName+' '+student.LastName,

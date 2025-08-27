@@ -1,0 +1,110 @@
+body{
+    background: linear-gradient(180deg, #0a807c 1%, #ebe6e6 30%, #f1f1ec 105%);
+    background-repeat: no-repeat;
+ }
+
+.header-container{
+    width: 100%;
+    height: 10%;
+}
+.body-container{
+    width: 100%;
+    height: 80%;
+    justify-content: center;
+}
+
+/* Wrapper to make table responsive */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin: 20px 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Base table style */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Table header */
+thead {
+  background: linear-gradient(135deg, #4a90e2, #357ABD);
+  color: #fff;
+  text-align: left;
+}
+
+thead th {
+  padding: 12px 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+/* Table rows */
+tbody tr {
+  border-bottom: 1px solid #1b1919;
+  transition: background 0.2s ease-in-out;
+}
+
+tbody td {
+    border: 1px solid black;
+}
+
+
+/* Table cells */
+td {
+  padding: 12px 16px;
+  color: #333;
+}
+
+/* Zebra striping */
+
+
+/* Merge cell vertical alignment */
+td[rowspan] {
+  vertical-align: middle;
+  font-weight: 600;
+}
+
+/* Add subtle hover highlight on AdmissionNo/Name */
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+  thead {
+    display: none;
+  }
+  tbody tr {
+    margin-bottom: 12px;
+    display: block;
+    border: 1px solid #1b1919;
+    border-radius: 8px;
+    padding: 10px;
+    background: #fff;
+  }
+  td {
+    padding: 8px 10px;
+    display: flex;
+    justify-content: space-between;
+    border: none;
+    font-size: 13px;
+    border: 1px solid #1b1919;
+  }
+  td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #555;
+  }
+}
+

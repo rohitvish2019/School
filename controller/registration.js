@@ -70,7 +70,7 @@ module.exports.register = async function(req, res){
         await student.updateOne({AdmissionDate:AdDate})
         lastRegistrationNumber = await AdmissionNo.findOne({SchoolCode:req.user.SchoolCode});
         RN = lastRegistrationNumber.LastRegistration;
-        await student.updateOne({RegistrationNo:RN+1,SchoolCode:req.user.SchoolCode,RegisteredBy:req.user.email})
+        await student.updateOne({RegistrationNo:RN+1,SchoolCode:req.user.SchoolCode,RegisteredBy:req.user.email, AdmissionClass:req.body.Class})
         await student.save();
         await lastRegistrationNumber.updateOne({LastRegistration:+RN+1});
         await lastRegistrationNumber.save();

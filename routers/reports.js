@@ -15,4 +15,6 @@ router.get('/getTimeTable', reportsController.getTimeTable);
 router.get('/newReceipt', reportsController.otherReceiptsHome);
 router.get('/feesReport', reportsController.getFeesReportByClass);
 router.get('/feeSummary', reportsController.feesSummaryHome);
+router.get('/IDcardsHome', reportsController.IdCardsHome);
+router.get('/getIdCards', reportsController.getIdCards)
 module.exports = router;

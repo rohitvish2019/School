@@ -95,6 +95,7 @@ function showFeesDetails(feesData) {
 
             let td_remaining = document.createElement('td');
             td_remaining.innerText = fees[k].remaining;
+            td_remaining.style.fontWeight='bold'
             row.appendChild(td_remaining);
 
             container.appendChild(row);

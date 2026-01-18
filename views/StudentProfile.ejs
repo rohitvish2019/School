@@ -17,38 +17,52 @@
         </div>
         <div class="center-body">
             <form action="/student/updateProfile" method="POST" class="container" id="admissionForm" onsubmit="generatePDF()">
-                <div id="toPDF">
+                <div id="toPDF" >
                     <input type="text" name="id" id="id" hidden value="<%=data._id%>">
                     <h5>Academic details</h5>
-                    <div id="school-Info" style="display: flex; flex-wrap: wrap; margin-top: 1%; border-bottom: 1px solid black;">
-                        <div class="gen-info">
-                            <label>Registration No</label>
-                            <input class="form-input" readonly type="text" name="RegistrationNo" value="<%=data.RegistrationNo%>">
+                    <div id="school-Info" style="display: flex;border-bottom: 1px solid black;">
+                        <div style="display: flex; flex-wrap: wrap; margin-top: 1%;width: 85%;">
+                            <input type="hidden" id="recordId" value="<%=data._id%>">
+                            <div class="gen-info">
+                                <label>Registration No</label>
+                                <input class="form-input" readonly type="text" name="RegistrationNo" value="<%=data.RegistrationNo%>">
+                            </div>
+                            <div class="gen-info">
+                                <label>Admission No</label>
+                                <input id="admno" class="form-input" readonly type="text" name="AdmissionNo" value="<%=data.AdmissionNo%>">
+                            </div>
+                            <div class="gen-info">
+                                <label>Class</label>
+                                <input id="class" class="form-input" readonly required name="Class" style="width: 100%;" value="<%=data.Class%>">
+                            </div>
+                            
+                            <div class="gen-info">
+                                <label>Medium</label>
+                                <input class="form-input" readonly type="text" name="Medium" value="<%=data.Medium%>">
+                            </div>
+                            <div class="gen-info">
+                                <label>Session</label>
+                                <input id="session" class="form-input" readonly type="text" name="Session" value="<%=data.Session%>">
+                            </div>
+                            <div class="gen-info">
+                                <label>Admission Date</label>
+                                <input id="AdmissionDate" class="form-input" readonly type="text" name="AdmissionDate" value="<%=data.AdmissionDate%>">
+                            </div>
+                            <div class="gen-info">
+                                <label>Admission Class</label>
+                                <input id="AdmissionClass" class="form-input" readonly type="text" name="AdmissionClass" value="<%=data.AdmissionClass%>">
+                            </div>
+                            
                         </div>
-                        <div class="gen-info">
-                            <label>Admission No</label>
-                            <input id="admno" class="form-input" readonly type="text" name="AdmissionNo" value="<%=data.AdmissionNo%>">
-                        </div>
-                        <div class="gen-info">
-                            <label>Class</label>
-                            <input id="class" class="form-input" readonly required name="Class" style="width: 100%;" value="<%=data.Class%>">
-                        </div>
-                        
-                        <div class="gen-info">
-                            <label>Medium</label>
-                            <input class="form-input" readonly type="text" name="Medium" value="<%=data.Medium%>">
-                        </div>
-                        <div class="gen-info">
-                            <label>Session</label>
-                            <input id="session" class="form-input" readonly type="text" name="Session" value="<%=data.Session%>">
-                        </div>
-                        <div class="gen-info">
-                            <label>Admission Date</label>
-                            <input id="AdmissionDate" class="form-input" readonly type="text" name="AdmissionDate" value="<%=data.AdmissionDate%>">
-                        </div>
-                        <div class="gen-info">
-                            <label>Admission Class</label>
-                            <input id="AdmissionClass" class="form-input" readonly type="text" name="AdmissionClass" value="<%=data.AdmissionClass%>">
+                        <div style="width: 15%;">
+                            <div style="height: 160px;width: 125px;display: flex;justify-content: center;">
+                                <img src="<%=data.ProfilePhotoURL%>" alt="" style="height: 160px;width: 125px;" >
+                            </div>
+                            <div>
+                                <input onchange="uploadProfilePhoto()" type="file" name="" id="studentProfilePicInput" style="margin-top: 3%;font-size: 11px;">
+                                <input type="hidden" name="ProfilePhotoURL" value="<%=data.ProfilePhotoURL%>">
+                            </div>
+                            
                         </div>
                     </div>
                     <div>

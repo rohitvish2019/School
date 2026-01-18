@@ -468,8 +468,8 @@ module.exports.getOtherReceipts = function(req,res){
 module.exports.getFeesReportByClass = async function(req, res) {
     try {
         console.log(req.query)
-        let students = await Student.distinct("AdmissionNo",{Class:req.query.Class, isThisCurrentRecord:true, SchoolCode:'NCCAS'}).lean();
-        let studentsData = await Student.find({Class:req.query.Class, isThisCurrentRecord:true, SchoolCode:'NCCAS'},"AdmissionNo FirstName LastName Class").lean();
+        let students = await Student.distinct("AdmissionNo",{Class:req.query.Class, isThisCurrentRecord:true, SchoolCode:req.user.SchoolCode}).lean();
+        let studentsData = await Student.find({Class:req.query.Class, isThisCurrentRecord:true, SchoolCode:req.user.SchoolCode},"AdmissionNo FirstName LastName Class").lean();
         //console.log(students)
         let feeRecords = await Fee.aggregate([
         {
@@ -531,5 +531,30 @@ module.exports.feesSummaryHome = function(req, res) {
     }catch(err) {
         console.log(err);
         return res.render('Error_403')
+    }
+}
+
+module.exports.IdCardsHome = async function(req, res){
+
+    let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties')
+    let classList = properties.get(req.user.SchoolCode+'.CLASSES_LIST').split(',');
+    let terms = properties.get(req.user.SchoolCode+'.EXAM_SESSIONS').split(',');
+    return res.render('eIDCards',{classList,terms});
+}
+
+module.exports.getIdCards = async function (req, res) {
+    try {
+        let properties = propertiesReader('../School/config/properties/'+req.user.SchoolCode+'.properties')
+        let SchoolName = properties.get(req.user.SchoolCode+'.NAME');
+        let students = await Student.find({isThisCurrentRecord:true, SchoolCode:req.user.SchoolCode, Class:req.query.classValue}, 'AdmissionNo FirstName LastName FathersName MothersName Class Mob DOB ProfilePhotoURL');
+        return res.status(200).json({
+            students,
+            SchoolName
+        })
+    } catch(err) {
+        console.log(err);
+        return res.status(500).json({
+            message :'Unable to fetch ID cards'
+        })
     }
 }

@@ -56,3 +56,35 @@ function showHideInfo(id){
         element.style.display='none'
     }
 }
+
+
+function uploadProfilePhoto(){
+    let fileInput = document.getElementById('studentProfilePicInput');
+    let file = fileInput.files[0];
+    if (!file) {
+        alert("Please select file");
+        return;
+      }
+    const formData = new FormData();
+    let recordId = document.getElementById('recordId').value
+    formData.append("image", file);
+    formData.append("recordId", recordId)
+
+    $.ajax({
+    url: "/upload/Imageupload",
+    type: "POST",
+    data: formData,
+    processData: false, // don't convert to string
+    contentType: false, // let browser set boundary
+
+    success: function (res) {
+      console.log(res);
+      alert("Upload success");
+    },
+
+    error: function (err) {
+      console.log(err);
+      alert("Upload failed");
+    }
+  });
+}

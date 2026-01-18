@@ -25,6 +25,8 @@ app.set('views','./views');
 app.use(express.urlencoded({extended:true}));
 
 app.use(express.static('./assets'));
+app.use("/uploads", express.static("uploads"));
+
 app.use(cookieParser());
 
 /*

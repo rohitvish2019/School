@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css">
+    <title>E-Pravesh</title>
+    <style>
+        .container{
+            display: flex;
+            height: 11.5in;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            width : 8.1in;
+            margin-bottom: 25px;
+            
+            
+        }
+        .card-container{
+            height: 368px;
+            width: 375px;
+            border: 1px solid black;
+            margin: 5px;
+            display: block;
+            background-image: url('/schools/SVVN/watermark5.png');
+            background-size: cover;
+        }
+        .heading{
+            display: block;
+            font-size: 19px;
+            margin-top: 10px !important;
+        }
+        .student-info{
+            height: 120px;
+            width: 100%;
+            margin-top: 5px;
+            margin-left: 5px;
+            margin-bottom: 12px;
+        }
+        .text-info{
+            font-size: 14px;
+        }
+        .lines{
+            display: block
+        }
+        th, td{
+            text-align: left;
+            border: .5px solid black;
+            border-left: none;
+        
+        }
+        table{
+            border-top: 0.5px solid black;
+            border-collapse: collapse !important;
+        }
+        .input-items{
+            display: inline;
+        }
+        .id-card {
+        width: 85.6mm;
+        height: 54mm;
+        background: white;
+        border-radius: 4mm;
+        border: 1px solid #000;
+        margin: 10px auto;
+        overflow: hidden;
+        position: relative;
+        background: #d8e5f0;
+    }
+
+    .header {
+        background: #546989;
+        color: white;
+        text-align: center;
+        font-size: 15px;
+        font-weight: bold;
+        padding: 1.5mm;
+        font-style: oblique;
+    }
+
+    .photo {
+        position: absolute;
+        top: 14mm;
+        left: 4mm;
+    }
+
+    .photo img {
+        width: 25mm;
+        height: 30mm;
+        border: 1px solid #000;
+        object-fit: cover;
+    }
+
+    .details {
+        position: absolute;
+        top: 14mm;
+        left: 32mm;
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    .footer {
+        position: absolute;
+        bottom: 2mm;
+        width: 100%;
+        text-align: center;
+        font-size: 13px;
+        border-top: 1px solid #000;
+    }
+    </style>
+</head>
+<body>
+    <div style="display: block !important;">
+        <div class="input-items" id="classSelector">
+            <label for="">Class</label>
+            <select name="" id="selectedClass">
+                <option value="" disabled selected>--Select Class--</option>
+                <%for(let i=0;i<classList.length;i++){%>
+                    <option value="<%=classList[i]%>"><%=classList[i]%></option>
+                <%}%>
+            </select>
+        </div>
+        
+        <div class="input-items" id="getAdmitCardsbutton">
+            <input type="button" value="Generate ID cards" onclick="getIdCardsList()">
+        </div>
+        <div class="input-items" id="makePrintableButton">
+            <input type="button" value="Make printable" onclick="makePrintable()">
+        </div>
+
+    </div>
+    <div class="container" id="container">
+
+    </div>
+    
+    <script>
+        function getIdCardsList(){
+            classValue = document.getElementById('selectedClass').value
+            $.ajax({
+                url:'/reports/getIdCards',
+                data:{
+                    classValue
+                },
+                success:function(data){
+                    let students = data.students;
+                    let container = document.getElementById('container');
+                    container.innerHTML = ``;
+                    for(let s=0; s<students.length; s++) {
+                        let item = document.createElement('div');
+                        item.style.margin = '10px'
+                        item.innerHTML=
+                        `
+                        <div class="id-card">
+                            <div class="header">
+                                <label>${data.SchoolName}</label>
+                            </div>
+
+                            <div class="photo">
+                                <img src="${students[s].ProfilePhotoURL}">
+                            </div>
+
+                            <div class="details">
+                                <div><b>Admission No:</b> ${students[s].AdmissionNo}</div>
+                                <div><b>Name:</b> ${students[s].FirstName} ${students[s].LastName}</div>
+                                <div><b>Father's Name:</b> ${students[s].FathersName}</div>
+                                <div><b>Mobile:</b> ${students[s].Mob}</div>
+                                <div><b>Class:</b>${students[s].Class}</div>
+                                <div><b>DOB:</b>${new Date(students[s].DOB).toLocaleDateString('en-IN',{day:'2-digit', month:'2-digit',year:'numeric'})}</div>
+                            </div>
+
+                            <div class="footer">
+                                Valid for 2025–26
+                            </div>
+                        </div>
+                        `
+                        
+                        container.appendChild(item)
+                    }
+                },
+                error:function(err){console.log(err.responseText)}
+            })
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
+
+</body>
+</html>

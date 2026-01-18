@@ -19,6 +19,7 @@ router.use('/ebooks', passport.checkAuthentication, require('./ebooks'));
 router.use('/balance',passport.checkAuthentication,require('./balanceSheet'))
 router.get('/', userController.mainHome);
 router.get('/getResultForSSP', require('../controller/result').getResultForSSP);
+router.use('/upload', passport.checkAuthentication, require('./upload'))
 
 
 module.exports = router;

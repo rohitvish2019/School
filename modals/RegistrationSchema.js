@@ -4,6 +4,7 @@ const db = require('../config/dbConnection');
 const RegisteredStudents = new mongoose.Schema({
     RegistrationNo:String,
     AdmissionNo:String,
+    ProfilePhotoURL:String,
     AdmissionDate:{
         type:String,
         default: new Date().toISOString()

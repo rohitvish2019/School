@@ -9,17 +9,9 @@ function getAllUsers(){
 
 function showUsers(data){
     console.log(data);
-    let container = document.getElementById('usersDetails');
-    container.innerHTML =
-    `
-    <tr>
-        <th>Name</th>
-        <th>Username</th>
-        <th>Role</th>
-        <th>Address</th>
-        <th>Actions</th>
-    </tr>
-    `
+    let table = document.getElementById('usersDetails');
+    let container = table.querySelector('tbody');
+    container.innerHTML = '';
     
     for(let i=0;i<data.length;i++){
         let item = document.createElement('tr');

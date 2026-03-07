@@ -3,186 +3,326 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css">
-    <title>E-Pravesh</title>
+    <title>E-ID Cards</title>
     <style>
-        .container{
+        .id-page {
+            width: min(1700px, 98vw);
+            max-width: none;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        .page-header {
+            border: 1px solid #cfe0ef;
+            background: linear-gradient(135deg, #113a5e, #1f6c8f);
+            border-radius: 16px;
+            color: #f4f9ff;
+            padding: 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 14px 28px rgba(12, 39, 62, 0.2);
+        }
+
+        .page-header h1 {
+            margin: 0 0 4px;
+            color: #fff;
+            font-size: 1.45rem;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: #d8ebfb;
+        }
+
+        .control-bar {
+            display: grid;
+            grid-template-columns: 180px 1fr 1fr;
+            gap: 10px;
+            align-items: end;
+            padding: 14px;
+            border-radius: 14px;
+            border: 1px solid #d5e3f1;
+            background: #ffffff;
+            margin-bottom: 14px;
+            box-shadow: 0 8px 18px rgba(11, 36, 58, 0.1);
+        }
+
+        .control-group {
             display: flex;
-            height: 11.5in;
-            align-items: flex-start;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            color: #1f4669;
+            font-size: 0.9rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
             flex-wrap: wrap;
-            width : 8.1in;
-            margin-bottom: 25px;
-            
-            
         }
-        .card-container{
-            height: 368px;
-            width: 375px;
-            border: 1px solid black;
-            margin: 5px;
-            display: block;
-            background-image: url('/schools/SVVN/watermark5.png');
-            background-size: cover;
+
+        .action-buttons input {
+            min-width: 165px;
         }
-        .heading{
-            display: block;
-            font-size: 19px;
-            margin-top: 10px !important;
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 14px;
         }
-        .student-info{
-            height: 120px;
-            width: 100%;
-            margin-top: 5px;
-            margin-left: 5px;
-            margin-bottom: 12px;
-        }
-        .text-info{
-            font-size: 14px;
-        }
-        .lines{
-            display: block
-        }
-        th, td{
-            text-align: left;
-            border: .5px solid black;
-            border-left: none;
-        
-        }
-        table{
-            border-top: 0.5px solid black;
-            border-collapse: collapse !important;
-        }
-        .input-items{
-            display: inline;
-        }
+
         .id-card {
-        width: 85.6mm;
-        height: 54mm;
-        background: white;
-        border-radius: 4mm;
-        border: 1px solid #000;
-        margin: 10px auto;
-        overflow: hidden;
-        position: relative;
-        background: #d8e5f0;
-    }
+            border: 1px solid #c8dbec;
+            border-radius: 16px;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 100% 0, #d7eeff 0, transparent 52%),
+                linear-gradient(180deg, #ffffff 0%, #f2f8ff 100%);
+            box-shadow: 0 12px 22px rgba(9, 34, 56, 0.14);
+        }
 
-    .header {
-        background: #546989;
-        color: white;
-        text-align: center;
-        font-size: 15px;
-        font-weight: bold;
-        padding: 1.5mm;
-        font-style: oblique;
-    }
+        .id-card-top {
+            padding: 10px 14px;
+            background: linear-gradient(135deg, #123d60, #196389);
+            color: #fff;
+        }
 
-    .photo {
-        position: absolute;
-        top: 14mm;
-        left: 4mm;
-    }
+        .id-school {
+            font-size: 1rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
 
-    .photo img {
-        width: 25mm;
-        height: 30mm;
-        border: 1px solid #000;
-        object-fit: cover;
-    }
+        .id-tagline {
+            font-size: 0.78rem;
+            color: #d9ecfa;
+        }
 
-    .details {
-        position: absolute;
-        top: 14mm;
-        left: 32mm;
-        font-size: 13px;
-        line-height: 1.4;
-    }
+        .id-main {
+            display: grid;
+            grid-template-columns: 86px 1fr;
+            gap: 10px;
+            padding: 12px;
+        }
 
-    .footer {
-        position: absolute;
-        bottom: 2mm;
-        width: 100%;
-        text-align: center;
-        font-size: 13px;
-        border-top: 1px solid #000;
-    }
+        .student-photo {
+            width: 86px;
+            height: 108px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid #b7cee4;
+            background: #e9f2fc;
+        }
+
+        .id-info {
+            display: grid;
+            gap: 4px;
+            font-size: 0.84rem;
+            color: #1b3754;
+        }
+
+        .id-info-row span:first-child {
+            font-weight: 700;
+            color: #12314f;
+            margin-right: 4px;
+        }
+
+        .id-card-bottom {
+            padding: 8px 12px;
+            border-top: 1px solid #cfe0ef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #355575;
+            font-size: 0.78rem;
+            background: #f4f9ff;
+        }
+
+        .empty-state {
+            padding: 24px;
+            text-align: center;
+            border: 1px dashed #b6cde2;
+            border-radius: 14px;
+            color: #3d6080;
+            background: #fbfdff;
+        }
+
+        @media (max-width: 768px) {
+            .id-page {
+                padding: 10px;
+            }
+
+            .control-bar {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons input {
+                width: 100%;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+            body {
+                background: #fff;
+            }
+
+            .page-header,
+            .control-bar {
+                display: none !important;
+            }
+
+            .id-page {
+                max-width: 100%;
+                padding: 0;
+            }
+
+            .cards-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 8px;
+            }
+
+            .id-card {
+                box-shadow: none;
+                border-color: #9ab4cf;
+                break-inside: avoid;
+            }
+        }
     </style>
 </head>
 <body>
-    <div style="display: block !important;">
-        <div class="input-items" id="classSelector">
-            <label for="">Class</label>
-            <select name="" id="selectedClass">
-                <option value="" disabled selected>--Select Class--</option>
-                <%for(let i=0;i<classList.length;i++){%>
-                    <option value="<%=classList[i]%>"><%=classList[i]%></option>
-                <%}%>
-            </select>
-        </div>
-        
-        <div class="input-items" id="getAdmitCardsbutton">
-            <input type="button" value="Generate ID cards" onclick="getIdCardsList()">
-        </div>
-        <div class="input-items" id="makePrintableButton">
-            <input type="button" value="Make printable" onclick="makePrintable()">
-        </div>
+    <div class="id-page">
+        <section class="page-header">
+            <h1>Student E-ID Cards</h1>
+            <p>Class select karke cards generate karein, phir directly print karein.</p>
+        </section>
 
-    </div>
-    <div class="container" id="container">
+        <section class="control-bar">
+            <div class="control-group">
+                <label for="selectedClass">Class</label>
+                <select id="selectedClass">
+                    <option value="" disabled selected>--Select Class--</option>
+                    <%for(let i=0;i<classList.length;i++){%>
+                        <option value="<%=classList[i]%>"><%=classList[i]%></option>
+                    <%}%>
+                </select>
+            </div>
 
+            <div class="action-buttons">
+                <input type="button" value="Generate ID Cards" onclick="getIdCardsList()">
+                <input type="button" value="Make Printable" onclick="makePrintable()">
+            </div>
+        </section>
+
+        <section class="cards-grid" id="container">
+            <div class="empty-state">Select class and click "Generate ID Cards".</div>
+        </section>
     </div>
-    
+
     <script>
-        function getIdCardsList(){
-            classValue = document.getElementById('selectedClass').value
+        function getSessionLabel() {
+            const now = new Date();
+            const startYear = now.getMonth() >= 3 ? now.getFullYear() : now.getFullYear() - 1;
+            const nextYear = String(startYear + 1).slice(-2);
+            return `${startYear}-${nextYear}`;
+        }
+
+        function makePrintable() {
+            window.print();
+        }
+
+        function escapeHtml(value) {
+            return String(value || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function getIdCardsList() {
+            const classValue = document.getElementById("selectedClass").value;
+            if (!classValue) {
+                new Noty({
+                    theme: "relax",
+                    text: "Please select a class first.",
+                    type: "warning",
+                    layout: "topRight",
+                    timeout: 1700
+                }).show();
+                return;
+            }
+
             $.ajax({
-                url:'/reports/getIdCards',
-                data:{
-                    classValue
-                },
-                success:function(data){
-                    let students = data.students;
-                    let container = document.getElementById('container');
-                    container.innerHTML = ``;
-                    for(let s=0; s<students.length; s++) {
-                        let item = document.createElement('div');
-                        item.style.margin = '10px'
-                        item.innerHTML=
-                        `
-                        <div class="id-card">
-                            <div class="header">
-                                <label>${data.SchoolName}</label>
-                            </div>
+                url: "/reports/getIdCards",
+                data: { classValue },
+                success: function(data) {
+                    const students = data.students || [];
+                    const container = document.getElementById("container");
 
-                            <div class="photo">
-                                <img src="${students[s].ProfilePhotoURL}">
-                            </div>
+                    if (!students.length) {
+                        container.innerHTML = '<div class="empty-state">No students found for selected class.</div>';
+                        return;
+                    }
 
-                            <div class="details">
-                                <div><b>Admission No:</b> ${students[s].AdmissionNo}</div>
-                                <div><b>Name:</b> ${students[s].FirstName} ${students[s].LastName}</div>
-                                <div><b>Father's Name:</b> ${students[s].FathersName}</div>
-                                <div><b>Mobile:</b> ${students[s].Mob}</div>
-                                <div><b>Class:</b>${students[s].Class}</div>
-                                <div><b>DOB:</b>${new Date(students[s].DOB).toLocaleDateString('en-IN',{day:'2-digit', month:'2-digit',year:'numeric'})}</div>
-                            </div>
+                    const sessionLabel = getSessionLabel();
+                    container.innerHTML = "";
 
-                            <div class="footer">
-                                Valid for 2025–26
+                    for (let s = 0; s < students.length; s++) {
+                        const student = students[s];
+                        const item = document.createElement("article");
+                        item.className = "id-card";
+
+                        const photoUrl = escapeHtml(student.ProfilePhotoURL || "/images/student.JPG");
+                        const dob = student.DOB ? new Date(student.DOB).toLocaleDateString("en-IN", { day: "2-digit", month: "2-digit", year: "numeric" }) : "-";
+
+                        item.innerHTML = `
+                            <div class="id-card-top">
+                                <div class="id-school">${escapeHtml(data.SchoolName || "School Name")}</div>
+                                <div class="id-tagline">Official Student Identification Card</div>
                             </div>
-                        </div>
-                        `
-                        
-                        container.appendChild(item)
+                            <div class="id-main">
+                                <img class="student-photo" src="${photoUrl}" alt="Student Photo">
+                                <div class="id-info">
+                                    <div class="id-info-row"><span>Adm No:</span>${escapeHtml(student.AdmissionNo)}</div>
+                                    <div class="id-info-row"><span>Name:</span>${escapeHtml(student.FirstName)} ${escapeHtml(student.LastName)}</div>
+                                    <div class="id-info-row"><span>Father:</span>${escapeHtml(student.FathersName)}</div>
+                                    <div class="id-info-row"><span>Class:</span>${escapeHtml(student.Class)}</div>
+                                    <div class="id-info-row"><span>Mobile:</span>${escapeHtml(student.Mob)}</div>
+                                    <div class="id-info-row"><span>DOB:</span>${escapeHtml(dob)}</div>
+                                </div>
+                            </div>
+                            <div class="id-card-bottom">
+                                <span>Valid Session: ${sessionLabel}</span>
+                                <span>SchoolWise</span>
+                            </div>
+                        `;
+
+                        container.appendChild(item);
                     }
                 },
-                error:function(err){console.log(err.responseText)}
-            })
+                error: function(err) {
+                    const message = (err && err.responseText) ? err.responseText : "Unable to generate cards.";
+                    new Noty({
+                        theme: "relax",
+                        text: message,
+                        type: "error",
+                        layout: "topRight",
+                        timeout: 2000
+                    }).show();
+                }
+            });
         }
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
-
 </body>
 </html>

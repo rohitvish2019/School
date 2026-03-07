@@ -181,7 +181,7 @@ function showStudentsList(data, action){
         <div class="dot"></div>
     </figure>
     <a class="btn student-list">
-        <li style="background-color: #0a807c;color: white; width: 100%;position:sticky;top:0%;z-index:2">
+        <li class="list-header-row">
         <label><b>S.No</b></label>    
         <label><b>${id}</b></label>
             <label><b>Name</b></label>
@@ -197,7 +197,7 @@ function showStudentsList(data, action){
     
         `
         <a class="student-list" >
-            <li style="background-color: #0a807c;color: white; width: 100%; position:sticky;top:0%;z-index:2">
+            <li class="list-header-row">
                 <label><b>${id}</b></label>
                 <label><b>Name</b></label>
                 <label><b>Class</b></label>
@@ -253,7 +253,7 @@ function showStudentsList(data, action){
     
         `
         <a class="student-list" >
-            <li style="background-color: #479b7e;color: #03420b; width: 100%;">
+            <li class="list-header-row">
                 <label><b>S.No</b></label>
                 <label><b>${id}</b></label>
                 <label><b>Name</b></label>

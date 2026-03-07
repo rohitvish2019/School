@@ -1,99 +1,169 @@
-body{
-
-    background-size: cover;
-    font-family: Arial, sans-serif;
+body {
     margin: 0;
-    padding: 0;
-    font-size: small;
-}
-.input-section{
-    margin-bottom: 1%;
+    font-size: 0.92rem;
 }
 
 .container {
-    max-width: 100%;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: min(1700px, 98vw);
+    margin: 10px auto;
+    padding: 14px;
+    border: 1px solid #d4e3f2;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 10px 22px rgba(13, 36, 58, 0.1);
 }
 
-h3 {
-    text-align: center;
-    margin-bottom: 20px;
+.container > label {
+    display: block;
+    margin-bottom: 10px;
+    color: #1d486d;
+    font-size: 1.12rem !important;
 }
 
-button{
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    padding-left: 8px;
-    padding-right: 8px;
-    font-weight: bold;
-    border-radius: 0.3rem;
+.input-section {
+    display: grid;
+    grid-template-columns: 140px 170px 1.6fr 1.1fr auto auto;
+    gap: 8px;
+    align-items: end;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #d7e5f3;
+    border-radius: 10px;
+    background: #f7fbff;
 }
 
 .input-section input {
-    padding: 2px;
-    margin-right: 10px;
-    margin-top: .5%;
-    border: 0.2px solid black;
-    display: inline;
+    width: 100% !important;
 }
 
-.button-group button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
+button {
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 4%;
+    border-radius: 10px !important;
+    min-height: 36px;
+    padding: 6px 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+#cashin {
+    background: linear-gradient(135deg, #14a47f, #1eb58c);
+    color: #fff;
+}
+
+#cashout {
+    background: linear-gradient(135deg, #da5353, #c73c3c);
+    color: #fff;
 }
 
 .filter-section {
-    margin-bottom: 20px;
-    display: inline-flex;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 10px;
     width: 100%;
-}
-
-.filter-section input[type="month"] {
+    margin-bottom: 10px;
     padding: 10px;
-    margin-right: 10px;
+    border: 1px solid #d7e5f3;
+    border-radius: 10px;
+    background: #f7fbff;
 }
 
+.filter-section > div {
+    margin: 0 !important;
+}
 
+.filter-section label {
+    font-weight: 600;
+    color: #2a5073;
+    margin-right: 6px;
+}
+
+#transactions {
+    border: 1px solid #d4e3f2;
+    border-radius: 10px;
+    background: #fff;
+    overflow: auto;
+    max-height: calc(100vh - 300px);
+}
 
 #transactions table {
-    width: 100%;
-    border-collapse: collapse;
-    
+    width: max-content;
+    min-width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
-#transactions th, #transactions td {
-    padding: 4px;
-    border: 1px solid #ddd !important;
+#transactions th,
+#transactions td {
+    padding: 7px 9px;
+    border: none !important;
+    border-bottom: 1px solid #dce8f4 !important;
+    white-space: nowrap;
 }
-
-
 
 #transactions th {
-    background-color: #f2f2f2;
-    text-align: left;
     position: sticky;
-    top: -10%;
+    top: 0;
+    z-index: 2;
+    background: linear-gradient(180deg, #1f4f78 0%, #143b5d 100%) !important;
+    color: #fff;
+    font-weight: 700;
+}
+
+#transactions tbody tr:nth-child(even) {
+    background: #f7fbff;
+}
+
+#transactions tbody tr:hover {
+    background: #eaf4ff;
 }
 
 #totals {
-    border-top: 1px solid #ddd;
-    padding-top: 5px;
+    margin-top: 10px;
+    border: 1px solid #d7e5f3;
+    border-radius: 10px;
+    background: #f7fbff;
+    padding: 8px 10px;
 }
 
 #totals p {
-    margin: 5px 0;
+    margin: 4px 0;
 }
 
 #totals span {
-    font-weight: bold;
+    font-weight: 700;
+}
+
+@media (max-width: 900px) {
+    .input-section {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .input-section button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .input-section {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-section input,
+    .filter-section button {
+        width: 100%;
+    }
+
+    #transactions {
+        max-height: calc(100vh - 360px);
+    }
 }

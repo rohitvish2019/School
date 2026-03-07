@@ -23,35 +23,116 @@
 .center-body{
     width: 100%;
     height: 100%;
-    
+    font-size: 0.92rem;
+}
+
+.center-body > div:first-of-type{
+  margin-top: 0 !important;
+  margin-left: 0 !important;
+  padding: 6px 8px;
+  border: 1px solid #d4e3f2;
+  border-radius: 10px;
+  background: #f7fbff;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    font-size: medium !important;
+    width: max-content;
+    min-width: 100%;
+    table-layout: auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 10px;
+    font-size: 0.9rem !important;
+    border: 1px solid #d3e2f1;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 6px 14px rgba(12, 36, 58, 0.08);
 }
 
 th, td {
-    border: 1px solid #ccc;
-    padding: 2px;
+    border: none;
+    padding: 6px 8px;
     text-align: left;
     margin-right: 1%;
-    border-bottom: 1px solid black !important;
+    border-bottom: 1px solid #dce8f4 !important;
     text-transform: capitalize;
+    white-space: nowrap;
 }
 
 th {
-    background-color: #f2f2f2;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: linear-gradient(180deg, #1f4f78 0%, #143b5d 100%) !important;
+    color: #fff;
     font-weight: 600;
-    font-size: 12px !important;
+    font-size: 0.82rem !important;
+    letter-spacing: 0.2px;
+}
+
+tbody tr:nth-child(even) {
+  background: #f7fbff;
+}
+
+tbody tr:hover {
+  background: #eaf4ff;
 }
 .columns{
   margin-left: 1%;
 }
 .filter-container {
-    margin-top: 20px;
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 8px;
+    border: 1px solid #d4e3f2;
+    border-radius: 10px;
+    background: #f7fbff;
+    padding: 8px;
+}
+
+.filter-input{
+  display: flex !important;
+  align-items: flex-end;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 0 !important;
+}
+
+.mob-button{
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px;
+  flex-wrap: nowrap !important;
+}
+
+.mob-button .action-button,
+.mob-button button,
+.mob-button input[type="button"]{
+  width: auto !important;
+  white-space: nowrap;
+  min-height: 34px;
+  font-size: 0.84rem;
+  padding: 6px 10px !important;
+}
+
+#purpose{
+  min-width: 190px;
+}
+
+#email{
+  min-width: 160px;
+}
+
+#start-date,
+#end-date{
+  min-width: 110px;
+}
+
+#classForFilter{
+  min-width: 110px;
 }
 .action-button{
   background-color: #0a807c;
@@ -65,6 +146,13 @@ th {
 
 input, select{
   border-radius: 1.3rem;
+}
+
+.filter-container input[type="text"],
+.filter-container select{
+  min-height: 34px;
+  font-size: 0.86rem;
+  padding: 6px 9px;
 }
 figure { 
     display: none;
@@ -116,10 +204,11 @@ figure {
 
   .table-container{
     height: 80%;
-  }
-
-  .filter-input{
-    display: inline;
+    overflow: auto;
+    border: 1px solid #d3e2f1;
+    border-radius: 12px;
+    background: #fff;
+    padding: 6px;
   }
 
   @media screen and  (max-width: 560px){
@@ -144,6 +233,7 @@ figure {
     .mob-button{
       display: flex;
       justify-content: flex-start;
+      flex-wrap: wrap !important;
     }
   }
 

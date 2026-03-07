@@ -4,15 +4,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/theme.css">
     <title>Other Receipts</title>
+    <style>
+        .receipt-card h3{
+            color:#17486f;
+            font-weight:700;
+        }
+        .receipt-form .field{
+            min-width:220px;
+            flex:1;
+        }
+        .receipt-form .field.small{
+            min-width:170px;
+            flex:0.8;
+        }
+        .receipt-form label{
+            display:block;
+            margin-bottom:6px;
+            color:#214a6e;
+            font-weight:600;
+            font-size:.92rem;
+        }
+        .receipt-form input{
+            width:100% !important;
+            min-height:42px;
+            border:1px solid #c7d8e8;
+            border-radius:10px;
+            padding:8px 12px;
+            background:#fff;
+        }
+        .receipt-form input:focus{
+            outline:none;
+            border-color:#2c75a7;
+            box-shadow:0 0 0 3px rgba(44,117,167,.15);
+        }
+        .receipt-form .actions{
+            flex:0;
+            min-width:130px;
+            display:flex;
+            align-items:flex-end;
+        }
+        .receipt-form .actions button{
+            width:100%;
+            min-height:42px;
+            border-radius:10px !important;
+            border:none;
+            background:linear-gradient(135deg,#12a37d,#1eb58c);
+            color:#fff;
+            font-weight:600;
+        }
+        @media (max-width: 768px){
+            .receipt-form .field,
+            .receipt-form .field.small,
+            .receipt-form .actions{
+                min-width:100%;
+                flex:1 1 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div>
-        Person name<input type="text" name="" id="">
-        Date <input type="date" name="" id="">
-        Comment <input type="text" name="" id="">
-        Amount <input type="number" name="" id="">
-        <button onclick="saveTransaction">Save</button>
+    <div class="header-container">
+        <%- include('_header'); %>
+    </div>
+    <div class="body-container" style="padding: 10px;">
+        <div class="receipt-card" style="width:min(1700px,98vw); border:1px solid #d4e3f2; border-radius:12px; background:#fff; box-shadow:0 10px 20px rgba(11,34,55,.1); padding:14px;">
+            <h3 style="margin:0 0 12px 0;">New Receipt</h3>
+            <div class="receipt-form" style="display:flex; flex-wrap:wrap; gap:12px; align-items:flex-end;">
+                <div class="field">
+                    <label>Person name</label>
+                    <input type="text" name="" id="">
+                </div>
+                <div class="field small">
+                    <label>Date</label>
+                    <input type="date" name="" id="">
+                </div>
+                <div class="field">
+                    <label>Comment</label>
+                    <input type="text" name="" id="">
+                </div>
+                <div class="field small">
+                    <label>Amount</label>
+                    <input type="number" name="" id="">
+                </div>
+                <div class="actions">
+                    <button onclick="saveTransaction">Save</button>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

@@ -44,10 +44,10 @@ function showFees(data){
                 <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                     Actions
                 </a>
-                <ul style='font-size:0.7rem' class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <li><button class='dropdown-item btn btn-success' id='pay_${data[i].Class}_${data[i].AdmissionNo}' onclick="openPopup('${data[i].Class}_${data[i].AdmissionNo}_submit_${data[i].type}')">Pay</button></li>
-                    <li><button class='dropdown-item btn btn-success' id='concession_${data[i].Class}_${data[i].AdmissionNo}' onclick="openPopup('${data[i].Class}_${data[i].AdmissionNo}_con')">Concession</button></li>
-                    <li><button class='dropdown-item btn btn-success' id='remove_${data[i].Class}_${data[i].AdmissionNo}' onclick="removeFee('${data[i]._id}')">Remove</button></li>  
+                <ul style='font-size:0.7rem' class="dropdown-menu fee-actions-menu" aria-labelledby="dropdownMenuLink">
+                    <li><button class='dropdown-item fee-action-btn fee-action-pay' id='pay_${data[i].Class}_${data[i].AdmissionNo}' onclick="openPopup('${data[i].Class}_${data[i].AdmissionNo}_submit_${data[i].type}')">Pay</button></li>
+                    <li><button class='dropdown-item fee-action-btn fee-action-concession' id='concession_${data[i].Class}_${data[i].AdmissionNo}' onclick="openPopup('${data[i].Class}_${data[i].AdmissionNo}_con')">Concession</button></li>
+                    <li><button class='dropdown-item fee-action-btn fee-action-remove' id='remove_${data[i].Class}_${data[i].AdmissionNo}' onclick="removeFee('${data[i]._id}')">Remove</button></li>  
                 </ul>
                 
             </div>
@@ -316,9 +316,9 @@ function showFeesHistory(data){
                     <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                         Actions
                     </a>
-                    <ul style='font-size:0.7rem' class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <li><a href='/fee/receipt/${data[i]._id}' class="dropdown-item btn btn-success">Get Recipt</a></li>
-                        <li><a href='#' onclick=cancelFees('${data[i]._id}') class="dropdown-item btn btn-danger">Cancel</a></li>
+                    <ul style='font-size:0.7rem' class="dropdown-menu fee-actions-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a href='/fee/receipt/${data[i]._id}' class="dropdown-item fee-action-btn fee-action-pay">Get Recipt</a></li>
+                        <li><a href='#' onclick=cancelFees('${data[i]._id}') class="dropdown-item fee-action-btn fee-action-remove">Cancel</a></li>
                         
                     </ul>
                 </div>

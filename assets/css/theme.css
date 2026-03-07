@@ -1,0 +1,419 @@
+:root {
+    --brand-900: #0f2742;
+    --brand-700: #1c4f7a;
+    --brand-500: #2c75a7;
+    --accent-500: #12a37d;
+    --accent-100: #e6f7f2;
+    --surface-0: #f4f7fb;
+    --surface-1: #ffffff;
+    --surface-2: #eef2f7;
+    --line: #d8e1ec;
+    --text-900: #10233a;
+    --text-600: #4a617a;
+    --shadow: 0 10px 24px rgba(12, 34, 58, 0.12);
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --radius-sm: 10px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    color: var(--text-900);
+    background:
+        radial-gradient(circle at 8% 8%, #dbefff 0%, transparent 34%),
+        radial-gradient(circle at 85% 0%, #dbf6ee 0%, transparent 28%),
+        linear-gradient(180deg, #f7fbff 0%, #eef3f9 100%);
+    font-family: "Segoe UI", "Trebuchet MS", Tahoma, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--brand-900);
+    font-weight: 700;
+}
+
+.header-container,
+.center-body,
+.left-side-panel,
+.right-side-panel,
+.news-container,
+.quick-links-section,
+.crousal-section,
+.login-form-elements,
+#usersDetails,
+#teachersDetails,
+#table-body,
+#fee-details-container,
+#fee-history-dynamic-container,
+#concession-history-dynamic-container {
+    border-radius: var(--radius-lg);
+}
+
+.body-container {
+    flex: 1 1 auto;
+    min-height: 0;
+    gap: 12px;
+    padding: 12px;
+}
+
+.header-container,
+.body-container,
+.footer-container {
+    width: min(1700px, 98vw) !important;
+    margin-inline: auto;
+}
+
+.left-side-panel,
+.right-side-panel,
+.center-body {
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+}
+
+.left-side-panel,
+.center-body,
+.right-side-panel {
+    padding: 14px;
+}
+
+/* Auto-remove blank side rails used in legacy templates */
+.left-side-panel:empty,
+.right-side-panel:empty {
+    display: none !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+.left-side-panel:empty + .center-body {
+    width: 100% !important;
+    margin-left: 0 !important;
+}
+
+.left-side-panel:empty + .center-body + .right-side-panel:empty {
+    display: none !important;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--surface-1);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: 0 6px 16px rgba(13, 39, 67, 0.08);
+}
+
+table tr {
+    display: table-row !important;
+}
+
+th,
+td {
+    border: none !important;
+    border-bottom: 1px solid var(--line) !important;
+    padding: 10px 12px;
+    font-size: 0.92rem;
+    vertical-align: middle;
+}
+
+th {
+    background: linear-gradient(180deg, #1f4f78 0%, #143b5d 100%) !important;
+    color: #fff !important;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f7fbff;
+}
+
+tbody tr:hover {
+    background-color: #eaf4ff;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="password"],
+input[type="email"],
+input[type="tel"],
+input[type="search"],
+select,
+textarea {
+    width: auto;
+    max-width: 100%;
+    display: inline-block;
+    border: 1px solid #c8d6e6;
+    background: #fff;
+    color: var(--text-900);
+    border-radius: var(--radius-sm);
+    min-height: 40px;
+    padding: 8px 12px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--brand-500);
+    box-shadow: 0 0 0 3px rgba(44, 117, 167, 0.15);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    accent-color: var(--accent-500);
+}
+
+button,
+input[type="button"],
+input[type="submit"],
+.btn {
+    border-radius: 10px !important;
+    border: none;
+    min-height: 38px;
+    padding: 8px 16px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+.btn-success,
+input[type="submit"],
+input[type="button"] {
+    background: linear-gradient(135deg, var(--accent-500), #1eb58c);
+    color: #fff;
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #f5a524, #e2870f);
+    color: #fff;
+}
+
+.container,
+.container-fluid {
+    max-width: 100%;
+}
+
+.card,
+.news-item,
+#classList > li,
+#classList > div {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: 0 8px 18px rgba(15, 39, 66, 0.08);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+@media (max-width: 1024px) {
+    .body-container {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .left-side-panel,
+    .center-body,
+    .right-side-panel {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        background:
+            radial-gradient(circle at 10% 8%, #e4f4ff 0%, transparent 28%),
+            linear-gradient(180deg, #f8fbff 0%, #eef4fb 100%);
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .body-container {
+        padding: 8px;
+        gap: 8px;
+    }
+}
+
+/* App-wide consistency overrides for legacy page CSS */
+body {
+    background:
+        radial-gradient(circle at 8% 8%, #dbefff 0%, transparent 34%),
+        radial-gradient(circle at 85% 0%, #dbf6ee 0%, transparent 28%),
+        linear-gradient(180deg, #f7fbff 0%, #eef3f9 100%) !important;
+    margin: 0 !important;
+}
+
+.header-container {
+    width: 100% !important;
+    height: auto !important;
+    padding: 8px 10px 0 !important;
+}
+
+.body-container {
+    width: 100% !important;
+    height: auto !important;
+    min-height: calc(100vh - 150px);
+    flex: 1;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: stretch;
+}
+
+.footer-container {
+    width: 100% !important;
+    height: auto !important;
+    margin-top: auto;
+}
+
+.footer-container:empty {
+    display: none;
+}
+
+.center-body {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 60vh;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%) !important;
+    box-shadow: var(--shadow);
+}
+
+.main-container,
+.sub-container,
+.container {
+    border-radius: var(--radius-lg);
+}
+
+.sub-container,
+.container {
+    border: 1px solid var(--line);
+    background: #fff;
+    box-shadow: 0 10px 22px rgba(13, 36, 58, 0.1);
+}
+
+.list-container,
+.filter-container,
+.option-container,
+.search-form,
+.actions-pane,
+.selector,
+.actions {
+    gap: 10px;
+}
+
+.option-container,
+.filter-container,
+.search-form {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    background: #f4f9ff !important;
+    border: 1px solid #d5e4f3;
+    border-radius: 12px;
+    padding: 10px;
+}
+
+.filter-input,
+.input-items,
+.option-container .selectors input,
+.option-container .selectors select,
+.option-container .selectors button,
+.input-section input,
+.input-section button {
+    width: auto !important;
+    margin-right: 8px;
+}
+
+.school-name-container h2,
+.school-name-container h6 {
+    color: #17486f !important;
+}
+
+#classList,
+.items-container,
+.details-div,
+.class-details-body,
+.fixTableHead {
+    overflow: auto;
+    border: 1px solid #d2e1f0;
+    border-radius: 12px;
+    background: #fff;
+    padding: 8px;
+}
+
+.main,
+.table-container {
+    overflow: auto;
+}
+
+#popup,
+#addFeesPopup {
+    border: 1px solid #cfe0ef !important;
+    border-radius: 14px !important;
+    background: #fff !important;
+}
+
+.news-container {
+    border: 1px solid #d5e5f3 !important;
+    border-radius: 14px !important;
+    background: #ffffff !important;
+    box-shadow: 0 10px 20px rgba(12, 35, 56, 0.12) !important;
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        padding: 6px 6px 0 !important;
+    }
+
+    .center-body,
+    .left-side-panel,
+    .right-side-panel {
+        min-height: auto;
+        padding: 10px !important;
+    }
+
+    .search-form div {
+        width: auto !important;
+        margin: 6px 8px 6px 0 !important;
+    }
+}

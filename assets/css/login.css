@@ -1,132 +1,128 @@
-body{
-    background-image: url('/images/home6.jpg');
+body {
+    min-height: 100vh;
+    background:
+        linear-gradient(120deg, rgba(15, 39, 66, 0.72), rgba(34, 88, 132, 0.52)),
+        url("/images/home6.jpg");
     background-size: cover;
-    font-family: Georgia, serif;
+    background-position: center;
 }
 
-
-
-.body-container{
+.body-container {
     width: 100%;
-    height: 88%;
+    min-height: calc(100vh - 120px);
     display: flex;
     justify-content: center;
-    
+    align-items: stretch;
+    gap: 12px;
 }
 
-.footer-container{
+.footer-container {
     width: 100%;
-    height: 12%;
 }
 
-.left-side-panel{
-    width: 60%;
-    height: 100%;
-    background-size: cover
+.left-side-panel {
+    width: 55%;
+    min-height: 100%;
 }
 
-.right-side-panel{
-    width: 40%;
-    height: 100%;
-    padding: 2%;
-
+.right-side-panel {
+    width: min(460px, 96%);
+    margin: 24px 16px;
+    padding: 20px 18px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.38);
+    background: rgba(10, 28, 45, 0.72);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 16px 34px rgba(3, 16, 29, 0.34);
 }
 
-.login-form-elements{
-    padding-top: 5%;
+.right-body {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.logo {
+    width: 78px;
+    min-width: 78px;
+}
+
+.brand-title {
+    color: #fff;
+    margin: 0;
+    letter-spacing: 0.3px;
+}
+
+.brand-subtitle {
+    color: #cae5ff;
+    margin-top: 6px;
+}
+
+.login-form-elements {
+    margin-top: 18px;
     display: flex;
     justify-content: center;
     flex-direction: column;
-    margin-top: 5%;
-    
 }
 
-.login-form-elements form{
-    margin-top: 10%;
+.login-title {
+    color: #f0f8ff;
+    font-size: 1.32rem;
+}
+
+.login-form-elements form {
+    margin-top: 8px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 80%;
-    min-width: 200px;
-}
-
-.login-form-elements form input{
-    margin: 2%;
-    height: 3rem;
-    width: 80%;
-}
-.right-body{
-    width: 100%; 
-    display: flex; 
-    justify-content: flex-start; 
-    height: 18%;
-}
-.logo{
-    width: 30%;
-}
-.form-element{
     width: 100%;
 }
-@media screen and  (max-width: 560px){
-    .left-side-panel{
-        width: 5%;
-        height: 10%;
-        background-size: cover
-    }
-    
-    .right-side-panel{
-        width: 95%;
-        height: 100%;
-        padding: 2%;
-    
-    }
-    .logo{
-        width: 100px;
-        height: 80%;
-        margin-left: -15%;
-        
-    }
+
+.form-element {
+    width: 100%;
 }
 
-
-@media screen and  (max-width: 900px){
-    .left-side-panel{
-        width: 25%;
-        height: 100%;
-        background-size: cover
-    }
-    
-    .right-side-panel{
-        width: 75%;
-        height: 100%;
-        padding: 2%;
-    
-    }
-    .logo{
-        width: 20%;
-        height: 80%;
-        margin-left: -25%;
-    }
+.login-form-elements form input[type="text"],
+.login-form-elements form input[type="password"] {
+    margin: 8px 0;
+    width: 100%;
+    background: rgba(248, 252, 255, 0.96);
+    border: 1px solid #c1d5e8;
 }
 
+.show-pass-row {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-start !important;
+    gap: 8px;
+    margin: 6px 0 4px;
+}
 
+#showHide {
+    width: 18px !important;
+    height: 18px !important;
+    margin: 0 !important;
+}
 
-@media screen and  (max-width: 1300px){
-    .left-side-panel{
-        width: 20%;
-        height: 100%;
-        background-size: cover
+.show-pass-text {
+    color: #d8e8f8;
+    font-size: 0.94rem;
+}
+
+.login-form-elements .btn {
+    margin-top: 12px;
+    width: 100%;
+}
+
+@media screen and (max-width: 900px) {
+    .left-side-panel {
+        display: none;
     }
-    
-    .right-side-panel{
-        width: 80%;
-        height: 100%;
-        padding: 2%;
-    
-    }
-    .logo{
-        height: 80%;
-        margin-left: -25%;
-        width: 15%;
+
+    .right-side-panel {
+        width: min(460px, 96%);
+        margin: 14px;
     }
 }

@@ -13,6 +13,34 @@ body{
     justify-content: center;
 }
 
+.fees-summary-page{
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch;
+  gap: 10px;
+  padding: 0 6px 10px !important;
+}
+
+.fees-controls{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 42px;
+  padding: 4px 6px;
+}
+
+.fees-table-wrap{
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  margin-top: 0;
+  border: 1px solid #d3e2f1;
+  border-radius: 12px;
+  background: #fff;
+}
+
 /* Wrapper to make table responsive */
 .table-container {
   width: 100%;
@@ -31,6 +59,7 @@ table {
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
+  margin-top: 0;
 }
 
 /* Table header */
@@ -79,6 +108,11 @@ td[rowspan] {
 
 /* Responsive */
 @media (max-width: 768px) {
+  .fees-controls{
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
   table, thead, tbody, th, td, tr {
     display: block;
   }

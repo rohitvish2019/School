@@ -1,10 +1,19 @@
 let selectedSubjects = [];
 let maxMarks = 0;
 function displayStudentsList(data){
+    if (!data || !data.length) {
+        document.getElementById("marksTable").innerHTML = "";
+        document.getElementById('maxMarks').innerText = "Maximum Marks : 0";
+        return;
+    }
+
     maxMarks = data[0]['Total']
     document.getElementById('maxMarks').innerText='Maximum Marks : '+ maxMarks;
     selectedSubjects = [];
-    document.getElementById("marksTable").innerHTML = "";
+    const table = document.getElementById("marksTable");
+    table.innerHTML = "";
+    const thead = document.createElement("thead");
+    const tbody = document.createElement("tbody");
     let studentsData = data
     var subjects = document.getElementsByName("subject");
     subjects.forEach(function(subject) {
@@ -20,7 +29,7 @@ function displayStudentsList(data){
         headerRow.innerHTML += "<th>" + subject + "</th>";
     });
     headerRow.innerHTML += "<th>Action</th><th>Marksheet</th>";
-    document.getElementById("marksTable").appendChild(headerRow);
+    thead.appendChild(headerRow);
 
     // Add student rows
     let count = 1;
@@ -32,9 +41,12 @@ function displayStudentsList(data){
             row.innerHTML += "<td><input type='number' id='" +student.AdmissionNo + "_" + subject + "' value='" + student[subject] + "'></td>";
         });
         row.innerHTML += "<td><button onclick='updateMarks(" + student.AdmissionNo + ")'>Update</button></td><td><a target='_blank' href='/student/getMarksheet/"+student.AdmissionNo+"/?Class="+document.getElementById('classSelect').value+"'>Marksheet</a></td>";
-        document.getElementById("marksTable").appendChild(row);
+        tbody.appendChild(row);
         count++;
     });
+
+    table.appendChild(thead);
+    table.appendChild(tbody);
 }
 
 
@@ -139,7 +151,7 @@ function getSubjects(){
             Term: document.getElementById('termSelect').value
         },
         success:function(data){
-            document.getElementById('selectButton').style.display='block';
+            document.getElementById('selectButton').style.display='inline-flex';
             console.log(data);
             document.getElementById('classSelect').setAttribute('disabled', 'true')
             document.getElementById('termSelect').setAttribute('disabled', 'true')

@@ -521,17 +521,17 @@ function showStudentsByClass(data){
         let row = document.createElement('tr');
         let dob = data[i].DOB.split('-')
         row.innerHTML=
-        `   <td style='width:2%'>${i+1}</td>
-            <td style='width:3%'>${data[i].AdmissionNo}</td>
-            <td style='width:10%'>${data[i].FirstName} ${data[i].LastName}</td>
-            <td style='width:8%'>${data[i].FathersName}</td>
-            <td style='width:8%'>${data[i].MothersName}</td>
-            <td style='width:11% !important'>${dob[2]}-${dob[1]}-${dob[0]}</td>
-            <td style='width:11%'>${data[i].AadharNumber}</td>
-            <td style='width:8%'>${data[i].SSSM}</td>
-            <td style='width:9%'>${data[i].Mob}</td>
-            <td style='width:18%'>${data[i].AccountNo}</td>
-            <td style='width:8%'>${data[i].IFSC}</td>
+        `   <td>${i+1}</td>
+            <td>${data[i].AdmissionNo}</td>
+            <td>${data[i].FirstName} ${data[i].LastName}</td>
+            <td>${data[i].FathersName}</td>
+            <td>${data[i].MothersName}</td>
+            <td>${dob[2]}-${dob[1]}-${dob[0]}</td>
+            <td>${data[i].AadharNumber}</td>
+            <td>${data[i].SSSM}</td>
+            <td>${data[i].Mob}</td>
+            <td>${data[i].AccountNo}</td>
+            <td>${data[i].IFSC}</td>
         `
         tbody.appendChild(row);
         total += data[i].Amount

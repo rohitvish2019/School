@@ -13,12 +13,12 @@
     </div>
     <div class="body-container">
         <div class="center-body">
-            <div style="display: flex;justify-content: space-between;">
+            <div class="reports-toolbar">
                 <div class="search-form">
-                    <div>
+                    <div class="field">
                         <h6>Class</h6>
-                        <h4>
-                            <select style="width: 150%;" id="class_of_student">
+                        <h4 class="field-input">
+                            <select id="class_of_student">
                                 <%for(let i=0;i<classList.length;i++){%>
                                     <option value="<%=classList[i]%>"><%=classList[i]%></option>
                                 <%}%>
@@ -26,17 +26,15 @@
                         </h4>
                     </div>
                     
-                    <div>   
+                    <div class="field">   
                         <h6>Admission Year</h6>
                         <input id="Admission_year" type="number" min="2000" max="2099" step="1" value="2023" />
                     </div>
-                    
-                </div>
-                
-                
-                <div style="margin-right: 5%;">
-                    <h6>Action</h6>
-                    <button class="btn btn-warning" id="search_report">Search</button>
+
+                    <div class="field action-box">
+                        <h6>Action</h6>
+                        <button class="btn btn-warning" id="search_report">Search</button>
+                    </div>
                 </div>
             </div>
             

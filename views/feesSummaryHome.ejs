@@ -6,8 +6,8 @@
         <%- include('_header'); %>
     </div>
     <h3 style="margin-top: 10px;text-align: center;" class="no-print">Fees Summary</h3>
-    <div class="body-container">
-        <div class="no-print" style="display: flex;height: 30px;justify-content: left;width: 100%;padding-left: 10px;">
+    <div class="body-container fees-summary-page">
+        <div class="no-print fees-controls">
             <label for="" style="font-size: 20px;font-weight: bold;">Class</label> &nbsp;&nbsp;&nbsp;&nbsp;
             <select name="" id="classForFees" onchange="getFeesDetails()">
                 <option value="" selected disabled>--Select Class--</option>
@@ -17,7 +17,7 @@
             </select>
             <button style="margin-left: 20px;background-color: #179e9e;color: white;width: 100px;border: none;border-radius: .5rem;" onclick="printData()">Print</button>
         </div>
-        <div style="height: 95%;width: 100%;margin-top: 10px;">
+        <div class="fees-table-wrap">
             <table>
                 <thead>
                     <tr>

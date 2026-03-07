@@ -20,7 +20,7 @@ function showNoRecord(){
     let header = document.createElement('div');
     header.innerHTML=
     `
-    <div class="list-header">
+    <div class="list-header list-header-top">
         <h6>S.No</h6>
         <h6>Student Name</h6>
         <h6>Father's Name</h6>
@@ -44,7 +44,7 @@ function showClassList(data){
     let header = document.createElement('div');
     header.innerHTML=
     `
-    <div class="list-header">
+    <div class="list-header list-header-top">
         <h6>S.No</h6>
         <h6>Student Name</h6>
         <h6>Father's Name</h6>
@@ -74,7 +74,7 @@ function showClassList(data){
         </div>
         
         `;
-        record.classList.add('list-header')
+        record.classList.add('list-row')
         container.appendChild(record);
 
     }

@@ -14,6 +14,9 @@ body{
     height: 76%;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
+    margin-top: 0;
+    padding-top: 0;
 }
 
 .footer-container{
@@ -37,12 +40,24 @@ body{
 .center-body{
     width: 95%;
     height: 90%;
+    margin-top: 0 !important;
+    padding-top: 8px;
 }
 .fixTableHead{
     display: flex; 
     flex-direction: column;
     overflow-y: scroll;
-    height: 100%;
+    height: calc(100% - 72px);
+}
+
+.upgrade-title-wrap{
+    margin: 0 0 12px 0;
+}
+
+.upgrade-title{
+    margin: 0;
+    text-align: center;
+    color: #1d486e !important;
 }
 
 @media screen and  (max-width: 560px){

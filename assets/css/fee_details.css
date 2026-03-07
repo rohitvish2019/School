@@ -31,15 +31,15 @@ body{
 }
 .news-container {
     position: static;
-    margin-right: 2%;
-    margin-top:5%;
-    max-width: 800px;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #c0e5ee;
-    height: 80%;
-    margin-bottom: 2%;
+    margin: 12px 8px;
+    max-width: none;
+    padding: 14px 12px;
+    border-radius: 12px;
+    border: 1px solid #d2e2f1;
+    box-shadow: 0 10px 20px rgba(11, 34, 55, 0.12);
+    background: linear-gradient(180deg, #ffffff 0%, #f3f9ff 100%);
+    height: auto;
+    margin-bottom: 0;
 }
 
 .center-body{
@@ -139,9 +139,45 @@ td{
 
 
 .student-details{
-    margin-bottom: 1%;
-    margin-top: 5%;
-    margin-left: 2%;
+    margin: 0;
+}
+
+.student-card-actions{
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+.student-card-actions .btn{
+    margin-left: 0 !important;
+    min-width: 140px;
+}
+
+.student-details h3{
+    margin: 0 0 10px 0 !important;
+    color: #18466d;
+    font-size: 1.05rem;
+}
+
+.student-details > div{
+    padding: 7px 8px;
+    border: 1px solid #e0ebf6;
+    border-radius: 8px;
+    background: #fbfdff;
+    margin-bottom: 8px;
+}
+
+.student-details > div + br{
+    display: none;
+}
+
+.student-details small{
+    color: #4d6984;
+    font-weight: 600;
+}
+
+.student-details b{
+    color: #122f4b;
 }
 
 .toggeler{
@@ -168,8 +204,8 @@ span{
 
 .dropdown .btn{
     font-size:1rem;
-    padding:auto;
-    height: 90%;
+    padding: 6px 10px;
+    height: auto;
 }
 
 .fee-history{
@@ -190,6 +226,7 @@ span{
 .details-div{
     height: 80%;
     overflow-y: scroll;
+    padding-bottom: 180px;
 }
 
 input{
@@ -227,6 +264,75 @@ input{
     margin-right: 2%;
 }
 
+.fee-actions-menu {
+    min-width: 170px;
+    padding: 6px;
+    z-index: 2000 !important;
+    position: absolute;
+    background: #fff;
+}
+
+.fee-action-btn {
+    display: block;
+    width: 100%;
+    border-radius: 8px !important;
+    border: 1px solid transparent;
+    font-weight: 600;
+    text-align: left;
+    margin-bottom: 4px;
+}
+
+#fee-details-container .dropdown,
+#fee-history-dynamic-container .dropdown {
+    position: relative;
+    z-index: auto;
+}
+
+#fee-details-container .dropdown-menu.show,
+#fee-history-dynamic-container .dropdown-menu.show {
+    z-index: 2000 !important;
+}
+
+.fee-action-btn:last-child {
+    margin-bottom: 0;
+}
+
+.fee-action-pay {
+    background: #e6f7f1;
+    color: #0f5d49;
+    border-color: #bce8d8;
+}
+
+.fee-action-pay:hover,
+.fee-action-pay:focus {
+    background: #cfeee2 !important;
+    color: #0b4637 !important;
+}
+
+.fee-action-concession {
+    background: #eef4ff;
+    color: #224d86;
+    border-color: #ccdcf6;
+}
+
+.fee-action-concession:hover,
+.fee-action-concession:focus {
+    background: #d9e8ff !important;
+    color: #183a66 !important;
+}
+
+.fee-action-remove {
+    background: #ffefef;
+    color: #8b2d2d;
+    border-color: #f0c2c2;
+}
+
+.fee-action-remove:hover,
+.fee-action-remove:focus {
+    background: #ffdede !important;
+    color: #6f2121 !important;
+}
+
 @media screen and  (max-width: 560px){
     .upper-center{
         display: block;
@@ -252,6 +358,9 @@ input{
 
     .left-side-panel{
         display: none;
+    }
+    .student-card-actions{
+        margin-bottom: 6px;
     }
     h5{
         font-size: 0.8rem !important;

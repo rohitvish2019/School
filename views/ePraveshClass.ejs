@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css">
     <title>E-Pravesh</title>
     <style>
         .container{
             display: flex;
-            height: 11.5in;
+            min-height: 70vh;
             align-items: flex-start;
             flex-wrap: wrap;
-            width : 8.1in;
-            margin-bottom: 25px;
-            
-            
+            width : 100%;
+            margin: 14px auto;
+            border: 1px solid #d5e4f2;
+            border-radius: 14px;
+            background: #fff;
+            padding: 10px;
+            box-shadow: 0 12px 22px rgba(11, 34, 55, 0.1);
         }
         .card-container{
             height: 368px;
@@ -54,12 +58,40 @@
             border-collapse: collapse !important;
         }
         .input-items{
-            display: inline;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .control-bar{
+            padding: 12px;
+            border: 1px solid #d5e4f2;
+            border-radius: 14px;
+            background: #fff;
+            box-shadow: 0 8px 16px rgba(11, 34, 55, 0.08);
+        }
+        .page-wrap{
+            width: min(1700px, 98vw);
+            max-width: none;
+            margin: 0 auto;
+            padding: 14px;
+        }
+        @media (max-width: 768px) {
+            .input-items{
+                width: 100%;
+                margin-right: 0;
+            }
+            .input-items input,
+            .input-items select{
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <div style="display: block !important;">
+    <div class="page-wrap">
+    <div class="control-bar" style="display: block !important;">
         <div class="input-items" id="seesionSelector">
             <label for="">Session</label>
             <input type="number" id="selectedSession">
@@ -92,6 +124,7 @@
     </div>
     <div class="container" id="container">
 
+    </div>
     </div>
     
     <script src="/js/ePraveshClass.js"></script>

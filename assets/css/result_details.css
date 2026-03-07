@@ -15,12 +15,13 @@ body{
     height: 80%;
     display: flex;
     justify-content: center;
+    gap: 12px;
 }
 
 
 
 .left-side-panel{
-    width: 25%;
+    width: 24%;
     height: 100%;
 }
 
@@ -31,24 +32,24 @@ body{
 }
 
 .selector{
-    height: 6%;
+    height: auto;
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 2%;
-    margin-top: 2%;
-    margin-right: 5%;
+    margin: 10px 10px 8px 0;
 }
 
 .items-container{
-
-    height: 82%;
-    overflow-y: scroll;
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
 }
 
 .center-body{
     
-    width: 85%;
+    width: calc(100% - 24% - 12px);
     height: 100%;
+    display: flex;
+    flex-direction: column;
     
 }
 
@@ -58,22 +59,45 @@ body{
 }
 
 .student-details{
-    margin-bottom: 1%;
-    margin-top: 5%;
-    margin-left: 3%;
+    margin: 0;
 }
 
 .news-container {
     position: static;
-    margin-right: 2%;
-    margin-top:23%;
-    max-width: 800px;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #c0e5ee;
-    height: 76%;
-    margin-bottom: 2%;
+    margin: 12px 8px;
+    max-width: none;
+    padding: 14px 12px;
+    border-radius: 12px;
+    border: 1px solid #d2e2f1;
+    box-shadow: 0 10px 20px rgba(11, 34, 55, 0.12);
+    background: linear-gradient(180deg, #ffffff 0%, #f3f9ff 100%);
+    height: auto;
+}
+
+.news-container h3{
+    margin: 0 0 10px 0 !important;
+    color: #18466d;
+    font-size: 1.05rem;
+}
+
+.student-details > div{
+    padding: 7px 8px;
+    border: 1px solid #e0ebf6;
+    border-radius: 8px;
+    background: #fbfdff;
+}
+
+.student-details > div + br{
+    display: none;
+}
+
+.student-details small{
+    color: #4d6984;
+    font-weight: 600;
+}
+
+.student-details b{
+    color: #122f4b;
 }
 
 table{
@@ -109,11 +133,23 @@ label{
     font-weight: bold;
 }
 
+.actions-wrap{
+    padding: 8px 6px 10px;
+}
+
 .actions{
     display: flex;
-    justify-content: space-around;
-    height: 8%;
-    margin-top: 2%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    height: auto;
+    margin-top: 0;
+}
+.actions .btn,
+.actions a.btn{
+    min-width: 140px;
+    width: auto !important;
+    white-space: nowrap;
 }
 thead{
     position: sticky;
@@ -205,6 +241,12 @@ figure {
 
     .left-side-panel{
         display: none;
+    }
+    .news-container{
+        margin: 8px 0;
+    }
+    .center-body{
+        width: 100%;
     }
     h5{
         font-size: 0.8rem !important;

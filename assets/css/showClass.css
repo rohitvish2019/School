@@ -14,7 +14,8 @@ body{
     height: 90%;
     display: flex;
     justify-content: center;
-    
+    align-items: flex-start;
+    padding: 0 !important;
 }
 
 #classList{
@@ -27,9 +28,8 @@ body{
 .center-body{
     width: 100%;
     height: 100%;
-    padding: 0;
-    margin-left:-0.3% ;
-    
+    padding: 0 8px 8px 8px !important;
+    margin: 0 !important;
 }
 
 input{
@@ -38,17 +38,17 @@ input{
 
 .getClassDetailsForm{
     display: flex;
-    justify-content: space-between;
-    width: 80%;
-    margin-left: 10%;
-    margin-bottom: 2%;
-    
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin: 0 0 10px 0;
 }
 
 #classList .btn-light:hover{
-    background-color: #089f91;
-    color:white;
-    font-weight: bold;
+    background-color: #b8d8f2;
+    color: #0b2740;
+    font-weight: 700;
 }
 
 #classList .btn-light{
@@ -56,7 +56,7 @@ input{
     font-weight: bold;
     width: 100%;
     font-size: 1rem;
-    margin: 0;
+    margin: 0 0 6px 0;
 }
 
 li{
@@ -71,9 +71,88 @@ label{
 }
 .student-list{
     width: 100%;
-    border-bottom: 0.5px dotted green;
+    border: 1px solid #d5e4f2;
+    border-radius: 10px;
+    background: #fff;
     text-align: center;
-    margin-top: 1%;
+    margin-top: 6px;
+    box-shadow: 0 4px 12px rgba(12, 37, 59, 0.08);
+}
+
+.student-list:hover{
+    background: #c5e0f5;
+    border-color: #7fa9cd;
+}
+
+.student-list:hover label,
+.student-list:hover a,
+#classList .btn-light:hover label{
+    color: #0f2f4a !important;
+}
+
+#classList > .student-list:first-of-type{
+    margin-top: 0;
+}
+
+#classList{
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0 8px 8px 8px !important;
+    overflow-y: auto;
+    overflow-x: auto;
+    height: calc(100vh - 240px);
+    border: 1px solid #d3e2f1;
+    border-radius: 12px;
+    background: #fafdff;
+}
+
+#classList .container{
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 6px 8px !important;
+}
+
+#classList li{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+}
+
+#classList label{
+    width: auto;
+    min-width: 0;
+    flex: 1;
+    margin: 0;
+    padding: 2px 4px;
+    text-align: left;
+}
+
+#ClassForSearch{
+    min-width: 240px;
+}
+
+.list-header-row{
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    width: 100%;
+    min-height: 52px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-radius: 8px;
+    border: 1px solid #1f4f78;
+    background: linear-gradient(180deg, #1f4f78 0%, #143b5d 100%);
+    color: #fff;
+    box-shadow: 0 6px 14px rgba(13, 39, 67, 0.18);
+}
+
+.list-header-row label{
+    color: #fff !important;
+    font-weight: 700;
+    text-align: left;
 }
 
 input{
@@ -155,5 +234,14 @@ figure {
         width: 98%;
         font-size: 0.5rem;
         margin-top: 1%;
+    }
+
+    #classList{
+        height: calc(100vh - 270px);
+        padding: 6px !important;
+    }
+
+    #classList li{
+        min-width: 900px;
     }
 }

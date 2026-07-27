@@ -7,18 +7,23 @@ router.post(
   "/Imageupload",
   upload.single("image"),
   async (req, res) => {
-    console.log(req.body.recordId)
+    console.log(req.body.recordId);
     try {
+      if (!req.file) {
+        return res.status(400).json({ message: "No image file uploaded." });
+      }
+
+      const filename = await upload.compressAndSave(req.file, "uploads");
       let student = await Student.findById(req.body.recordId);
-      let profileURL = '/uploads/' + req.file.filename
+      const profileURL = "/uploads/" + filename;
       student.ProfilePhotoURL = profileURL;
-      await student.save()
+      await student.save();
       student = await Student.findById(req.body.recordId);
-      console.log(student)
-      //let student = await Student.findOneAndUpdate({_id : req.body.recordId},{$set : {ProfilePhotoURL : req.file.filename}})
-    } catch(err) {
-        console.log(err)
-    } 
+      console.log(student);
+      req.file.filename = filename;
+    } catch (err) {
+      console.log(err);
+    }
     res.json({
       message: "File uploaded successfully",
       file: req.file,
